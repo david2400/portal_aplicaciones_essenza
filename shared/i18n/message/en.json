@@ -1,0 +1,107 @@
+{
+  "Settings": {
+    "setting": "Setting",
+    "personalData": "Personal data",
+    "continueWith": "Or continue with",
+    "addresses": "Addresses",
+    "addAddres": "Add addresses",
+    "profile": "Profile"
+  },
+
+  "Form": {
+    "requiredField": "This field is required"
+  },
+
+  "Shopping": {
+    "shopList": "My Shoplist",
+    "messageShopCart": "Shopping cart",
+    "subTotal": "Subtotal"
+  },
+  "Transactions": {
+    "recentTransactions": "Recent transactions"
+  },
+  "Checkout": {
+    "messageShopCartShipping": "Shipping and taxes calculated at checkout.",
+    "messageCheckoutCardCredit": "Checkout"
+  },
+
+  "Buttons": {
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "deletes": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "addEmail": "Add E-mail",
+    "addPhone": "Add Phone"
+  },
+  "RegisterUser": {
+    "name": "Name",
+    "lastName": "Last Name",
+    "total": "Total",
+    "gender": "Gender",
+    "female": "Female",
+    "male": "Male",
+    "address": "Address",
+    "email": "E-mail",
+    "username": "Username",
+    "confirmPassword": "Confirm Password",
+    "country": "Country",
+    "city": "City",
+    "phone": "Phone",
+    "confirmNewPassword": "Confirm New Password",
+    "currentPhones": "Current phones",
+    "currentEmail": "Current E-mails",
+    "date": "Date",
+    "register": "Register",
+    "forgotPassword": "Forgot your password?",
+    "createAccount": "Create Account"
+  },
+  "CreditCard": {
+    "addCreditCart": "Add Credit Card",
+    "creditCards": "Your Card",
+    "nameOnCard": "Name on card",
+    "numberOncard": "Number on card",
+    "expiry": "Expiry",
+    "predetermined": "Predetermined"
+  },
+
+  "ResetPassword": {
+    "changePassword": "Change Password",
+    "password": "Password",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "signIn": "Sing In",
+    "rememberMe": "Remember me"
+  },
+
+  "ProductRegister": {
+    "nameProduct": "Product name",
+    "brand": "Product brand",
+    "realPrice": "Actual product price",
+    "unitPrice": "Unit price",
+    "stock": "Product in stock",
+    "characteristics": "Product characteristics",
+    "description": "Description",
+    "quantity": "Qty: "
+  },
+
+  "Menu": {
+    "administre": "Manage",
+    "category": "Category",
+    "brand": "Brand",
+    "subcategory": "Subcategory",
+    "docs": "Documentation"
+  },
+
+  "Titles": {
+    "home": "Home - Cygnus Shop",
+    "administre": "Administration - Cygnus Shop",
+    "category": "Categories - Cygnus Shop",
+    "brand": "Brands - Cygnus Shop",
+    "subcategory": "Subcategories - Cygnus Shop",
+    "profile": "Profile - Cygnus Shop",
+    "products": "Products - Cygnus Shop",
+    "default": "Cygnus Shop"
+  }
+}

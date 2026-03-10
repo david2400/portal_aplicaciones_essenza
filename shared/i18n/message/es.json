@@ -1,0 +1,110 @@
+{
+  "Settings": {
+    "setting": "Configuracion",
+    "personalData": "Datos personales",
+    "continueWith": "O continuar con",
+    "addresses": "Direcciones",
+    "addAddres": "Agregar Dirección",
+    "profile": "Perfil"
+  },
+
+  "Form": {
+    "requiredField": "Este campo es obligatorio"
+  },
+
+  "Shopping": {
+    "shopList": "Mis compras",
+    "messageShopCart": "Carrito de compra",
+    "subTotal": "Subtotal"
+  },
+  "Transactions": {
+    "recentTransactions": "Trasacciones recientes"
+  },
+  "Checkout": {
+    "messageShopCartShipping": "Gastos de envío e impuestos calculados en el momento de la compra.",
+    "messageCheckoutCardCredit": "Pagar"
+  },
+
+  "Buttons": {
+    "add": "Agregar",
+    "update": "Actualizar",
+    "delete": "Borrar",
+    "deletes": "Eliminar",
+    "edit": "Editar",
+    "cancel": "Cancelar",
+    "addEmail": "Agregar Correo",
+    "addPhone": "Agregar Telefono"
+  },
+  "Login": {
+    "signIn": "Iniciar sesion"
+  },
+  "RegisterUser": {
+    "name": "Nombre",
+    "lastName": "Apellidos",
+    "total": "Total",
+    "gender": "Género",
+    "female": "Mujer",
+    "male": "Hombre",
+    "address": "Direccion",
+    "email": "Correo",
+    "username": "Usuario",
+    "confirmPassword": "Confirmar Contraseña",
+    "country": "Pais",
+    "city": "Ciudad",
+    "phone": "Telefono",
+    "confirmNewPassword": "Confirmar Contraseña Nueva",
+    "currentPhones": "Telefonos actuales",
+    "currentEmail": "Correos electrónicos actuales",
+    "date": "Fecha",
+    "register": "Registrar",
+    "forgotPassword": "¿Olvidaste la contraseña?",
+    "createAccount": "Crear Cuenta"
+  },
+  "CreditCard": {
+    "addCreditCart": "Añadir Tarjeta",
+    "creditCards": "Tus Tarjetas",
+    "nameOnCard": "Nombre en la tarjeta",
+    "numberOncard": "Numero en la tarjeta",
+    "expiry": "Caducidad",
+    "predetermined": "Predeterminada"
+  },
+
+  "ResetPassword": {
+    "changePassword": "Cambiar contraseña",
+    "password": "Contraseña",
+    "oldPassword": "Contraseña Anterior",
+    "newPassword": "Contraseña Nueva",
+    "signIn": "Iniciar sesion",
+    "rememberMe": "Recuérdame"
+  },
+
+  "ProductRegister": {
+    "nameProduct": "Nombre del producto",
+    "brand": "Marca del producto",
+    "realPrice": "Precio real del producto",
+    "unitPrice": "Precio unitario",
+    "stock": "Stock del producto",
+    "characteristics": "Caracteristicas del producto",
+    "description": "Descripcion",
+    "quantity": "Cantidad: "
+  },
+
+  "Menu": {
+    "administre": "Administre",
+    "category": "Categoría",
+    "brand": "Marca",
+    "subcategory": "Subcategoría",
+    "docs": "Documentación"
+  },
+
+  "Titles": {
+    "home": "Inicio - Cygnus Shop",
+    "administre": "Administración - Cygnus Shop",
+    "category": "Categorías - Cygnus Shop",
+    "brand": "Marcas - Cygnus Shop",
+    "subcategory": "Subcategorías - Cygnus Shop",
+    "profile": "Perfil - Cygnus Shop",
+    "products": "Productos - Cygnus Shop",
+    "default": "Cygnus Shop"
+  }
+}
