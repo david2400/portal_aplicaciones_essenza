@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache';
 
 import { inventory_movements_repository } from './repository';
 import type { InventoryMovementDto } from './types';
-import { inventory_movements_tags } from '@/server/lib/cache-tags';
+import { inventory_movements_tags, products_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -29,6 +29,8 @@ export async function transfer_inventory_action(
   try {
     await inventory_movements_repository.transfer_inventory(payload);
     revalidateTag(inventory_movements_tags.transfers());
+    revalidateTag(inventory_movements_tags.list());
+    revalidateTag(products_tags.list());
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);
@@ -41,6 +43,8 @@ export async function exit_inventory_action(
   try {
     await inventory_movements_repository.exit_inventory(payload);
     revalidateTag(inventory_movements_tags.exits());
+    revalidateTag(inventory_movements_tags.list());
+    revalidateTag(products_tags.list());
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);
@@ -53,6 +57,8 @@ export async function entry_inventory_action(
   try {
     await inventory_movements_repository.entry_inventory(payload);
     revalidateTag(inventory_movements_tags.entries());
+    revalidateTag(inventory_movements_tags.list());
+    revalidateTag(products_tags.list());
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);

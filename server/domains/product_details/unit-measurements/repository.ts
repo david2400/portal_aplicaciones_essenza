@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { unit_measurements_tags } from '@/server/lib/cache-tags';
 import type {
   UnitMeasurementDto,
@@ -13,10 +14,11 @@ const unit_measurement_by_id_path = (id: number) => `${unit_measurements_base_pa
 
 export const unit_measurements_repository = {
   async list_unit_measurements(): Promise<UnitMeasurementDto[]> {
-    return server_fetch.get<UnitMeasurementDto[]>(unit_measurements_base_path, {
+    const response = await server_fetch.get<unknown>(unit_measurements_base_path, {
       revalidate: 60,
       tags: [unit_measurements_tags.list()],
     });
+    return to_list<UnitMeasurementDto>(response);
   },
 
   async get_unit_measurement_by_id(id: number): Promise<UnitMeasurementDto> {

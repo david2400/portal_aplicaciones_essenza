@@ -3,7 +3,11 @@
 import { revalidateTag } from 'next/cache';
 
 import { subcategories_repository } from './repository';
-import type { UpdateSubcategoryPayload, DeleteSubcategoryPayload } from './types';
+import type {
+  CreateSubcategoryPayload,
+  UpdateSubcategoryPayload,
+  DeleteSubcategoryPayload,
+} from './types';
 import { subcategories_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
@@ -23,9 +27,25 @@ function handle_error(error: unknown): ActionResult<never> {
 
 function revalidate_subcategory_tag(id: number) {
   revalidateTag(subcategories_tags.item(id));
+  revalidateTag(subcategories_tags.list());
 }
 
 // ─── Actions ─────────────────────────────────────────────────────────────────
+
+export async function create_subcategory_action(
+  payload: CreateSubcategoryPayload,
+): Promise<ActionResult<{ id?: number }>> {
+  try {
+    const result = await subcategories_repository.create_subcategory(payload);
+    revalidateTag(subcategories_tags.list());
+    if (result.id) {
+      revalidate_subcategory_tag(result.id);
+    }
+    return { success: true, data: { id: result.id } };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
 
 export async function update_subcategory_action(
   payload: UpdateSubcategoryPayload,

@@ -139,17 +139,21 @@ export const brands_tags = {
 
 export const product_orders_tags = {
   list: () => 'product-orders:list' as const,
+  item: (id: number | string) => `product-orders:item:${id}` as const,
 } as const;
 
 export const payment_types_tags = {
   list: () => 'payment-types:list' as const,
+  item: (id: number | string) => `payment-types:item:${id}` as const,
 } as const;
 
 export const orders_tags = {
   list: () => 'orders:list' as const,
+  item: (id: number | string) => `orders:item:${id}` as const,
 } as const;
 
 export const inventory_movements_tags = {
+  list: () => 'inventory-movements:list' as const,
   transfers: () => 'inventory-movements:transfers' as const,
   exits: () => 'inventory-movements:exits' as const,
   entries: () => 'inventory-movements:entries' as const,
@@ -161,4 +165,29 @@ export const sales_analytics_tags = {
   kpis: () => 'sales-analytics:kpis' as const,
   funnels: () => 'sales-analytics:funnels' as const,
   cohorts: () => 'sales-analytics:cohorts' as const,
+} as const;
+
+export const type_products_tags = {
+  list: () => 'type-products:list' as const,
+  item: (id: number | string) => `type-products:item:${id}` as const,
+} as const;
+
+export const pages_tags = {
+  list: () => 'pages:list' as const,
+  item: (id: number | string) => `pages:item:${id}` as const,
+} as const;
+
+export const product_recommendations_tags = {
+  list: () => 'product-recommendations:list' as const,
+  item: (id: number | string) => `product-recommendations:item:${id}` as const,
+} as const;
+
+export const search_queries_tags = {
+  list: () => 'search-queries:list' as const,
+  item: (id: number | string) => `search-queries:item:${id}` as const,
+} as const;
+
+export const personalization_profiles_tags = {
+  list: () => 'personalization-profiles:list' as const,
+  item: (id: number | string) => `personalization-profiles:item:${id}` as const,
 } as const;

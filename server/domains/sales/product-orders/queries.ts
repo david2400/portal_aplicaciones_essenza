@@ -7,3 +7,7 @@ import { product_orders_repository } from './repository';
 export const list_product_orders = cache(async () => {
   return product_orders_repository.list_product_orders();
 });
+
+export const get_product_order_by_id = cache(async ({ id }: { id: number }) => {
+  return product_orders_repository.get_product_order_by_id(id);
+});

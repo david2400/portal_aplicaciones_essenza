@@ -2289,6 +2289,8 @@ export interface components {
             updatedAt?: string;
             /** Format: int64 */
             id?: number;
+            /** Añadido a mano: el backend ahora devuelve `name` (UnitMeasurementDto.java). */
+            name?: string;
         };
         UpdateTypeProductDto: {
             name: string;

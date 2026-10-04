@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { product_combos_tags } from '@/server/lib/cache-tags';
 import type {
   ProductComboDto,
@@ -14,10 +15,11 @@ const product_combo_by_id_path = (id: number) => `${product_combos_base_path}/${
 
 export const product_combos_repository = {
   async list_product_combos(): Promise<ProductComboDto[]> {
-    return server_fetch.get<ProductComboDto[]>(product_combos_base_path, {
+    const response = await server_fetch.get<unknown>(product_combos_base_path, {
       revalidate: 60,
       tags: [product_combos_tags.list()],
     });
+    return to_list<ProductComboDto>(response);
   },
 
   async get_product_combo_by_id(id: number): Promise<ProductComboDto> {

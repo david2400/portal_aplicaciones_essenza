@@ -23,6 +23,7 @@ function handle_error(error: unknown): ActionResult<never> {
 
 function revalidate_category_tag(id: number) {
   revalidateTag(categories_tags.item(id));
+  revalidateTag(categories_tags.list());
 }
 
 // ─── Actions ─────────────────────────────────────────────────────────────────

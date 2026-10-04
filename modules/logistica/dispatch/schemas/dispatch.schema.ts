@@ -1,0 +1,54 @@
+/** @format */
+
+import { useTranslations } from "next-intl";
+import { z } from "zod";
+import { todayIso } from "../constants";
+
+/**
+ * El backend valida `estimatedDeliveryDate` con `@FutureOrPresent` y
+ * `realDeliveryDate` con `@NotNull @PastOrPresent`, tanto al crear como al
+ * editar (`UpdateDispatchProductDto extends CreateDispatchProductDto`).
+ * Se replican aquí para mostrar el error en el campo y no como un 400.
+ */
+export const validationDispatch = () => {
+  const intl = useTranslations("Form");
+  const required = () => z.string().trim().min(1, { message: intl("requiredField") });
+
+  return z.object({
+    orderId: z.coerce
+      .number({ invalid_type_error: intl("requiredField") })
+      .int()
+      .positive({ message: intl("requiredField") }),
+    guideNumber: required(),
+    address: required(),
+    departmentOrigin: required(),
+    cityOrigin: required(),
+    departmentDestination: required(),
+    cityDestination: required(),
+    estimatedDeliveryDate: required().refine((value) => value >= todayIso(), {
+      message: intl("dateNotPast"),
+    }),
+    realDeliveryDate: required().refine((value) => value <= todayIso(), {
+      message: intl("dateNotFuture"),
+    }),
+  });
+};
+
+export const validationShippingQuote = () => {
+  const intl = useTranslations("Form");
+  const required = () => z.string().trim().min(1, { message: intl("requiredField") });
+
+  return z.object({
+    carrierCode: required(),
+    originZip: required(),
+    destinationZip: required(),
+    weight: z
+      .union([z.literal(""), z.coerce.number().positive({ message: intl("positiveNumber") })])
+      .optional()
+      .transform((value) => (value === "" || value == null ? undefined : value)),
+    serviceType: z.string().trim().optional(),
+  });
+};
+
+export type DispatchFormValues = z.infer<ReturnType<typeof validationDispatch>>;
+export type ShippingQuoteFormValues = z.infer<ReturnType<typeof validationShippingQuote>>;

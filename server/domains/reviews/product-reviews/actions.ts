@@ -86,6 +86,7 @@ export async function moderate_product_review_action(
   try {
     await product_reviews_repository.moderate_review(payload);
     revalidateTag(product_reviews_tags.moderation(payload.id));
+    revalidateTag(product_reviews_tags.list());
     revalidateTag(product_reviews_tags.review(payload.id));
     return { success: true, data: undefined };
   } catch (error) {

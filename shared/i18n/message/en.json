@@ -7,11 +7,18 @@
     "addAddres": "Add addresses",
     "profile": "Profile"
   },
-
   "Form": {
-    "requiredField": "This field is required"
+    "requiredField": "This field is required",
+    "positiveNumber": "Must be greater than zero",
+    "invalidEmail": "Invalid email address",
+    "invalidUrl": "Invalid URL (include https://)",
+    "dateNotPast": "The date cannot be before today",
+    "dateNotFuture": "The date cannot be after today",
+    "maxLength": "Maximum {max} characters",
+    "invalidSlug": "Lowercase letters, numbers and hyphens only",
+    "invalidJson": "Invalid JSON",
+    "range": "Must be between {min} and {max}"
   },
-
   "Shopping": {
     "shopList": "My Shoplist",
     "messageShopCart": "Shopping cart",
@@ -24,7 +31,6 @@
     "messageShopCartShipping": "Shipping and taxes calculated at checkout.",
     "messageCheckoutCardCredit": "Checkout"
   },
-
   "Buttons": {
     "add": "Add",
     "update": "Update",
@@ -65,7 +71,6 @@
     "expiry": "Expiry",
     "predetermined": "Predetermined"
   },
-
   "ResetPassword": {
     "changePassword": "Change Password",
     "password": "Password",
@@ -74,7 +79,6 @@
     "signIn": "Sing In",
     "rememberMe": "Remember me"
   },
-
   "ProductRegister": {
     "nameProduct": "Product name",
     "brand": "Product brand",
@@ -85,7 +89,6 @@
     "description": "Description",
     "quantity": "Qty: "
   },
-
   "Menu": {
     "administre": "Manage",
     "category": "Category",
@@ -93,15 +96,1018 @@
     "subcategory": "Subcategory",
     "docs": "Documentation"
   },
-
   "Titles": {
-    "home": "Home - Cygnus Shop",
-    "administre": "Administration - Cygnus Shop",
-    "category": "Categories - Cygnus Shop",
-    "brand": "Brands - Cygnus Shop",
-    "subcategory": "Subcategories - Cygnus Shop",
-    "profile": "Profile - Cygnus Shop",
-    "products": "Products - Cygnus Shop",
-    "default": "Cygnus Shop"
+    "home": "Home",
+    "administre": "Administration",
+    "category": "Categories",
+    "brand": "Brands",
+    "subcategory": "Subcategories",
+    "profile": "Profile",
+    "products": "Products",
+    "default": "Essenza",
+    "combo": "Combos",
+    "supplier": "Suppliers",
+    "warehouse": "Warehouses",
+    "paymentType": "Payment methods",
+    "order": "Orders",
+    "inventoryMovement": "Inventory movements",
+    "unitMeasurement": "Units of measure",
+    "typeProduct": "Product types",
+    "feature": "Features",
+    "typeProductFeature": "Features by type",
+    "productFeature": "Values by product",
+    "coupon": "Coupons",
+    "review": "Reviews",
+    "motiveDevolution": "Return reasons",
+    "returnMethod": "Return methods",
+    "refundMethod": "Refund methods",
+    "devolution": "Returns",
+    "carrier": "Carriers",
+    "shippingCost": "Shipping costs",
+    "deliveryEstimate": "Delivery times",
+    "dispatch": "Dispatches",
+    "cmsPage": "Pages",
+    "recommendation": "Recommendations",
+    "searchQuery": "Searches",
+    "personalization": "Personalization"
+  },
+  "Administre": {
+    "sectionLabel": "Administration",
+    "pageTitle": "Store administration",
+    "pageDescription": "Manage the store sales, catalog and inventory.",
+    "common": {
+      "selectPlaceholder": "Select an option…",
+      "yes": "Yes",
+      "no": "No",
+      "save": "Save",
+      "cancel": "Cancel",
+      "errorTitle": "The action couldn't be completed",
+      "unexpectedError": "Something went wrong. Please try again.",
+      "createdSuccess": "Record created",
+      "updatedSuccess": "Record updated",
+      "deletedSuccess": "Record deleted",
+      "deleteConfirmTitle": "Delete record?",
+      "deleteConfirmText": "\"{name}\" will be deleted. This action cannot be undone.",
+      "deleteConfirmButton": "Yes, delete",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "editAria": "Edit {name}",
+      "deleteAria": "Delete {name}",
+      "activeCount": "Active records"
+    },
+    "brand": {
+      "title": "Brands",
+      "description": "Organize the catalog brands.",
+      "create": "New brand",
+      "createTitle": "Create brand",
+      "editTitle": "Edit brand",
+      "total": "Total brands",
+      "emptyTitle": "No brands yet",
+      "emptyDescription": "When you add the first brand it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "slug": "Slug (URL)",
+        "description": "Description"
+      }
+    },
+    "category": {
+      "title": "Categories",
+      "description": "Group products into main categories.",
+      "create": "New category",
+      "createTitle": "Create category",
+      "editTitle": "Edit category",
+      "total": "Total categories",
+      "emptyTitle": "No categories yet",
+      "emptyDescription": "When you add the first category it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "slug": "Slug (URL)",
+        "description": "Description"
+      }
+    },
+    "subcategory": {
+      "title": "Subcategories",
+      "description": "Split each category into subcategories.",
+      "create": "New subcategory",
+      "createTitle": "Create subcategory",
+      "editTitle": "Edit subcategory",
+      "total": "Total subcategories",
+      "emptyTitle": "No subcategories yet",
+      "emptyDescription": "When you add the first subcategory it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "categoryId": "Category",
+        "slug": "Slug (URL)",
+        "description": "Description"
+      }
+    },
+    "product": {
+      "title": "Products",
+      "description": "Manage inventory: prices, stock, dimensions and availability.",
+      "create": "New product",
+      "createTitle": "Create product",
+      "editTitle": "Edit product",
+      "total": "Total products",
+      "emptyTitle": "No products yet",
+      "emptyDescription": "When you add the first product it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "supplierId": "Supplier",
+        "brandId": "Brand",
+        "categoryId": "Category",
+        "subcategoryId": "Subcategory",
+        "stock": "Stock",
+        "realPrice": "Cost price",
+        "unitPrice": "Sale price",
+        "length": "Length (cm)",
+        "width": "Width (cm)",
+        "height": "Height (cm)",
+        "weight": "Weight (kg)",
+        "imageUrl": "Image URL",
+        "available": "Available",
+        "isCombo": "Is combo",
+        "description": "Description"
+      },
+      "availableCount": "Available for sale",
+      "stockTotal": "Units in stock"
+    },
+    "combo": {
+      "title": "Combos",
+      "description": "Define which products, and how many, make up each combo.",
+      "create": "New combo item",
+      "createTitle": "Create combo item",
+      "editTitle": "Edit combo item",
+      "total": "Total combo items",
+      "emptyTitle": "No combo items yet",
+      "emptyDescription": "When you add the first combo item it will appear in this table.",
+      "fields": {
+        "comboId": "Combo",
+        "productId": "Product",
+        "quantity": "Quantity"
+      }
+    },
+    "supplier": {
+      "title": "Suppliers",
+      "description": "Companies that stock the inventory.",
+      "create": "New supplier",
+      "createTitle": "Create supplier",
+      "editTitle": "Edit supplier",
+      "total": "Total suppliers",
+      "emptyTitle": "No suppliers yet",
+      "emptyDescription": "When you add the first supplier it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address"
+      }
+    },
+    "warehouse": {
+      "title": "Warehouses",
+      "description": "Physical locations where inventory is stored.",
+      "create": "New warehouse",
+      "createTitle": "Create warehouse",
+      "editTitle": "Edit warehouse",
+      "total": "Total warehouses",
+      "emptyTitle": "No warehouses yet",
+      "emptyDescription": "When you add the first warehouse it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "code": "Code",
+        "address": "Address",
+        "active": "Active"
+      }
+    },
+    "paymentType": {
+      "title": "Payment methods",
+      "description": "Payment methods accepted by the store.",
+      "create": "New payment method",
+      "createTitle": "Create payment method",
+      "editTitle": "Edit payment method",
+      "total": "Total payment methods",
+      "emptyTitle": "No payment methods yet",
+      "emptyDescription": "When you add the first payment method it will appear in this table.",
+      "fields": {
+        "name": "Name"
+      }
+    },
+    "order": {
+      "title": "Orders",
+      "description": "Sales orders: status, value and products.",
+      "create": "New order",
+      "createTitle": "Create order",
+      "editTitle": "Edit order",
+      "total": "Total orders",
+      "emptyTitle": "No orders yet",
+      "emptyDescription": "When you add the first order it will appear in this table.",
+      "fields": {
+        "id": "Order",
+        "complementaryOrder": "External reference",
+        "state": "Status",
+        "total": "Total",
+        "units": "Units"
+      },
+      "states": {
+        "PENDING": "Pending",
+        "PAID": "Paid",
+        "PROCESSING": "Processing",
+        "SHIPPED": "Shipped",
+        "DELIVERED": "Delivered",
+        "CANCELLED": "Cancelled"
+      },
+      "orderLabel": "Order #{id}",
+      "revenue": "Revenue (excl. cancelled)",
+      "pendingCount": "Pending",
+      "deliveredCount": "Delivered",
+      "filterLabel": "Filter by status",
+      "allStates": "All",
+      "view": "View",
+      "viewAria": "View details of {name}",
+      "backToList": "Back to orders",
+      "totalHint": "You can recalculate it from the detail view using the items total.",
+      "totalMismatch": "The order total ({orderTotal}) does not match the sum of its items ({itemsTotal}).",
+      "syncTotal": "Use the items total",
+      "totalSynced": "Total updated",
+      "items": {
+        "title": "Order products",
+        "create": "Add product",
+        "createTitle": "Add product to order",
+        "editTitle": "Edit order product",
+        "emptyTitle": "This order has no products",
+        "emptyDescription": "Add the first product to calculate its total.",
+        "fields": {
+          "productId": "Product",
+          "quantity": "Quantity",
+          "discount": "Discount",
+          "subtotal": "Subtotal",
+          "total": "Total"
+        }
+      }
+    },
+    "inventoryMovement": {
+      "title": "Inventory movements",
+      "description": "Entries, exits and transfers between warehouses. Every movement adjusts stock.",
+      "create": "Record movement",
+      "createTitle": "Record inventory movement",
+      "submit": "Record movement",
+      "registered": "Movement recorded",
+      "emptyTitle": "No movements yet",
+      "emptyDescription": "Record an entry to start tracking inventory.",
+      "types": {
+        "ENTRY": "Entry",
+        "EXIT": "Exit",
+        "TRANSFER": "Transfer"
+      },
+      "filterLabel": "Filter by type",
+      "allTypes": "All",
+      "entryUnits": "Units received",
+      "exitUnits": "Units dispatched",
+      "transferUnits": "Units transferred",
+      "sameWarehouse": "The destination warehouse must differ from the origin.",
+      "fields": {
+        "type": "Type",
+        "productId": "Product",
+        "fromWarehouseId": "Origin warehouse",
+        "toWarehouseId": "Destination warehouse",
+        "quantity": "Quantity",
+        "reason": "Reason"
+      }
+    },
+    "unitMeasurement": {
+      "title": "Units of measure",
+      "description": "Units used for technical attributes (cm, kg, ml…).",
+      "create": "New unit of measure",
+      "createTitle": "Create unit of measure",
+      "editTitle": "Edit unit of measure",
+      "total": "Total units of measure",
+      "emptyTitle": "No units of measure yet",
+      "emptyDescription": "When you add the first unit of measure it will appear in this table.",
+      "fields": {
+        "name": "Name"
+      }
+    },
+    "typeProduct": {
+      "title": "Product types",
+      "description": "Product families that share the same technical sheet.",
+      "create": "New product type",
+      "createTitle": "Create product type",
+      "editTitle": "Edit product type",
+      "total": "Total product types",
+      "emptyTitle": "No product types yet",
+      "emptyDescription": "When you add the first product type it will appear in this table.",
+      "fields": {
+        "name": "Name"
+      }
+    },
+    "feature": {
+      "title": "Features",
+      "description": "Measurable technical attributes (weight, voltage, capacity…).",
+      "create": "New feature",
+      "createTitle": "Create feature",
+      "editTitle": "Edit feature",
+      "total": "Total features",
+      "emptyTitle": "No features yet",
+      "emptyDescription": "When you add the first feature it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "unitId": "Unit of measure"
+      }
+    },
+    "typeProductFeature": {
+      "title": "Features by type",
+      "description": "Define which feature each product type sheet asks for.",
+      "create": "Assign feature",
+      "createTitle": "Assign feature to a type",
+      "editTitle": "Edit assignment",
+      "total": "Total assignments",
+      "emptyTitle": "No assignments yet",
+      "emptyDescription": "When you add the first assignment it will appear in this table.",
+      "fields": {
+        "typeProductId": "Product type",
+        "featureId": "Feature"
+      }
+    },
+    "productFeature": {
+      "title": "Values by product",
+      "description": "Technical values of each product per feature.",
+      "create": "Add value",
+      "createTitle": "Add technical value",
+      "editTitle": "Edit technical value",
+      "total": "Total values",
+      "emptyTitle": "No values yet",
+      "emptyDescription": "When you add the first value it will appear in this table.",
+      "fields": {
+        "productId": "Product",
+        "featureId": "Feature",
+        "value": "Value"
+      },
+      "filterLabel": "Product",
+      "allProducts": "All products"
+    },
+    "coupon": {
+      "title": "Coupons",
+      "description": "Code-based discounts with validity, usage limits and category or product rules.",
+      "create": "New coupon",
+      "createTitle": "Create coupon",
+      "editTitle": "Edit coupon",
+      "total": "Total coupons",
+      "emptyTitle": "No coupons yet",
+      "emptyDescription": "When you add the first coupon it will appear in this table.",
+      "fields": {
+        "code": "Code",
+        "name": "Name",
+        "description": "Description",
+        "discountType": "Discount type",
+        "discountValue": "Discount value",
+        "discountPercent": "Discount percentage",
+        "maximumDiscountAmount": "Maximum discount",
+        "minimumOrderAmount": "Minimum purchase",
+        "usageLimit": "Usage limit",
+        "validFrom": "Valid from",
+        "validUntil": "Valid until",
+        "isActive": "Active",
+        "isPublic": "Public",
+        "applicableCategories": "Only these categories",
+        "excludedCategories": "Except these categories",
+        "applicableProducts": "Only these products",
+        "excludedProducts": "Except these products",
+        "discount": "Discount",
+        "validity": "Validity",
+        "usage": "Uses"
+      },
+      "types": {
+        "PERCENTAGE": "Percentage",
+        "FIXED_AMOUNT": "Fixed amount",
+        "FREE_SHIPPING": "Free shipping"
+      },
+      "status": {
+        "active": "Active",
+        "scheduled": "Scheduled",
+        "expired": "Expired",
+        "exhausted": "Used up",
+        "inactive": "Inactive"
+      },
+      "sections": {
+        "general": "General",
+        "discount": "Discount",
+        "validity": "Validity and visibility",
+        "rules": "Application rules"
+      },
+      "codeHint": "Uppercase letters, numbers, hyphen and underscore.",
+      "usageLimitHint": "Empty = unlimited.",
+      "isPublicHint": "Public coupons may be shown in the store.",
+      "rulesHint": "With nothing selected the coupon applies to the whole catalog.",
+      "activeNow": "Active now",
+      "scheduledCount": "Scheduled",
+      "usesCount": "Total uses",
+      "filterLabel": "Filter by status",
+      "allStatuses": "All",
+      "validation": {
+        "codeLength": "The code must be 3 to 50 characters long.",
+        "codeFormat": "Only uppercase letters, numbers, hyphen and underscore.",
+        "discountPositive": "The discount must be greater than 0.",
+        "usageLimit": "The limit must be at least 1.",
+        "percentageMax": "A percentage cannot exceed 100.",
+        "dateRange": "The end date must be after the start date."
+      },
+      "simulator": {
+        "title": "Test a coupon",
+        "code": "Code",
+        "amount": "Order amount",
+        "run": "Test",
+        "missing": "Enter a code and an amount greater than 0.",
+        "success": "Valid coupon: {discount} off. Amount due: {total}."
+      }
+    },
+    "review": {
+      "title": "Review moderation",
+      "description": "Approve or reject customer reviews before they are published.",
+      "total": "Total reviews",
+      "pendingCount": "To moderate",
+      "approvedCount": "Approved",
+      "averageRating": "Average rating",
+      "statusFilter": "Filter by status",
+      "ratingFilter": "Filter by rating",
+      "allStatuses": "All",
+      "allRatings": "All",
+      "stars": "{count} ★",
+      "status": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      },
+      "emptyTitle": "No reviews match these filters",
+      "emptyDescription": "Change the filters or check back later.",
+      "productFallback": "Product #{id}",
+      "ratingLabel": "{count} out of 5 stars",
+      "verified": "Verified purchase",
+      "reviewBy": "By {name}",
+      "helpful": "Helpful: {yes} · Not helpful: {no}",
+      "notes": "Moderation notes",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectTitle": "Reject review",
+      "rejectNotes": "Reason (optional, internal only)",
+      "rejectPlaceholder": "E.g. offensive language, spam…"
+    },
+    "motiveDevolution": {
+      "title": "Return reasons",
+      "description": "Why customers return an order.",
+      "create": "New reason",
+      "createTitle": "Create reason",
+      "editTitle": "Edit reason",
+      "total": "Total reasons",
+      "emptyTitle": "No reasons yet",
+      "emptyDescription": "When you add the first reason it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "description": "Description"
+      }
+    },
+    "returnMethod": {
+      "title": "Return methods",
+      "description": "How the customer sends the product back (pickup, drop-off point…).",
+      "create": "New return method",
+      "createTitle": "Create return method",
+      "editTitle": "Edit return method",
+      "total": "Total return methods",
+      "emptyTitle": "No return methods yet",
+      "emptyDescription": "When you add the first return method it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "description": "Description",
+        "instructions": "Customer instructions",
+        "active": "Active"
+      }
+    },
+    "refundMethod": {
+      "title": "Refund methods",
+      "description": "How the money is returned to the customer.",
+      "create": "New refund method",
+      "createTitle": "Create refund method",
+      "editTitle": "Edit refund method",
+      "total": "Total refund methods",
+      "emptyTitle": "No refund methods yet",
+      "emptyDescription": "When you add the first refund method it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "description": "Description",
+        "policy": "Policy",
+        "active": "Active"
+      }
+    },
+    "carrier": {
+      "title": "Carriers",
+      "description": "Shipping companies, rates and maximum delivery times.",
+      "create": "New carrier",
+      "createTitle": "Create carrier",
+      "editTitle": "Edit carrier",
+      "total": "Total carriers",
+      "emptyTitle": "No carriers yet",
+      "emptyDescription": "When you add the first carrier it will appear in this table.",
+      "fields": {
+        "name": "Name",
+        "code": "Code",
+        "contactEmail": "Contact email",
+        "contactPhone": "Contact phone",
+        "website": "Website",
+        "baseRate": "Base rate",
+        "ratePerKm": "Rate per km",
+        "maxDeliveryDays": "Max. delivery days",
+        "isActive": "Active"
+      }
+    },
+    "devolution": {
+      "title": "Returns",
+      "description": "Return requests, approval, reception, inspection and refund.",
+      "create": "New return",
+      "createTitle": "Register return",
+      "editTitle": "Edit return",
+      "total": "Total returns",
+      "pendingCount": "Pending approval",
+      "inProgressCount": "In progress",
+      "refundedTotal": "Total refunded",
+      "emptyTitle": "No returns yet",
+      "emptyDescription": "When you register the first return it will appear in this table.",
+      "devolutionLabel": "Return #{id}",
+      "view": "View",
+      "viewAria": "View {name}",
+      "backToList": "Back to returns",
+      "filterLabel": "Filter by status",
+      "allStates": "All",
+      "timelineTitle": "Progress",
+      "transitionDone": "Status updated",
+      "requiredInput": "This value is required",
+      "rejectReason": "Rejection reason",
+      "rejectedNotice": "Return rejected. Reason: {reason}",
+      "refundConfirm": "A refund of {amount} will be recorded.",
+      "states": {
+        "P": "Pending",
+        "A": "Approved",
+        "R": "Received",
+        "I": "Inspected",
+        "F": "Refunded",
+        "X": "Rejected"
+      },
+      "actions": {
+        "A": "Approve",
+        "X": "Reject",
+        "R": "Mark as received",
+        "I": "Record inspection",
+        "F": "Confirm refund"
+      },
+      "fields": {
+        "id": "Return",
+        "orderId": "Order",
+        "motiveDevolutionId": "Reason",
+        "returnMethodId": "Return method",
+        "refundMethodId": "Refund method",
+        "observation": "Notes",
+        "externalReference": "External reference",
+        "state": "Status",
+        "totalRefundAmount": "Refund total",
+        "approvedBy": "Approved by",
+        "receivedBy": "Received by",
+        "inspectionNotes": "Inspection notes"
+      },
+      "details": {
+        "title": "Returned products",
+        "create": "Add product",
+        "createTitle": "Add product to return",
+        "editTitle": "Edit returned product",
+        "emptyTitle": "No products",
+        "emptyDescription": "Add the order products the customer is returning.",
+        "noOrderLines": "The order has no products.",
+        "refundSum": "Refunds total: {amount}",
+        "purchased": "{quantity} purchased",
+        "conditions": {
+          "NEW": "New",
+          "OPENED": "Opened",
+          "DAMAGED": "Damaged",
+          "DEFECTIVE": "Defective"
+        },
+        "fields": {
+          "productOrderId": "Product",
+          "quantity": "Quantity",
+          "receivedQuantity": "Received quantity",
+          "unitPrice": "Unit price",
+          "restockingFee": "Restocking fee",
+          "refundAmount": "Refund",
+          "condition": "Product condition",
+          "observation": "Notes"
+        }
+      },
+      "evidences": {
+        "title": "Evidence",
+        "create": "Add evidence",
+        "createTitle": "Register evidence",
+        "emptyDescription": "No photos, videos or documents yet.",
+        "types": {
+          "PHOTO": "Photo",
+          "VIDEO": "Video",
+          "DOCUMENT": "Document",
+          "OTHER": "Other"
+        },
+        "fields": {
+          "evidenceType": "Type",
+          "resourceUrl": "Resource URL",
+          "description": "Description",
+          "recordedBy": "Recorded by"
+        }
+      }
+    },
+    "shippingCost": {
+      "title": "Shipping costs",
+      "description": "Quote shipments with each carrier rate and review the history.",
+      "total": "Calculations",
+      "averageCost": "Average cost",
+      "carriersCount": "Active carriers",
+      "calculatorTitle": "Shipping calculator",
+      "calculatorDescription": "Cost = base rate + distance × rate per km + weight and volume surcharges. The result is saved to the history.",
+      "calculate": "Calculate cost",
+      "resultTitle": "Latest calculation",
+      "resultEmpty": "Fill in the calculator to see the estimated cost.",
+      "noCarriers": "Add at least one active carrier to get quotes.",
+      "estimated": "Estimated",
+      "final": "Final",
+      "emptyTitle": "No calculations yet",
+      "emptyDescription": "Every calculation you run will appear in this table.",
+      "fields": {
+        "carrierId": "Carrier",
+        "originAddress": "Origin address",
+        "destinationAddress": "Destination address",
+        "distance": "Distance",
+        "weight": "Weight (kg)",
+        "volume": "Volume (m³)",
+        "calculatedCost": "Cost",
+        "isEstimated": "Type"
+      }
+    },
+    "deliveryEstimate": {
+      "title": "Delivery times",
+      "description": "Calculate the estimated delivery date by carrier and calendar.",
+      "total": "Estimates",
+      "averageDays": "Average days",
+      "carriersCount": "Active carriers",
+      "calculatorTitle": "Delivery calculator",
+      "calculatorDescription": "Uses the carrier maximum days; you can count business days only. The result is saved.",
+      "calculate": "Calculate date",
+      "resultTitle": "Estimated delivery",
+      "resultEmpty": "Fill in the calculator to see the estimated date.",
+      "resultWindow": "Window: {min} – {max}",
+      "resultDays": "{days} days",
+      "noCarriers": "Add at least one active carrier to get estimates.",
+      "emptyTitle": "No estimates yet",
+      "emptyDescription": "Every estimate you run will appear in this table.",
+      "fields": {
+        "carrierId": "Carrier",
+        "originAddress": "Origin address",
+        "destinationAddress": "Destination address",
+        "route": "Route",
+        "shipmentDate": "Shipment date",
+        "estimatedDeliveryDate": "Estimated delivery",
+        "window": "Delivery window",
+        "estimatedDays": "Days",
+        "isBusinessDaysOnly": "Business days only"
+      }
+    },
+    "dispatch": {
+      "title": "Dispatches",
+      "description": "Shipping waybills per order, shipped products and tracking.",
+      "create": "New dispatch",
+      "createTitle": "Register dispatch",
+      "editTitle": "Edit dispatch",
+      "total": "Total dispatches",
+      "dueSoonCount": "Deliveries within 7 days",
+      "citiesCount": "Destination cities",
+      "emptyTitle": "No dispatches yet",
+      "emptyDescription": "When you register the first dispatch it will appear in this table.",
+      "dispatchLabel": "Dispatch {guide}",
+      "view": "View",
+      "viewAria": "View {name}",
+      "backToList": "Back to dispatches",
+      "dueIn": "in {days} d",
+      "overdue": "{days} d late",
+      "countdown": "Time left",
+      "routeTitle": "Route",
+      "originLegend": "Origin",
+      "destinationLegend": "Destination",
+      "realDeliveryHint": "The backend requires this date (today or earlier) on creation.",
+      "fields": {
+        "orderId": "Order",
+        "guideNumber": "Waybill number",
+        "address": "Delivery address",
+        "departmentOrigin": "State",
+        "cityOrigin": "City",
+        "departmentDestination": "State",
+        "cityDestination": "City",
+        "route": "Route",
+        "estimatedDeliveryDate": "Estimated delivery",
+        "realDeliveryDate": "Actual delivery"
+      },
+      "lines": {
+        "title": "Dispatched products",
+        "create": "Add product",
+        "addAll": "Add all",
+        "remove": "Remove",
+        "selectRequired": "Select a product",
+        "progress": "{included} of {total} order products included",
+        "emptyTitle": "No products",
+        "emptyDescription": "Add the order products shipped in this dispatch.",
+        "fields": {
+          "product": "Product",
+          "quantity": "Quantity"
+        }
+      },
+      "tracking": {
+        "title": "Tracking",
+        "create": "Record event",
+        "hint": "Each event stores the date and time it was recorded.",
+        "empty": "No tracking events.",
+        "eventLabel": "Event #{id}"
+      },
+      "quote": {
+        "title": "Quote with the carrier",
+        "description": "Check cost and dates per service type online. Nothing is saved.",
+        "submit": "Get quote",
+        "noCarriers": "No active carrier has a code configured.",
+        "unavailable": "The carrier returned no rates for this route.",
+        "cost": "Cost",
+        "estimatedDate": "Estimated delivery",
+        "services": "Available services",
+        "fields": {
+          "carrierCode": "Carrier",
+          "originZip": "Origin ZIP code",
+          "destinationZip": "Destination ZIP code",
+          "weight": "Weight (kg)",
+          "serviceType": "Service type"
+        }
+      }
+    },
+    "cmsPage": {
+      "title": "Pages",
+      "description": "Site content: static pages, landings, blog and categories.",
+      "create": "New page",
+      "createTitle": "Create page",
+      "editTitle": "Edit page",
+      "total": "Total pages",
+      "publishedCount": "Published",
+      "draftCount": "Drafts",
+      "featuredCount": "Featured",
+      "emptyTitle": "No pages yet",
+      "emptyDescription": "When you create the first page it will appear in this table.",
+      "backToList": "Back to pages",
+      "filterLabel": "Filter by status",
+      "allStatuses": "All",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "publishAria": "Publish {name}",
+      "unpublishAria": "Unpublish {name}",
+      "scheduledFor": "Scheduled: {date}",
+      "lastUpdated": "Updated {date}",
+      "slugHint": "URL: /{slug}",
+      "regenerateSlug": "Generate slug from title",
+      "contentMode": "Content mode",
+      "contentHint": "HTML allowed. The preview does not run scripts.",
+      "previewTitle": "Content preview",
+      "modes": {
+        "edit": "Edit",
+        "preview": "Preview"
+      },
+      "publishing": "Publishing",
+      "organization": "Organization",
+      "publishedAtHint": "Publishing without a date uses the current time.",
+      "keywordsHint": "Comma separated.",
+      "featuredImageAlt": "Featured image preview",
+      "customFieldsHint": "JSON object with extra data for the template.",
+      "seo": {
+        "title": "SEO",
+        "preview": "Search engine preview",
+        "placeholderTitle": "Page title",
+        "placeholderDescription": "Add a meta description to control the text search engines show."
+      },
+      "statuses": {
+        "DRAFT": "Draft",
+        "PUBLISHED": "Published",
+        "SCHEDULED": "Scheduled",
+        "ARCHIVED": "Archived"
+      },
+      "types": {
+        "STATIC": "Static",
+        "LANDING": "Landing",
+        "BLOG": "Blog",
+        "CATEGORY": "Category"
+      },
+      "fields": {
+        "title": "Title",
+        "slug": "Slug",
+        "content": "Content",
+        "excerpt": "Excerpt",
+        "metaTitle": "Meta title",
+        "metaDescription": "Meta description",
+        "metaKeywords": "Keywords",
+        "status": "Status",
+        "pageType": "Type",
+        "template": "Template",
+        "isFeatured": "Featured",
+        "sortOrder": "Order",
+        "publishedAt": "Publish date",
+        "scheduledAt": "Schedule for",
+        "authorName": "Author",
+        "featuredImage": "Featured image",
+        "customFields": "Custom fields (JSON)"
+      }
+    },
+    "recommendation": {
+      "title": "Recommendations",
+      "description": "Products suggested to each customer and their performance (clicks and purchases).",
+      "create": "New recommendation",
+      "createTitle": "Create recommendation",
+      "editTitle": "Edit recommendation",
+      "total": "Recommendations",
+      "ctr": "Click-through rate",
+      "conversion": "Conversion",
+      "avgScore": "Average score",
+      "clickToPurchase": "Of the clicked recommendations, {value} ended in a purchase.",
+      "ctrHint": "clicks {value}",
+      "conversionHint": "purchase {value}",
+      "byType": "By type",
+      "byContext": "By placement",
+      "emptyBreakdown": "No data yet.",
+      "all": "All",
+      "funnel": "Funnel",
+      "clicked": "Click",
+      "purchased": "Purchase",
+      "identityLocked": "Customer and product cannot change after the recommendation is created.",
+      "emptyTitle": "No recommendations",
+      "emptyDescription": "Create a recommendation or adjust the filters.",
+      "types": {
+        "COLLABORATIVE": "Collaborative",
+        "CONTENT_BASED": "Content based",
+        "TRENDING": "Trending",
+        "CROSS_SELL": "Cross-sell",
+        "UP_SELL": "Up-sell"
+      },
+      "contexts": {
+        "HOME": "Home",
+        "PRODUCT_PAGE": "Product page",
+        "CART": "Cart",
+        "CHECKOUT": "Checkout"
+      },
+      "fields": {
+        "customerId": "Customer (ID)",
+        "productId": "Product",
+        "recommendationType": "Type",
+        "context": "Placement",
+        "score": "Score (0–1)",
+        "position": "Position",
+        "reason": "Reason",
+        "isClicked": "Clicked",
+        "isPurchased": "Purchased"
+      }
+    },
+    "searchQuery": {
+      "title": "Searches",
+      "description": "What customers search for in the store and which searches find nothing.",
+      "total": "Searches",
+      "uniqueTerms": "Unique terms",
+      "zeroRate": "No results",
+      "avgResults": "Average results",
+      "periodLabel": "Period",
+      "allTime": "All",
+      "lastDays": "{days} days",
+      "topTerms": "Top search terms",
+      "avgResultsHint": "~{value} res.",
+      "emptyBreakdown": "No searches in this period.",
+      "opportunities": "Searches with no results",
+      "opportunitiesHint": "Terms that never returned products: possible missing products or synonyms to add.",
+      "noOpportunities": "Every search returned results.",
+      "timesSearched": "{count, plural, one {# search} other {# searches}}",
+      "recent": "Recent searches",
+      "anonymous": "Anonymous",
+      "pageOf": "Page {page} · {size}/page",
+      "emptyTitle": "No searches",
+      "emptyDescription": "Searches customers run in the store will appear here.",
+      "fields": {
+        "query": "Search",
+        "totalResults": "Results",
+        "customerId": "Customer",
+        "sortBy": "Sort",
+        "page": "Pagination",
+        "lastRunAt": "Date"
+      }
+    },
+    "personalization": {
+      "title": "Personalization",
+      "description": "Customer profiles by segment to personalize offers, prices and content.",
+      "create": "New profile",
+      "createTitle": "Create profile",
+      "editTitle": "Edit profile",
+      "total": "Profiles",
+      "avgScore": "Average score",
+      "vipCount": "VIP customers",
+      "churningCount": "At risk of churn",
+      "bySegment": "Customers by segment",
+      "emptyBreakdown": "No profiles yet.",
+      "filterLabel": "Filter by segment",
+      "allSegments": "All",
+      "profileLabel": "Customer #{id}",
+      "view": "View",
+      "viewAria": "View {name}",
+      "noPayloads": "This profile has no personalization data.",
+      "advanced": "Personalization data (JSON)",
+      "advancedHint": "Usually generated by the personalization engine. Each field accepts JSON up to 4000 characters.",
+      "emptyTitle": "No profiles",
+      "emptyDescription": "Create a profile or change the segment filter.",
+      "segments": {
+        "VIP": "VIP",
+        "FREQUENT_BUYER": "Frequent buyer",
+        "PRICE_SENSITIVE": "Price sensitive",
+        "BROWSER": "Browser",
+        "NEW_CUSTOMER": "New customer",
+        "CHURNING": "At risk"
+      },
+      "fields": {
+        "customerId": "Customer (ID)",
+        "segment": "Segment",
+        "personalizationScore": "Score (0–1)",
+        "status": "Status",
+        "sessionId": "Session ID",
+        "lastAnalysisAt": "Last analysis",
+        "contextMetadataJson": "Context",
+        "recommendedProductsJson": "Recommended products",
+        "dynamicPricingJson": "Dynamic pricing",
+        "personalizedContentJson": "Personalized content",
+        "personalizedOffersJson": "Personalized offers",
+        "uiPersonalizationJson": "UI personalization",
+        "purchaseIntentJson": "Purchase intent"
+      }
+    }
+  },
+  "Home": {
+    "eyebrow": "Essenza",
+    "title": "Admin panel",
+    "description": "Pick a section to manage the store catalog and inventory.",
+    "sections": {
+      "brand": {
+        "title": "Brands",
+        "description": "Manufacturers and private labels."
+      },
+      "category": {
+        "title": "Categories",
+        "description": "Main product groups."
+      },
+      "subcategory": {
+        "title": "Subcategories",
+        "description": "Divisions inside each category."
+      },
+      "products": {
+        "title": "Products",
+        "description": "Inventory, prices and availability."
+      },
+      "combo": {
+        "title": "Combos",
+        "description": "Products made of other products."
+      }
+    }
+  },
+  "Dashboard": {
+    "eyebrow": "Essenza",
+    "title": "Dashboard",
+    "description": "Sales summary for the last {days} days and operational alerts.",
+    "rangeLabel": "Period",
+    "rangeOption": "{days} days",
+    "analyticsUnavailable": "Sales analytics couldn't be loaded. Indicators will appear once the service responds.",
+    "revenue": "Revenue",
+    "orders": "Orders",
+    "averageOrderValue": "Average order value",
+    "customers": "Customers",
+    "conversionRate": "Conversion rate",
+    "refundRate": "Refund rate",
+    "vsPrevious": "vs. previous period",
+    "trendsTitle": "Revenue by period",
+    "period": "Period",
+    "funnelTitle": "Conversion funnel",
+    "funnel": {
+      "visitors": "Visitors",
+      "productViews": "Viewed a product",
+      "addToCart": "Added to cart",
+      "checkout": "Started checkout",
+      "purchase": "Purchased",
+      "overall": "Overall conversion"
+    },
+    "noData": "No data for this period",
+    "noDataDescription": "Once sales are recorded they will appear here.",
+    "pendingOrdersTitle": "Pending orders",
+    "pendingOrdersHint": "Orders not yet paid or processed.",
+    "viewOrders": "View orders",
+    "lowStockTitle": "Low stock products",
+    "lowStockEmpty": "No product is below 5 units.",
+    "registerEntry": "Record entry",
+    "units": "{count} u."
   }
 }

@@ -1,39 +1,25 @@
-"use server";
-import { SideBarMenu } from "@repo/ui/modals/scenes/sidebar/sidebarMenu";
+/** @format */
+
 import React from "react";
-import { MenuDynamic } from "@repo/ui/collapse/components/menuDynamic";
-import { ListItemData } from "@repo/ui/interfaces/collapse/models/collapse.interfaces";
+import { getTranslations } from "next-intl/server";
+import { SectionShell } from "@/components/layout/section-shell";
 
 export default async function AdministreLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
-  const NAV_ITEMS: ListItemData[] = [
-    {
-      label: "administre",
-      options: [
-        { label: "category", href: "/administre/category" },
-        { label: "brand", href: "/administre/brand" },
-        { label: "subcategory", href: "/administre/subcategory" },
-        { label: "productos", href: "/administre/products" },
-      ],
-    },
-    {
-      label: "docs",
-      href: "#",
-      // icon: BiCloset,
-    },
-  ];
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Administre" });
 
   return (
-    <div className='flex flex-1'>
-      {/* <SideBarMenu title='Filtro'>
-        <MenuDynamic data={NAV_ITEMS}></MenuDynamic>
-      </SideBarMenu> */}
+    <SectionShell
+      eyebrow={t("sectionLabel")}
+      title={t("pageTitle")}
+      description={t("pageDescription")}>
       {children}
-    </div>
+    </SectionShell>
   );
 }

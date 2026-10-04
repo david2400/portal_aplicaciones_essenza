@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { features_tags } from '@/server/lib/cache-tags';
 import type {
   FeatureDto,
@@ -14,10 +15,11 @@ const feature_by_id_path = (id: number) => `${features_base_path}/${id}`;
 
 export const features_repository = {
   async list_features(): Promise<FeatureDto[]> {
-    return server_fetch.get<FeatureDto[]>(features_base_path, {
+    const response = await server_fetch.get<unknown>(features_base_path, {
       revalidate: 60,
       tags: [features_tags.list()],
     });
+    return to_list<FeatureDto>(response);
   },
 
   async get_feature_by_id(id: number): Promise<FeatureDto> {

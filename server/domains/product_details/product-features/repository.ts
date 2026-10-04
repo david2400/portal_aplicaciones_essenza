@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { product_features_tags } from '@/server/lib/cache-tags';
 import type {
   ProductFeatureDto,
@@ -33,10 +34,11 @@ function resolve_ids({
 
 export const product_features_repository = {
   async list_product_features(): Promise<ProductFeatureDto[]> {
-    return server_fetch.get<ProductFeatureDto[]>(product_features_base_path, {
+    const response = await server_fetch.get<unknown>(product_features_base_path, {
       revalidate: 60,
       tags: [product_features_tags.list()],
     });
+    return to_list<ProductFeatureDto>(response);
   },
 
   async get_product_feature(params: GetProductFeatureParams): Promise<ProductFeatureDto> {

@@ -124,7 +124,23 @@ async function server_request<T>(
   }
 
   const response = await fetch(url, fetch_options);
-  return handle_response<T>(response);
+
+  try {
+    return await handle_response<T>(response);
+  } catch (error) {
+    // En desarrollo se añade la URL al mensaje: un 404 suele significar que
+    // API_BASE_URL no apunta al backend (sin esa variable, `env` cae en el
+    // propio servidor de Next en localhost:3000).
+    if (env.is_dev && error instanceof ServerApiError) {
+      throw new ServerApiError({
+        message: `${error.message} (${method} ${url})`,
+        status: error.status,
+        code: error.code,
+        details: error.details,
+      });
+    }
+    throw error;
+  }
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────

@@ -7,11 +7,18 @@
     "addAddres": "Agregar Dirección",
     "profile": "Perfil"
   },
-
   "Form": {
-    "requiredField": "Este campo es obligatorio"
+    "requiredField": "Este campo es obligatorio",
+    "positiveNumber": "Debe ser mayor que cero",
+    "invalidEmail": "Correo electrónico no válido",
+    "invalidUrl": "URL no válida (incluye https://)",
+    "dateNotPast": "La fecha no puede ser anterior a hoy",
+    "dateNotFuture": "La fecha no puede ser posterior a hoy",
+    "maxLength": "Máximo {max} caracteres",
+    "invalidSlug": "Solo minúsculas, números y guiones",
+    "invalidJson": "JSON no válido",
+    "range": "Debe estar entre {min} y {max}"
   },
-
   "Shopping": {
     "shopList": "Mis compras",
     "messageShopCart": "Carrito de compra",
@@ -24,7 +31,6 @@
     "messageShopCartShipping": "Gastos de envío e impuestos calculados en el momento de la compra.",
     "messageCheckoutCardCredit": "Pagar"
   },
-
   "Buttons": {
     "add": "Agregar",
     "update": "Actualizar",
@@ -68,7 +74,6 @@
     "expiry": "Caducidad",
     "predetermined": "Predeterminada"
   },
-
   "ResetPassword": {
     "changePassword": "Cambiar contraseña",
     "password": "Contraseña",
@@ -77,7 +82,6 @@
     "signIn": "Iniciar sesion",
     "rememberMe": "Recuérdame"
   },
-
   "ProductRegister": {
     "nameProduct": "Nombre del producto",
     "brand": "Marca del producto",
@@ -88,7 +92,6 @@
     "description": "Descripcion",
     "quantity": "Cantidad: "
   },
-
   "Menu": {
     "administre": "Administre",
     "category": "Categoría",
@@ -96,15 +99,1018 @@
     "subcategory": "Subcategoría",
     "docs": "Documentación"
   },
-
   "Titles": {
-    "home": "Inicio - Cygnus Shop",
-    "administre": "Administración - Cygnus Shop",
-    "category": "Categorías - Cygnus Shop",
-    "brand": "Marcas - Cygnus Shop",
-    "subcategory": "Subcategorías - Cygnus Shop",
-    "profile": "Perfil - Cygnus Shop",
-    "products": "Productos - Cygnus Shop",
-    "default": "Cygnus Shop"
+    "home": "Inicio",
+    "administre": "Administración",
+    "category": "Categorías",
+    "brand": "Marcas",
+    "subcategory": "Subcategorías",
+    "profile": "Perfil",
+    "products": "Productos",
+    "default": "Essenza",
+    "combo": "Combos",
+    "supplier": "Proveedores",
+    "warehouse": "Bodegas",
+    "paymentType": "Medios de pago",
+    "order": "Órdenes",
+    "inventoryMovement": "Movimientos de inventario",
+    "unitMeasurement": "Unidades de medida",
+    "typeProduct": "Tipos de producto",
+    "feature": "Características",
+    "typeProductFeature": "Características por tipo",
+    "productFeature": "Valores por producto",
+    "coupon": "Cupones",
+    "review": "Reseñas",
+    "motiveDevolution": "Motivos de devolución",
+    "returnMethod": "Métodos de devolución",
+    "refundMethod": "Métodos de reembolso",
+    "devolution": "Devoluciones",
+    "carrier": "Transportadoras",
+    "shippingCost": "Costos de envío",
+    "deliveryEstimate": "Tiempos de entrega",
+    "dispatch": "Despachos",
+    "cmsPage": "Páginas",
+    "recommendation": "Recomendaciones",
+    "searchQuery": "Búsquedas",
+    "personalization": "Personalización"
+  },
+  "Administre": {
+    "sectionLabel": "Administración",
+    "pageTitle": "Administración de la tienda",
+    "pageDescription": "Gestiona ventas, catálogo e inventario de la tienda.",
+    "common": {
+      "selectPlaceholder": "Selecciona una opción…",
+      "yes": "Sí",
+      "no": "No",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "errorTitle": "No se pudo completar la acción",
+      "unexpectedError": "Ocurrió un error inesperado. Intenta nuevamente.",
+      "createdSuccess": "Registro creado correctamente",
+      "updatedSuccess": "Registro actualizado correctamente",
+      "deletedSuccess": "Registro eliminado",
+      "deleteConfirmTitle": "¿Eliminar registro?",
+      "deleteConfirmText": "Se eliminará \"{name}\". Esta acción no se puede deshacer.",
+      "deleteConfirmButton": "Sí, eliminar",
+      "status": "Estado",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "actions": "Acciones",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "editAria": "Editar {name}",
+      "deleteAria": "Eliminar {name}",
+      "activeCount": "Registros activos"
+    },
+    "brand": {
+      "title": "Marcas",
+      "description": "Organiza las marcas del catálogo.",
+      "create": "Nuevo marca",
+      "createTitle": "Crear marca",
+      "editTitle": "Editar marca",
+      "total": "Total de marcas",
+      "emptyTitle": "Todavía no hay marcas",
+      "emptyDescription": "Cuando registres el primer marca aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "slug": "Slug (URL)",
+        "description": "Descripción"
+      }
+    },
+    "category": {
+      "title": "Categorías",
+      "description": "Agrupa los productos por categorías principales.",
+      "create": "Nueva categoría",
+      "createTitle": "Crear categoría",
+      "editTitle": "Editar categoría",
+      "total": "Total de categorías",
+      "emptyTitle": "Todavía no hay categorías",
+      "emptyDescription": "Cuando registres la primera categoría aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "slug": "Slug (URL)",
+        "description": "Descripción"
+      }
+    },
+    "subcategory": {
+      "title": "Subcategorías",
+      "description": "Divide cada categoría en subcategorías.",
+      "create": "Nueva subcategoría",
+      "createTitle": "Crear subcategoría",
+      "editTitle": "Editar subcategoría",
+      "total": "Total de subcategorías",
+      "emptyTitle": "Todavía no hay subcategorías",
+      "emptyDescription": "Cuando registres la primera subcategoría aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "categoryId": "Categoría",
+        "slug": "Slug (URL)",
+        "description": "Descripción"
+      }
+    },
+    "product": {
+      "title": "Productos",
+      "description": "Gestiona el inventario: precios, stock, medidas y disponibilidad.",
+      "create": "Nuevo producto",
+      "createTitle": "Crear producto",
+      "editTitle": "Editar producto",
+      "total": "Total de productos",
+      "emptyTitle": "Todavía no hay productos",
+      "emptyDescription": "Cuando registres el primer producto aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "supplierId": "Proveedor",
+        "brandId": "Marca",
+        "categoryId": "Categoría",
+        "subcategoryId": "Subcategoría",
+        "stock": "Stock",
+        "realPrice": "Precio de costo",
+        "unitPrice": "Precio de venta",
+        "length": "Largo (cm)",
+        "width": "Ancho (cm)",
+        "height": "Alto (cm)",
+        "weight": "Peso (kg)",
+        "imageUrl": "URL de la imagen",
+        "available": "Disponible",
+        "isCombo": "Es combo",
+        "description": "Descripción"
+      },
+      "availableCount": "Disponibles para venta",
+      "stockTotal": "Unidades en stock"
+    },
+    "combo": {
+      "title": "Combos",
+      "description": "Define qué productos y en qué cantidad componen cada combo.",
+      "create": "Nuevo componente de combo",
+      "createTitle": "Crear componente de combo",
+      "editTitle": "Editar componente de combo",
+      "total": "Total de componentes de combo",
+      "emptyTitle": "Todavía no hay componentes de combo",
+      "emptyDescription": "Cuando registres el primer componente de combo aparecerá en esta tabla.",
+      "fields": {
+        "comboId": "Combo",
+        "productId": "Producto",
+        "quantity": "Cantidad"
+      }
+    },
+    "supplier": {
+      "title": "Proveedores",
+      "description": "Empresas que abastecen el inventario.",
+      "create": "Nuevo proveedor",
+      "createTitle": "Crear proveedor",
+      "editTitle": "Editar proveedor",
+      "total": "Total de proveedores",
+      "emptyTitle": "Todavía no hay proveedores",
+      "emptyDescription": "Cuando registres el primer proveedor aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "email": "Correo",
+        "phone": "Teléfono",
+        "address": "Dirección"
+      }
+    },
+    "warehouse": {
+      "title": "Bodegas",
+      "description": "Ubicaciones físicas donde se almacena el inventario.",
+      "create": "Nueva bodega",
+      "createTitle": "Crear bodega",
+      "editTitle": "Editar bodega",
+      "total": "Total de bodegas",
+      "emptyTitle": "Todavía no hay bodegas",
+      "emptyDescription": "Cuando registres la primera bodega aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "code": "Código",
+        "address": "Dirección",
+        "active": "Activa"
+      }
+    },
+    "paymentType": {
+      "title": "Medios de pago",
+      "description": "Formas de pago que acepta la tienda.",
+      "create": "Nuevo medio de pago",
+      "createTitle": "Crear medio de pago",
+      "editTitle": "Editar medio de pago",
+      "total": "Total de medios de pago",
+      "emptyTitle": "Todavía no hay medios de pago",
+      "emptyDescription": "Cuando registres el primer medio de pago aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre"
+      }
+    },
+    "order": {
+      "title": "Órdenes",
+      "description": "Pedidos de venta: estado, valor y productos.",
+      "create": "Nueva orden",
+      "createTitle": "Crear orden",
+      "editTitle": "Editar orden",
+      "total": "Total de órdenes",
+      "emptyTitle": "Todavía no hay órdenes",
+      "emptyDescription": "Cuando registres la primera orden aparecerá en esta tabla.",
+      "fields": {
+        "id": "Orden",
+        "complementaryOrder": "Referencia externa",
+        "state": "Estado",
+        "total": "Total",
+        "units": "Unidades"
+      },
+      "states": {
+        "PENDING": "Pendiente",
+        "PAID": "Pagada",
+        "PROCESSING": "En preparación",
+        "SHIPPED": "Enviada",
+        "DELIVERED": "Entregada",
+        "CANCELLED": "Cancelada"
+      },
+      "orderLabel": "Orden #{id}",
+      "revenue": "Ingresos (sin canceladas)",
+      "pendingCount": "Pendientes",
+      "deliveredCount": "Entregadas",
+      "filterLabel": "Filtrar por estado",
+      "allStates": "Todas",
+      "view": "Ver",
+      "viewAria": "Ver detalle de {name}",
+      "backToList": "Volver a órdenes",
+      "totalHint": "Puedes recalcularlo desde el detalle con la suma de los ítems.",
+      "totalMismatch": "El total de la orden ({orderTotal}) no coincide con la suma de sus ítems ({itemsTotal}).",
+      "syncTotal": "Usar la suma de los ítems",
+      "totalSynced": "Total actualizado",
+      "items": {
+        "title": "Productos de la orden",
+        "create": "Agregar producto",
+        "createTitle": "Agregar producto a la orden",
+        "editTitle": "Editar producto de la orden",
+        "emptyTitle": "Esta orden no tiene productos",
+        "emptyDescription": "Agrega el primer producto para calcular su total.",
+        "fields": {
+          "productId": "Producto",
+          "quantity": "Cantidad",
+          "discount": "Descuento",
+          "subtotal": "Subtotal",
+          "total": "Total"
+        }
+      }
+    },
+    "inventoryMovement": {
+      "title": "Movimientos de inventario",
+      "description": "Entradas, salidas y traslados entre bodegas. Cada movimiento ajusta el stock.",
+      "create": "Registrar movimiento",
+      "createTitle": "Registrar movimiento de inventario",
+      "submit": "Registrar movimiento",
+      "registered": "Movimiento registrado",
+      "emptyTitle": "Todavía no hay movimientos",
+      "emptyDescription": "Registra una entrada para empezar a llevar el inventario.",
+      "types": {
+        "ENTRY": "Entrada",
+        "EXIT": "Salida",
+        "TRANSFER": "Traslado"
+      },
+      "filterLabel": "Filtrar por tipo",
+      "allTypes": "Todos",
+      "entryUnits": "Unidades ingresadas",
+      "exitUnits": "Unidades despachadas",
+      "transferUnits": "Unidades trasladadas",
+      "sameWarehouse": "La bodega de destino debe ser distinta a la de origen.",
+      "fields": {
+        "type": "Tipo",
+        "productId": "Producto",
+        "fromWarehouseId": "Bodega de origen",
+        "toWarehouseId": "Bodega de destino",
+        "quantity": "Cantidad",
+        "reason": "Motivo"
+      }
+    },
+    "unitMeasurement": {
+      "title": "Unidades de medida",
+      "description": "Unidades para expresar las características técnicas (cm, kg, ml…).",
+      "create": "Nueva unidad de medida",
+      "createTitle": "Crear unidad de medida",
+      "editTitle": "Editar unidad de medida",
+      "total": "Total de unidades de medida",
+      "emptyTitle": "Todavía no hay unidades de medida",
+      "emptyDescription": "Cuando registres la primera unidad de medida aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre"
+      }
+    },
+    "typeProduct": {
+      "title": "Tipos de producto",
+      "description": "Familias de producto que comparten una misma ficha técnica.",
+      "create": "Nuevo tipo de producto",
+      "createTitle": "Crear tipo de producto",
+      "editTitle": "Editar tipo de producto",
+      "total": "Total de tipos de producto",
+      "emptyTitle": "Todavía no hay tipos de producto",
+      "emptyDescription": "Cuando registres el primer tipo de producto aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre"
+      }
+    },
+    "feature": {
+      "title": "Características",
+      "description": "Atributos técnicos medibles (peso, voltaje, capacidad…).",
+      "create": "Nueva característica",
+      "createTitle": "Crear característica",
+      "editTitle": "Editar característica",
+      "total": "Total de características",
+      "emptyTitle": "Todavía no hay características",
+      "emptyDescription": "Cuando registres la primera característica aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "unitId": "Unidad de medida"
+      }
+    },
+    "typeProductFeature": {
+      "title": "Características por tipo",
+      "description": "Define qué característica pide la ficha de cada tipo de producto.",
+      "create": "Asignar característica",
+      "createTitle": "Asignar característica a un tipo",
+      "editTitle": "Editar asignación",
+      "total": "Total de asignaciones",
+      "emptyTitle": "Todavía no hay asignaciones",
+      "emptyDescription": "Cuando registres la primera asignación aparecerá en esta tabla.",
+      "fields": {
+        "typeProductId": "Tipo de producto",
+        "featureId": "Característica"
+      }
+    },
+    "productFeature": {
+      "title": "Valores por producto",
+      "description": "Valores técnicos de cada producto según sus características.",
+      "create": "Agregar valor",
+      "createTitle": "Agregar valor técnico",
+      "editTitle": "Editar valor técnico",
+      "total": "Total de valores",
+      "emptyTitle": "Todavía no hay valores",
+      "emptyDescription": "Cuando registres el primer valor aparecerá en esta tabla.",
+      "fields": {
+        "productId": "Producto",
+        "featureId": "Característica",
+        "value": "Valor"
+      },
+      "filterLabel": "Producto",
+      "allProducts": "Todos los productos"
+    },
+    "coupon": {
+      "title": "Cupones",
+      "description": "Descuentos por código con vigencia, límites de uso y reglas por categoría o producto.",
+      "create": "Nuevo cupón",
+      "createTitle": "Crear cupón",
+      "editTitle": "Editar cupón",
+      "total": "Total de cupones",
+      "emptyTitle": "Todavía no hay cupones",
+      "emptyDescription": "Cuando registres el primer cupón aparecerá en esta tabla.",
+      "fields": {
+        "code": "Código",
+        "name": "Nombre",
+        "description": "Descripción",
+        "discountType": "Tipo de descuento",
+        "discountValue": "Valor del descuento",
+        "discountPercent": "Porcentaje de descuento",
+        "maximumDiscountAmount": "Descuento máximo",
+        "minimumOrderAmount": "Compra mínima",
+        "usageLimit": "Límite de usos",
+        "validFrom": "Válido desde",
+        "validUntil": "Válido hasta",
+        "isActive": "Activo",
+        "isPublic": "Público",
+        "applicableCategories": "Sólo en estas categorías",
+        "excludedCategories": "Excepto estas categorías",
+        "applicableProducts": "Sólo en estos productos",
+        "excludedProducts": "Excepto estos productos",
+        "discount": "Descuento",
+        "validity": "Vigencia",
+        "usage": "Usos"
+      },
+      "types": {
+        "PERCENTAGE": "Porcentaje",
+        "FIXED_AMOUNT": "Monto fijo",
+        "FREE_SHIPPING": "Envío gratis"
+      },
+      "status": {
+        "active": "Vigente",
+        "scheduled": "Programado",
+        "expired": "Vencido",
+        "exhausted": "Agotado",
+        "inactive": "Inactivo"
+      },
+      "sections": {
+        "general": "Datos generales",
+        "discount": "Descuento",
+        "validity": "Vigencia y visibilidad",
+        "rules": "Reglas de aplicación"
+      },
+      "codeHint": "Mayúsculas, números, guion y guion bajo.",
+      "usageLimitHint": "Vacío = ilimitado.",
+      "isPublicHint": "Los cupones públicos pueden mostrarse en la tienda.",
+      "rulesHint": "Sin selección, el cupón aplica a todo el catálogo.",
+      "activeNow": "Vigentes ahora",
+      "scheduledCount": "Programados",
+      "usesCount": "Usos acumulados",
+      "filterLabel": "Filtrar por estado",
+      "allStatuses": "Todos",
+      "validation": {
+        "codeLength": "El código debe tener entre 3 y 50 caracteres.",
+        "codeFormat": "Sólo mayúsculas, números, guion y guion bajo.",
+        "discountPositive": "El descuento debe ser mayor que 0.",
+        "usageLimit": "El límite debe ser al menos 1.",
+        "percentageMax": "Un porcentaje no puede superar 100.",
+        "dateRange": "La fecha final debe ser posterior a la inicial."
+      },
+      "simulator": {
+        "title": "Probar un cupón",
+        "code": "Código",
+        "amount": "Monto de la orden",
+        "run": "Probar",
+        "missing": "Escribe un código y un monto mayor que 0.",
+        "success": "Cupón válido: descuento de {discount}. Total a pagar: {total}."
+      }
+    },
+    "review": {
+      "title": "Moderación de reseñas",
+      "description": "Aprueba o rechaza las opiniones de los clientes antes de publicarlas.",
+      "total": "Total de reseñas",
+      "pendingCount": "Por moderar",
+      "approvedCount": "Aprobadas",
+      "averageRating": "Calificación promedio",
+      "statusFilter": "Filtrar por estado",
+      "ratingFilter": "Filtrar por calificación",
+      "allStatuses": "Todas",
+      "allRatings": "Todas",
+      "stars": "{count} ★",
+      "status": {
+        "PENDING": "Pendiente",
+        "APPROVED": "Aprobada",
+        "REJECTED": "Rechazada"
+      },
+      "emptyTitle": "No hay reseñas con estos filtros",
+      "emptyDescription": "Cambia los filtros o vuelve más tarde.",
+      "productFallback": "Producto #{id}",
+      "ratingLabel": "{count} de 5 estrellas",
+      "verified": "Compra verificada",
+      "reviewBy": "Por {name}",
+      "helpful": "Útil: {yes} · No útil: {no}",
+      "notes": "Notas de moderación",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "rejectTitle": "Rechazar reseña",
+      "rejectNotes": "Motivo (opcional, sólo interno)",
+      "rejectPlaceholder": "Ej.: lenguaje ofensivo, spam…"
+    },
+    "motiveDevolution": {
+      "title": "Motivos de devolución",
+      "description": "Razones por las que un cliente devuelve un pedido.",
+      "create": "Nuevo motivo",
+      "createTitle": "Crear motivo",
+      "editTitle": "Editar motivo",
+      "total": "Total de motivos",
+      "emptyTitle": "Todavía no hay motivos",
+      "emptyDescription": "Cuando registres el primer motivo aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "description": "Descripción"
+      }
+    },
+    "returnMethod": {
+      "title": "Métodos de devolución",
+      "description": "Cómo el cliente regresa el producto (recogida, punto de entrega…).",
+      "create": "Nuevo método de devolución",
+      "createTitle": "Crear método de devolución",
+      "editTitle": "Editar método de devolución",
+      "total": "Total de métodos de devolución",
+      "emptyTitle": "Todavía no hay métodos de devolución",
+      "emptyDescription": "Cuando registres el primer método de devolución aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "instructions": "Instrucciones para el cliente",
+        "active": "Activo"
+      }
+    },
+    "refundMethod": {
+      "title": "Métodos de reembolso",
+      "description": "Cómo se devuelve el dinero al cliente.",
+      "create": "Nuevo método de reembolso",
+      "createTitle": "Crear método de reembolso",
+      "editTitle": "Editar método de reembolso",
+      "total": "Total de métodos de reembolso",
+      "emptyTitle": "Todavía no hay métodos de reembolso",
+      "emptyDescription": "Cuando registres el primer método de reembolso aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "policy": "Política",
+        "active": "Activo"
+      }
+    },
+    "carrier": {
+      "title": "Transportadoras",
+      "description": "Empresas de envío, tarifas y tiempos máximos de entrega.",
+      "create": "Nueva transportadora",
+      "createTitle": "Crear transportadora",
+      "editTitle": "Editar transportadora",
+      "total": "Total de transportadoras",
+      "emptyTitle": "Todavía no hay transportadoras",
+      "emptyDescription": "Cuando registres la primera transportadora aparecerá en esta tabla.",
+      "fields": {
+        "name": "Nombre",
+        "code": "Código",
+        "contactEmail": "Correo de contacto",
+        "contactPhone": "Teléfono de contacto",
+        "website": "Sitio web",
+        "baseRate": "Tarifa base",
+        "ratePerKm": "Tarifa por km",
+        "maxDeliveryDays": "Días máx. de entrega",
+        "isActive": "Activa"
+      }
+    },
+    "devolution": {
+      "title": "Devoluciones",
+      "description": "Solicitudes de devolución, aprobación, recepción, inspección y reembolso.",
+      "create": "Nueva devolución",
+      "createTitle": "Registrar devolución",
+      "editTitle": "Editar devolución",
+      "total": "Total de devoluciones",
+      "pendingCount": "Pendientes de aprobación",
+      "inProgressCount": "En proceso",
+      "refundedTotal": "Total reembolsado",
+      "emptyTitle": "Todavía no hay devoluciones",
+      "emptyDescription": "Cuando registres la primera devolución aparecerá en esta tabla.",
+      "devolutionLabel": "Devolución #{id}",
+      "view": "Ver",
+      "viewAria": "Ver {name}",
+      "backToList": "Volver a devoluciones",
+      "filterLabel": "Filtrar por estado",
+      "allStates": "Todas",
+      "timelineTitle": "Seguimiento",
+      "transitionDone": "Estado actualizado",
+      "requiredInput": "Este dato es obligatorio",
+      "rejectReason": "Motivo del rechazo",
+      "rejectedNotice": "Devolución rechazada. Motivo: {reason}",
+      "refundConfirm": "Se registrará un reembolso de {amount}.",
+      "states": {
+        "P": "Pendiente",
+        "A": "Aprobada",
+        "R": "Recibida",
+        "I": "Inspeccionada",
+        "F": "Reembolsada",
+        "X": "Rechazada"
+      },
+      "actions": {
+        "A": "Aprobar",
+        "X": "Rechazar",
+        "R": "Marcar como recibida",
+        "I": "Registrar inspección",
+        "F": "Confirmar reembolso"
+      },
+      "fields": {
+        "id": "Devolución",
+        "orderId": "Orden",
+        "motiveDevolutionId": "Motivo",
+        "returnMethodId": "Método de devolución",
+        "refundMethodId": "Método de reembolso",
+        "observation": "Observación",
+        "externalReference": "Referencia externa",
+        "state": "Estado",
+        "totalRefundAmount": "Total a reembolsar",
+        "approvedBy": "Aprobada por",
+        "receivedBy": "Recibida por",
+        "inspectionNotes": "Notas de inspección"
+      },
+      "details": {
+        "title": "Productos devueltos",
+        "create": "Agregar producto",
+        "createTitle": "Agregar producto a la devolución",
+        "editTitle": "Editar producto devuelto",
+        "emptyTitle": "Sin productos",
+        "emptyDescription": "Agrega los productos de la orden que el cliente devuelve.",
+        "noOrderLines": "La orden no tiene productos registrados.",
+        "refundSum": "Suma de reembolsos: {amount}",
+        "purchased": "{quantity} comprados",
+        "conditions": {
+          "NEW": "Nuevo",
+          "OPENED": "Abierto",
+          "DAMAGED": "Dañado",
+          "DEFECTIVE": "Defectuoso"
+        },
+        "fields": {
+          "productOrderId": "Producto",
+          "quantity": "Cantidad",
+          "receivedQuantity": "Cantidad recibida",
+          "unitPrice": "Precio unitario",
+          "restockingFee": "Cargo de reposición",
+          "refundAmount": "Reembolso",
+          "condition": "Estado del producto",
+          "observation": "Observación"
+        }
+      },
+      "evidences": {
+        "title": "Evidencias",
+        "create": "Agregar evidencia",
+        "createTitle": "Registrar evidencia",
+        "emptyDescription": "Aún no hay fotos, videos o documentos asociados.",
+        "types": {
+          "PHOTO": "Foto",
+          "VIDEO": "Video",
+          "DOCUMENT": "Documento",
+          "OTHER": "Otro"
+        },
+        "fields": {
+          "evidenceType": "Tipo",
+          "resourceUrl": "URL del recurso",
+          "description": "Descripción",
+          "recordedBy": "Registrada por"
+        }
+      }
+    },
+    "shippingCost": {
+      "title": "Costos de envío",
+      "description": "Cotiza envíos con la tarifa de cada transportadora y consulta el historial.",
+      "total": "Cálculos realizados",
+      "averageCost": "Costo promedio",
+      "carriersCount": "Transportadoras activas",
+      "calculatorTitle": "Calculadora de envío",
+      "calculatorDescription": "Costo = tarifa base + distancia × tarifa por km + recargos por peso y volumen. El resultado queda guardado en el historial.",
+      "calculate": "Calcular costo",
+      "resultTitle": "Último cálculo",
+      "resultEmpty": "Completa la calculadora para ver el costo estimado.",
+      "noCarriers": "Registra al menos una transportadora activa para poder cotizar.",
+      "estimated": "Estimado",
+      "final": "Definitivo",
+      "emptyTitle": "Sin cálculos todavía",
+      "emptyDescription": "Cada cálculo que hagas aparecerá en esta tabla.",
+      "fields": {
+        "carrierId": "Transportadora",
+        "originAddress": "Dirección de origen",
+        "destinationAddress": "Dirección de destino",
+        "distance": "Distancia",
+        "weight": "Peso (kg)",
+        "volume": "Volumen (m³)",
+        "calculatedCost": "Costo",
+        "isEstimated": "Tipo"
+      }
+    },
+    "deliveryEstimate": {
+      "title": "Tiempos de entrega",
+      "description": "Calcula la fecha estimada de entrega según la transportadora y el calendario.",
+      "total": "Estimaciones",
+      "averageDays": "Días promedio",
+      "carriersCount": "Transportadoras activas",
+      "calculatorTitle": "Calculadora de entrega",
+      "calculatorDescription": "Usa los días máximos de la transportadora; puedes contar solo días hábiles. El resultado queda guardado.",
+      "calculate": "Calcular fecha",
+      "resultTitle": "Entrega estimada",
+      "resultEmpty": "Completa la calculadora para ver la fecha estimada.",
+      "resultWindow": "Ventana: {min} – {max}",
+      "resultDays": "{days} días",
+      "noCarriers": "Registra al menos una transportadora activa para poder estimar.",
+      "emptyTitle": "Sin estimaciones todavía",
+      "emptyDescription": "Cada estimación que hagas aparecerá en esta tabla.",
+      "fields": {
+        "carrierId": "Transportadora",
+        "originAddress": "Dirección de origen",
+        "destinationAddress": "Dirección de destino",
+        "route": "Ruta",
+        "shipmentDate": "Fecha de despacho",
+        "estimatedDeliveryDate": "Entrega estimada",
+        "window": "Ventana de entrega",
+        "estimatedDays": "Días",
+        "isBusinessDaysOnly": "Solo días hábiles"
+      }
+    },
+    "dispatch": {
+      "title": "Despachos",
+      "description": "Guías de envío por orden, productos despachados y seguimiento.",
+      "create": "Nuevo despacho",
+      "createTitle": "Registrar despacho",
+      "editTitle": "Editar despacho",
+      "total": "Total de despachos",
+      "dueSoonCount": "Entregas en 7 días",
+      "citiesCount": "Ciudades de destino",
+      "emptyTitle": "Todavía no hay despachos",
+      "emptyDescription": "Cuando registres el primer despacho aparecerá en esta tabla.",
+      "dispatchLabel": "Despacho {guide}",
+      "view": "Ver",
+      "viewAria": "Ver {name}",
+      "backToList": "Volver a despachos",
+      "dueIn": "en {days} d",
+      "overdue": "{days} d de retraso",
+      "countdown": "Tiempo restante",
+      "routeTitle": "Ruta",
+      "originLegend": "Origen",
+      "destinationLegend": "Destino",
+      "realDeliveryHint": "El backend exige esta fecha (hoy o anterior) desde el registro.",
+      "fields": {
+        "orderId": "Orden",
+        "guideNumber": "Número de guía",
+        "address": "Dirección de entrega",
+        "departmentOrigin": "Departamento",
+        "cityOrigin": "Ciudad",
+        "departmentDestination": "Departamento",
+        "cityDestination": "Ciudad",
+        "route": "Ruta",
+        "estimatedDeliveryDate": "Entrega estimada",
+        "realDeliveryDate": "Entrega real"
+      },
+      "lines": {
+        "title": "Productos del despacho",
+        "create": "Agregar producto",
+        "addAll": "Agregar todos",
+        "remove": "Quitar",
+        "selectRequired": "Selecciona un producto",
+        "progress": "{included} de {total} productos de la orden incluidos",
+        "emptyTitle": "Sin productos",
+        "emptyDescription": "Agrega los productos de la orden que salen en este despacho.",
+        "fields": {
+          "product": "Producto",
+          "quantity": "Cantidad"
+        }
+      },
+      "tracking": {
+        "title": "Seguimiento",
+        "create": "Registrar evento",
+        "hint": "Cada evento guarda la fecha y hora del registro.",
+        "empty": "Sin eventos de seguimiento.",
+        "eventLabel": "Evento #{id}"
+      },
+      "quote": {
+        "title": "Cotizar con la transportadora",
+        "description": "Consulta en línea el costo y las fechas por tipo de servicio. No se guarda.",
+        "submit": "Cotizar",
+        "noCarriers": "Ninguna transportadora activa tiene código configurado.",
+        "unavailable": "La transportadora no devolvió tarifas para esta ruta.",
+        "cost": "Costo",
+        "estimatedDate": "Entrega estimada",
+        "services": "Servicios disponibles",
+        "fields": {
+          "carrierCode": "Transportadora",
+          "originZip": "Código postal de origen",
+          "destinationZip": "Código postal de destino",
+          "weight": "Peso (kg)",
+          "serviceType": "Tipo de servicio"
+        }
+      }
+    },
+    "cmsPage": {
+      "title": "Páginas",
+      "description": "Contenido del sitio: páginas estáticas, landings, blog y categorías.",
+      "create": "Nueva página",
+      "createTitle": "Crear página",
+      "editTitle": "Editar página",
+      "total": "Total de páginas",
+      "publishedCount": "Publicadas",
+      "draftCount": "Borradores",
+      "featuredCount": "Destacadas",
+      "emptyTitle": "Todavía no hay páginas",
+      "emptyDescription": "Cuando crees la primera página aparecerá en esta tabla.",
+      "backToList": "Volver a páginas",
+      "filterLabel": "Filtrar por estado",
+      "allStatuses": "Todas",
+      "publish": "Publicar",
+      "unpublish": "Despublicar",
+      "publishAria": "Publicar {name}",
+      "unpublishAria": "Despublicar {name}",
+      "scheduledFor": "Programada: {date}",
+      "lastUpdated": "Actualizada {date}",
+      "slugHint": "URL: /{slug}",
+      "regenerateSlug": "Generar slug desde el título",
+      "contentMode": "Modo del contenido",
+      "contentHint": "Admite HTML. La vista previa no ejecuta scripts.",
+      "previewTitle": "Vista previa del contenido",
+      "modes": {
+        "edit": "Editar",
+        "preview": "Vista previa"
+      },
+      "publishing": "Publicación",
+      "organization": "Organización",
+      "publishedAtHint": "Si publicas sin fecha se usa el momento actual.",
+      "keywordsHint": "Separadas por coma.",
+      "featuredImageAlt": "Vista previa de la imagen destacada",
+      "customFieldsHint": "Objeto JSON con datos extra para la plantilla.",
+      "seo": {
+        "title": "SEO",
+        "preview": "Vista previa en buscadores",
+        "placeholderTitle": "Título de la página",
+        "placeholderDescription": "Agrega una meta descripción para controlar el texto que muestran los buscadores."
+      },
+      "statuses": {
+        "DRAFT": "Borrador",
+        "PUBLISHED": "Publicada",
+        "SCHEDULED": "Programada",
+        "ARCHIVED": "Archivada"
+      },
+      "types": {
+        "STATIC": "Estática",
+        "LANDING": "Landing",
+        "BLOG": "Blog",
+        "CATEGORY": "Categoría"
+      },
+      "fields": {
+        "title": "Título",
+        "slug": "Slug",
+        "content": "Contenido",
+        "excerpt": "Extracto",
+        "metaTitle": "Meta título",
+        "metaDescription": "Meta descripción",
+        "metaKeywords": "Palabras clave",
+        "status": "Estado",
+        "pageType": "Tipo",
+        "template": "Plantilla",
+        "isFeatured": "Destacada",
+        "sortOrder": "Orden",
+        "publishedAt": "Fecha de publicación",
+        "scheduledAt": "Programar para",
+        "authorName": "Autor",
+        "featuredImage": "Imagen destacada",
+        "customFields": "Campos personalizados (JSON)"
+      }
+    },
+    "recommendation": {
+      "title": "Recomendaciones",
+      "description": "Productos sugeridos a cada cliente y su desempeño (clics y compras).",
+      "create": "Nueva recomendación",
+      "createTitle": "Crear recomendación",
+      "editTitle": "Editar recomendación",
+      "total": "Recomendaciones",
+      "ctr": "Tasa de clics",
+      "conversion": "Conversión",
+      "avgScore": "Puntuación promedio",
+      "clickToPurchase": "De las recomendaciones con clic, {value} terminaron en compra.",
+      "ctrHint": "clics {value}",
+      "conversionHint": "compra {value}",
+      "byType": "Por tipo",
+      "byContext": "Por ubicación",
+      "emptyBreakdown": "Sin datos todavía.",
+      "all": "Todos",
+      "funnel": "Embudo",
+      "clicked": "Clic",
+      "purchased": "Compra",
+      "identityLocked": "Cliente y producto no se pueden cambiar después de crear la recomendación.",
+      "emptyTitle": "Sin recomendaciones",
+      "emptyDescription": "Crea una recomendación o ajusta los filtros.",
+      "types": {
+        "COLLABORATIVE": "Colaborativa",
+        "CONTENT_BASED": "Por contenido",
+        "TRENDING": "Tendencia",
+        "CROSS_SELL": "Venta cruzada",
+        "UP_SELL": "Venta adicional"
+      },
+      "contexts": {
+        "HOME": "Inicio",
+        "PRODUCT_PAGE": "Ficha de producto",
+        "CART": "Carrito",
+        "CHECKOUT": "Pago"
+      },
+      "fields": {
+        "customerId": "Cliente (ID)",
+        "productId": "Producto",
+        "recommendationType": "Tipo",
+        "context": "Ubicación",
+        "score": "Puntuación (0–1)",
+        "position": "Posición",
+        "reason": "Motivo",
+        "isClicked": "Tuvo clic",
+        "isPurchased": "Se compró"
+      }
+    },
+    "searchQuery": {
+      "title": "Búsquedas",
+      "description": "Qué buscan los clientes en la tienda y qué búsquedas no encuentran resultados.",
+      "total": "Búsquedas",
+      "uniqueTerms": "Términos únicos",
+      "zeroRate": "Sin resultados",
+      "avgResults": "Resultados promedio",
+      "periodLabel": "Periodo",
+      "allTime": "Todo",
+      "lastDays": "{days} días",
+      "topTerms": "Términos más buscados",
+      "avgResultsHint": "~{value} res.",
+      "emptyBreakdown": "Sin búsquedas en este periodo.",
+      "opportunities": "Búsquedas sin resultados",
+      "opportunitiesHint": "Términos que nunca devolvieron productos: posibles productos faltantes o sinónimos por agregar.",
+      "noOpportunities": "Todas las búsquedas devolvieron resultados.",
+      "timesSearched": "{count, plural, one {# búsqueda} other {# búsquedas}}",
+      "recent": "Búsquedas recientes",
+      "anonymous": "Anónimo",
+      "pageOf": "Pág. {page} · {size}/pág.",
+      "emptyTitle": "Sin búsquedas",
+      "emptyDescription": "Las búsquedas que hagan los clientes en la tienda aparecerán aquí.",
+      "fields": {
+        "query": "Búsqueda",
+        "totalResults": "Resultados",
+        "customerId": "Cliente",
+        "sortBy": "Orden",
+        "page": "Paginación",
+        "lastRunAt": "Fecha"
+      }
+    },
+    "personalization": {
+      "title": "Personalización",
+      "description": "Perfiles de clientes por segmento para personalizar ofertas, precios y contenido.",
+      "create": "Nuevo perfil",
+      "createTitle": "Crear perfil",
+      "editTitle": "Editar perfil",
+      "total": "Perfiles",
+      "avgScore": "Puntuación promedio",
+      "vipCount": "Clientes VIP",
+      "churningCount": "En riesgo de abandono",
+      "bySegment": "Clientes por segmento",
+      "emptyBreakdown": "Sin perfiles todavía.",
+      "filterLabel": "Filtrar por segmento",
+      "allSegments": "Todos",
+      "profileLabel": "Cliente #{id}",
+      "view": "Ver",
+      "viewAria": "Ver {name}",
+      "noPayloads": "Este perfil no tiene datos de personalización.",
+      "advanced": "Datos de personalización (JSON)",
+      "advancedHint": "Los genera normalmente el motor de personalización. Cada campo admite JSON de hasta 4000 caracteres.",
+      "emptyTitle": "Sin perfiles",
+      "emptyDescription": "Crea un perfil o cambia el filtro de segmento.",
+      "segments": {
+        "VIP": "VIP",
+        "FREQUENT_BUYER": "Comprador frecuente",
+        "PRICE_SENSITIVE": "Sensible al precio",
+        "BROWSER": "Explorador",
+        "NEW_CUSTOMER": "Cliente nuevo",
+        "CHURNING": "En riesgo"
+      },
+      "fields": {
+        "customerId": "Cliente (ID)",
+        "segment": "Segmento",
+        "personalizationScore": "Puntuación (0–1)",
+        "status": "Estado",
+        "sessionId": "ID de sesión",
+        "lastAnalysisAt": "Último análisis",
+        "contextMetadataJson": "Contexto",
+        "recommendedProductsJson": "Productos recomendados",
+        "dynamicPricingJson": "Precios dinámicos",
+        "personalizedContentJson": "Contenido personalizado",
+        "personalizedOffersJson": "Ofertas personalizadas",
+        "uiPersonalizationJson": "Personalización de interfaz",
+        "purchaseIntentJson": "Intención de compra"
+      }
+    }
+  },
+  "Home": {
+    "eyebrow": "Essenza",
+    "title": "Panel de administración",
+    "description": "Elige una sección para gestionar el catálogo y el inventario de la tienda.",
+    "sections": {
+      "brand": {
+        "title": "Marcas",
+        "description": "Fabricantes y marcas propias del catálogo."
+      },
+      "category": {
+        "title": "Categorías",
+        "description": "Grandes grupos de productos."
+      },
+      "subcategory": {
+        "title": "Subcategorías",
+        "description": "Divisiones dentro de cada categoría."
+      },
+      "products": {
+        "title": "Productos",
+        "description": "Inventario, precios y disponibilidad."
+      },
+      "combo": {
+        "title": "Combos",
+        "description": "Productos compuestos por otros productos."
+      }
+    }
+  },
+  "Dashboard": {
+    "eyebrow": "Essenza",
+    "title": "Panel de control",
+    "description": "Resumen de ventas de los últimos {days} días y alertas operativas.",
+    "rangeLabel": "Periodo",
+    "rangeOption": "{days} días",
+    "analyticsUnavailable": "No se pudo obtener la analítica de ventas. Los indicadores se mostrarán cuando el servicio responda.",
+    "revenue": "Ingresos",
+    "orders": "Órdenes",
+    "averageOrderValue": "Ticket promedio",
+    "customers": "Clientes",
+    "conversionRate": "Tasa de conversión",
+    "refundRate": "Tasa de reembolso",
+    "vsPrevious": "vs. periodo anterior",
+    "trendsTitle": "Ingresos por periodo",
+    "period": "Periodo",
+    "funnelTitle": "Embudo de conversión",
+    "funnel": {
+      "visitors": "Visitantes",
+      "productViews": "Vieron un producto",
+      "addToCart": "Agregaron al carrito",
+      "checkout": "Iniciaron pago",
+      "purchase": "Compraron",
+      "overall": "Conversión total"
+    },
+    "noData": "Sin datos para este periodo",
+    "noDataDescription": "Cuando haya ventas registradas se mostrarán aquí.",
+    "pendingOrdersTitle": "Órdenes pendientes",
+    "pendingOrdersHint": "Pedidos que aún no se han pagado ni procesado.",
+    "viewOrders": "Ver órdenes",
+    "lowStockTitle": "Productos con bajo stock",
+    "lowStockEmpty": "Ningún producto está por debajo de 5 unidades.",
+    "registerEntry": "Registrar entrada",
+    "units": "{count} u."
   }
 }

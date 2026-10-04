@@ -23,6 +23,7 @@ function handle_error(error: unknown): ActionResult<never> {
 
 function revalidate_brand_tag(id: number) {
   revalidateTag(brands_tags.item(id));
+  revalidateTag(brands_tags.list());
 }
 
 // ─── Actions ─────────────────────────────────────────────────────────────────

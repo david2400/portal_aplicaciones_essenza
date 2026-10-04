@@ -1,0 +1,122 @@
+/** @format */
+
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import Swal from "sweetalert2";
+import type {
+  IFormAddProps,
+  IFormUpdateProps,
+} from "@repo/ui/form/models/form.interface";
+import { FormRefundMethod, type RefundMethodFormOptions } from "../scenes/formRefundMethod";
+import { validationRefundMethod } from "../schemas/refundMethod.schema";
+import type {
+  IRefundMethod,
+  IRefundMethodCreateRequest,
+  IRefundMethodUpdateRequest,
+} from "../models/refundMethod.interface";
+import {
+  createRefundMethodServerAction,
+  updateRefundMethodServerAction,
+} from "@/app/[locale]/postventa/refund-methods/actions";
+
+/** Valores iniciales del formulario de creación. */
+const EMPTY_VALUES = {
+  name: "",
+  active: "true",
+  description: "",
+  policy: "",
+};
+
+/** Convierte el DTO de la API en los valores que espera el formulario. */
+const toFormValues = (values: IRefundMethod) => ({
+  name: values.name ?? "",
+  active: String(Boolean(values.active)),
+  description: values.description ?? "",
+  policy: values.policy ?? "",
+});
+
+const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
+  const router = useRouter();
+  const t = useTranslations("Administre.common");
+
+  return {
+    success: (title: string) =>
+      Swal.fire({
+        title,
+        icon: "success",
+        timer: 2500,
+        showConfirmButton: false,
+        willClose: () => {
+          handleClose?.(true);
+          router.refresh();
+        },
+      }),
+    failure: (message?: string) =>
+      Swal.fire({
+        title: t("errorTitle"),
+        text: message || t("unexpectedError"),
+        icon: "error",
+      }),
+  };
+};
+
+export const RegisterRefundMethod = ({
+  handleClose,
+  options,
+}: IFormAddProps & { options?: RefundMethodFormOptions }) => {
+  const t = useTranslations("Administre.common");
+  const feedback = useFeedback(handleClose);
+
+  const handleSubmit = async (values: IRefundMethodCreateRequest) => {
+    const result = await createRefundMethodServerAction(values);
+    if (result.success) {
+      feedback.success(t("createdSuccess"));
+    } else {
+      feedback.failure(result.error);
+    }
+  };
+
+  return (
+    <FormRefundMethod
+      initialValues={EMPTY_VALUES}
+      onSubmit={handleSubmit}
+      validationSchema={validationRefundMethod()}
+      options={options}
+    />
+  );
+};
+
+export const UpdateRefundMethod = ({
+  initialValues,
+  handleClose,
+  options,
+}: IFormUpdateProps<IRefundMethod> & { options?: RefundMethodFormOptions }) => {
+  const t = useTranslations("Administre.common");
+  const feedback = useFeedback(handleClose);
+  const validationSchema = validationRefundMethod();
+  const id = initialValues?.id;
+
+  if (id == null || !initialValues) {
+    return null;
+  }
+
+  const handleSubmit = async (values: Omit<IRefundMethodUpdateRequest, "id">) => {
+    const result = await updateRefundMethodServerAction({ ...values, id } as IRefundMethodUpdateRequest);
+    if (result.success) {
+      feedback.success(t("updatedSuccess"));
+    } else {
+      feedback.failure(result.error);
+    }
+  };
+
+  return (
+    <FormRefundMethod
+      initialValues={toFormValues(initialValues)}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+      options={options}
+    />
+  );
+};

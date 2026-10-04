@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { categories_tags } from '@/server/lib/cache-tags';
 import type { CategoryDto, CreateCategoryPayload, UpdateCategoryPayload, DeleteCategoryPayload } from './types';
 
@@ -8,6 +9,14 @@ const categories_base_path = '/api/shop/catalog/categories';
 const category_by_id_path = (id: number) => `${categories_base_path}/${id}`;
 
 export const categories_repository = {
+  async list_categories(): Promise<CategoryDto[]> {
+    const response = await server_fetch.get<unknown>(categories_base_path, {
+      revalidate: 60,
+      tags: [categories_tags.list()],
+    });
+    return to_list<CategoryDto>(response);
+  },
+
   async create_category(payload: CreateCategoryPayload): Promise<CategoryDto> {
     return server_fetch.post<CategoryDto>(categories_base_path, payload, {
       revalidate: false,

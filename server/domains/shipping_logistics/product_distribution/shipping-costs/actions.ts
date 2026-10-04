@@ -78,6 +78,8 @@ export async function calculate_shipping_cost_action(
     const shipping_cost = await shipping_costs_repository.calculate_shipping_cost(params);
     const hash = build_shipping_calculation_hash(params);
     revalidateTag(shipping_costs_tags.calculation(hash));
+    // El backend persiste el cálculo: refrescar el listado.
+    revalidateTag(shipping_costs_tags.list());
     return { success: true, data: { shipping_cost } };
   } catch (error) {
     return handle_error(error);

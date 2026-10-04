@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { brands_tags } from '@/server/lib/cache-tags';
 import type { BrandDto, CreateBrandPayload, UpdateBrandPayload, DeleteBrandPayload } from './types';
 
@@ -8,6 +9,14 @@ const brands_base_path = '/api/shop/catalog/brands';
 const brand_by_id_path = (id: number) => `${brands_base_path}/${id}`;
 
 export const brands_repository = {
+  async list_brands(): Promise<BrandDto[]> {
+    const response = await server_fetch.get<unknown>(brands_base_path, {
+      revalidate: 60,
+      tags: [brands_tags.list()],
+    });
+    return to_list<BrandDto>(response);
+  },
+
   async create_brand(payload: CreateBrandPayload): Promise<BrandDto> {
     return server_fetch.post<BrandDto>(brands_base_path, payload, {
       revalidate: false,

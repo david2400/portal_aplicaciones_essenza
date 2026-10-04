@@ -1,214 +1,331 @@
 "use client";
 
-import * as React from 'react';
-import {BiCloset, BiMenu, BiLogOut, BiUser, BiCog, BiHelpCircle} from 'react-icons/bi';
-import {Menus} from '@repo/ui/menu/scenes/menus';
-import {MenuModal} from '@repo/ui/modals/scenes/menu/menuModal';
-import {FaShoppingCart} from 'react-icons/fa';
-import {BsSkipStart} from 'react-icons/bs';
-import {Buttons} from '@repo/ui/buttons/scenes/index';
-import {Badge} from '@repo/ui/badges/scenes/badge';
+import * as React from "react";
+import {
+  BiBox,
+  BiCart,
+  BiPurchaseTag,
+  BiListCheck,
+  BiCategory,
+  BiHome,
+  BiMenu,
+  BiLogOut,
+  BiUser,
+  BiCog,
+  BiHelpCircle,
+  BiUndo,
+  BiCar,
+  BiTrendingUp,
+} from "react-icons/bi";
+import { MenuModal } from "@repo/ui/modals/scenes/menu/menuModal";
+import { Buttons } from "@repo/ui/buttons/scenes/index";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@repo/ui/menu/scenes/dropdown-menu';
-import {Avatar, AvatarFallback, AvatarImage} from '@repo/ui/avatar/scenes/avatar';
-import {cn} from '@/lib/utils';
+} from "@repo/ui/menu/scenes/dropdown-menu";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@repo/ui/avatar/scenes/avatar";
+import { cn } from "@repo/ui/utils";
+import { Link, usePathname } from "@/shared/i18n/routing";
 
-const NAV_ITEMS = [
+/**
+ * Rutas del menú principal.
+ *
+ * Los `href` NO llevan prefijo de idioma: el `Link` de next-intl añade el
+ * locale activo. Antes estaban escritos como `/es/...`, lo que dejaba al
+ * usuario de la versión en inglés fuera de su idioma en cada clic.
+ */
+type NavLeaf = { label: string; href: string };
+type NavItem = {
+  label: string;
+  icon: React.ReactNode;
+  href?: string;
+  options?: NavLeaf[];
+};
+
+const NAV_ITEMS: NavItem[] = [
   {
-    label: 'Inicio',
-    href: '#',
-    icon: <BiCloset className='h-4 w-4' />,
+    label: "Panel",
+    href: "/",
+    icon: <BiHome className='h-4 w-4' />,
   },
   {
-    label: 'Categorías',
+    label: "Ventas",
+    icon: <BiCart className='h-4 w-4' />,
     options: [
-      {label: 'Dashboard', href: '#', icon: <BiCloset className='h-4 w-4' />},
-      {
-        label: 'Settings',
-        options: [
-          {label: 'Profile', href: '#', icon: <BiCloset className='h-4 w-4' />},
-          {
-            label: 'Account',
-            options: [
-              {label: 'Privacy', href: '#', icon: <BiCloset className='h-4 w-4' />},
-              {label: 'Security', href: '#', icon: <BiCloset className='h-4 w-4' />},
-            ],
-          },
-        ],
-      },
-      {
-        label: 'Support',
-        options: [
-          {label: 'Documentation', href: '#', icon: <BiCloset className='h-4 w-4' />},
-          {label: 'Contact Us', href: '#', icon: <BiCloset className='h-4 w-4' />},
-        ],
-      },
+      { label: "Órdenes", href: "/administre/orders" },
+      { label: "Medios de pago", href: "/administre/payment-types" },
     ],
   },
   {
-    label: 'Docs',
-    href: '#',
-    icon: <BiCloset className='h-4 w-4' />,
+    label: "Catálogo",
+    icon: <BiCategory className='h-4 w-4' />,
+    options: [
+      { label: "Productos", href: "/administre/products" },
+      { label: "Combos", href: "/administre/combo" },
+      { label: "Marcas", href: "/administre/brand" },
+      { label: "Categorías", href: "/administre/category" },
+      { label: "Subcategorías", href: "/administre/subcategory" },
+    ],
+  },
+  {
+    label: "Inventario",
+    icon: <BiBox className='h-4 w-4' />,
+    options: [
+      { label: "Movimientos", href: "/administre/inventory-movements" },
+      { label: "Bodegas", href: "/administre/warehouses" },
+      { label: "Proveedores", href: "/administre/suppliers" },
+    ],
+  },
+  {
+    label: "Postventa",
+    icon: <BiUndo className='h-4 w-4' />,
+    options: [
+      { label: "Devoluciones", href: "/administre/devolutions" },
+      { label: "Motivos de devolución", href: "/administre/devolution-motives" },
+      { label: "Métodos de devolución", href: "/administre/return-methods" },
+      { label: "Métodos de reembolso", href: "/administre/refund-methods" },
+    ],
+  },
+  {
+    label: "Logística",
+    icon: <BiCar className='h-4 w-4' />,
+    options: [
+      { label: "Despachos", href: "/administre/dispatches" },
+      { label: "Transportadoras", href: "/administre/carriers" },
+      { label: "Costos de envío", href: "/administre/shipping-costs" },
+      { label: "Tiempos de entrega", href: "/administre/delivery-estimates" },
+    ],
+  },
+  {
+    label: "Marketing",
+    icon: <BiPurchaseTag className='h-4 w-4' />,
+    options: [
+      { label: "Cupones", href: "/administre/coupons" },
+      { label: "Reseñas", href: "/administre/reviews" },
+    ],
+  },
+  {
+    label: "Contenido y crecimiento",
+    icon: <BiTrendingUp className='h-4 w-4' />,
+    options: [
+      { label: "Páginas (CMS)", href: "/administre/pages" },
+      { label: "Recomendaciones", href: "/administre/recommendations" },
+      { label: "Búsquedas", href: "/administre/search-queries" },
+      { label: "Personalización", href: "/administre/personalization" },
+    ],
+  },
+  {
+    label: "Ficha técnica",
+    icon: <BiListCheck className='h-4 w-4' />,
+    options: [
+      { label: "Valores por producto", href: "/administre/product-features" },
+      { label: "Características", href: "/administre/features" },
+      { label: "Tipos de producto", href: "/administre/type-products" },
+      { label: "Características por tipo", href: "/administre/type-product-features" },
+      { label: "Unidades de medida", href: "/administre/unit-measurements" },
+    ],
   },
 ];
 
-type NavItem = (typeof NAV_ITEMS)[number];
+const linkClasses =
+  "group flex items-center gap-2 rounded-full border border-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:border-border/70 hover:bg-background/80 hover:text-foreground";
+const activeLinkClasses =
+  "border-border/70 bg-background text-foreground shadow-sm";
 
-function NavbarItem({item, onNavigate}: {item: NavItem; onNavigate?: () => void}) {
-  if (item.options && item.options.length > 0) {
-    return (
-      <li>
-        <Menus title={item.label} items={item as any} />
-      </li>
-    );
-  }
+function isActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavLink({
+  href,
+  label,
+  icon,
+  onNavigate,
+  active,
+}: {
+  href: string;
+  label: string;
+  icon?: React.ReactNode;
+  onNavigate?: () => void;
+  active: boolean;
+}) {
   return (
-    <li>
-      <a
-        href={item.href}
-        onClick={onNavigate}
-        className='group flex items-center gap-2 rounded-full border border-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:-translate-y-[1px] hover:border-border/70 hover:bg-background/80 hover:text-foreground'
-      >
-        {item.icon}
-        <span>{item.label}</span>
-      </a>
-    </li>
+    <Link
+      href={href}
+      onClick={onNavigate}
+      aria-current={active ? "page" : undefined}
+      className={cn(linkClasses, active && activeLinkClasses)}>
+      {icon}
+      <span>{label}</span>
+    </Link>
   );
 }
 
-function NavList({orientation = 'horizontal', onNavigate}: {orientation?: 'horizontal' | 'vertical'; onNavigate?: () => void}) {
-  const baseClasses =
-    orientation === 'vertical'
-      ? 'flex flex-col gap-2'
-      : 'flex flex-row items-center gap-2';
+function NavGroup({
+  item,
+  pathname,
+  onNavigate,
+}: {
+  item: NavItem;
+  pathname: string;
+  onNavigate?: () => void;
+}) {
+  const options = item.options ?? [];
+  const groupActive = options.some((option) => isActive(pathname, option.href));
 
   return (
-    <ul className={cn('relative z-40', baseClasses)}>
-      {NAV_ITEMS.map(item => (
-        <NavbarItem key={item.label} item={item} onNavigate={onNavigate} />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type='button'
+          aria-label={item.label}
+          className={cn(
+            linkClasses,
+            "data-[state=open]:border-border/70 data-[state=open]:bg-background/80 data-[state=open]:text-foreground",
+            groupActive && activeLinkClasses,
+          )}>
+          {item.icon}
+          <span>{item.label}</span>
+          <span aria-hidden='true' className='text-muted-foreground/80'>
+            ▾
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='start' sideOffset={8} className='min-w-[14rem] p-2'>
+        {options.map((option) => {
+          const active = isActive(pathname, option.href);
+          return (
+            <DropdownMenuItem key={option.href} asChild className='px-3 py-2'>
+              <Link
+                href={option.href}
+                onClick={onNavigate}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex w-full items-center gap-2 rounded-lg text-sm no-underline",
+                  active && "font-semibold text-foreground",
+                )}>
+                {option.label}
+              </Link>
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function NavList({
+  orientation = "horizontal",
+  onNavigate,
+  pathname,
+}: {
+  orientation?: "horizontal" | "vertical";
+  onNavigate?: () => void;
+  pathname: string;
+}) {
+  const baseClasses =
+    orientation === "vertical"
+      ? "flex flex-col gap-1"
+      : "flex flex-row items-center gap-1";
+
+  return (
+    <ul className={cn("relative z-40", baseClasses)}>
+      {NAV_ITEMS.map((item) => (
+        <li key={item.label}>
+          {item.options?.length ? (
+            <NavGroup item={item} pathname={pathname} onNavigate={onNavigate} />
+          ) : (
+            <NavLink
+              href={item.href ?? "/"}
+              label={item.label}
+              icon={item.icon}
+              onNavigate={onNavigate}
+              active={isActive(pathname, item.href ?? "/")}
+            />
+          )}
+        </li>
       ))}
     </ul>
   );
 }
 
 function ProfileMenu() {
-  const [openFavorite, setOpenFavorite] = React.useState(false);
-  const [openCart, setOpenCart] = React.useState(false);
-
   return (
-    <div className='flex items-center gap-4'>
-      <div className='group relative'>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Buttons
           variant='ghost'
           size='icon'
-          aria-label='Abrir carrito'
-          className='relative overflow-hidden text-foreground transition-all before:absolute before:inset-[-40%] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_top,_hsl(var(--primary)_/_0.12),_transparent_65%)] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100'
-          onClick={() => setOpenCart(open => !open)}
-        >
-          <FaShoppingCart className='h-5 w-5 text-primary' />
+          aria-label='Abrir menú de la cuenta'
+          className='rounded-full border border-transparent p-0 transition hover:border-border/70'>
+          <Avatar className='h-10 w-10 border border-border/70 shadow-sm shadow-primary/30'>
+            <AvatarImage
+              src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/ct-assets/team-4.jpg'
+              alt=''
+            />
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
         </Buttons>
-        <Badge
-          variant='counter'
-          className='absolute -right-1 -top-1 min-w-[1.6rem] justify-center px-2 py-1 text-[10px] uppercase tracking-[0.24em]'
-        >
-          5
-        </Badge>
-      </div>
-
-      <div className='group relative'>
-        <Buttons
-          variant='ghost'
-          size='icon'
-          aria-label='Abrir favoritos'
-          className='relative overflow-hidden text-foreground transition-all before:absolute before:inset-[-40%] before:-z-10 before:rounded-full before:bg-[radial-gradient(circle_at_top,_hsl(var(--secondary)_/_0.18),_transparent_65%)] before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100'
-          onClick={() => setOpenFavorite(open => !open)}
-        >
-          <BsSkipStart className='h-5 w-5 text-secondary-foreground/90' />
-        </Buttons>
-        <Badge
-          variant='outline'
-          className='absolute -right-1 -top-1 min-w-[1.6rem] justify-center border-secondary/50 bg-secondary px-2 py-1 text-[10px] uppercase tracking-[0.24em] text-secondary-foreground shadow-[0_18px_40px_-25px_hsl(var(--ring))]'
-        >
-          5
-        </Badge>
-      </div>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Buttons
-            variant='ghost'
-            size='icon'
-            className='rounded-full border border-transparent p-0 transition hover:border-border/70'
-          >
-            <Avatar className='h-10 w-10 border border-border/70 shadow-sm shadow-primary/30'>
-              <AvatarImage
-                src='https://raw.githubusercontent.com/creativetimofficial/public-assets/master/ct-assets/team-4.jpg'
-                alt='profile'
-              />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-          </Buttons>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-52 p-2' align='end'>
-          <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
-            <BiUser className='mr-2 h-4 w-4' /> Perfil
-          </DropdownMenuItem>
-          <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
-            <BiCog className='mr-2 h-4 w-4' /> Ajustes
-          </DropdownMenuItem>
-          <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
-            <BiHelpCircle className='mr-2 h-4 w-4' /> Ayuda
-          </DropdownMenuItem>
-          <DropdownMenuSeparator className='my-2' />
-          <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm text-destructive focus:text-destructive'>
-            <BiLogOut className='mr-2 h-4 w-4' /> Cerrar sesión
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {/* <MenuModal open={openCart} onOpenChange={setOpenCart} className='w-96' title='Tu carrito'>
-        <ListCart></ListCart>
-      </MenuModal> */}
-      {/* <MenuModal
-        open={openFavorite}
-        onOpenChange={setOpenFavorite}
-        className='w-96'
-        title='Favoritos'
-      >
-        <ListFavoriteProduct></ListFavoriteProduct>
-      </MenuModal> */}
-    </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className='w-52 p-2' align='end'>
+        <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
+          <BiUser className='mr-2 h-4 w-4' aria-hidden='true' /> Perfil
+        </DropdownMenuItem>
+        <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
+          <BiCog className='mr-2 h-4 w-4' aria-hidden='true' /> Ajustes
+        </DropdownMenuItem>
+        <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm'>
+          <BiHelpCircle className='mr-2 h-4 w-4' aria-hidden='true' /> Ayuda
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className='my-2' />
+        <DropdownMenuItem className='rounded-lg px-3 py-2 text-sm text-destructive focus:text-destructive'>
+          <BiLogOut className='mr-2 h-4 w-4' aria-hidden='true' /> Cerrar sesión
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
 export function Nav() {
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+  const pathname = usePathname();
 
   return (
     <header className='sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-lg supports-[backdrop-filter]:bg-background/70'>
-      <div className='mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6'>
-        <a href='/' className='text-lg font-semibold tracking-tight text-foreground'>
-          Cygnus Shop
-        </a>
+      <a
+        href='#main-content'
+        className='sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground'>
+        Saltar al contenido
+      </a>
 
-        <div className='hidden md:flex'>
-          <NavList />
-        </div>
+      <div className='mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6'>
+        <Link
+          href='/'
+          className='text-lg font-semibold tracking-tight text-foreground'>
+          Essenza
+        </Link>
+
+        <nav aria-label='Navegación principal' className='hidden lg:flex'>
+          <NavList pathname={pathname} />
+        </nav>
 
         <div className='flex items-center gap-4'>
-          <div className='md:hidden'>
+          <div className='lg:hidden'>
             <Buttons
               variant='ghost'
               size='icon'
               aria-label='Abrir menú principal'
-              onClick={() => setMobileNavOpen(true)}
-            >
-              <BiMenu className='h-6 w-6' />
+              aria-expanded={mobileNavOpen}
+              onClick={() => setMobileNavOpen(true)}>
+              <BiMenu className='h-6 w-6' aria-hidden='true' />
             </Buttons>
           </div>
 
@@ -216,9 +333,18 @@ export function Nav() {
         </div>
       </div>
 
-      <MenuModal placement='left' open={mobileNavOpen} onOpenChange={setMobileNavOpen} className='w-80' title='Menú principal'>
-        <nav className='flex flex-col gap-3 py-2'>
-          <NavList orientation='vertical' onNavigate={() => setMobileNavOpen(false)} />
+      <MenuModal
+        placement='left'
+        open={mobileNavOpen}
+        onOpenChange={setMobileNavOpen}
+        className='w-80'
+        title='Menú principal'>
+        <nav aria-label='Navegación principal' className='flex flex-col gap-3 py-2'>
+          <NavList
+            orientation='vertical'
+            pathname={pathname}
+            onNavigate={() => setMobileNavOpen(false)}
+          />
         </nav>
       </MenuModal>
     </header>

@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { products_tags } from '@/server/lib/cache-tags';
 import type {
   ProductDto,
@@ -39,10 +40,11 @@ function build_pagination_query(params?: ListProductsParams): string {
 export const products_repository = {
   async list_products(params?: ListProductsParams): Promise<ProductDto[]> {
     const query = build_pagination_query(params);
-    return server_fetch.get<ProductDto[]>(`${products_base_path}${query}`, {
+    const response = await server_fetch.get<unknown>(`${products_base_path}${query}`, {
       revalidate: 60,
       tags: [products_tags.list()],
     });
+    return to_list<ProductDto>(response);
   },
 
   async search_products(payload: ProductSearchParams): Promise<ProductDto[]> {

@@ -78,6 +78,8 @@ export async function calculate_delivery_estimate_action(
     const delivery_estimate = await delivery_estimates_repository.calculate_delivery_estimate(params);
     const hash = build_delivery_estimate_hash(params);
     revalidateTag(delivery_estimates_tags.calculation(hash));
+    // El backend persiste el cálculo: refrescar el listado.
+    revalidateTag(delivery_estimates_tags.list());
     return { success: true, data: { delivery_estimate } };
   } catch (error) {
     return handle_error(error);

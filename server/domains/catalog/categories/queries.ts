@@ -7,3 +7,7 @@ import { categories_repository } from './repository';
 export const get_category_by_id = cache(async ({ id }: { id: number }) => {
   return categories_repository.get_category_by_id(id);
 });
+
+export const list_categories = cache(async () => {
+  return categories_repository.list_categories();
+});

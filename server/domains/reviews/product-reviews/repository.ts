@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { product_reviews_tags } from '@/server/lib/cache-tags';
 import type {
   ProductReviewDto,
@@ -44,11 +45,12 @@ export const product_reviews_repository = {
         }
       : undefined;
 
-    return server_fetch.get<ProductReviewDto[]>(product_reviews_base_path, {
+    const response = await server_fetch.get<unknown>(product_reviews_base_path, {
       params,
       revalidate: 60,
       tags: [product_reviews_tags.list()],
     });
+    return to_list<ProductReviewDto>(response);
   },
 
   async list_reviews_paginated(

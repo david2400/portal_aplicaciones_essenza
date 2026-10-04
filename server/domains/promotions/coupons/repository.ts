@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { coupons_tags } from '@/server/lib/cache-tags';
 import type {
   CouponDto,
@@ -34,10 +35,11 @@ function build_coupon_query(params: ValidateCouponParams): string {
 
 export const coupons_repository = {
   async list_coupons(): Promise<CouponDto[]> {
-    return server_fetch.get<CouponDto[]>(coupons_base_path, {
+    const response = await server_fetch.get<unknown>(coupons_base_path, {
       revalidate: 60,
       tags: [coupons_tags.list()],
     });
+    return to_list<CouponDto>(response);
   },
 
   async get_coupon_by_id(id: number): Promise<CouponDto> {

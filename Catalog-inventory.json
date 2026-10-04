@@ -1,0 +1,2739 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Essenza Tienda API",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Default Server"
+        }
+    ],
+    "paths": {
+        "/api/shop/inventory/warehouses/{id}": {
+            "put": {
+                "tags": [
+                    "warehouse-controller"
+                ],
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateWarehouseDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WarehouseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/suppliers/{id}": {
+            "get": {
+                "tags": [
+                    "supplier-controller"
+                ],
+                "summary": "Get supplier by ID",
+                "description": "Returns a supplier by its ID or 404 if not found",
+                "operationId": "getById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Supplier ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Supplier found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SupplierDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Supplier not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "supplier-controller"
+                ],
+                "summary": "Update supplier",
+                "description": "Updates an existing supplier by ID",
+                "operationId": "update_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Supplier ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Supplier data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSupplierDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "200": {
+                        "description": "Supplier updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SupplierDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Supplier not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "supplier-controller"
+                ],
+                "summary": "Delete supplier",
+                "description": "Deletes a supplier by ID",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Supplier ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Supplier not found"
+                    },
+                    "204": {
+                        "description": "Supplier deleted"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product by ID",
+                "description": "Returns a product by its ID or 404 if not found",
+                "operationId": "getById_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "200": {
+                        "description": "Product found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update product",
+                "description": "Updates an existing product by ID",
+                "operationId": "update_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "200": {
+                        "description": "Product updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete product",
+                "description": "Deletes a product by ID",
+                "operationId": "delete_1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "204": {
+                        "description": "Product deleted"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/product_combos/{id}": {
+            "get": {
+                "tags": [
+                    "product-combo-controller"
+                ],
+                "summary": "Get product combo by ID",
+                "description": "Returns a product combo by its ID or 404 if not found",
+                "operationId": "getById_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product combo ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product combo found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductComboDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product combo not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "product-combo-controller"
+                ],
+                "summary": "Update product combo",
+                "description": "Updates an existing product combo by ID",
+                "operationId": "update_3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product combo ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product combo data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductComboDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "200": {
+                        "description": "Product combo updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductComboDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product combo not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "product-combo-controller"
+                ],
+                "summary": "Delete product combo",
+                "description": "Deletes a product combo by ID",
+                "operationId": "delete_2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product combo ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Product combo not found"
+                    },
+                    "204": {
+                        "description": "Product combo deleted"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/product_children/{id}": {
+            "get": {
+                "tags": [
+                    "product-child-controller"
+                ],
+                "summary": "Get product child by ID",
+                "description": "Returns a product child by its ID or 404 if not found",
+                "operationId": "getById_3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product child ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Product child not found"
+                    },
+                    "200": {
+                        "description": "Product child found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductChildDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "product-child-controller"
+                ],
+                "summary": "Update product child",
+                "description": "Updates an existing product child by ID",
+                "operationId": "update_4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product child ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product child data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateProductChildDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Product child not found"
+                    },
+                    "200": {
+                        "description": "Product child updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductChildDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "product-child-controller"
+                ],
+                "summary": "Delete product child",
+                "description": "Deletes a product child by ID",
+                "operationId": "delete_3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product child ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product child deleted"
+                    },
+                    "404": {
+                        "description": "Product child not found"
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/subcategories/{id}": {
+            "get": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Get subcategory by ID",
+                "description": "Returns a subcategory by its ID or 404 if not found",
+                "operationId": "getById_4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subcategory ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Subcategory not found"
+                    },
+                    "200": {
+                        "description": "Subcategory found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubcategoryDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Update subcategory",
+                "description": "Updates an existing subcategory by ID",
+                "operationId": "update_5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subcategory ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Subcategory data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSubcategoryDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Subcategory not found"
+                    },
+                    "200": {
+                        "description": "Subcategory updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubcategoryDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Delete subcategory",
+                "description": "Deletes a subcategory by ID",
+                "operationId": "delete_4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Subcategory ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Subcategory deleted"
+                    },
+                    "404": {
+                        "description": "Subcategory not found"
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category by ID",
+                "description": "Returns a category by its ID or 404 if not found",
+                "operationId": "getById_5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "200": {
+                        "description": "Category found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category",
+                "description": "Updates an existing category by ID",
+                "operationId": "update_6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Category data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCategoryDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryDto"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "description": "Deletes a category by ID",
+                "operationId": "delete_5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Category not found"
+                    },
+                    "204": {
+                        "description": "Category deleted"
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/brands/{id}": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Get brand by ID",
+                "description": "Returns a brand by its ID or 404 if not found",
+                "operationId": "getById_6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Brand found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Update brand",
+                "description": "Updates an existing brand by ID",
+                "operationId": "update_7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Brand data to update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBrandDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "200": {
+                        "description": "Brand updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandDto"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Delete brand",
+                "description": "Deletes a brand by ID",
+                "operationId": "delete_6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Brand deleted"
+                    },
+                    "404": {
+                        "description": "Brand not found"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/warehouses": {
+            "get": {
+                "tags": [
+                    "warehouse-controller"
+                ],
+                "operationId": "list",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageWarehouseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "warehouse-controller"
+                ],
+                "operationId": "create",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateWarehouseDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WarehouseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/suppliers": {
+            "get": {
+                "tags": [
+                    "supplier-controller"
+                ],
+                "summary": "List suppliers",
+                "description": "Returns all suppliers",
+                "operationId": "getAll",
+                "responses": {
+                    "200": {
+                        "description": "List of suppliers",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "supplier-controller"
+                ],
+                "summary": "Create supplier",
+                "description": "Creates a new supplier and returns it with its generated ID",
+                "operationId": "create_1",
+                "requestBody": {
+                    "description": "Supplier to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSupplierDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "201": {
+                        "description": "Supplier created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SupplierDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "List products",
+                "description": "Returns products paginated; use page, size and sort=field,asc;other,desc",
+                "operationId": "getAll_1",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create product",
+                "description": "Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID",
+                "operationId": "create_2",
+                "requestBody": {
+                    "description": "Product to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "201": {
+                        "description": "Product created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/products/search": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Search products",
+                "description": "Search products with a filter body and pagination params page, size, sort",
+                "operationId": "search",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Product filter",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductFilter"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "List of products",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/product_combos": {
+            "get": {
+                "tags": [
+                    "product-combo-controller"
+                ],
+                "summary": "List product combos",
+                "description": "Returns all product combos",
+                "operationId": "getAll_2",
+                "responses": {
+                    "200": {
+                        "description": "List of product combos",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "product-combo-controller"
+                ],
+                "summary": "Create product combo",
+                "description": "Creates a new product combo and returns it with its generated ID",
+                "operationId": "create_3",
+                "requestBody": {
+                    "description": "Product combo to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductComboDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "201": {
+                        "description": "Product combo created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductComboDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/product_children": {
+            "get": {
+                "tags": [
+                    "product-child-controller"
+                ],
+                "summary": "List product children",
+                "description": "Returns all product children",
+                "operationId": "getAll_3",
+                "responses": {
+                    "200": {
+                        "description": "List of product children",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "product-child-controller"
+                ],
+                "summary": "Create product child",
+                "description": "Creates a new product child and returns it with its generated ID",
+                "operationId": "create_4",
+                "requestBody": {
+                    "description": "Product child to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductChildDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "201": {
+                        "description": "Product child created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductChildDto"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/inventory_movements/transfer": {
+            "post": {
+                "tags": [
+                    "inventory-movement-controller"
+                ],
+                "operationId": "transfer",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryMovementDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryMovementDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/inventory_movements/exit": {
+            "post": {
+                "tags": [
+                    "inventory-movement-controller"
+                ],
+                "operationId": "exit",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryMovementDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryMovementDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/inventory_movements/entry": {
+            "post": {
+                "tags": [
+                    "inventory-movement-controller"
+                ],
+                "operationId": "entry",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/InventoryMovementDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InventoryMovementDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/subcategories": {
+            "get": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "List subcategories",
+                "description": "Returns all subcategories",
+                "operationId": "getAll_4",
+                "responses": {
+                    "200": {
+                        "description": "List of subcategories",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Subcategories"
+                ],
+                "summary": "Create subcategory",
+                "description": "Creates a new subcategory and returns it with its generated ID",
+                "operationId": "create_5",
+                "requestBody": {
+                    "description": "Subcategory to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSubcategoryDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    },
+                    "201": {
+                        "description": "Subcategory created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SubcategoryDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "List categories",
+                "description": "Returns all categories",
+                "operationId": "getAll_5",
+                "responses": {
+                    "200": {
+                        "description": "List of categories",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create category",
+                "description": "Creates a new category and returns it with its generated ID",
+                "operationId": "create_6",
+                "requestBody": {
+                    "description": "Category to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCategoryDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "201": {
+                        "description": "Category created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryDto"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/shop/catalog/brands": {
+            "get": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "List brands",
+                "description": "Returns all brands",
+                "operationId": "getAll_6",
+                "responses": {
+                    "200": {
+                        "description": "List of brands",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Brands"
+                ],
+                "summary": "Create brand",
+                "description": "Creates a new brand and returns it with its generated ID",
+                "operationId": "create_7",
+                "requestBody": {
+                    "description": "Brand to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBrandDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "201": {
+                        "description": "Brand created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandDto"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/shop/inventory/inventory_movements": {
+            "get": {
+                "tags": [
+                    "inventory-movement-controller"
+                ],
+                "operationId": "list_1",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageInventoryMovementDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UpdateWarehouseDto": {
+                "required": [
+                    "code",
+                    "id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 150,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "code": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "address": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "WarehouseDto": {
+                "required": [
+                    "code",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "maxLength": 150,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "code": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "address": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UpdateSupplierDto": {
+                "required": [
+                    "address",
+                    "email",
+                    "id",
+                    "name",
+                    "phone"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "SupplierDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "maxLength": 30,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ProductBundleItemDto": {
+                "required": [
+                    "productId",
+                    "quantity"
+                ],
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "contributionPercentage": {
+                        "minimum": 0.0,
+                        "exclusiveMinimum": false,
+                        "type": "number"
+                    }
+                }
+            },
+            "ProductVariantDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UpdateProductDto": {
+                "required": [
+                    "brandId",
+                    "categoryId",
+                    "description",
+                    "height",
+                    "id",
+                    "length",
+                    "name",
+                    "realPrice",
+                    "stock",
+                    "subcategoryId",
+                    "supplierId",
+                    "unitPrice",
+                    "weight",
+                    "width"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "realPrice": {
+                        "type": "number"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "length": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "width": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "subcategoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "supplierId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "isCombo": {
+                        "type": "boolean"
+                    },
+                    "variants": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductVariantDto"
+                        }
+                    },
+                    "bundleItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductBundleItemDto"
+                        }
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "bundleItemsOnlyForCombos": {
+                        "type": "boolean"
+                    },
+                    "variantsOnlyForNonCombos": {
+                        "type": "boolean"
+                    },
+                    "comboWithBundleItems": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ProductDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "realPrice": {
+                        "type": "number"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "length": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "width": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "subcategoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "supplierId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "isCombo": {
+                        "type": "boolean"
+                    },
+                    "variants": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductVariantDto"
+                        }
+                    },
+                    "bundleItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductBundleItemDto"
+                        }
+                    }
+                }
+            },
+            "UpdateProductComboDto": {
+                "required": [
+                    "comboId",
+                    "id",
+                    "productId",
+                    "quantity"
+                ],
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comboId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "ProductComboDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comboId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "UpdateProductChildDto": {
+                "required": [
+                    "id",
+                    "name",
+                    "productId",
+                    "stock",
+                    "unitPrice"
+                ],
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "ProductChildDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "UpdateSubcategoryDto": {
+                "required": [
+                    "categoryId",
+                    "id",
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "SubcategoryDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "UpdateCategoryDto": {
+                "required": [
+                    "id",
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "CategoryDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateBrandDto": {
+                "required": [
+                    "id",
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "BrandDto": {
+                "type": "object",
+                "properties": {
+                    "deleted": {
+                        "type": "boolean"
+                    },
+                    "usrCrea": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "usrMod": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateWarehouseDto": {
+                "required": [
+                    "code",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "maxLength": 150,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "code": {
+                        "maxLength": 50,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "address": {
+                        "maxLength": 255,
+                        "minLength": 0,
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "CreateSupplierDto": {
+                "required": [
+                    "address",
+                    "email",
+                    "name",
+                    "phone"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateProductDto": {
+                "required": [
+                    "brandId",
+                    "categoryId",
+                    "description",
+                    "height",
+                    "length",
+                    "name",
+                    "realPrice",
+                    "stock",
+                    "subcategoryId",
+                    "supplierId",
+                    "unitPrice",
+                    "weight",
+                    "width"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "realPrice": {
+                        "type": "number"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "length": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "width": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    },
+                    "brandId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "subcategoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "supplierId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "isCombo": {
+                        "type": "boolean"
+                    },
+                    "variants": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductVariantDto"
+                        }
+                    },
+                    "bundleItems": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductBundleItemDto"
+                        }
+                    },
+                    "bundleItemsOnlyForCombos": {
+                        "type": "boolean"
+                    },
+                    "variantsOnlyForNonCombos": {
+                        "type": "boolean"
+                    },
+                    "comboWithBundleItems": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "ProductFilter": {
+                "type": "object",
+                "properties": {
+                    "brandIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "subcategoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "minPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "maxPrice": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "search": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateProductComboDto": {
+                "required": [
+                    "comboId",
+                    "productId",
+                    "quantity"
+                ],
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comboId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "CreateProductChildDto": {
+                "required": [
+                    "name",
+                    "productId",
+                    "stock",
+                    "unitPrice"
+                ],
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "stock": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unitPrice": {
+                        "type": "number"
+                    },
+                    "imageUrl": {
+                        "type": "string"
+                    },
+                    "available": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "InventoryMovementDto": {
+                "required": [
+                    "productId",
+                    "quantity",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "fromWarehouseId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "toWarehouseId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "minimum": 1,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "reason": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateSubcategoryDto": {
+                "required": [
+                    "categoryId",
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "CreateCategoryDto": {
+                "required": [
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateBrandDto": {
+                "required": [
+                    "name",
+                    "slug"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Pageable": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "minimum": 0,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "minimum": 1,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "PageWarehouseDto": {
+                "type": "object",
+                "properties": {
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WarehouseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SortObject"
+                        }
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageableObject": {
+                "type": "object",
+                "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SortObject"
+                        }
+                    },
+                    "paged": {
+                        "type": "boolean"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unpaged": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SortObject": {
+                "type": "object",
+                "properties": {
+                    "direction": {
+                        "type": "string"
+                    },
+                    "nullHandling": {
+                        "type": "string"
+                    },
+                    "ascending": {
+                        "type": "boolean"
+                    },
+                    "property": {
+                        "type": "string"
+                    },
+                    "ignoreCase": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageInventoryMovementDto": {
+                "type": "object",
+                "properties": {
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InventoryMovementDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SortObject"
+                        }
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        }
+    }
+}

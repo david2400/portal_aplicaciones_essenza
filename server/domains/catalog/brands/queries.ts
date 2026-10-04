@@ -7,3 +7,7 @@ import { brands_repository } from './repository';
 export const get_brand_by_id = cache(async ({ id }: { id: number }) => {
   return brands_repository.get_brand_by_id(id);
 });
+
+export const list_brands = cache(async () => {
+  return brands_repository.list_brands();
+});

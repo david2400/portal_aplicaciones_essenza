@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
+import { to_list } from '@/server/lib/list-response';
 import { suppliers_tags } from '@/server/lib/cache-tags';
 import type {
   SupplierDto,
@@ -14,10 +15,11 @@ const supplier_by_id_path = (id: number) => `${suppliers_base_path}/${id}`;
 
 export const suppliers_repository = {
   async list_suppliers(): Promise<SupplierDto[]> {
-    return server_fetch.get<SupplierDto[]>(suppliers_base_path, {
+    const response = await server_fetch.get<unknown>(suppliers_base_path, {
       revalidate: 60,
       tags: [suppliers_tags.list()],
     });
+    return to_list<SupplierDto>(response);
   },
 
   async get_supplier_by_id(id: number): Promise<SupplierDto> {
