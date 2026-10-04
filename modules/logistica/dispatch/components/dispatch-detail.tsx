@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
+import { confirm, notify, prompt } from "@/components/notifications";
 import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import {
@@ -79,29 +79,32 @@ export const DispatchDetail = ({
   );
 
   const showError = (message?: string) =>
-    Swal.fire({ title: tCommon("errorTitle"), text: message || tCommon("unexpectedError"), icon: "error" });
+    notify.error(tCommon("errorTitle"), message || tCommon("unexpectedError"));
 
   const run = async (action: () => Promise<{ success: boolean; error?: string }>) => {
     const response = await action();
-    if (response.success) router.refresh();
-    else showError(response.error);
+    if (response.success) {
+      notify.success(tCommon("updatedSuccess"));
+      router.refresh();
+    } else showError(response.error);
   };
 
   const handleAddLine = async () => {
-    const result = await Swal.fire({
+    const value = await prompt({
       title: tLines("create"),
-      input: "select",
-      inputOptions: Object.fromEntries(
-        pendingLines.map((line) => [String(line.id), `${line.productName} × ${line.quantity}`]),
-      ),
-      inputPlaceholder: tCommon("selectPlaceholder"),
-      showCancelButton: true,
-      confirmButtonText: tCommon("save"),
-      cancelButtonText: tCommon("cancel"),
-      inputValidator: (value) => (!value ? tLines("selectRequired") : undefined),
+      confirmLabel: tCommon("save"),
+      input: {
+        label: tLines("selectRequired"),
+        required: true,
+        placeholder: tCommon("selectPlaceholder"),
+        options: pendingLines.map((line) => ({
+          value: String(line.id),
+          label: `${line.productName} × ${line.quantity}`,
+        })),
+      },
     });
-    if (result.isConfirmed && result.value) {
-      await run(() => addDispatchLineServerAction(dispatchId, Number(result.value)));
+    if (value) {
+      await run(() => addDispatchLineServerAction(dispatchId, Number(value)));
     }
   };
 
@@ -115,14 +118,12 @@ export const DispatchDetail = ({
     });
 
   const confirmDelete = (name: string, action: () => Promise<{ success: boolean; error?: string }>) =>
-    Swal.fire({
+    confirm({
       title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then((result) => (result.isConfirmed ? run(action) : undefined));
+      description: tCommon("deleteConfirmText", { name }),
+      confirmLabel: tCommon("deleteConfirmButton"),
+      tone: "danger",
+    }).then((ok) => (ok ? run(action) : undefined));
 
   const lineColumns: ColumnDef<IDispatchLine>[] = [
     {
@@ -172,7 +173,7 @@ export const DispatchDetail = ({
       value:
         dispatch.orderId != null ? (
           <Link
-            href={`/administre/orders/${dispatch.orderId}`}
+            href={`/ventas/orders/${dispatch.orderId}`}
             className='text-primary underline-offset-4 hover:underline'>
             #{dispatch.orderId}
           </Link>
@@ -193,7 +194,7 @@ export const DispatchDetail = ({
       <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
         <div className='space-y-2'>
           <Link
-            href='/administre/dispatches'
+            href='/logistica/dispatches'
             className='inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground'>
             <HiOutlineArrowLeft className='h-4 w-4' aria-hidden='true' />
             {t("backToList")}

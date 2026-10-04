@@ -3,6 +3,9 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { list_dispatch_products } from "@/server/domains/shipping_logistics/dispatch/dispatch-products/queries";
+import { search_dispatch_products } from "@/server/domains/shipping_logistics/dispatch/dispatch-products/search";
+import { parse_grid_query } from "@/server/lib/pagination";
+import { DISPATCH_GRID } from "./grid";
 import { list_orders } from "@/server/domains/sales/orders/queries";
 import { DispatchManager } from "@/modules/logistica/dispatch";
 
@@ -18,12 +21,16 @@ export async function generateMetadata({
   return { title: t("dispatch"), description: tModule("description") };
 }
 
-const DispatchesPage = async () => {
-  const [initialData, orders] = await Promise.all([list_dispatch_products(), list_orders()]);
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+const DispatchesPage = async ({ searchParams }: { searchParams: SearchParams }) => {
+  const query = parse_grid_query(await searchParams, DISPATCH_GRID);
+  const [page, all, orders] = await Promise.all([search_dispatch_products(query), list_dispatch_products(), list_orders()]);
 
   return (
     <DispatchManager
-      initialData={initialData}
+      page={page}
+      all={all}
       orders={orders.map((order) => ({
         id: order.id,
         name: `#${order.id}${order.state ? ` · ${order.state}` : ""}`,

@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { Link } from "@/shared/i18n/routing";
 import { FormCmsPage } from "../scenes/formCmsPage";
@@ -89,20 +89,15 @@ export const CmsPageEditor = ({ page }: { page?: ICmsPage | null }) => {
       : await updatePageServerAction({ ...payload, id: pageId });
 
     if (!result.success) {
-      Swal.fire({ title: tCommon("errorTitle"), text: result.error || tCommon("unexpectedError"), icon: "error" });
+      notify.error(tCommon("errorTitle"), result.error || tCommon("unexpectedError"));
       return;
     }
 
-    await Swal.fire({
-      title: isNew ? tCommon("createdSuccess") : tCommon("updatedSuccess"),
-      icon: "success",
-      timer: 1800,
-      showConfirmButton: false,
-    });
+    notify.success(isNew ? tCommon("createdSuccess") : tCommon("updatedSuccess"));
 
     const createdId = "data" in result ? result.data?.id : undefined;
     if (isNew && createdId != null) {
-      router.replace(`/administre/pages/${createdId}`);
+      router.replace(`/contenido/pages/${createdId}`);
     } else {
       router.refresh();
     }
@@ -113,7 +108,7 @@ export const CmsPageEditor = ({ page }: { page?: ICmsPage | null }) => {
       <div className='flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'>
         <div className='space-y-2'>
           <Link
-            href='/administre/pages'
+            href='/contenido/pages'
             className='inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground'>
             <HiOutlineArrowLeft className='h-4 w-4' aria-hidden='true' />
             {t("backToList")}

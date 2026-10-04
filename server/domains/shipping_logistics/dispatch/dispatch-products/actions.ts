@@ -3,6 +3,9 @@
 import { revalidateTag } from 'next/cache';
 
 import { dispatch_products_repository } from './repository';
+import { dispatch_products_resource } from './search';
+import type { DispatchProductDto } from './types';
+import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type {
   CreateDispatchProductDto,
   UpdateDispatchProductPayload,
@@ -78,6 +81,29 @@ export async function fetch_dispatch_product_shipping_estimate_action(
   try {
     const estimate = await dispatch_products_repository.fetch_dispatch_product_shipping_estimate(query);
     return { success: true, data: { estimate } };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulk_delete_dispatch_products_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await dispatch_products_resource.bulk_delete(ids);
+    revalidateTag(dispatch_products_tags.list());
+    for (const id of ids) revalidateTag(dispatch_products_tags.item(id));
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function export_dispatch_products_action(
+  query: GridQuery,
+): Promise<ActionResult<{ items: DispatchProductDto[]; truncated: boolean }>> {
+  try {
+    return { success: true, data: await dispatch_products_resource.export_all(query) };
   } catch (error) {
     return handle_error(error);
   }

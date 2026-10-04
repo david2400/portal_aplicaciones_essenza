@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
+import { confirm, notify } from "@/components/notifications";
 import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import {
@@ -67,28 +67,26 @@ export const OrderDetail = ({ order, items, products }: IOrderDetailProps) => {
   const outOfSync = Math.abs((order.total ?? 0) - totals.total) > 0.009;
 
   const showError = (message?: string) =>
-    Swal.fire({ title: tCommon("errorTitle"), text: message || tCommon("unexpectedError"), icon: "error" });
+    notify.error(tCommon("errorTitle"), message || tCommon("unexpectedError"));
 
-  const handleDeleteItem = (item: IOrderItem) => {
+  const handleDeleteItem = async (item: IOrderItem) => {
     if (item.id == null) return;
     const id = item.id;
-
-    Swal.fire({
+    const name = productNames.get(item.productId ?? -1) ?? `#${id}`;
+    const ok = await confirm({
       title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: productNames.get(item.productId ?? -1) ?? `#${id}` }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteOrderItemServerAction(id);
-      if (response.success) {
-        router.refresh();
-      } else {
-        showError(response.error);
-      }
+      description: tCommon("deleteConfirmText", { name }),
+      confirmLabel: tCommon("deleteConfirmButton"),
+      tone: "danger",
     });
+    if (!ok) return;
+    const response = await deleteOrderItemServerAction(id);
+    if (response.success) {
+      notify.success(tCommon("deletedSuccess"), name);
+      router.refresh();
+    } else {
+      showError(response.error);
+    }
   };
 
   const handleSyncTotal = async () => {
@@ -100,7 +98,7 @@ export const OrderDetail = ({ order, items, products }: IOrderDetailProps) => {
       total: totals.total,
     });
     if (response.success) {
-      Swal.fire({ title: t("totalSynced"), icon: "success", timer: 2000, showConfirmButton: false });
+      notify.success(t("totalSynced"));
       router.refresh();
     } else {
       showError(response.error);
@@ -175,7 +173,7 @@ export const OrderDetail = ({ order, items, products }: IOrderDetailProps) => {
       <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
         <div className='space-y-2'>
           <Link
-            href='/administre/orders'
+            href='/ventas/orders'
             className='inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground'>
             <HiOutlineArrowLeft className='h-4 w-4' aria-hidden='true' />
             {t("backToList")}

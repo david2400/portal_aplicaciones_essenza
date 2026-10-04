@@ -1,9 +1,15 @@
 'use server';
 
+import { parse_grid_query } from '@/server/lib/pagination';
+import type { BulkResult } from '@/shared/models/pagination';
+import type { OrderDto } from '@/server/domains/sales/orders/types';
+import { ORDER_GRID } from './grid';
 import {
   create_order_action,
   update_order_action,
   delete_order_action,
+  bulk_delete_orders_action,
+  export_orders_action,
 } from '@/server/domains/sales/orders/actions';
 import {
   create_product_order_action,
@@ -61,4 +67,17 @@ export async function updateOrderItemServerAction(payload: UpdateProductOrderDto
 export async function deleteOrderItemServerAction(id: number): Promise<ActionResult> {
   const result = await delete_product_order_action({ id });
   return result.success ? { success: true } : fail(result.error, 'No se pudo eliminar el ítem');
+}
+
+export async function bulkDeleteOrdersServerAction(ids: number[]): Promise<ActionResult<BulkResult>> {
+  const result = await bulk_delete_orders_action(ids);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudieron eliminar las órdenes');
+}
+
+/** Exporta todas las órdenes que cumplen la búsqueda actual. */
+export async function exportOrdersServerAction(
+  params: Record<string, string>,
+): Promise<ActionResult<{ items: OrderDto[]; truncated: boolean }>> {
+  const result = await export_orders_action(parse_grid_query(params, ORDER_GRID));
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo exportar');
 }

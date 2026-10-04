@@ -2,27 +2,22 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
-import { Buttons } from "@repo/ui/buttons/scenes";
-import {
-  HiOutlineRectangleStack,
-  HiOutlinePlusCircle,
-  HiOutlinePencilSquare,
-  HiOutlineTrash,
-} from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { Badge } from "@repo/ui/badges/scenes/badge";
+import { HiOutlineAdjustmentsHorizontal, HiOutlineRectangleStack, HiOutlineSwatch } from "react-icons/hi2";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
+import { notify } from "@/components/notifications";
+import type { ActionResult } from "@/shared/models/pagination";
 import { FormTypeProductFeature } from "../scenes/formTypeProductFeature";
 import { validationTypeProductFeature } from "../schemas/type-product-feature.schema";
 import type { INamedItem, ITypeProductFeature } from "../models/type-product-feature.interface";
 import {
   createTypeProductFeatureServerAction,
-  updateTypeProductFeatureServerAction,
   deleteTypeProductFeatureServerAction,
+  updateTypeProductFeatureServerAction,
 } from "@/app/[locale]/fichaTecnica/type-product-features/actions";
 
 interface ITypeProductFeatureManagerProps {
@@ -31,6 +26,9 @@ interface ITypeProductFeatureManagerProps {
   features: INamedItem[];
 }
 
+/** Fila con `id` sintético: el backend identifica la relación por `typeProductId`. */
+type Row = ITypeProductFeature & { id?: number };
+
 const toOptions = (items: INamedItem[]) =>
   items
     .filter((item) => item.id != null)
@@ -38,152 +36,102 @@ const toOptions = (items: INamedItem[]) =>
 
 const toLookup = (items: INamedItem[]) => new Map(items.map((item) => [item.id ?? -1, item.name ?? `#${item.id}`]));
 
-type ModalState = { open: boolean; row: ITypeProductFeature | null };
-
-export const TypeProductFeatureManager = ({
-  initialData,
-  typeProducts,
-  features,
-}: ITypeProductFeatureManagerProps) => {
+/** Características asignadas a cada tipo de producto (una por tipo en el backend actual). */
+export const TypeProductFeatureManager = ({ initialData, typeProducts, features }: ITypeProductFeatureManagerProps) => {
   const router = useRouter();
   const t = useTranslations("Administre.typeProductFeature");
   const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
   const validationSchema = validationTypeProductFeature();
-  const [modal, setModal] = useState<ModalState>({ open: false, row: null });
 
+  const data = useMemo<Row[]>(() => initialData.map((row) => ({ ...row, id: row.typeProductId })), [initialData]);
   const typeOptions = useMemo(() => toOptions(typeProducts), [typeProducts]);
   const featureOptions = useMemo(() => toOptions(features), [features]);
   const typeNames = useMemo(() => toLookup(typeProducts), [typeProducts]);
   const featureNames = useMemo(() => toLookup(features), [features]);
 
-  const typeLabel = (row: ITypeProductFeature) =>
-    row.typeProductName ?? typeNames.get(row.typeProductId ?? -1) ?? `#${row.typeProductId}`;
-  const featureLabel = (row: ITypeProductFeature) =>
-    row.featureName ?? featureNames.get(row.featureId ?? -1) ?? `#${row.featureId}`;
+  const typeLabel = (row: Row) => row.typeProductName ?? typeNames.get(row.typeProductId ?? -1) ?? `#${row.typeProductId}`;
+  const featureLabel = (row: Row) => row.featureName ?? featureNames.get(row.featureId ?? -1) ?? `#${row.featureId}`;
 
-  const notify = async (result: { success: boolean; error?: string }, title: string) => {
-    if (result.success) {
-      await Swal.fire({ title, icon: "success", timer: 2000, showConfirmButton: false });
-      setModal({ open: false, row: null });
-      router.refresh();
-    } else {
-      Swal.fire({ title: tCommon("errorTitle"), text: result.error || tCommon("unexpectedError"), icon: "error" });
-    }
-  };
-
-  const handleSubmit = async (values: { typeProductId: number; featureId: number }) => {
-    if (modal.row) {
-      await notify(await updateTypeProductFeatureServerAction(values), tCommon("updatedSuccess"));
-    } else {
-      await notify(await createTypeProductFeatureServerAction(values), tCommon("createdSuccess"));
-    }
-  };
-
-  const handleDelete = (row: ITypeProductFeature) => {
-    if (row.typeProductId == null) return;
-    const typeProductId = row.typeProductId;
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: `${typeLabel(row)} · ${featureLabel(row)}` }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteTypeProductFeatureServerAction(typeProductId);
-      if (response.success) router.refresh();
-      else Swal.fire({ title: tCommon("errorTitle"), text: response.error, icon: "error" });
-    });
-  };
-
-  const columns: ColumnDef<ITypeProductFeature>[] = [
-    {
-      accessorKey: "typeProductId",
-      header: t("fields.typeProductId"),
-      cell: ({ row }) => <span className='font-semibold text-foreground'>{typeLabel(row.original)}</span>,
-    },
-    { accessorKey: "featureId", header: t("fields.featureId"), cell: ({ row }) => featureLabel(row.original) },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => {
-        const name = `${typeLabel(row.original)} · ${featureLabel(row.original)}`;
-        return (
-          <div className='flex gap-2'>
-            <Buttons
-              size='sm'
-              variant='outline'
-              aria-label={tCommon("editAria", { name })}
-              onClick={() => setModal({ open: true, row: row.original })}>
-              <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-              {tCommon("edit")}
-            </Buttons>
-            <Buttons
-              size='sm'
-              variant='ghost'
-              aria-label={tCommon("deleteAria", { name })}
-              onClick={() => handleDelete(row.original)}>
-              <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-              {tCommon("delete")}
-            </Buttons>
-          </div>
-        );
+  const columns = useMemo<GridColumn<Row>[]>(
+    () => [
+      {
+        id: "typeProductId",
+        header: t("fields.typeProductId"),
+        meta: { label: t("fields.typeProductId"), hideable: false, exportValue: (row) => typeLabel(row) },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>{typeLabel(row.original)}</span>,
       },
+      {
+        id: "featureId",
+        header: t("fields.featureId"),
+        meta: { label: t("fields.featureId"), exportValue: (row) => featureLabel(row) },
+        cell: ({ row }) => <Badge variant='secondary'>{featureLabel(row.original)}</Badge>,
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [typeNames, featureNames, t],
+  );
+
+  const filters: GridFilter<Row>[] = [
+    {
+      id: "featureId",
+      label: t("fields.featureId"),
+      options: featureOptions.map(({ value, label }) => ({ value, label })),
+      accessor: (row) => row.featureId,
     },
   ];
 
+  const assignedTypes = new Set(initialData.map((row) => row.typeProductId)).size;
+
+  const save = async (result: ActionResult, title: string, close: () => void) => {
+    if (result.success) {
+      notify.success(title);
+      close();
+      router.refresh();
+    } else {
+      notify.error(tCommon("errorTitle"), result.error);
+    }
+  };
+
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineRectangleStack className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
-        <Buttons
-          className='inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm'
-          onClick={() => setModal({ open: true, row: null })}>
-          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-          {t("create")}
-        </Buttons>
-      </div>
-
-      <DataTable
-        data={initialData}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-
-      <Modal
-        size='lg'
-        title={modal.row ? t("editTitle") : t("createTitle")}
-        open={modal.open}
-        onOpenChange={(open) => {
-          if (!open) setModal({ open: false, row: null });
-        }}
-        hideDefaultFooter={true}>
-        {modal.open ? (
-          <FormTypeProductFeature
-            initialValues={{
-              typeProductId: modal.row?.typeProductId != null ? String(modal.row.typeProductId) : "",
-              featureId: modal.row?.featureId != null ? String(modal.row.featureId) : "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            typeProducts={typeOptions}
-            features={featureOptions}
-            lockTypeProduct={modal.row !== null}
-          />
-        ) : null}
-      </Modal>
-    </section>
+    <CrudManager<Row>
+      gridId='caracteristicas-por-tipo'
+      namespace='Administre.typeProductFeature'
+      icon={HiOutlineRectangleStack}
+      eyebrow={tCrud("domains.specs")}
+      data={data}
+      columns={columns}
+      filters={filters}
+      stats={[
+        { label: t("total"), value: initialData.length, icon: HiOutlineRectangleStack },
+        {
+          label: tCrud("typesWithFeature"),
+          value: `${assignedTypes}/${typeProducts.length}`,
+          icon: HiOutlineSwatch,
+          tone: assignedTypes < typeProducts.length ? "warning" : "success",
+        },
+        { label: tCrud("featuresInCatalog"), value: features.length, icon: HiOutlineAdjustmentsHorizontal },
+      ]}
+      rowLabel={(row) => `${typeLabel(row)} · ${featureLabel(row)}`}
+      searchText={(row) => `${typeLabel(row)} ${featureLabel(row)}`}
+      renderForm={(item, close) => (
+        <FormTypeProductFeature
+          initialValues={{
+            typeProductId: item?.typeProductId != null ? String(item.typeProductId) : "",
+            featureId: item?.featureId != null ? String(item.featureId) : "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values: { typeProductId: number; featureId: number }) =>
+            item
+              ? save(await updateTypeProductFeatureServerAction(values), tCommon("updatedSuccess"), close)
+              : save(await createTypeProductFeatureServerAction(values), tCommon("createdSuccess"), close)
+          }
+          typeProducts={typeOptions}
+          features={featureOptions}
+          lockTypeProduct={item !== null}
+        />
+      )}
+      onDelete={(typeProductId) => deleteTypeProductFeatureServerAction(typeProductId)}
+    />
   );
 };

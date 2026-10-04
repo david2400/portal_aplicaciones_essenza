@@ -2,162 +2,126 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
-import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
-import {
-  HiOutlineBuildingStorefront,
-  HiOutlinePlusCircle,
-  HiOutlinePencilSquare,
-  HiOutlineCheckCircle,
-} from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { HiOutlineBuildingStorefront, HiOutlineCheckCircle, HiOutlineMapPin } from "react-icons/hi2";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
 import { RegisterWarehouse, UpdateWarehouse } from "./form";
 import type { IWarehouse } from "../models/warehouse.interface";
-// El backend no expone DELETE para bodegas: no hay acción de borrado.
+import {
+  bulkDeleteWarehousesServerAction,
+  deleteWarehouseServerAction,
+} from "@/app/[locale]/inventory/warehouses/actions";
 
 interface IWarehouseManagerProps {
   initialData: IWarehouse[];
+  /** Etiqueta "Ciudad, Departamento, País" por `cityId` (resuelta en el servidor). */
+  cityLabels?: Record<number, string>;
 }
 
-const rowLabel = (row: IWarehouse) => row.name ?? `#${row.id}`;
-
-export const WarehouseManager = ({ initialData }: IWarehouseManagerProps) => {
+/** Bodegas con ubicación (catálogo `parametros`), estado y borrado protegido por stock. */
+export const WarehouseManager = ({ initialData, cityLabels = {} }: IWarehouseManagerProps) => {
   const t = useTranslations("Administre.warehouse");
   const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
 
-  const [openCreate, setOpenCreate] = useState(false);
-  const [editing, setEditing] = useState<IWarehouse | null>(null);
+  const location = (row: IWarehouse) => (row.cityId != null ? (cityLabels[row.cityId] ?? `#${row.cityId}`) : "");
 
-  const metrics = useMemo(
-    () => ({
-      total: initialData.length,
-      active: initialData.filter((item) => item.active !== false).length,
-    }),
-    [initialData],
+  const columns = useMemo<GridColumn<IWarehouse>[]>(
+    () => [
+      {
+        id: "code",
+        header: t("fields.code"),
+        meta: { label: t("fields.code"), hideable: false, exportValue: (row) => row.code },
+        cell: ({ row }) => <span className='font-mono text-xs font-semibold text-foreground'>{row.original.code}</span>,
+      },
+      {
+        id: "name",
+        header: t("fields.name"),
+        meta: { label: t("fields.name"), exportValue: (row) => row.name },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>{row.original.name ?? "—"}</span>,
+      },
+      {
+        id: "location",
+        header: t("fields.location"),
+        enableSorting: false,
+        meta: { label: t("fields.location"), exportValue: (row) => location(row) },
+        cell: ({ row }) =>
+          row.original.cityId != null ? (
+            <span className='inline-flex items-center gap-1.5'>
+              <HiOutlineMapPin className='h-4 w-4 text-muted-foreground' aria-hidden='true' />
+              {location(row.original)}
+            </span>
+          ) : (
+            <span className='text-xs italic text-muted-foreground'>{tCrud("noLocation")}</span>
+          ),
+      },
+      {
+        id: "address",
+        header: t("fields.address"),
+        meta: { label: t("fields.address"), exportValue: (row) => row.address },
+        cell: ({ row }) => row.original.address || "—",
+      },
+      {
+        id: "active",
+        header: t("fields.active"),
+        enableSorting: false,
+        meta: { label: t("fields.active"), exportValue: (row) => (row.active === false ? tCommon("no") : tCommon("yes")) },
+        cell: ({ row }) => (
+          <Badge variant={row.original.active === false ? "outline" : "default"}>
+            {row.original.active === false ? tCommon("inactive") : tCommon("active")}
+          </Badge>
+        ),
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cityLabels, t, tCommon, tCrud],
   );
 
-
-  const columns: ColumnDef<IWarehouse>[] = [
+  const filters: GridFilter<IWarehouse>[] = [
     {
-      accessorKey: "code",
-      header: t("fields.code"),
-      cell: ({ row }) => (
-        <span className='font-semibold text-foreground'>{row.original.code}</span>
-      ),
-    },
-    {
-      accessorKey: "name",
-      header: t("fields.name"),
-      cell: ({ row }) => row.original.name ?? "—",
-    },
-    {
-      accessorKey: "address",
-      header: t("fields.address"),
-      cell: ({ row }) => row.original.address ?? "—",
-    },
-    {
-      id: "status",
-      header: tCommon("status"),
-      cell: ({ row }) => (
-        <Badge variant={row.original.active === false ? "destructive" : "default"}>
-          {row.original.active === false ? tCommon("inactive") : tCommon("active")}
-        </Badge>
-      ),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className='flex gap-2'>
-          <Buttons
-            size='sm'
-            variant='outline'
-            aria-label={tCommon("editAria", { name: rowLabel(row.original) })}
-            onClick={() => setEditing(row.original)}>
-            <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-            {tCommon("edit")}
-          </Buttons>
-        </div>
-      ),
+      id: "active",
+      label: t("fields.active"),
+      options: [
+        { value: "true", label: tCommon("active") },
+        { value: "false", label: tCommon("inactive") },
+      ],
+      accessor: (row) => String(row.active !== false),
     },
   ];
 
-  const summaryCards = [
-    { icon: HiOutlineBuildingStorefront, label: t("total"), value: metrics.total },
-    { icon: HiOutlineCheckCircle, label: tCommon("activeCount"), value: metrics.active },
-  ];
+  const active = initialData.filter((item) => item.active !== false).length;
+  const withoutLocation = initialData.filter((item) => item.cityId == null).length;
 
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineBuildingStorefront className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
-        <Buttons
-          className='inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm'
-          onClick={() => setOpenCreate(true)}>
-          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-          {t("create")}
-        </Buttons>
-      </div>
-
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-        {summaryCards.map((card) => (
-          <div
-            key={card.label}
-            className='rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md'>
-            <div className='flex items-center justify-between text-sm font-semibold text-muted-foreground'>
-              <span>{card.label}</span>
-              <card.icon className='h-5 w-5 text-primary' aria-hidden='true' />
-            </div>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
-          </div>
-        ))}
-      </div>
-
-      <DataTable
-        data={initialData}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-
-      <Modal
-        size='lg'
-        title={t("createTitle")}
-        open={openCreate}
-        onOpenChange={setOpenCreate}
-        hideDefaultFooter={true}>
-        <RegisterWarehouse
-          handleClose={() => setOpenCreate(false)}
-        />
-      </Modal>
-
-      <Modal
-        size='lg'
-        title={t("editTitle")}
-        open={editing !== null}
-        onOpenChange={(open) => {
-          if (!open) setEditing(null);
-        }}
-        hideDefaultFooter={true}>
-        <UpdateWarehouse
-          initialValues={editing}
-          handleClose={() => setEditing(null)}
-        />
-      </Modal>
-    </section>
+    <CrudManager<IWarehouse>
+      gridId='bodegas'
+      namespace='Administre.warehouse'
+      icon={HiOutlineBuildingStorefront}
+      eyebrow={tCrud("domains.inventory")}
+      data={initialData}
+      columns={columns}
+      filters={filters}
+      stats={[
+        { label: t("total"), value: initialData.length, icon: HiOutlineBuildingStorefront },
+        { label: tCrud("activeCount"), value: active, icon: HiOutlineCheckCircle, tone: "success" },
+        {
+          label: tCrud("withoutLocation"),
+          value: withoutLocation,
+          icon: HiOutlineMapPin,
+          tone: withoutLocation > 0 ? "warning" : "success",
+          hint: tCrud("withoutLocationHint"),
+        },
+      ]}
+      rowLabel={(row) => row.name ?? row.code ?? `#${row.id}`}
+      searchText={(row) => `${row.code ?? ""} ${row.name ?? ""} ${row.address ?? ""} ${location(row)}`}
+      renderForm={(item, close) =>
+        item ? <UpdateWarehouse initialValues={item} handleClose={close} /> : <RegisterWarehouse handleClose={close} />
+      }
+      onDelete={(id) => deleteWarehouseServerAction(id)}
+      onBulkDelete={(ids) => bulkDeleteWarehousesServerAction(ids)}
+    />
   );
 };

@@ -39,6 +39,31 @@ export const env = {
     return url.replace(/\/+$/, '');
   },
 
+  /**
+   * Base URL del servicio `parametros` (catálogos compartidos: países,
+   * departamentos, ciudades…). Es un backend distinto del de Essenza, con su
+   * propio host/puerto; mismo patrón que `parametrosBaseUrl` en apps/draco.
+   */
+  get parametros_base_url(): string {
+    const resolved_candidate = [
+      process.env.PARAMETROS_API_URL,
+      process.env.NEXT_PUBLIC_PARAMETROS_API_URL,
+    ].find((candidate): candidate is string => Boolean(candidate));
+
+    const dev_fallback =
+      process.env.NODE_ENV !== 'production'
+        ? `http://localhost:${process.env.DEV_PARAMETROS_PORT ?? 8001}`
+        : undefined;
+
+    const url = resolved_candidate ?? dev_fallback ?? '';
+
+    if (!url) {
+      throw new Error('[env] PARAMETROS_API_URL is not configured. Set it in your .env file.');
+    }
+
+    return url.replace(/\/+$/, '');
+  },
+
   get is_dev(): boolean {
     return process.env.NODE_ENV === 'development';
   },

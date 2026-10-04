@@ -2,237 +2,80 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
-import { Buttons } from "@repo/ui/buttons/scenes";
+import { HiOutlineRectangleStack } from "react-icons/hi2";
 import { Badge } from "@repo/ui/badges/scenes/badge";
-import {
-  HiOutlineRectangleGroup,
-  HiOutlinePlusCircle,
-  HiOutlinePencilSquare,
-  HiOutlineTrash,
-  HiOutlineCheckCircle,
-} from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
-import { RegisterSubcategory, UpdateSubcategory } from "./form";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
+import type { PageResult } from "@/shared/models/pagination";
+import { TaxonomyManager } from "../../shared/components/taxonomy-manager";
+import type { TaxonomyStats } from "../../shared/models";
 import type { ISubcategory } from "../models/subcategory.interface";
-import { deleteSubcategoryServerAction } from "@/app/[locale]/catalogo/subcategory/actions";
-
-type NamedItem = { id?: number; name?: string };
-
-const toLookup = (items: NamedItem[]) =>
-  new Map(items.map((item) => [item.id ?? -1, item.name ?? `#${item.id}`]));
-
-const toOptions = (items: NamedItem[]) =>
-  items
-    .filter((item) => item.id != null)
-    .map((item) => ({
-      id: String(item.id),
-      value: String(item.id),
-      label: item.name ?? `#${item.id}`,
-    }));
+import { subcategoryActions } from "./form";
 
 interface ISubcategoryManagerProps {
-  initialData: ISubcategory[];
-  categories: NamedItem[];
+  page: PageResult<ISubcategory>;
+  stats: TaxonomyStats;
+  categories: Array<{ id?: number; name?: string }>;
 }
 
-const rowLabel = (row: ISubcategory) => row.name ?? `#${row.id}`;
-
-export const SubcategoryManager = ({ initialData, categories }: ISubcategoryManagerProps) => {
-  const router = useRouter();
+/** Gestor de subcategorías: igual que marcas/categorías más el filtro y la columna de categoría. */
+export const SubcategoryManager = ({ page, stats, categories }: ISubcategoryManagerProps) => {
   const t = useTranslations("Administre.subcategory");
-  const tCommon = useTranslations("Administre.common");
 
-  const [openCreate, setOpenCreate] = useState(false);
-  const [editing, setEditing] = useState<ISubcategory | null>(null);
-
-  const lookups = useMemo(
-    () => ({
-      categories: toLookup(categories),
-    }),
+  const categoryNames = useMemo(
+    () => new Map(categories.map((category) => [category.id ?? -1, category.name ?? `#${category.id}`])),
     [categories],
   );
 
-  const formOptions = useMemo(
-    () => ({
-      categories: toOptions(categories),
-    }),
+  const options = useMemo(
+    () =>
+      categories
+        .filter((category) => category.id != null)
+        .map((category) => ({
+          id: String(category.id),
+          value: String(category.id),
+          label: category.name ?? `#${category.id}`,
+        })),
     [categories],
   );
 
-  const metrics = useMemo(
-    () => ({
-      total: initialData.length,
-      active: initialData.filter((item) => !item.deleted).length,
-    }),
-    [initialData],
+  const extraColumns = useMemo<GridColumn<ISubcategory>[]>(
+    () => [
+      {
+        id: "categoryId",
+        header: t("fields.categoryId"),
+        meta: {
+          label: t("fields.categoryId"),
+          exportValue: (row) => categoryNames.get(row.categoryId ?? -1) ?? "",
+        },
+        cell: ({ row }) =>
+          row.original.categoryId != null ? (
+            <Badge variant='outline'>{categoryNames.get(row.original.categoryId) ?? `#${row.original.categoryId}`}</Badge>
+          ) : (
+            "—"
+          ),
+      },
+    ],
+    [categoryNames, t],
   );
 
-  const handleDelete = (row: ISubcategory) => {
-    if (row.id == null) return;
-    const id = row.id;
-
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: rowLabel(row) }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-
-      const response = await deleteSubcategoryServerAction(id);
-      if (response.success) {
-        Swal.fire({
-          title: tCommon("deletedSuccess"),
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        router.refresh();
-      } else {
-        Swal.fire({
-          title: tCommon("errorTitle"),
-          text: response.error || tCommon("unexpectedError"),
-          icon: "error",
-        });
-      }
-    });
-  };
-
-  const columns: ColumnDef<ISubcategory>[] = [
-    {
-      accessorKey: "name",
-      header: t("fields.name"),
-      cell: ({ row }) => (
-        <span className='font-semibold text-foreground'>{row.original.name}</span>
-      ),
-    },
-    {
-      accessorKey: "categoryId",
-      header: t("fields.categoryId"),
-      cell: ({ row }) => lookups.categories.get(row.original.categoryId ?? -1) ?? "—",
-    },
-    {
-      accessorKey: "slug",
-      header: t("fields.slug"),
-      cell: ({ row }) => row.original.slug ?? "—",
-    },
-    {
-      id: "status",
-      header: tCommon("status"),
-      cell: ({ row }) => (
-        <Badge variant={row.original.deleted ? "destructive" : "default"}>
-          {row.original.deleted ? tCommon("inactive") : tCommon("active")}
-        </Badge>
-      ),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className='flex gap-2'>
-          <Buttons
-            size='sm'
-            variant='outline'
-            aria-label={tCommon("editAria", { name: rowLabel(row.original) })}
-            onClick={() => setEditing(row.original)}>
-            <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-            {tCommon("edit")}
-          </Buttons>
-          <Buttons
-            size='sm'
-            variant='ghost'
-            aria-label={tCommon("deleteAria", { name: rowLabel(row.original) })}
-            onClick={() => handleDelete(row.original)}>
-            <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-            {tCommon("delete")}
-          </Buttons>
-        </div>
-      ),
-    },
-  ];
-
-  const summaryCards = [
-    { icon: HiOutlineRectangleGroup, label: t("total"), value: metrics.total },
-    { icon: HiOutlineCheckCircle, label: tCommon("activeCount"), value: metrics.active },
-  ];
+  const filters = useMemo<GridFilter<ISubcategory>[]>(
+    () => [{ id: "categoryId", label: t("fields.categoryId"), options: options.map(({ value, label }) => ({ value, label })) }],
+    [options, t],
+  );
 
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineRectangleGroup className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
-        <Buttons
-          className='inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm'
-          onClick={() => setOpenCreate(true)}>
-          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-          {t("create")}
-        </Buttons>
-      </div>
-
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-        {summaryCards.map((card) => (
-          <div
-            key={card.label}
-            className='rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md'>
-            <div className='flex items-center justify-between text-sm font-semibold text-muted-foreground'>
-              <span>{card.label}</span>
-              <card.icon className='h-5 w-5 text-primary' aria-hidden='true' />
-            </div>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
-          </div>
-        ))}
-      </div>
-
-      <DataTable
-        data={initialData}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-
-      <Modal
-        size='lg'
-        title={t("createTitle")}
-        open={openCreate}
-        onOpenChange={setOpenCreate}
-        hideDefaultFooter={true}>
-        <RegisterSubcategory
-          handleClose={() => setOpenCreate(false)}
-          options={formOptions}
-        />
-      </Modal>
-
-      <Modal
-        size='lg'
-        title={t("editTitle")}
-        open={editing !== null}
-        onOpenChange={(open) => {
-          if (!open) setEditing(null);
-        }}
-        hideDefaultFooter={true}>
-        <UpdateSubcategory
-          initialValues={editing}
-          handleClose={() => setEditing(null)}
-          options={formOptions}
-        />
-      </Modal>
-    </section>
+    <TaxonomyManager<ISubcategory>
+      gridId='subcategorias'
+      namespace='Administre.subcategory'
+      icon={HiOutlineRectangleStack}
+      page={page}
+      stats={stats}
+      actions={subcategoryActions}
+      extraColumns={extraColumns}
+      filters={filters}
+      categoryOptions={options}
+    />
   );
 };

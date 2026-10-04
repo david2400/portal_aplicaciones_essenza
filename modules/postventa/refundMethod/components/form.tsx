@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type {
   IFormAddProps,
   IFormUpdateProps,
@@ -42,23 +42,12 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   const t = useTranslations("Administre.common");
 
   return {
-    success: (title: string) =>
-      Swal.fire({
-        title,
-        icon: "success",
-        timer: 2500,
-        showConfirmButton: false,
-        willClose: () => {
-          handleClose?.(true);
-          router.refresh();
-        },
-      }),
-    failure: (message?: string) =>
-      Swal.fire({
-        title: t("errorTitle"),
-        text: message || t("unexpectedError"),
-        icon: "error",
-      }),
+    success: (title: string) => {
+      notify.success(title);
+      handleClose?.(true);
+      router.refresh();
+    },
+    failure: (message?: string) => notify.error(t("errorTitle"), message || t("unexpectedError")),
   };
 };
 

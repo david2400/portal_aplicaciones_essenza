@@ -10,11 +10,11 @@ import { Link } from "@/shared/i18n/routing";
  * que no existen). Ahora sólo apunta a secciones reales del panel.
  */
 const SECTIONS = [
-  { label: "Órdenes", href: "/administre/orders" },
-  { label: "Productos", href: "/administre/products" },
-  { label: "Movimientos", href: "/administre/inventory-movements" },
-  { label: "Bodegas", href: "/administre/warehouses" },
-  { label: "Proveedores", href: "/administre/suppliers" },
+  { label: "Órdenes", href: "/ventas/orders" },
+  { label: "Productos", href: "/catalogo/products" },
+  { label: "Movimientos", href: "/inventory/inventory-movements" },
+  { label: "Bodegas", href: "/inventory/warehouses" },
+  { label: "Proveedores", href: "/inventory/suppliers" },
 ];
 
 export const Footer = () => (

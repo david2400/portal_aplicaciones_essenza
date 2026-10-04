@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import { FormPersonalizationProfile } from "../scenes/formPersonalizationProfile";
 import {
@@ -48,19 +48,15 @@ export const PersonalizationProfileForm = ({
   const validationSchema = validationPersonalizationProfile();
   const id = profile?.id;
 
-  const done = (result: Result, title: string) =>
-    result.success
-      ? Swal.fire({
-          title,
-          icon: "success",
-          timer: 1800,
-          showConfirmButton: false,
-          willClose: () => {
-            handleClose?.(true);
-            router.refresh();
-          },
-        })
-      : Swal.fire({ title: t("errorTitle"), text: result.error || t("unexpectedError"), icon: "error" });
+  const done = (result: Result, title: string) => {
+    if (result.success) {
+      notify.success(title);
+      handleClose?.(true);
+      router.refresh();
+    } else {
+      notify.error(t("errorTitle"), result.error || t("unexpectedError"));
+    }
+  };
 
   const handleSubmit = async (values: PersonalizationProfileFormValues) => {
     // El PUT ignora `null`: los textos vacíos se envían como "" para poder borrarlos.

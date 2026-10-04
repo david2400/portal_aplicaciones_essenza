@@ -1,9 +1,14 @@
 'use server';
 
+import { parse_grid_query } from '@/server/lib/pagination';
+import type { BulkResult } from '@/shared/models/pagination';
+import { DEVOLUTION_GRID } from './grid';
 import {
   create_order_devolution_action,
   update_order_devolution_action,
   delete_order_devolution_action,
+  bulk_delete_order_devolutions_action,
+  export_order_devolutions_action,
 } from '@/server/domains/devolution/order-devolutions/actions';
 import { get_order_devolution_by_id } from '@/server/domains/devolution/order-devolutions/queries';
 import type {
@@ -150,4 +155,19 @@ export async function createDevolutionEvidenceServerAction(
 export async function deleteDevolutionEvidenceServerAction(id: number): Promise<ActionResult> {
   const result = await delete_order_devolution_evidence_action({ id });
   return result.success ? { success: true } : fail(result.error, 'No se pudo eliminar la evidencia');
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulkDeleteDevolutionsServerAction(ids: number[]): Promise<ActionResult<BulkResult>> {
+  const result = await bulk_delete_order_devolutions_action(ids);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudieron eliminar las devoluciones');
+}
+
+/** Exporta todas las devoluciones que cumplen la búsqueda actual. */
+export async function exportDevolutionsServerAction(
+  params: Record<string, string>,
+): Promise<ActionResult<{ items: OrderDevolutionDto[]; truncated: boolean }>> {
+  const result = await export_order_devolutions_action(parse_grid_query(params, DEVOLUTION_GRID));
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo exportar');
 }

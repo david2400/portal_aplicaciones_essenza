@@ -3,6 +3,9 @@
 import { revalidateTag } from 'next/cache';
 
 import { subcategories_repository } from './repository';
+import { subcategories_resource } from './search';
+import type { SubcategoryDto } from './types';
+import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type {
   CreateSubcategoryPayload,
   UpdateSubcategoryPayload,
@@ -10,16 +13,22 @@ import type {
 } from './types';
 import { subcategories_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
+import { field_errors_from } from '@/server/lib/pagination';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 type ActionResult<T = void> =
   | { success: true; data: T }
-  | { success: false; error: string; status?: number };
+  | { success: false; error: string; status?: number; fieldErrors?: Record<string, string> };
 
 function handle_error(error: unknown): ActionResult<never> {
   if (error instanceof ServerApiError) {
-    return { success: false, error: error.message, status: error.status };
+    return {
+      success: false,
+      error: error.message,
+      status: error.status,
+      fieldErrors: field_errors_from(error),
+    };
   }
   const message = error instanceof Error ? error.message : 'Unexpected error';
   return { success: false, error: message };
@@ -66,6 +75,31 @@ export async function delete_subcategory_action(
     await subcategories_repository.delete_subcategory(payload);
     revalidate_subcategory_tag(payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulk_delete_subcategories_action(
+  ids: number[],
+): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await subcategories_resource.bulk_delete(ids);
+    revalidateTag(subcategories_tags.list());
+    for (const id of ids) revalidateTag(subcategories_tags.item(id));
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function export_subcategories_action(
+  query: GridQuery,
+): Promise<ActionResult<{ items: SubcategoryDto[]; truncated: boolean }>> {
+  try {
+    return { success: true, data: await subcategories_resource.export_all(query) };
   } catch (error) {
     return handle_error(error);
   }

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { Nav } from "@components/navbar/scenes";
 import { Toaster } from "@repo/ui/toasts/scenes/toaster";
 import { Footer } from "../footer";
+import { NotificationHost } from "../notifications";
 
 /**
  * Estructura común de la aplicación: barra superior, contenido y pie.
@@ -17,6 +18,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <div className='flex min-h-screen flex-col'>
       <Nav />
       <Toaster />
+      <NotificationHost />
       <main id='main-content' className='main-content flex-1'>
         {children}
       </main>

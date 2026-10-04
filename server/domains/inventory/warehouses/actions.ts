@@ -3,6 +3,10 @@
 import { revalidateTag } from 'next/cache';
 
 import { warehouses_repository } from './repository';
+import { list_all_warehouses } from './queries';
+import { create_search_resource } from '@/server/lib/search-resource';
+import type { BulkResult } from '@/shared/models/pagination';
+import type { WarehouseDto } from './types';
 import type { CreateWarehouseDto, UpdateWarehousePayload } from './types';
 import { warehouses_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
@@ -49,6 +53,35 @@ export async function update_warehouse_action(
     const result = await warehouses_repository.update_warehouse(payload);
     revalidate_warehouse_tags(result.id ?? payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Borrado (individual y en lote) ──────────────────────────────────────────
+
+export async function delete_warehouse_action(id: number): Promise<ActionResult> {
+  try {
+    await warehouses_repository.delete_warehouse(id);
+    revalidate_warehouse_tags(id);
+    return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function bulk_delete_warehouses_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const resource = create_search_resource<WarehouseDto>({
+      base_path: '/api/shop/inventory/warehouses',
+      list_tag: warehouses_tags.list(),
+      list_all: () => list_all_warehouses(),
+      delete_one: (id) => warehouses_repository.delete_warehouse(id),
+      search_fields: (item) => [item.code, item.name, item.address],
+    });
+    const result = await resource.bulk_delete(ids);
+    revalidate_warehouse_tags();
+    return { success: true, data: result };
   } catch (error) {
     return handle_error(error);
   }

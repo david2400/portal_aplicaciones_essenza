@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
+import { confirm, notify, prompt } from "@/components/notifications";
 import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import {
@@ -96,12 +96,12 @@ export const DevolutionDetail = ({
   );
 
   const showError = (message?: string) =>
-    Swal.fire({ title: tCommon("errorTitle"), text: message || tCommon("unexpectedError"), icon: "error" });
+    notify.error(tCommon("errorTitle"), message || tCommon("unexpectedError"));
 
   const applyTransition = async (patch: DevolutionTransitionPatch) => {
     const response = await transitionDevolutionServerAction(devolutionId, patch);
     if (response.success) {
-      Swal.fire({ title: t("transitionDone"), icon: "success", timer: 1800, showConfirmButton: false });
+      notify.success(t("transitionDone"));
       router.refresh();
     } else {
       showError(response.error);
@@ -109,16 +109,12 @@ export const DevolutionDetail = ({
   };
 
   const askText = async (title: string, label: string, textarea = false) => {
-    const result = await Swal.fire({
+    const value = await prompt({
       title,
-      input: textarea ? "textarea" : "text",
-      inputLabel: label,
-      showCancelButton: true,
-      confirmButtonText: tCommon("save"),
-      cancelButtonText: tCommon("cancel"),
-      inputValidator: (value) => (!value?.trim() ? t("requiredInput") : undefined),
+      confirmLabel: tCommon("save"),
+      input: { label, multiline: textarea, required: true },
     });
-    return result.isConfirmed ? String(result.value).trim() : null;
+    return value?.trim() || null;
   };
 
   const handleTransition = async (next: DevolutionState) => {
@@ -145,31 +141,28 @@ export const DevolutionDetail = ({
       return;
     }
     if (next === "F") {
-      const confirm = await Swal.fire({
+      const ok = await confirm({
         title: t("actions.F"),
-        text: t("refundConfirm", { amount: formatMoney(refundSum) }),
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: t("actions.F"),
-        cancelButtonText: tCommon("cancel"),
+        description: t("refundConfirm", { amount: formatMoney(refundSum) }),
+        confirmLabel: t("actions.F"),
       });
-      if (confirm.isConfirmed) await applyTransition({ state: "F", totalRefundAmount: refundSum });
+      if (ok) await applyTransition({ state: "F", totalRefundAmount: refundSum });
     }
   };
 
   const confirmDelete = (name: string, action: () => Promise<{ success: boolean; error?: string }>) =>
-    Swal.fire({
+    confirm({
       title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
+      description: tCommon("deleteConfirmText", { name }),
+      confirmLabel: tCommon("deleteConfirmButton"),
+      tone: "danger",
+    }).then(async (ok) => {
+      if (!ok) return;
       const response = await action();
-      if (response.success) router.refresh();
-      else showError(response.error);
+      if (response.success) {
+        notify.success(tCommon("deletedSuccess"), name);
+        router.refresh();
+      } else showError(response.error);
     });
 
   const detailColumns: ColumnDef<IDevolutionDetail>[] = [
@@ -250,7 +243,7 @@ export const DevolutionDetail = ({
       value:
         devolution.orderId != null ? (
           <Link
-            href={`/administre/orders/${devolution.orderId}`}
+            href={`/ventas/orders/${devolution.orderId}`}
             className='text-primary underline-offset-4 hover:underline'>
             #{devolution.orderId}
           </Link>
@@ -285,7 +278,7 @@ export const DevolutionDetail = ({
       <div className='flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between'>
         <div className='space-y-2'>
           <Link
-            href='/administre/devolutions'
+            href='/postventa/devolutions'
             className='inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground'>
             <HiOutlineArrowLeft className='h-4 w-4' aria-hidden='true' />
             {t("backToList")}

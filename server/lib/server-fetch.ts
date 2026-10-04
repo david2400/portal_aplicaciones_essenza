@@ -7,8 +7,12 @@ import { ServerApiError, type ServerFetchOptions } from './types';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-function build_url(path: string, params?: Record<string, unknown>): string {
-  const url = new URL(path, env.api_base_url);
+function build_url(
+  path: string,
+  params?: Record<string, unknown>,
+  base_url: string = env.api_base_url,
+): string {
+  const url = new URL(path, base_url);
   if (params) {
     for (const [key, value] of Object.entries(params)) {
       if (value !== undefined && value !== null && value !== '') {
@@ -84,16 +88,18 @@ async function server_request<T>(
   opts: ServerFetchOptions & {
     body?: unknown;
     params?: Record<string, unknown>;
+    /** Backend destino; por defecto el de Essenza (`API_BASE_URL`). */
+    base_url?: string;
   } = {},
 ): Promise<T> {
-  const { body, params, revalidate, tags, signal, headers: extra_headers } = opts;
+  const { body, params, revalidate, tags, signal, headers: extra_headers, base_url } = opts;
 
   const [auth_headers, fwd_headers] = await Promise.all([
     get_auth_headers(),
     forwarded_headers(),
   ]);
 
-  const url = build_url(path, params);
+  const url = build_url(path, params, base_url);
 
   const fetch_options: RequestInit & { next?: Record<string, unknown> } = {
     method,
@@ -164,5 +170,15 @@ export const server_fetch = {
 
   delete<T>(path: string, opts?: ServerFetchOptions) {
     return server_request<T>('DELETE', path, opts);
+  },
+} as const;
+
+// ─── parametros client ──────────────────────────────────────────────────────
+// Mismo wrapper apuntando al servicio `parametros` (catálogos compartidos:
+// países, departamentos, ciudades…). Solo lectura desde este frontend.
+
+export const parametros_fetch = {
+  get<T>(path: string, opts?: ServerFetchOptions & { params?: Record<string, unknown> }) {
+    return server_request<T>('GET', path, { ...opts, base_url: env.parametros_base_url });
   },
 } as const;

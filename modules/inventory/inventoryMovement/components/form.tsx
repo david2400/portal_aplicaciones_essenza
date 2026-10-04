@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
 import { FormInventoryMovement } from "../scenes/formInventoryMovement";
@@ -43,11 +43,11 @@ export const RegisterInventoryMovement = ({
 
     const result = await registerMovementServerAction(payload);
     if (result.success) {
-      await Swal.fire({ title: t("registered"), icon: "success", timer: 2000, showConfirmButton: false });
+      notify.success(t("registered"));
       handleClose?.(true);
       router.refresh();
     } else {
-      Swal.fire({ title: tCommon("errorTitle"), text: result.error || tCommon("unexpectedError"), icon: "error" });
+      notify.error(tCommon("errorTitle"), result.error || tCommon("unexpectedError"));
     }
   };
 

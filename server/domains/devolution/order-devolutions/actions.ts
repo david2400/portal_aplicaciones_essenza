@@ -3,6 +3,9 @@
 import { revalidateTag } from 'next/cache';
 
 import { order_devolutions_repository } from './repository';
+import { order_devolutions_resource } from './search';
+import type { OrderDevolutionDto } from './types';
+import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type {
   CreateOrderDevolutionDto,
   UpdateOrderDevolutionPayload,
@@ -65,6 +68,29 @@ export async function delete_order_devolution_action(
     await order_devolutions_repository.delete_order_devolution(payload);
     revalidate_order_devolution_tags(payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulk_delete_order_devolutions_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await order_devolutions_resource.bulk_delete(ids);
+    revalidateTag(order_devolutions_tags.list());
+    for (const id of ids) revalidateTag(order_devolutions_tags.item(id));
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function export_order_devolutions_action(
+  query: GridQuery,
+): Promise<ActionResult<{ items: OrderDevolutionDto[]; truncated: boolean }>> {
+  try {
+    return { success: true, data: await order_devolutions_resource.export_all(query) };
   } catch (error) {
     return handle_error(error);
   }

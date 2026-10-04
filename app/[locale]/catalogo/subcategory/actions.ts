@@ -1,44 +1,61 @@
 'use server';
 
 import {
+  bulk_delete_subcategories_action,
   create_subcategory_action,
-  update_subcategory_action,
   delete_subcategory_action,
+  export_subcategories_action,
+  update_subcategory_action,
 } from '@/server/domains/catalog/subcategories/actions';
-import type {
-  CreateSubcategoryDto,
-  UpdateSubcategoryDto,
-} from '@/server/domains/catalog/subcategories/types';
+import type { SubcategoryDto } from '@/server/domains/catalog/subcategories/types';
+import { parse_grid_query } from '@/server/lib/pagination';
+import type { ActionResult, BulkResult } from '@/shared/models/pagination';
+import { SUBCATEGORY_GRID } from './grid';
 
 /**
  * Server actions de la ruta. Devuelven el resultado en lugar de lanzar,
- * para que el formulario pueda mostrar el motivo real del error (en
- * producción Next.js oculta el mensaje de las excepciones).
+ * para que la UI muestre el motivo real del error (en producción Next.js
+ * oculta el mensaje de las excepciones) y marque los campos inválidos.
  */
-type ActionResult<T = void> =
-  | { success: true; data?: T }
-  | { success: false; error: string };
+type SubcategoryFormValues = { name: string; slug?: string; description?: string; categoryId?: number };
 
-const fail = (error: string | undefined, fallback: string): ActionResult<never> => ({
+const fail = (
+  result: { error?: string; fieldErrors?: Record<string, string> },
+  fallback: string,
+): ActionResult<never> => ({ success: false, error: result.error ?? fallback, fieldErrors: result.fieldErrors });
+
+const missingCategory = (): ActionResult<never> => ({
   success: false,
-  error: error ?? fallback,
+  error: 'Selecciona la categoría a la que pertenece la subcategoría.',
+  fieldErrors: { categoryId: 'Selecciona una categoría' },
 });
 
-export async function createSubcategoryServerAction(
-  payload: CreateSubcategoryDto,
-): Promise<ActionResult<{ id?: number }>> {
-  const result = await create_subcategory_action(payload);
-  return result.success
-    ? { success: true, data: result.data }
-    : fail(result.error, 'No se pudo crear el registro');
+export async function createSubcategoryServerAction(values: SubcategoryFormValues): Promise<ActionResult<{ id?: number }>> {
+  if (!values.categoryId) return missingCategory();
+  const result = await create_subcategory_action({ ...values, categoryId: values.categoryId });
+  return result.success ? { success: true, data: result.data } : fail(result, 'No se pudo crear la subcategoría');
 }
 
-export async function updateSubcategoryServerAction(payload: UpdateSubcategoryDto): Promise<ActionResult> {
-  const result = await update_subcategory_action(payload);
-  return result.success ? { success: true } : fail(result.error, 'No se pudo actualizar el registro');
+export async function updateSubcategoryServerAction(id: number, values: SubcategoryFormValues): Promise<ActionResult> {
+  if (!values.categoryId) return missingCategory();
+  const result = await update_subcategory_action({ ...values, categoryId: values.categoryId, id });
+  return result.success ? { success: true } : fail(result, 'No se pudo actualizar la subcategoría');
 }
 
 export async function deleteSubcategoryServerAction(id: number): Promise<ActionResult> {
   const result = await delete_subcategory_action({ id });
-  return result.success ? { success: true } : fail(result.error, 'No se pudo eliminar el registro');
+  return result.success ? { success: true } : fail(result, 'No se pudo eliminar la subcategoría');
+}
+
+export async function bulkDeleteSubcategoriesServerAction(ids: number[]): Promise<ActionResult<BulkResult>> {
+  const result = await bulk_delete_subcategories_action(ids);
+  return result.success ? { success: true, data: result.data } : fail(result, 'No se pudieron eliminar las subcategorías');
+}
+
+/** Exporta todas las subcategorías que cumplen la búsqueda actual (parámetros de la URL). */
+export async function exportSubcategoriesServerAction(
+  params: Record<string, string>,
+): Promise<ActionResult<{ items: SubcategoryDto[]; truncated: boolean }>> {
+  const result = await export_subcategories_action(parse_grid_query(params, SUBCATEGORY_GRID));
+  return result.success ? { success: true, data: result.data } : fail(result, 'No se pudo exportar');
 }

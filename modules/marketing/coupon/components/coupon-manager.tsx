@@ -2,25 +2,19 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
-import classNames from "classnames";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
-import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import {
-  HiOutlineTicket,
-  HiOutlinePlusCircle,
-  HiOutlinePencilSquare,
-  HiOutlineTrash,
-  HiOutlineCheckCircle,
-  HiOutlineClock,
   HiOutlineChartBar,
+  HiOutlineCheckCircle,
+  HiOutlineClipboardDocument,
+  HiOutlineClock,
+  HiOutlineTicket,
 } from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
+import { notify } from "@/components/notifications";
 import { CouponForm } from "./form";
 import { CouponSimulator } from "./coupon-simulator";
 import type { CouponStatus, ICoupon, INamedItem } from "../models/coupon.interface";
@@ -41,219 +35,160 @@ const STATUS_VARIANT: Record<CouponStatus, "default" | "secondary" | "destructiv
   inactive: "destructive",
 };
 
-const STATUSES: ("all" | CouponStatus)[] = ["all", "active", "scheduled", "expired", "exhausted", "inactive"];
+const STATUSES: CouponStatus[] = ["active", "scheduled", "expired", "exhausted", "inactive"];
 
-type ModalState = { open: boolean; coupon: ICoupon | null };
-
+/** Cupones: vigencia, consumo, simulador de descuento y acciones en lote. */
 export const CouponManager = ({ initialData, categories, products }: ICouponManagerProps) => {
-  const router = useRouter();
   const t = useTranslations("Administre.coupon");
   const tCommon = useTranslations("Administre.common");
-  const [modal, setModal] = useState<ModalState>({ open: false, coupon: null });
-  const [statusFilter, setStatusFilter] = useState<"all" | CouponStatus>("all");
-
-  const withStatus = useMemo(
-    () => initialData.map((coupon) => ({ coupon, status: couponStatus(coupon) })),
-    [initialData],
-  );
-
-  const metrics = useMemo(
-    () => ({
-      total: initialData.length,
-      active: withStatus.filter((item) => item.status === "active").length,
-      scheduled: withStatus.filter((item) => item.status === "scheduled").length,
-      uses: initialData.reduce((acc, coupon) => acc + (coupon.usageCount ?? 0), 0),
-    }),
-    [initialData, withStatus],
-  );
-
-  const data = useMemo(
-    () =>
-      statusFilter === "all"
-        ? initialData
-        : withStatus.filter((item) => item.status === statusFilter).map((item) => item.coupon),
-    [initialData, withStatus, statusFilter],
-  );
+  const tCrud = useTranslations("Crud");
 
   const formatDiscount = (coupon: ICoupon) => {
     if (coupon.discountType === "FREE_SHIPPING") return t("types.FREE_SHIPPING");
     if (coupon.discountType === "PERCENTAGE") return `${coupon.discountValue ?? 0}%`;
     return formatMoney(coupon.discountValue);
   };
+  const usage = (coupon: ICoupon) =>
+    `${coupon.usageCount ?? 0} / ${coupon.usageLimit != null ? coupon.usageLimit : "∞"}`;
 
-  const handleDelete = (coupon: ICoupon) => {
-    if (coupon.id == null) return;
-    const id = coupon.id;
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: coupon.code ?? `#${id}` }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteCouponServerAction(id);
-      if (response.success) {
-        Swal.fire({ title: tCommon("deletedSuccess"), icon: "success", timer: 2000, showConfirmButton: false });
-        router.refresh();
-      } else {
-        Swal.fire({ title: tCommon("errorTitle"), text: response.error || tCommon("unexpectedError"), icon: "error" });
-      }
-    });
-  };
+  const columns = useMemo<GridColumn<ICoupon>[]>(
+    () => [
+      {
+        id: "code",
+        header: t("fields.code"),
+        meta: { label: t("fields.code"), hideable: false, exportValue: (row) => row.code },
+        cell: ({ row }) => (
+          <div className='flex flex-col'>
+            <span className='font-mono font-semibold text-foreground'>{row.original.code}</span>
+            <span className='text-xs text-muted-foreground'>{row.original.name}</span>
+          </div>
+        ),
+      },
+      {
+        id: "discount",
+        header: t("fields.discount"),
+        enableSorting: false,
+        meta: { label: t("fields.discount"), exportValue: (row) => formatDiscount(row) },
+        cell: ({ row }) => formatDiscount(row.original),
+      },
+      {
+        id: "validity",
+        header: t("fields.validity"),
+        enableSorting: false,
+        meta: {
+          label: t("fields.validity"),
+          exportValue: (row) => `${formatDate(row.validFrom)} – ${formatDate(row.validUntil)}`,
+        },
+        cell: ({ row }) => `${formatDate(row.original.validFrom)} – ${formatDate(row.original.validUntil)}`,
+      },
+      {
+        id: "usage",
+        header: t("fields.usage"),
+        meta: { label: t("fields.usage"), align: "right", exportValue: (row) => usage(row) },
+        accessorFn: (row) => row.usageCount ?? 0,
+        cell: ({ row }) => {
+          const limit = row.original.usageLimit;
+          const used = row.original.usageCount ?? 0;
+          const ratio = limit ? Math.min(100, Math.round((used / limit) * 100)) : null;
+          return (
+            <div className='flex min-w-24 flex-col items-end gap-1'>
+              <span className='tabular-nums'>{usage(row.original)}</span>
+              {ratio != null ? (
+                <span className='h-1.5 w-full overflow-hidden rounded-full bg-muted' aria-hidden='true'>
+                  <span className='block h-full rounded-full bg-primary' style={{ width: `${ratio}%` }} />
+                </span>
+              ) : null}
+            </div>
+          );
+        },
+      },
+      {
+        id: "status",
+        header: tCommon("status"),
+        enableSorting: false,
+        meta: { label: tCommon("status"), exportValue: (row) => t(`status.${couponStatus(row)}`) },
+        cell: ({ row }) => {
+          const status = couponStatus(row.original);
+          return <Badge variant={STATUS_VARIANT[status]}>{t(`status.${status}`)}</Badge>;
+        },
+      },
+      {
+        id: "isPublic",
+        header: t("fields.isPublic"),
+        enableSorting: false,
+        meta: {
+          label: t("fields.isPublic"),
+          defaultHidden: true,
+          exportValue: (row) => (row.isPublic ? tCommon("yes") : tCommon("no")),
+        },
+        cell: ({ row }) => (row.original.isPublic ? tCommon("yes") : tCommon("no")),
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t, tCommon],
+  );
 
-  const columns: ColumnDef<ICoupon>[] = [
-    {
-      accessorKey: "code",
-      header: t("fields.code"),
-      cell: ({ row }) => (
-        <div className='flex flex-col'>
-          <span className='font-mono font-semibold text-foreground'>{row.original.code}</span>
-          <span className='text-xs text-muted-foreground'>{row.original.name}</span>
-        </div>
-      ),
-    },
-    { id: "discount", header: t("fields.discount"), cell: ({ row }) => formatDiscount(row.original) },
-    {
-      id: "validity",
-      header: t("fields.validity"),
-      cell: ({ row }) => `${formatDate(row.original.validFrom)} – ${formatDate(row.original.validUntil)}`,
-    },
-    {
-      id: "usage",
-      header: t("fields.usage"),
-      cell: ({ row }) =>
-        row.original.usageLimit != null
-          ? `${row.original.usageCount ?? 0} / ${row.original.usageLimit}`
-          : `${row.original.usageCount ?? 0} / ∞`,
-    },
+  const filters: GridFilter<ICoupon>[] = [
     {
       id: "status",
-      header: tCommon("status"),
-      cell: ({ row }) => {
-        const status = couponStatus(row.original);
-        return <Badge variant={STATUS_VARIANT[status]}>{t(`status.${status}`)}</Badge>;
-      },
+      label: tCommon("status"),
+      options: STATUSES.map((status) => ({ value: status, label: t(`status.${status}`) })),
+      accessor: (row) => couponStatus(row),
     },
     {
-      accessorKey: "isPublic",
-      header: t("fields.isPublic"),
-      cell: ({ row }) => (row.original.isPublic ? tCommon("yes") : tCommon("no")),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className='flex gap-2'>
-          <Buttons
-            size='sm'
-            variant='outline'
-            aria-label={tCommon("editAria", { name: row.original.code ?? "" })}
-            onClick={() => setModal({ open: true, coupon: row.original })}>
-            <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-            {tCommon("edit")}
-          </Buttons>
-          <Buttons
-            size='sm'
-            variant='ghost'
-            aria-label={tCommon("deleteAria", { name: row.original.code ?? "" })}
-            onClick={() => handleDelete(row.original)}>
-            <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-            {tCommon("delete")}
-          </Buttons>
-        </div>
-      ),
+      id: "isPublic",
+      label: t("fields.isPublic"),
+      options: [
+        { value: "true", label: tCommon("yes") },
+        { value: "false", label: tCommon("no") },
+      ],
+      accessor: (row) => String(Boolean(row.isPublic)),
     },
   ];
 
-  const summaryCards = [
-    { icon: HiOutlineTicket, label: t("total"), value: metrics.total },
-    { icon: HiOutlineCheckCircle, label: t("activeNow"), value: metrics.active },
-    { icon: HiOutlineClock, label: t("scheduledCount"), value: metrics.scheduled },
-    { icon: HiOutlineChartBar, label: t("usesCount"), value: metrics.uses },
-  ];
+  const statuses = initialData.map((coupon) => couponStatus(coupon));
+  const active = statuses.filter((status) => status === "active").length;
+  const scheduled = statuses.filter((status) => status === "scheduled").length;
+  const uses = initialData.reduce((acc, coupon) => acc + (coupon.usageCount ?? 0), 0);
+
+  const copyCodes = async (rows: ICoupon[]) => {
+    const codes = rows.map((row) => row.code).filter(Boolean).join("\n");
+    try {
+      await navigator.clipboard.writeText(codes);
+      notify.success(t("codesCopied", { count: rows.length }));
+    } catch {
+      notify.error(tCommon("errorTitle"), tCommon("unexpectedError"));
+    }
+  };
 
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineTicket className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
-        <Buttons
-          className='inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm'
-          onClick={() => setModal({ open: true, coupon: null })}>
-          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-          {t("create")}
-        </Buttons>
-      </div>
-
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        {summaryCards.map((card) => (
-          <div
-            key={card.label}
-            className='rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md'>
-            <div className='flex items-center justify-between text-sm font-semibold text-muted-foreground'>
-              <span>{card.label}</span>
-              <card.icon className='h-5 w-5 text-primary' aria-hidden='true' />
-            </div>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
-          </div>
-        ))}
-      </div>
-
+    <CrudManager<ICoupon>
+      gridId='cupones'
+      namespace='Administre.coupon'
+      icon={HiOutlineTicket}
+      eyebrow={tCrud("domains.marketing")}
+      data={initialData}
+      columns={columns}
+      filters={filters}
+      modalSize='xl'
+      stats={[
+        { label: t("total"), value: initialData.length, icon: HiOutlineTicket },
+        { label: t("activeNow"), value: active, icon: HiOutlineCheckCircle, tone: "success" },
+        { label: t("scheduledCount"), value: scheduled, icon: HiOutlineClock },
+        { label: t("usesCount"), value: uses, icon: HiOutlineChartBar },
+      ]}
+      rowLabel={(row) => row.code ?? `#${row.id}`}
+      searchPlaceholder={t("searchPlaceholder")}
+      searchText={(row) => `${row.code ?? ""} ${row.name ?? ""}`}
+      extraRowActions={(row) => [
+        { label: t("copyCode"), icon: HiOutlineClipboardDocument, onSelect: () => void copyCodes([row]) },
+      ]}
+      extraBulkActions={[{ label: t("copyCodes"), icon: HiOutlineClipboardDocument, onAction: copyCodes }]}
+      renderForm={(item, close) => (
+        <CouponForm coupon={item} categories={categories} products={products} handleClose={close} />
+      )}
+      onDelete={(id) => deleteCouponServerAction(id)}>
       <CouponSimulator />
-
-      <div role='group' aria-label={t("filterLabel")} className='flex flex-wrap gap-2'>
-        {STATUSES.map((status) => (
-          <button
-            key={status}
-            type='button'
-            aria-pressed={statusFilter === status}
-            onClick={() => setStatusFilter(status)}
-            className={classNames(
-              "rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
-              statusFilter === status
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border text-muted-foreground hover:text-foreground",
-            )}>
-            {status === "all" ? t("allStatuses") : t(`status.${status}`)}
-          </button>
-        ))}
-      </div>
-
-      <DataTable
-        data={data}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-
-      <Modal
-        size='xl'
-        title={modal.coupon ? t("editTitle") : t("createTitle")}
-        open={modal.open}
-        onOpenChange={(open) => {
-          if (!open) setModal({ open: false, coupon: null });
-        }}
-        hideDefaultFooter={true}>
-        {modal.open ? (
-          <CouponForm
-            coupon={modal.coupon}
-            categories={categories}
-            products={products}
-            handleClose={() => setModal({ open: false, coupon: null })}
-          />
-        ) : null}
-      </Modal>
-    </section>
+    </CrudManager>
   );
 };

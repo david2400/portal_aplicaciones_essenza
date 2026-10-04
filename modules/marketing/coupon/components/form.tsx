@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import { FormCoupon } from "../scenes/formCoupon";
 import { validationCoupon } from "../schemas/coupon.schema";
@@ -90,16 +90,11 @@ export const CouponForm = ({
         : await createCouponServerAction(payload);
 
     if (result.success) {
-      await Swal.fire({
-        title: coupon?.id != null ? tCommon("updatedSuccess") : tCommon("createdSuccess"),
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      notify.success(coupon?.id != null ? tCommon("updatedSuccess") : tCommon("createdSuccess"));
       handleClose?.(true);
       router.refresh();
     } else {
-      Swal.fire({ title: tCommon("errorTitle"), text: result.error || tCommon("unexpectedError"), icon: "error" });
+      notify.error(tCommon("errorTitle"), result.error || tCommon("unexpectedError"));
     }
   };
 

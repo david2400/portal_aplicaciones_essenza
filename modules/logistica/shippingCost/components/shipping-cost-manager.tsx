@@ -5,17 +5,11 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
-import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
-import {
-  HiOutlineCurrencyDollar,
-  HiOutlineCalculator,
-  HiOutlineTruck,
-  HiOutlineTrash,
-} from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { HiOutlineCalculator, HiOutlineCurrencyDollar, HiOutlineTruck } from "react-icons/hi2";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
+import { notify } from "@/components/notifications";
 import { FormShippingCost } from "../scenes/formShippingCost";
 import { validationShippingCost, type ShippingCostFormValues } from "../schemas/shippingCost.schema";
 import type { IShippingCarrier, IShippingCost } from "../models/shippingCost.interface";
@@ -37,10 +31,12 @@ interface IShippingCostManagerProps {
   carriers: IShippingCarrier[];
 }
 
+/** Cotizaciones de envío: calculadora en vivo + histórico con filtros, exportación y depuración en lote. */
 export const ShippingCostManager = ({ initialData, carriers }: IShippingCostManagerProps) => {
   const router = useRouter();
   const t = useTranslations("Administre.shippingCost");
   const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
   const validationSchema = validationShippingCost();
 
   const [lastResult, setLastResult] = useState<IShippingCost | null>(null);
@@ -49,20 +45,12 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
     () => new Map(carriers.map((carrier) => [carrier.id ?? -1, carrier.name ?? `#${carrier.id}`])),
     [carriers],
   );
+  const carrierName = (row: IShippingCost) => carrierNames.get(row.carrierId ?? -1) ?? "—";
 
   const data = useMemo(() => [...initialData].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)), [initialData]);
-
-  const metrics = useMemo(() => {
-    const costs = initialData.map((item) => item.calculatedCost ?? 0);
-    return {
-      total: initialData.length,
-      average: costs.length ? costs.reduce((acc, value) => acc + value, 0) / costs.length : undefined,
-      carriers: carriers.filter((carrier) => carrier.isActive !== false).length,
-    };
-  }, [initialData, carriers]);
-
-  const showError = (message?: string) =>
-    Swal.fire({ title: tCommon("errorTitle"), text: message || tCommon("unexpectedError"), icon: "error" });
+  const costs = initialData.map((item) => item.calculatedCost ?? 0);
+  const average = costs.length ? costs.reduce((acc, value) => acc + value, 0) / costs.length : undefined;
+  const activeCarriers = carriers.filter((carrier) => carrier.isActive !== false).length;
 
   const handleCalculate = async (values: ShippingCostFormValues) => {
     const response = await calculateShippingCostServerAction({
@@ -74,122 +62,124 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
     });
     if (response.success) {
       setLastResult(response.data ?? null);
+      notify.success(t("resultTitle"), formatMoney(response.data?.calculatedCost));
       router.refresh();
     } else {
-      showError(response.error);
+      notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
     }
   };
 
-  const handleDelete = (row: IShippingCost) => {
-    if (row.id == null) return;
-    const id = row.id;
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: `#${id}` }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteShippingCostServerAction(id);
-      if (response.success) router.refresh();
-      else showError(response.error);
-    });
-  };
+  const columns = useMemo<GridColumn<IShippingCost>[]>(
+    () => [
+      {
+        id: "carrierId",
+        accessorFn: (row) => carrierName(row),
+        header: t("fields.carrierId"),
+        meta: { label: t("fields.carrierId"), hideable: false, exportValue: (row) => carrierName(row) },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>{carrierName(row.original)}</span>,
+      },
+      {
+        id: "originAddress",
+        accessorFn: (row) => row.originAddress ?? "",
+        header: t("fields.originAddress"),
+        meta: { label: t("fields.originAddress"), exportValue: (row) => row.originAddress },
+      },
+      {
+        id: "destinationAddress",
+        accessorFn: (row) => row.destinationAddress ?? "",
+        header: t("fields.destinationAddress"),
+        meta: { label: t("fields.destinationAddress"), exportValue: (row) => row.destinationAddress },
+      },
+      {
+        id: "distance",
+        accessorFn: (row) => row.distance ?? 0,
+        header: t("fields.distance"),
+        meta: { label: t("fields.distance"), align: "right", exportValue: (row) => row.distance },
+        cell: ({ row }) => formatNumber(row.original.distance, " km"),
+      },
+      {
+        id: "weight",
+        accessorFn: (row) => row.weight ?? 0,
+        header: t("fields.weight"),
+        meta: { label: t("fields.weight"), align: "right", exportValue: (row) => row.weight },
+        cell: ({ row }) => formatNumber(row.original.weight, " kg"),
+      },
+      {
+        id: "calculatedCost",
+        accessorFn: (row) => row.calculatedCost ?? 0,
+        header: t("fields.calculatedCost"),
+        meta: { label: t("fields.calculatedCost"), align: "right", exportValue: (row) => row.calculatedCost },
+        cell: ({ row }) => (
+          <span className='font-semibold tabular-nums text-foreground'>{formatMoney(row.original.calculatedCost)}</span>
+        ),
+      },
+      {
+        id: "isEstimated",
+        header: t("fields.isEstimated"),
+        enableSorting: false,
+        meta: {
+          label: t("fields.isEstimated"),
+          exportValue: (row) => (row.isEstimated ? t("estimated") : t("final")),
+        },
+        cell: ({ row }) => (
+          <Badge variant={row.original.isEstimated ? "outline" : "default"}>
+            {row.original.isEstimated ? t("estimated") : t("final")}
+          </Badge>
+        ),
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [carrierNames, t],
+  );
 
-  const columns: ColumnDef<IShippingCost>[] = [
+  const filters: GridFilter<IShippingCost>[] = [
     {
-      accessorKey: "carrierId",
-      header: t("fields.carrierId"),
-      cell: ({ row }) => (
-        <span className='font-semibold text-foreground'>
-          {carrierNames.get(row.original.carrierId ?? -1) ?? "—"}
-        </span>
-      ),
-    },
-    { accessorKey: "originAddress", header: t("fields.originAddress") },
-    { accessorKey: "destinationAddress", header: t("fields.destinationAddress") },
-    {
-      accessorKey: "distance",
-      header: t("fields.distance"),
-      cell: ({ row }) => formatNumber(row.original.distance, " km"),
+      id: "carrierId",
+      label: t("fields.carrierId"),
+      options: carriers
+        .filter((carrier) => carrier.id != null)
+        .map((carrier) => ({ value: String(carrier.id), label: carrier.name ?? `#${carrier.id}` })),
+      accessor: (row) => row.carrierId,
     },
     {
-      accessorKey: "weight",
-      header: t("fields.weight"),
-      cell: ({ row }) => formatNumber(row.original.weight, " kg"),
+      id: "isEstimated",
+      label: t("fields.isEstimated"),
+      options: [
+        { value: "true", label: t("estimated") },
+        { value: "false", label: t("final") },
+      ],
+      accessor: (row) => String(Boolean(row.isEstimated)),
     },
-    {
-      accessorKey: "calculatedCost",
-      header: t("fields.calculatedCost"),
-      cell: ({ row }) => (
-        <span className='font-semibold text-foreground'>{formatMoney(row.original.calculatedCost)}</span>
-      ),
-    },
-    {
-      accessorKey: "isEstimated",
-      header: t("fields.isEstimated"),
-      cell: ({ row }) => (
-        <Badge variant={row.original.isEstimated ? "outline" : "default"}>
-          {row.original.isEstimated ? t("estimated") : t("final")}
-        </Badge>
-      ),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <Buttons
-          size='sm'
-          variant='ghost'
-          aria-label={tCommon("deleteAria", { name: `#${row.original.id}` })}
-          onClick={() => handleDelete(row.original)}>
-          <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-          {tCommon("delete")}
-        </Buttons>
-      ),
-    },
-  ];
-
-  const summaryCards = [
-    { icon: HiOutlineCalculator, label: t("total"), value: metrics.total },
-    { icon: HiOutlineCurrencyDollar, label: t("averageCost"), value: formatMoney(metrics.average) },
-    { icon: HiOutlineTruck, label: t("carriersCount"), value: metrics.carriers },
   ];
 
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex items-center gap-4'>
-        <div className='rounded-2xl bg-primary/10 p-3'>
-          <HiOutlineCurrencyDollar className='h-7 w-7 text-primary' aria-hidden='true' />
-        </div>
-        <div>
-          <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-          <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-        </div>
-      </div>
-
-      <div className='grid gap-4 sm:grid-cols-3'>
-        {summaryCards.map((card) => (
-          <div
-            key={card.label}
-            className='rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md'>
-            <div className='flex items-center justify-between text-sm font-semibold text-muted-foreground'>
-              <span>{card.label}</span>
-              <card.icon className='h-5 w-5 text-primary' aria-hidden='true' />
-            </div>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
-          </div>
-        ))}
-      </div>
-
+    <CrudManager<IShippingCost>
+      gridId='cotizaciones-envio'
+      namespace='Administre.shippingCost'
+      icon={HiOutlineCurrencyDollar}
+      eyebrow={tCrud("domains.logistics")}
+      data={data}
+      columns={columns}
+      filters={filters}
+      stats={[
+        { label: t("total"), value: initialData.length, icon: HiOutlineCalculator },
+        { label: t("averageCost"), value: formatMoney(average), icon: HiOutlineCurrencyDollar },
+        {
+          label: t("carriersCount"),
+          value: activeCarriers,
+          icon: HiOutlineTruck,
+          tone: activeCarriers === 0 ? "warning" : "default",
+        },
+      ]}
+      rowLabel={(row) => `#${row.id}`}
+      searchPlaceholder={t("searchPlaceholder")}
+      searchText={(row) => `${carrierName(row)} ${row.originAddress ?? ""} ${row.destinationAddress ?? ""}`}
+      onDelete={(id) => deleteShippingCostServerAction(id)}>
       <div className='grid gap-4 lg:grid-cols-3'>
         <div className='rounded-2xl border border-border bg-card p-5 shadow-sm lg:col-span-2'>
           <h3 className='text-base font-semibold text-foreground'>{t("calculatorTitle")}</h3>
           <p className='mb-4 mt-1 text-sm text-muted-foreground'>{t("calculatorDescription")}</p>
-          {metrics.carriers === 0 ? (
+          {activeCarriers === 0 ? (
             <p role='status' className='text-sm text-muted-foreground'>
               {t("noCarriers")}
             </p>
@@ -211,8 +201,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
               <dt className='text-muted-foreground'>{t("resultTitle")}</dt>
               <dd className='text-3xl font-semibold text-foreground'>{formatMoney(lastResult.calculatedCost)}</dd>
               <dd className='text-muted-foreground'>
-                {carrierNames.get(lastResult.carrierId ?? -1) ?? "—"} ·{" "}
-                {formatNumber(lastResult.distance, " km")}
+                {carrierName(lastResult)} · {formatNumber(lastResult.distance, " km")}
               </dd>
               {lastResult.calculationMethod ? (
                 <dd className='text-xs text-muted-foreground'>{lastResult.calculationMethod}</dd>
@@ -223,14 +212,6 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
           )}
         </div>
       </div>
-
-      <DataTable
-        data={data}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-    </section>
+    </CrudManager>
   );
 };

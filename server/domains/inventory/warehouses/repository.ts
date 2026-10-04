@@ -52,9 +52,13 @@ export const warehouses_repository = {
   },
 
   async update_warehouse(payload: UpdateWarehousePayload): Promise<WarehouseDto> {
-    const { id, ...body } = payload;
-    return server_fetch.put<WarehouseDto>(warehouse_by_id_path(id), body, {
+    // `UpdateWarehouseDto` exige `id` en el cuerpo (@Valid @NotNull): se envía completo.
+    return server_fetch.put<WarehouseDto>(warehouse_by_id_path(payload.id), payload, {
       revalidate: false,
     });
+  },
+
+  async delete_warehouse(id: number): Promise<void> {
+    return server_fetch.delete<void>(warehouse_by_id_path(id), { revalidate: false });
   },
 } as const;

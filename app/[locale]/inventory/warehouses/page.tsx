@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { list_all_warehouses } from "@/server/domains/inventory/warehouses/queries";
+import { get_city_labels } from "@/server/domains/parametros/georeferencing/queries";
 import { WarehouseManager } from "@/modules/inventory/warehouse";
 
 export async function generateMetadata({
@@ -22,8 +23,11 @@ export async function generateMetadata({
 
 const WarehousePage = async () => {
   const initialData = await list_all_warehouses();
+  const cityLabels = await get_city_labels(
+    initialData.map((warehouse) => warehouse.cityId).filter((id): id is number => id != null),
+  );
 
-  return <WarehouseManager initialData={initialData} />;
+  return <WarehouseManager initialData={initialData} cityLabels={cityLabels} />;
 };
 
 export default WarehousePage;

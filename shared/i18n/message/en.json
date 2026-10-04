@@ -279,7 +279,11 @@
         "name": "Name",
         "code": "Code",
         "address": "Address",
-        "active": "Active"
+        "active": "Active",
+        "countryId": "Country",
+        "stateId": "State / department",
+        "cityId": "City",
+        "location": "Location"
       }
     },
     "paymentType": {
@@ -346,7 +350,12 @@
           "subtotal": "Subtotal",
           "total": "Total"
         }
-      }
+      },
+      "searchPlaceholder": "Search by order number or reference…",
+      "revenueHint": "Sum of non-cancelled orders",
+      "pending": "Pending",
+      "averageTicket": "Average ticket",
+      "viewDetail": "View detail"
     },
     "inventoryMovement": {
       "title": "Inventory movements",
@@ -375,7 +384,8 @@
         "toWarehouseId": "Destination warehouse",
         "quantity": "Quantity",
         "reason": "Reason"
-      }
+      },
+      "searchPlaceholder": "Search by product, warehouse or reason…"
     },
     "unitMeasurement": {
       "title": "Units of measure",
@@ -521,7 +531,11 @@
         "run": "Test",
         "missing": "Enter a code and an amount greater than 0.",
         "success": "Valid coupon: {discount} off. Amount due: {total}."
-      }
+      },
+      "searchPlaceholder": "Search by code or name…",
+      "copyCode": "Copy code",
+      "copyCodes": "Copy codes",
+      "codesCopied": "{count, plural, one {# code} other {# codes}} copied to clipboard"
     },
     "review": {
       "title": "Review moderation",
@@ -552,7 +566,15 @@
       "reject": "Reject",
       "rejectTitle": "Reject review",
       "rejectNotes": "Reason (optional, internal only)",
-      "rejectPlaceholder": "E.g. offensive language, spam…"
+      "rejectPlaceholder": "E.g. offensive language, spam…",
+      "searchPlaceholder": "Search title, comment, customer or product…",
+      "approvedOk": "Review approved",
+      "rejectedOk": "Review rejected",
+      "bulkApproveTitle": "Approve {count, plural, one {# review} other {# reviews}}?",
+      "selectAll": "Select all visible reviews",
+      "selectedCount": "{count} selected",
+      "visibleCount": "{count, plural, one {# review} other {# reviews}} in view",
+      "selectReview": "Select review {name}"
     },
     "motiveDevolution": {
       "title": "Return reasons",
@@ -718,7 +740,8 @@
           "description": "Description",
           "recordedBy": "Recorded by"
         }
-      }
+      },
+      "searchPlaceholder": "Search by number, order, reference or notes…"
     },
     "shippingCost": {
       "title": "Shipping costs",
@@ -745,7 +768,8 @@
         "volume": "Volume (m³)",
         "calculatedCost": "Cost",
         "isEstimated": "Type"
-      }
+      },
+      "searchPlaceholder": "Search by carrier, origin or destination…"
     },
     "deliveryEstimate": {
       "title": "Delivery times",
@@ -773,7 +797,8 @@
         "window": "Delivery window",
         "estimatedDays": "Days",
         "isBusinessDaysOnly": "Business days only"
-      }
+      },
+      "searchPlaceholder": "Search by carrier or route…"
     },
     "dispatch": {
       "title": "Dispatches",
@@ -846,7 +871,8 @@
           "weight": "Weight (kg)",
           "serviceType": "Service type"
         }
-      }
+      },
+      "searchPlaceholder": "Search by waybill, order, address or city…"
     },
     "cmsPage": {
       "title": "Pages",
@@ -920,7 +946,12 @@
         "authorName": "Author",
         "featuredImage": "Featured image",
         "customFields": "Custom fields (JSON)"
-      }
+      },
+      "searchPlaceholder": "Search by title or slug…",
+      "publishedOk": "Page published",
+      "unpublishedOk": "Page unpublished",
+      "bulkPublishTitle": "Publish {count, plural, one {# page} other {# pages}}?",
+      "bulkUnpublishTitle": "Unpublish {count, plural, one {# page} other {# pages}}?"
     },
     "recommendation": {
       "title": "Recommendations",
@@ -968,7 +999,9 @@
         "reason": "Reason",
         "isClicked": "Clicked",
         "isPurchased": "Purchased"
-      }
+      },
+      "searchPlaceholder": "Search by product or customer…",
+      "noInteraction": "No interaction"
     },
     "searchQuery": {
       "title": "Searches",
@@ -999,7 +1032,11 @@
         "sortBy": "Sort",
         "page": "Pagination",
         "lastRunAt": "Date"
-      }
+      },
+      "searchPlaceholder": "Search term…",
+      "withoutResults": "No results",
+      "withResults": "With results",
+      "registered": "Registered customer"
     },
     "personalization": {
       "title": "Personalization",
@@ -1045,7 +1082,69 @@
         "personalizedOffersJson": "Personalized offers",
         "uiPersonalizationJson": "UI personalization",
         "purchaseIntentJson": "Purchase intent"
-      }
+      },
+      "searchPlaceholder": "Search by customer, segment or status…"
+    },
+    "taxonomy": {
+      "eyebrow": "Catalog",
+      "searchPlaceholder": "Search by name, slug or description…",
+      "recent": "New (30 days)",
+      "recentHint": "Created in the last month",
+      "withoutDescription": "Missing description",
+      "withoutDescriptionHint": "Improves SEO and the shopping experience",
+      "noDescription": "No description",
+      "createdAt": "Created",
+      "updatedAt": "Last updated",
+      "copySlug": "Copy slug",
+      "slugCopied": "Slug copied",
+      "deleteSelected": "Delete selected",
+      "bulkConfirmTitle": "Delete {count, plural, one {# record} other {# records}}?",
+      "bulkConfirmText": "Records become inactive and are hidden from the store. Records in use will not be deleted.",
+      "bulkDeleted": "{count, plural, one {# record deleted} other {# records deleted}}",
+      "bulkPartial": "{ok} deleted · {failed} could not be deleted",
+      "exportTruncated": "The first 10,000 records were exported. Apply filters to export the rest.",
+      "slugPlaceholder": "generated-from-name",
+      "slugHint": "URL identifier. Leave it empty to generate it automatically.",
+      "slugAuto": "Will be generated automatically: {slug}",
+      "slugCustom": "Custom slug: lowercase letters, numbers and hyphens only.",
+      "generateSlug": "Generate from name",
+      "descriptionPlaceholder": "Briefly describe it for customers and search engines…"
+    },
+    "productGrid": {
+      "eyebrow": "Catalog",
+      "searchPlaceholder": "Search products by name or description…",
+      "margin": "Margin",
+      "combo": "Bundle",
+      "outOfStock": "Out of stock",
+      "lowStock": "Low stock",
+      "available": "Available",
+      "unavailable": "Hidden",
+      "markAvailable": "Mark available",
+      "markUnavailable": "Hide from store",
+      "deleteSelected": "Delete selected",
+      "bulkConfirmTitle": "Delete {count, plural, one {# product} other {# products}}?",
+      "bulkConfirmText": "Products become inactive and stop being sold.",
+      "bulkDeleted": "{count, plural, one {# product deleted} other {# products deleted}}",
+      "bulkUpdated": "{count, plural, one {# product updated} other {# products updated}}",
+      "bulkPartial": "{ok} processed · {failed} failed",
+      "availableHint": "{percent}% of the catalog on sale",
+      "stockAlerts": "Stock alerts",
+      "stockAlertsHint": "{out} out of stock · {low} with ≤ {threshold} units",
+      "inventoryValue": "Inventory value",
+      "inventoryValueHint": "Stock × cost price",
+      "exportTruncated": "The first 10,000 products were exported. Apply filters to export the rest."
+    },
+    "comboGrid": {
+      "eyebrow": "Catalog",
+      "searchPlaceholder": "Search by bundle or product…",
+      "combos": "Bundles",
+      "average": "Components per bundle",
+      "averageHint": "Average distinct products",
+      "deleteSelected": "Delete selected",
+      "bulkConfirmTitle": "Delete {count, plural, one {# component} other {# components}}?",
+      "bulkConfirmText": "Products will no longer be part of the bundle.",
+      "bulkDeleted": "{count, plural, one {# component deleted} other {# components deleted}}",
+      "bulkPartial": "{ok} deleted · {failed} failed"
     }
   },
   "Home": {
@@ -1109,5 +1208,89 @@
     "lowStockEmpty": "No product is below 5 units.",
     "registerEntry": "Record entry",
     "units": "{count} u."
+  },
+  "Geo": {
+    "country": "Country",
+    "state": "State / department",
+    "city": "City",
+    "selectCountry": "Select a country",
+    "selectState": "Select a state",
+    "selectCity": "Select a city",
+    "selectCountryFirst": "Select a country first",
+    "selectStateFirst": "Select a state first",
+    "loading": "Loading…",
+    "empty": "No results",
+    "unavailable": "The location catalog could not be loaded. Check that the parametros service is running."
+  },
+  "Grid": {
+    "search": "Search",
+    "searchPlaceholder": "Search…",
+    "allOf": "{label}: all",
+    "clearFilters": "Clear filters",
+    "refresh": "Refresh",
+    "view": "View",
+    "columns": "Visible columns",
+    "density": "Density",
+    "densities": {
+      "comfortable": "Comfortable",
+      "compact": "Compact"
+    },
+    "export": "Export CSV",
+    "exportDone": "{count, plural, one {# record} other {# records}} exported",
+    "exportFailed": "Export failed",
+    "pagination": "Pagination",
+    "showing": "Showing {from}–{to} of {total}",
+    "selectedCount": "{count, plural, one {# selected} other {# selected}}",
+    "rowsPerPage": "Rows per page",
+    "pageOf": "Page {page} of {pages}",
+    "first": "First page",
+    "previous": "Previous page",
+    "next": "Next page",
+    "last": "Last page",
+    "selectPage": "Select all rows on this page",
+    "selectRow": "Select row",
+    "actions": "Actions",
+    "rowActions": "Row actions",
+    "bulkRegion": "Bulk actions",
+    "clearSelection": "Clear selection",
+    "noResultsTitle": "No results",
+    "noResultsDescription": "No records match your search or filters."
+  },
+  "Notifications": {
+    "close": "Dismiss notification",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "required": "This field is required"
+  },
+  "Crud": {
+    "deleteSelected": "Delete selected",
+    "bulkConfirmTitle": "Delete {count, plural, one {# record} other {# records}}?",
+    "bulkConfirmText": "This cannot be undone. Records in use will not be deleted.",
+    "bulkDeleted": "{count, plural, one {# record deleted} other {# records deleted}}",
+    "bulkPartial": "{ok} processed · {failed} failed",
+    "exportTruncated": "The first 10,000 records were exported. Apply filters to export the rest.",
+    "updatedAt": "Last updated",
+    "createdAt": "Created",
+    "activeCount": "Active",
+    "recent": "New (30 days)",
+    "recentHint": "Created in the last month",
+    "domains": {
+      "catalog": "Catalog",
+      "inventory": "Inventory",
+      "sales": "Sales",
+      "logistics": "Logistics",
+      "aftersales": "After-sales",
+      "marketing": "Marketing",
+      "specs": "Specifications",
+      "content": "Content & growth"
+    },
+    "noLocation": "No location",
+    "withoutLocation": "Missing location",
+    "withoutLocationHint": "Set country, state and city",
+    "typesWithFeature": "Types with feature",
+    "featuresInCatalog": "Features in catalog",
+    "productsWithSpecs": "Products with specs",
+    "productsWithSpecsHint": "Products with at least one technical value",
+    "bulkUpdated": "{count, plural, one {# record updated} other {# records updated}}"
   }
 }

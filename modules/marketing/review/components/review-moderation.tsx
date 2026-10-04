@@ -5,24 +5,27 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
 import classNames from "classnames";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import {
   HiOutlineChatBubbleLeftRight,
   HiOutlineCheck,
-  HiOutlineXMark,
-  HiOutlineTrash,
   HiOutlineCheckBadge,
+  HiOutlineCheckCircle,
+  HiOutlineClock,
+  HiOutlineMagnifyingGlass,
+  HiOutlineStar,
+  HiOutlineTrash,
+  HiOutlineXMark,
   HiStar,
 } from "react-icons/hi2";
 import { EmptyState } from "@/components/feedback/empty-state";
+import { PageHeader } from "@/components/page-header";
+import { StatCards } from "@/components/stat-cards";
+import { confirm, notify, prompt } from "@/components/notifications";
 import { MODERATION_STATUSES, reviewStatus, type IReview, type ModerationStatus } from "../models/review.interface";
-import {
-  moderateReviewServerAction,
-  deleteReviewServerAction,
-} from "@/app/[locale]/marketing/reviews/actions";
+import { moderateReviewServerAction, deleteReviewServerAction } from "@/app/[locale]/marketing/reviews/actions";
 
 interface IReviewModerationProps {
   initialData: IReview[];
@@ -48,97 +51,169 @@ const Rating = ({ value, label }: { value: number; label: string }) => (
   </span>
 );
 
+type Outcome = { ok: number; failed: number };
+
+/** Cola de moderación de reseñas: filtros, búsqueda, selección múltiple y decisiones en lote. */
 export const ReviewModeration = ({ initialData, products }: IReviewModerationProps) => {
   const router = useRouter();
   const t = useTranslations("Administre.review");
   const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
 
   const [statusFilter, setStatusFilter] = useState<"ALL" | ModerationStatus>("PENDING");
   const [ratingFilter, setRatingFilter] = useState<number | null>(null);
-  const [busyId, setBusyId] = useState<number | null>(null);
+  const [query, setQuery] = useState("");
+  const [busy, setBusy] = useState<Set<number>>(new Set());
+  const [selected, setSelected] = useState<Set<number>>(new Set());
 
   const productNames = useMemo(
     () => new Map(products.map((product) => [product.id ?? -1, product.name ?? `#${product.id}`])),
     [products],
   );
+  const productName = (review: IReview) =>
+    productNames.get(review.productId ?? -1) ?? t("productFallback", { id: review.productId ?? "—" });
 
-  const metrics = useMemo(() => {
-    const rated = initialData.filter((review) => review.rating != null);
-    return {
-      pending: initialData.filter((review) => reviewStatus(review) === "PENDING").length,
-      approved: initialData.filter((review) => reviewStatus(review) === "APPROVED").length,
-      total: initialData.length,
-      average: rated.length
-        ? (rated.reduce((acc, review) => acc + (review.rating ?? 0), 0) / rated.length).toFixed(1)
-        : "—",
-    };
-  }, [initialData]);
+  const rated = initialData.filter((review) => review.rating != null);
+  const pending = initialData.filter((review) => reviewStatus(review) === "PENDING").length;
+  const approved = initialData.filter((review) => reviewStatus(review) === "APPROVED").length;
+  const average = rated.length
+    ? (rated.reduce((acc, review) => acc + (review.rating ?? 0), 0) / rated.length).toFixed(1)
+    : "—";
 
-  const data = useMemo(
-    () =>
-      initialData
-        .filter((review) => statusFilter === "ALL" || reviewStatus(review) === statusFilter)
-        .filter((review) => ratingFilter == null || review.rating === ratingFilter)
-        .sort((a, b) => (b.reviewDate ?? "").localeCompare(a.reviewDate ?? "")),
-    [initialData, statusFilter, ratingFilter],
-  );
+  const data = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return initialData
+      .filter((review) => statusFilter === "ALL" || reviewStatus(review) === statusFilter)
+      .filter((review) => ratingFilter == null || review.rating === ratingFilter)
+      .filter(
+        (review) =>
+          !needle ||
+          [review.title, review.comment, review.customerName, review.customerEmail, productName(review)]
+            .filter(Boolean)
+            .some((value) => String(value).toLowerCase().includes(needle)),
+      )
+      .sort((a, b) => (b.reviewDate ?? "").localeCompare(a.reviewDate ?? ""));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData, statusFilter, ratingFilter, query, productNames]);
 
-  const showError = (message?: string) =>
-    Swal.fire({ title: tCommon("errorTitle"), text: message || tCommon("unexpectedError"), icon: "error" });
+  const visibleIds = data.map((review) => review.id).filter((id): id is number => id != null);
+  const selectedVisible = visibleIds.filter((id) => selected.has(id));
+  const allSelected = visibleIds.length > 0 && selectedVisible.length === visibleIds.length;
+
+  const toggle = (id: number) =>
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  const toggleAll = () => setSelected(allSelected ? new Set() : new Set(visibleIds));
+
+  const markBusy = (ids: number[], value: boolean) =>
+    setBusy((prev) => {
+      const next = new Set(prev);
+      ids.forEach((id) => (value ? next.add(id) : next.delete(id)));
+      return next;
+    });
+
+  /** Ejecuta en tandas de 5 para no saturar el backend. */
+  const runAll = async (ids: number[], task: (id: number) => Promise<{ success: boolean }>): Promise<Outcome> => {
+    markBusy(ids, true);
+    let ok = 0;
+    for (let index = 0; index < ids.length; index += 5) {
+      const results = await Promise.allSettled(ids.slice(index, index + 5).map(task));
+      ok += results.filter((result) => result.status === "fulfilled" && result.value.success).length;
+    }
+    markBusy(ids, false);
+    return { ok, failed: ids.length - ok };
+  };
+
+  const askNotes = () =>
+    prompt({
+      title: t("rejectTitle"),
+      description: t("rejectPlaceholder"),
+      confirmLabel: t("reject"),
+      tone: "danger",
+      input: { label: t("rejectNotes"), multiline: true },
+    });
 
   const moderate = async (review: IReview, decision: ModerationStatus) => {
     if (review.id == null) return;
     let notes: string | undefined;
-
     if (decision === "REJECTED") {
-      const prompt = await Swal.fire({
-        title: t("rejectTitle"),
-        input: "textarea",
-        inputLabel: t("rejectNotes"),
-        inputPlaceholder: t("rejectPlaceholder"),
-        showCancelButton: true,
-        confirmButtonText: t("reject"),
-        cancelButtonText: tCommon("cancel"),
-      });
-      if (!prompt.isConfirmed) return;
-      notes = prompt.value;
+      const value = await askNotes();
+      if (value == null) return;
+      notes = value || undefined;
     }
-
-    setBusyId(review.id);
+    markBusy([review.id], true);
     const response = await moderateReviewServerAction(review.id, decision, notes);
-    setBusyId(null);
-    if (response.success) router.refresh();
-    else showError(response.error);
+    markBusy([review.id], false);
+    if (response.success) {
+      notify.success(decision === "APPROVED" ? t("approvedOk") : t("rejectedOk"), review.title || productName(review));
+      router.refresh();
+    } else {
+      notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
+    }
   };
 
-  const remove = (review: IReview) => {
+  const report = ({ ok, failed }: Outcome) => {
+    if (failed === 0) notify.success(tCrud("bulkUpdated", { count: ok }));
+    else notify.warning(tCrud("bulkPartial", { ok, failed }));
+    setSelected(new Set());
+    router.refresh();
+  };
+
+  const bulkModerate = async (decision: ModerationStatus) => {
+    const ids = selectedVisible;
+    if (ids.length === 0) return;
+    let notes: string | undefined;
+    if (decision === "REJECTED") {
+      const value = await askNotes();
+      if (value == null) return;
+      notes = value || undefined;
+    } else {
+      const ok = await confirm({ title: t("bulkApproveTitle", { count: ids.length }), confirmLabel: t("approve") });
+      if (!ok) return;
+    }
+    report(await runAll(ids, (id) => moderateReviewServerAction(id, decision, notes)));
+  };
+
+  const remove = async (review: IReview) => {
     if (review.id == null) return;
-    const id = review.id;
-    Swal.fire({
+    const ok = await confirm({
       title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: review.title || t("reviewBy", { name: review.customerName ?? "—" }) }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteReviewServerAction(id);
-      if (response.success) router.refresh();
-      else showError(response.error);
+      description: tCommon("deleteConfirmText", {
+        name: review.title || t("reviewBy", { name: review.customerName ?? "—" }),
+      }),
+      confirmLabel: tCommon("deleteConfirmButton"),
+      tone: "danger",
     });
+    if (!ok) return;
+    const response = await deleteReviewServerAction(review.id);
+    if (response.success) {
+      notify.success(tCommon("deletedSuccess"));
+      router.refresh();
+    } else {
+      notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
+    }
   };
 
-  const summaryCards = [
-    { label: t("pendingCount"), value: metrics.pending },
-    { label: t("approvedCount"), value: metrics.approved },
-    { label: t("total"), value: metrics.total },
-    { label: t("averageRating"), value: metrics.average },
-  ];
+  const bulkDelete = async () => {
+    const ids = selectedVisible;
+    if (ids.length === 0) return;
+    const ok = await confirm({
+      title: tCrud("bulkConfirmTitle", { count: ids.length }),
+      description: tCrud("bulkConfirmText"),
+      confirmLabel: tCommon("deleteConfirmButton"),
+      tone: "danger",
+    });
+    if (!ok) return;
+    report(await runAll(ids, (id) => deleteReviewServerAction(id)));
+  };
 
   const pill = (active: boolean) =>
     classNames(
-      "rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+      "rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
       active
         ? "border-primary bg-primary text-primary-foreground"
         : "border-border text-muted-foreground hover:text-foreground",
@@ -146,26 +221,63 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
 
   return (
     <section className='flex w-full flex-col gap-6'>
-      <div className='flex items-center gap-4'>
-        <div className='rounded-2xl bg-primary/10 p-3'>
-          <HiOutlineChatBubbleLeftRight className='h-7 w-7 text-primary' aria-hidden='true' />
-        </div>
-        <div>
-          <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-          <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-        </div>
-      </div>
+      <PageHeader
+        title={t("title")}
+        description={t("description")}
+        icon={HiOutlineChatBubbleLeftRight}
+        eyebrow={tCrud("domains.marketing")}
+      />
 
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        {summaryCards.map((card) => (
-          <div key={card.label} className='rounded-2xl border border-border bg-card p-6 shadow-sm'>
-            <p className='text-sm font-semibold text-muted-foreground'>{card.label}</p>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
+      <StatCards
+        items={[
+          {
+            label: t("pendingCount"),
+            value: pending,
+            icon: HiOutlineClock,
+            tone: pending > 0 ? "warning" : "success",
+          },
+          { label: t("approvedCount"), value: approved, icon: HiOutlineCheckCircle, tone: "success" },
+          { label: t("total"), value: initialData.length, icon: HiOutlineChatBubbleLeftRight },
+          { label: t("averageRating"), value: average, icon: HiOutlineStar },
+        ]}
+      />
+
+      <div className='flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm'>
+        <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
+          <label className='relative w-full lg:max-w-sm'>
+            <span className='sr-only'>{t("searchPlaceholder")}</span>
+            <HiOutlineMagnifyingGlass
+              className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground'
+              aria-hidden='true'
+            />
+            <input
+              type='search'
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t("searchPlaceholder")}
+              className='h-9 w-full rounded-xl border border-border bg-background pl-9 pr-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30'
+            />
+          </label>
+          <div role='group' aria-label={t("ratingFilter")} className='flex flex-wrap gap-2'>
+            <button
+              type='button'
+              aria-pressed={ratingFilter == null}
+              onClick={() => setRatingFilter(null)}
+              className={pill(ratingFilter == null)}>
+              {t("allRatings")}
+            </button>
+            {[5, 4, 3, 2, 1].map((value) => (
+              <button
+                key={value}
+                type='button'
+                aria-pressed={ratingFilter === value}
+                onClick={() => setRatingFilter(value)}
+                className={pill(ratingFilter === value)}>
+                {t("stars", { count: value })}
+              </button>
+            ))}
           </div>
-        ))}
-      </div>
-
-      <div className='flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between'>
+        </div>
         <div role='group' aria-label={t("statusFilter")} className='flex flex-wrap gap-2'>
           {(["ALL", ...MODERATION_STATUSES] as const).map((status) => (
             <button
@@ -178,22 +290,44 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
             </button>
           ))}
         </div>
-        <div role='group' aria-label={t("ratingFilter")} className='flex flex-wrap gap-2'>
-          <button type='button' aria-pressed={ratingFilter == null} onClick={() => setRatingFilter(null)} className={pill(ratingFilter == null)}>
-            {t("allRatings")}
-          </button>
-          {[5, 4, 3, 2, 1].map((value) => (
-            <button
-              key={value}
-              type='button'
-              aria-pressed={ratingFilter === value}
-              onClick={() => setRatingFilter(value)}
-              className={pill(ratingFilter === value)}>
-              {t("stars", { count: value })}
-            </button>
-          ))}
-        </div>
       </div>
+
+      {data.length > 0 ? (
+        <div
+          className={classNames(
+            "sticky top-2 z-10 flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 shadow-sm transition-colors",
+            selectedVisible.length > 0 ? "border-primary/40 bg-primary/5 backdrop-blur" : "border-border bg-card",
+          )}>
+          <label className='inline-flex items-center gap-2 text-sm font-medium text-foreground'>
+            <input
+              type='checkbox'
+              className='h-4 w-4 accent-primary'
+              checked={allSelected}
+              onChange={toggleAll}
+              aria-label={t("selectAll")}
+            />
+            {selectedVisible.length > 0
+              ? t("selectedCount", { count: selectedVisible.length })
+              : t("visibleCount", { count: data.length })}
+          </label>
+          {selectedVisible.length > 0 ? (
+            <div className='flex flex-wrap gap-2' aria-live='polite'>
+              <Buttons size='sm' onClick={() => bulkModerate("APPROVED")}>
+                <HiOutlineCheck className='h-4 w-4' aria-hidden='true' />
+                {t("approve")}
+              </Buttons>
+              <Buttons size='sm' variant='outline' onClick={() => bulkModerate("REJECTED")}>
+                <HiOutlineXMark className='h-4 w-4' aria-hidden='true' />
+                {t("reject")}
+              </Buttons>
+              <Buttons size='sm' variant='danger' onClick={bulkDelete}>
+                <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
+                {tCrud("deleteSelected")}
+              </Buttons>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       {data.length === 0 ? (
         <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />
@@ -201,18 +335,31 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
         <ul className='grid gap-4 lg:grid-cols-2'>
           {data.map((review) => {
             const status = reviewStatus(review);
-            const busy = busyId === review.id;
+            const id = review.id ?? -1;
+            const isBusy = busy.has(id);
+            const isSelected = selected.has(id);
             return (
-              <li key={review.id} className='flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm'>
+              <li
+                key={id}
+                aria-busy={isBusy}
+                className={classNames(
+                  "flex flex-col gap-3 rounded-2xl border bg-card p-5 shadow-sm transition-all",
+                  isSelected ? "border-primary ring-2 ring-primary/20" : "border-border",
+                  isBusy && "opacity-60",
+                )}>
                 <div className='flex flex-wrap items-start justify-between gap-2'>
-                  <div className='space-y-1'>
-                    <p className='text-sm font-semibold text-foreground'>
-                      {productNames.get(review.productId ?? -1) ?? t("productFallback", { id: review.productId ?? "—" })}
-                    </p>
-                    <Rating
-                      value={review.rating ?? 0}
-                      label={t("ratingLabel", { count: review.rating ?? 0 })}
+                  <div className='flex items-start gap-3'>
+                    <input
+                      type='checkbox'
+                      className='mt-1 h-4 w-4 accent-primary'
+                      checked={isSelected}
+                      onChange={() => toggle(id)}
+                      aria-label={t("selectReview", { name: review.title || productName(review) })}
                     />
+                    <div className='space-y-1'>
+                      <p className='text-sm font-semibold text-foreground'>{productName(review)}</p>
+                      <Rating value={review.rating ?? 0} label={t("ratingLabel", { count: review.rating ?? 0 })} />
+                    </div>
                   </div>
                   <div className='flex flex-wrap items-center gap-2'>
                     {review.isVerifiedPurchase ? (
@@ -243,13 +390,13 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
 
                 <div className='mt-auto flex flex-wrap gap-2 pt-1'>
                   {status !== "APPROVED" ? (
-                    <Buttons size='sm' loading={busy} onClick={() => moderate(review, "APPROVED")}>
+                    <Buttons size='sm' loading={isBusy} onClick={() => moderate(review, "APPROVED")}>
                       <HiOutlineCheck className='h-4 w-4' aria-hidden='true' />
                       {t("approve")}
                     </Buttons>
                   ) : null}
                   {status !== "REJECTED" ? (
-                    <Buttons size='sm' variant='outline' disabled={busy} onClick={() => moderate(review, "REJECTED")}>
+                    <Buttons size='sm' variant='outline' disabled={isBusy} onClick={() => moderate(review, "REJECTED")}>
                       <HiOutlineXMark className='h-4 w-4' aria-hidden='true' />
                       {t("reject")}
                     </Buttons>
@@ -257,7 +404,7 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
                   <Buttons
                     size='sm'
                     variant='ghost'
-                    disabled={busy}
+                    disabled={isBusy}
                     aria-label={tCommon("deleteAria", { name: review.title || review.customerName || "" })}
                     onClick={() => remove(review)}>
                     <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />

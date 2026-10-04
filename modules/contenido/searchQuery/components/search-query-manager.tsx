@@ -3,10 +3,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import {
@@ -14,9 +11,9 @@ import {
   HiOutlineHashtag,
   HiOutlineMagnifyingGlass,
   HiOutlineQueueList,
-  HiOutlineTrash,
 } from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
 import { BreakdownList } from "@/components/breakdown-list";
 import { aggregateTerms, queryDate, withinDays } from "../analytics";
 import type { ISearchQuery } from "../models/searchQuery.interface";
@@ -32,10 +29,10 @@ const formatDateTime = (value?: string) => {
   return Number.isNaN(date.getTime()) ? value : dateTimeFormatter.format(date);
 };
 
+/** Analítica de búsquedas: periodo, términos frecuentes, oportunidades y depuración en lote. */
 export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[] }) => {
-  const router = useRouter();
   const t = useTranslations("Administre.searchQuery");
-  const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
 
   const [period, setPeriod] = useState<Period>(30);
 
@@ -49,116 +46,115 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
 
   const terms = useMemo(() => aggregateTerms(queries), [queries]);
 
-  const metrics = useMemo(() => {
-    const total = queries.length;
-    const zero = queries.filter((query) => (query.totalResults ?? 0) === 0).length;
-    const results = queries.reduce((acc, query) => acc + (query.totalResults ?? 0), 0);
-    return {
-      total,
-      unique: terms.length,
-      zeroRate: total > 0 ? zero / total : 0,
-      avgResults: total > 0 ? results / total : 0,
-    };
-  }, [queries, terms]);
+  const total = queries.length;
+  const zero = queries.filter((query) => (query.totalResults ?? 0) === 0).length;
+  const results = queries.reduce((acc, query) => acc + (query.totalResults ?? 0), 0);
+  const zeroRate = total > 0 ? zero / total : 0;
+  const avgResults = total > 0 ? results / total : 0;
 
   // Términos que nunca devolvieron resultados: oportunidades de catálogo o sinónimos.
-  const opportunities = useMemo(
-    () => terms.filter((term) => term.zeroResults === term.count).slice(0, 10),
-    [terms],
+  const opportunities = useMemo(() => terms.filter((term) => term.zeroResults === term.count).slice(0, 10), [terms]);
+
+  const columns = useMemo<GridColumn<ISearchQuery>[]>(
+    () => [
+      {
+        id: "query",
+        accessorFn: (row) => row.query ?? "",
+        header: t("fields.query"),
+        meta: { label: t("fields.query"), hideable: false, exportValue: (row) => row.query },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>“{row.original.query}”</span>,
+      },
+      {
+        id: "totalResults",
+        accessorFn: (row) => row.totalResults ?? 0,
+        header: t("fields.totalResults"),
+        meta: { label: t("fields.totalResults"), align: "right", exportValue: (row) => row.totalResults ?? 0 },
+        cell: ({ row }) => {
+          const value = row.original.totalResults ?? 0;
+          return <Badge variant={value === 0 ? "destructive" : "secondary"}>{value}</Badge>;
+        },
+      },
+      {
+        id: "customerId",
+        header: t("fields.customerId"),
+        enableSorting: false,
+        meta: {
+          label: t("fields.customerId"),
+          exportValue: (row) => (row.customerId != null ? row.customerId : t("anonymous")),
+        },
+        cell: ({ row }) => (row.original.customerId != null ? `#${row.original.customerId}` : t("anonymous")),
+      },
+      {
+        id: "sortBy",
+        header: t("fields.sortBy"),
+        enableSorting: false,
+        meta: { label: t("fields.sortBy"), defaultHidden: true, exportValue: (row) => row.sortBy },
+        cell: ({ row }) => row.original.sortBy || "—",
+      },
+      {
+        id: "pagination",
+        header: t("fields.page"),
+        enableSorting: false,
+        meta: { label: t("fields.page"), defaultHidden: true },
+        cell: ({ row }) => t("pageOf", { page: (row.original.page ?? 0) + 1, size: row.original.pageSize ?? "—" }),
+      },
+      {
+        id: "date",
+        accessorFn: (row) => queryDate(row) ?? "",
+        header: t("fields.lastRunAt"),
+        meta: { label: t("fields.lastRunAt"), exportValue: (row) => queryDate(row) },
+        cell: ({ row }) => formatDateTime(queryDate(row.original)),
+      },
+    ],
+    [t],
   );
 
-  const handleDelete = (query: ISearchQuery) => {
-    if (query.id == null) return;
-    const id = query.id;
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: query.query ?? `#${id}` }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteSearchQueryServerAction(id);
-      if (response.success) router.refresh();
-      else Swal.fire({ title: tCommon("errorTitle"), text: response.error, icon: "error" });
-    });
-  };
-
-  const columns: ColumnDef<ISearchQuery>[] = [
+  const filters: GridFilter<ISearchQuery>[] = [
     {
-      accessorKey: "query",
-      header: t("fields.query"),
-      cell: ({ row }) => <span className='font-semibold text-foreground'>“{row.original.query}”</span>,
+      id: "results",
+      label: t("fields.totalResults"),
+      options: [
+        { value: "zero", label: t("withoutResults") },
+        { value: "some", label: t("withResults") },
+      ],
+      accessor: (row) => ((row.totalResults ?? 0) === 0 ? "zero" : "some"),
     },
     {
-      accessorKey: "totalResults",
-      header: t("fields.totalResults"),
-      cell: ({ row }) => {
-        const value = row.original.totalResults ?? 0;
-        return <Badge variant={value === 0 ? "destructive" : "secondary"}>{value}</Badge>;
-      },
+      id: "customer",
+      label: t("fields.customerId"),
+      options: [
+        { value: "anonymous", label: t("anonymous") },
+        { value: "registered", label: t("registered") },
+      ],
+      accessor: (row) => (row.customerId == null ? "anonymous" : "registered"),
     },
-    {
-      accessorKey: "customerId",
-      header: t("fields.customerId"),
-      cell: ({ row }) => (row.original.customerId != null ? `#${row.original.customerId}` : t("anonymous")),
-    },
-    {
-      accessorKey: "sortBy",
-      header: t("fields.sortBy"),
-      cell: ({ row }) => row.original.sortBy || "—",
-    },
-    {
-      id: "pagination",
-      header: t("fields.page"),
-      cell: ({ row }) => t("pageOf", { page: (row.original.page ?? 0) + 1, size: row.original.pageSize ?? "—" }),
-    },
-    {
-      id: "date",
-      header: t("fields.lastRunAt"),
-      cell: ({ row }) => formatDateTime(queryDate(row.original)),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <Buttons
-          size='sm'
-          variant='ghost'
-          aria-label={tCommon("deleteAria", { name: row.original.query ?? `#${row.original.id}` })}
-          onClick={() => handleDelete(row.original)}>
-          <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-          {tCommon("delete")}
-        </Buttons>
-      ),
-    },
-  ];
-
-  const summaryCards = [
-    { icon: HiOutlineMagnifyingGlass, label: t("total"), value: metrics.total },
-    { icon: HiOutlineHashtag, label: t("uniqueTerms"), value: metrics.unique },
-    {
-      icon: HiOutlineExclamationTriangle,
-      label: t("zeroRate"),
-      value: `${(metrics.zeroRate * 100).toFixed(1)}%`,
-    },
-    { icon: HiOutlineQueueList, label: t("avgResults"), value: metrics.avgResults.toFixed(1) },
   ];
 
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineMagnifyingGlass className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
+    <CrudManager<ISearchQuery>
+      gridId='busquedas'
+      namespace='Administre.searchQuery'
+      icon={HiOutlineMagnifyingGlass}
+      eyebrow={tCrud("domains.content")}
+      data={queries}
+      columns={columns}
+      filters={filters}
+      stats={[
+        { label: t("total"), value: total, icon: HiOutlineMagnifyingGlass },
+        { label: t("uniqueTerms"), value: terms.length, icon: HiOutlineHashtag },
+        {
+          label: t("zeroRate"),
+          value: `${(zeroRate * 100).toFixed(1)}%`,
+          icon: HiOutlineExclamationTriangle,
+          tone: zeroRate > 0.2 ? "danger" : zeroRate > 0.1 ? "warning" : "success",
+        },
+        { label: t("avgResults"), value: avgResults.toFixed(1), icon: HiOutlineQueueList },
+      ]}
+      rowLabel={(row) => row.query ?? `#${row.id}`}
+      searchPlaceholder={t("searchPlaceholder")}
+      searchText={(row) => row.query ?? ""}
+      onDelete={(id) => deleteSearchQueryServerAction(id)}
+      headerActions={
         <div role='group' aria-label={t("periodLabel")} className='flex flex-wrap gap-2'>
           {PERIODS.map((value) => (
             <Buttons
@@ -171,22 +167,7 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
             </Buttons>
           ))}
         </div>
-      </div>
-
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        {summaryCards.map((card) => (
-          <div
-            key={card.label}
-            className='rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-200 hover:shadow-md'>
-            <div className='flex items-center justify-between text-sm font-semibold text-muted-foreground'>
-              <span>{card.label}</span>
-              <card.icon className='h-5 w-5 text-primary' aria-hidden='true' />
-            </div>
-            <p className='mt-2 text-2xl font-semibold text-foreground'>{card.value}</p>
-          </div>
-        ))}
-      </div>
-
+      }>
       <div className='grid gap-4 lg:grid-cols-2'>
         <BreakdownList
           title={t("topTerms")}
@@ -209,26 +190,13 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
               {opportunities.map((term) => (
                 <li key={term.term} className='flex items-center justify-between gap-3 py-2 text-sm'>
                   <span className='min-w-0 truncate font-medium text-foreground'>“{term.term}”</span>
-                  <span className='shrink-0 text-muted-foreground'>
-                    {t("timesSearched", { count: term.count })}
-                  </span>
+                  <span className='shrink-0 text-muted-foreground'>{t("timesSearched", { count: term.count })}</span>
                 </li>
               ))}
             </ul>
           )}
         </div>
       </div>
-
-      <div className='space-y-3'>
-        <h3 className='text-base font-semibold text-foreground'>{t("recent")}</h3>
-        <DataTable
-          data={queries}
-          columns={columns}
-          className='py-2'
-          emptyTitle={t("emptyTitle")}
-          emptyDescription={t("emptyDescription")}
-        />
-      </div>
-    </section>
+    </CrudManager>
   );
 };

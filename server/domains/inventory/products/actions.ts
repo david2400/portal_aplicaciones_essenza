@@ -3,7 +3,10 @@
 import { revalidateTag } from 'next/cache';
 
 import { products_repository } from './repository';
+import { products_resource } from './search';
+import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type {
+  ProductDto,
   CreateProductDto,
   UpdateProductPayload,
   DeleteProductPayload,
@@ -77,6 +80,46 @@ export async function search_products_action(
   try {
     const results = await products_repository.search_products(payload);
     return { success: true, data: { results } };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+function revalidate_many(ids: number[]) {
+  revalidateTag(products_tags.list());
+  for (const id of ids) revalidateTag(products_tags.item(id));
+}
+
+export async function bulk_delete_products_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await products_resource.bulk_delete(ids);
+    revalidate_many(ids);
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function bulk_set_products_availability_action(
+  ids: number[],
+  available: boolean,
+): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await products_resource.set_availability(ids, available);
+    revalidate_many(ids);
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function export_products_action(
+  query: GridQuery,
+): Promise<ActionResult<{ items: ProductDto[]; truncated: boolean }>> {
+  try {
+    return { success: true, data: await products_resource.export_all(query) };
   } catch (error) {
     return handle_error(error);
   }

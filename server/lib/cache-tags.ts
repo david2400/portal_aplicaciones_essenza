@@ -191,3 +191,9 @@ export const personalization_profiles_tags = {
   list: () => 'personalization-profiles:list' as const,
   item: (id: number | string) => `personalization-profiles:item:${id}` as const,
 } as const;
+
+export const parametros_tags = {
+  geo_countries: () => 'parametros:geo:countries' as const,
+  geo_states: (country_id: number | string) => `parametros:geo:states:${country_id}` as const,
+  geo_cities: (state_id: number | string) => `parametros:geo:cities:${state_id}` as const,
+} as const;

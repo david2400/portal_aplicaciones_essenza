@@ -2,28 +2,21 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
-import Swal from "sweetalert2";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
-import { Buttons } from "@repo/ui/buttons/scenes";
-import { FormSelectField } from "@repo/ui/form/scenes/form-select";
-import {
-  HiOutlineClipboardDocumentList,
-  HiOutlinePlusCircle,
-  HiOutlinePencilSquare,
-  HiOutlineTrash,
-} from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { HiOutlineAdjustmentsHorizontal, HiOutlineCube, HiOutlineListBullet } from "react-icons/hi2";
+import { CrudManager } from "@/components/crud-manager";
+import type { GridColumn, GridFilter } from "@/components/data-grid";
+import { notify } from "@/components/notifications";
+import type { ActionResult } from "@/shared/models/pagination";
 import { FormProductFeature } from "../scenes/formProductFeature";
 import { validationProductFeature } from "../schemas/product-feature.schema";
 import type { IFeatureOption, INamedItem, IProductFeature } from "../models/product-feature.interface";
 import {
   createProductFeatureServerAction,
-  updateProductFeatureServerAction,
   deleteProductFeatureServerAction,
+  updateProductFeatureServerAction,
 } from "@/app/[locale]/fichaTecnica/product-features/actions";
 
 interface IProductFeatureManagerProps {
@@ -32,29 +25,26 @@ interface IProductFeatureManagerProps {
   features: IFeatureOption[];
 }
 
-type ModalState = { open: boolean; row: IProductFeature | null };
+/** Clave compuesta (producto, característica) codificada en un `id` sintético. */
+const KEY_FACTOR = 1_000_000;
+type Row = IProductFeature & { id?: number };
+const toId = (row: IProductFeature) =>
+  row.productId != null && row.featureId != null ? row.productId * KEY_FACTOR + row.featureId : undefined;
 
-const ALL = "all";
-
+/** Valores de la ficha técnica por producto (p. ej. "Volumen: 100 ml"). */
 export const ProductFeatureManager = ({ initialData, products, features }: IProductFeatureManagerProps) => {
   const router = useRouter();
   const t = useTranslations("Administre.productFeature");
   const tCommon = useTranslations("Administre.common");
+  const tCrud = useTranslations("Crud");
   const validationSchema = validationProductFeature();
-  const [modal, setModal] = useState<ModalState>({ open: false, row: null });
-  const [productFilter, setProductFilter] = useState<string>(ALL);
 
-  const productNames = useMemo(
-    () => new Map(products.map((p) => [p.id ?? -1, p.name ?? `#${p.id}`])),
-    [products],
-  );
+  const data = useMemo<Row[]>(() => initialData.map((row) => ({ ...row, id: toId(row) })), [initialData]);
+  const productNames = useMemo(() => new Map(products.map((p) => [p.id ?? -1, p.name ?? `#${p.id}`])), [products]);
   const featureById = useMemo(() => new Map(features.map((f) => [f.id ?? -1, f])), [features]);
 
   const productOptions = useMemo(
-    () =>
-      products
-        .filter((p) => p.id != null)
-        .map((p) => ({ id: String(p.id), value: String(p.id), label: p.name ?? `#${p.id}` })),
+    () => products.filter((p) => p.id != null).map((p) => ({ id: String(p.id), value: String(p.id), label: p.name ?? `#${p.id}` })),
     [products],
   );
   const featureOptions = useMemo(
@@ -69,167 +59,96 @@ export const ProductFeatureManager = ({ initialData, products, features }: IProd
     [features],
   );
 
-  const data = useMemo(
-    () =>
-      productFilter === ALL
-        ? initialData
-        : initialData.filter((row) => String(row.productId) === productFilter),
-    [initialData, productFilter],
+  const productLabel = (row: Row) => productNames.get(row.productId ?? -1) ?? `#${row.productId}`;
+  const featureLabel = (row: Row) => featureById.get(row.featureId ?? -1)?.name ?? `#${row.featureId}`;
+  const valueLabel = (row: Row) => {
+    const unit = featureById.get(row.featureId ?? -1)?.unitName;
+    return `${row.value ?? "—"}${unit ? ` ${unit}` : ""}`;
+  };
+
+  const columns = useMemo<GridColumn<Row>[]>(
+    () => [
+      {
+        id: "productId",
+        header: t("fields.productId"),
+        meta: { label: t("fields.productId"), hideable: false, exportValue: (row) => productLabel(row) },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>{productLabel(row.original)}</span>,
+      },
+      {
+        id: "featureId",
+        header: t("fields.featureId"),
+        meta: { label: t("fields.featureId"), exportValue: (row) => featureLabel(row) },
+        cell: ({ row }) => featureLabel(row.original),
+      },
+      {
+        id: "value",
+        header: t("fields.value"),
+        meta: { label: t("fields.value"), align: "right", exportValue: (row) => valueLabel(row) },
+        cell: ({ row }) => <span className='tabular-nums'>{valueLabel(row.original)}</span>,
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [productNames, featureById, t],
   );
 
-  const featureLabel = (row: IProductFeature) => featureById.get(row.featureId ?? -1)?.name ?? `#${row.featureId}`;
-  const rowLabel = (row: IProductFeature) =>
-    `${productNames.get(row.productId ?? -1) ?? `#${row.productId}`} · ${featureLabel(row)}`;
-
-  const notify = async (result: { success: boolean; error?: string }, title: string) => {
-    if (result.success) {
-      await Swal.fire({ title, icon: "success", timer: 2000, showConfirmButton: false });
-      setModal({ open: false, row: null });
-      router.refresh();
-    } else {
-      Swal.fire({ title: tCommon("errorTitle"), text: result.error || tCommon("unexpectedError"), icon: "error" });
-    }
-  };
-
-  const handleSubmit = async (values: { productId: number; featureId: number; value: number }) => {
-    if (modal.row) {
-      await notify(await updateProductFeatureServerAction(values), tCommon("updatedSuccess"));
-    } else {
-      await notify(await createProductFeatureServerAction(values), tCommon("createdSuccess"));
-    }
-  };
-
-  const handleDelete = (row: IProductFeature) => {
-    if (row.productId == null || row.featureId == null) return;
-    const { productId, featureId } = row;
-    Swal.fire({
-      title: tCommon("deleteConfirmTitle"),
-      text: tCommon("deleteConfirmText", { name: rowLabel(row) }),
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: tCommon("deleteConfirmButton"),
-      cancelButtonText: tCommon("cancel"),
-    }).then(async (result) => {
-      if (!result.isConfirmed) return;
-      const response = await deleteProductFeatureServerAction(productId, featureId);
-      if (response.success) router.refresh();
-      else Swal.fire({ title: tCommon("errorTitle"), text: response.error, icon: "error" });
-    });
-  };
-
-  const columns: ColumnDef<IProductFeature>[] = [
-    {
-      accessorKey: "productId",
-      header: t("fields.productId"),
-      cell: ({ row }) => (
-        <span className='font-semibold text-foreground'>
-          {productNames.get(row.original.productId ?? -1) ?? `#${row.original.productId}`}
-        </span>
-      ),
-    },
-    { accessorKey: "featureId", header: t("fields.featureId"), cell: ({ row }) => featureLabel(row.original) },
-    {
-      accessorKey: "value",
-      header: t("fields.value"),
-      cell: ({ row }) => {
-        const unit = featureById.get(row.original.featureId ?? -1)?.unitName;
-        return `${row.original.value ?? "—"}${unit ? ` ${unit}` : ""}`;
-      },
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => (
-        <div className='flex gap-2'>
-          <Buttons
-            size='sm'
-            variant='outline'
-            aria-label={tCommon("editAria", { name: rowLabel(row.original) })}
-            onClick={() => setModal({ open: true, row: row.original })}>
-            <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-            {tCommon("edit")}
-          </Buttons>
-          <Buttons
-            size='sm'
-            variant='ghost'
-            aria-label={tCommon("deleteAria", { name: rowLabel(row.original) })}
-            onClick={() => handleDelete(row.original)}>
-            <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-            {tCommon("delete")}
-          </Buttons>
-        </div>
-      ),
-    },
+  const filters: GridFilter<Row>[] = [
+    { id: "productId", label: t("fields.productId"), options: productOptions.map(({ value, label }) => ({ value, label })), accessor: (row) => row.productId },
+    { id: "featureId", label: t("fields.featureId"), options: featureOptions.map(({ value, label }) => ({ value, label })), accessor: (row) => row.featureId },
   ];
 
+  const productsWithSpecs = new Set(initialData.map((row) => row.productId)).size;
+
+  const save = async (result: ActionResult, title: string, close: () => void) => {
+    if (result.success) {
+      notify.success(title);
+      close();
+      router.refresh();
+    } else {
+      notify.error(tCommon("errorTitle"), result.error);
+    }
+  };
+
   return (
-    <section className='flex w-full flex-col gap-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div className='flex items-center gap-4'>
-          <div className='rounded-2xl bg-primary/10 p-3'>
-            <HiOutlineClipboardDocumentList className='h-7 w-7 text-primary' aria-hidden='true' />
-          </div>
-          <div>
-            <h2 className='text-xl font-semibold tracking-tight text-foreground'>{t("title")}</h2>
-            <p className='mt-1.5 text-base text-muted-foreground'>{t("description")}</p>
-          </div>
-        </div>
-        <Buttons
-          className='inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm'
-          onClick={() => setModal({ open: true, row: null })}>
-          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-          {t("create")}
-        </Buttons>
-      </div>
-
-      <FormSelectField
-        id='product-feature-filter'
-        label={t("filterLabel")}
-        data={[{ id: ALL, value: ALL, label: t("allProducts") }, ...productOptions]}
-        value={productFilter}
-        onValueChange={setProductFilter}
-        searchable
-        className='w-full max-w-sm'
-        triggerClassName='!w-full'
-      />
-
-      <DataTable
-        data={data}
-        columns={columns}
-        className='py-2'
-        emptyTitle={t("emptyTitle")}
-        emptyDescription={t("emptyDescription")}
-      />
-
-      <Modal
-        size='lg'
-        title={modal.row ? t("editTitle") : t("createTitle")}
-        open={modal.open}
-        onOpenChange={(open) => {
-          if (!open) setModal({ open: false, row: null });
-        }}
-        hideDefaultFooter={true}>
-        {modal.open ? (
-          <FormProductFeature
-            initialValues={{
-              productId:
-                modal.row?.productId != null
-                  ? String(modal.row.productId)
-                  : productFilter !== ALL
-                    ? productFilter
-                    : "",
-              featureId: modal.row?.featureId != null ? String(modal.row.featureId) : "",
-              value: modal.row?.value ?? "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            products={productOptions}
-            features={featureOptions}
-            lockKeys={modal.row !== null}
-          />
-        ) : null}
-      </Modal>
-    </section>
+    <CrudManager<Row>
+      gridId='valores-por-producto'
+      namespace='Administre.productFeature'
+      icon={HiOutlineListBullet}
+      eyebrow={tCrud("domains.specs")}
+      data={data}
+      columns={columns}
+      filters={filters}
+      stats={[
+        { label: t("total"), value: initialData.length, icon: HiOutlineListBullet },
+        {
+          label: tCrud("productsWithSpecs"),
+          value: `${productsWithSpecs}/${products.length}`,
+          icon: HiOutlineCube,
+          tone: productsWithSpecs < products.length ? "warning" : "success",
+          hint: tCrud("productsWithSpecsHint"),
+        },
+        { label: tCrud("featuresInCatalog"), value: features.length, icon: HiOutlineAdjustmentsHorizontal },
+      ]}
+      rowLabel={(row) => `${productLabel(row)} · ${featureLabel(row)}`}
+      searchText={(row) => `${productLabel(row)} ${featureLabel(row)} ${row.value ?? ""}`}
+      renderForm={(item, close) => (
+        <FormProductFeature
+          initialValues={{
+            productId: item?.productId != null ? String(item.productId) : "",
+            featureId: item?.featureId != null ? String(item.featureId) : "",
+            value: item?.value ?? "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values: { productId: number; featureId: number; value: number }) =>
+            item
+              ? save(await updateProductFeatureServerAction(values), tCommon("updatedSuccess"), close)
+              : save(await createProductFeatureServerAction(values), tCommon("createdSuccess"), close)
+          }
+          products={productOptions}
+          features={featureOptions}
+          lockKeys={item !== null}
+        />
+      )}
+      onDelete={(id) => deleteProductFeatureServerAction(Math.floor(id / KEY_FACTOR), id % KEY_FACTOR)}
+    />
   );
 };

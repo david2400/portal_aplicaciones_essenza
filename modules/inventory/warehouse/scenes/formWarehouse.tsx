@@ -11,6 +11,7 @@ import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
+import { GeoCascadeFields } from "@/components/geo-cascade-fields";
 
 export type WarehouseFormOptions = Partial<Record<string, ISelectOption[]>>;
 
@@ -27,6 +28,7 @@ export const FormWarehouse = ({
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = useForm<WarehouseInputs>({
     resolver: zodResolver(validationSchema),
@@ -53,19 +55,26 @@ export const FormWarehouse = ({
           className='col-span-12 md:col-span-6'
         />
 
+        <GeoCascadeFields
+          control={control}
+          setValue={(name, value) => setValue(name as never, value as never, { shouldValidate: false })}
+          initialCountryId={initialValues?.countryId}
+          initialStateId={initialValues?.stateId}
+        />
+
         <FormField
           controller={{ control, name: "address" }}
           label={t("fields.address")}
-          className='col-span-12 md:col-span-6'
+          className='col-span-12 md:col-span-9'
         />
 
-        <FormSelectField
+        {/* <FormSelectField
           controller={{ control, name: "active" }}
           label={t("fields.active")}
           data={booleanOptions}
           triggerClassName='!w-full'
           className='col-span-12 sm:col-span-6 md:col-span-3'
-        />
+        /> */}
       </div>
       <Buttons type='submit' loading={isSubmitting} className='w-full'>
         {tCommon("save")}

@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type {
   IFormAddProps,
   IFormUpdateProps,
@@ -26,14 +26,36 @@ const EMPTY_VALUES = {
   name: "",
   code: "",
   address: "",
+  countryId: "",
+  stateId: "",
+  cityId: "",
   active: "true",
 };
+
+/** Ids del formulario (string del select) → número que espera el backend. */
+type WarehouseFormValues = Omit<IWarehouseCreateRequest, "countryId" | "stateId" | "cityId"> & {
+  countryId: string;
+  stateId: string;
+  cityId: string;
+};
+
+const toPayload = (values: WarehouseFormValues): IWarehouseCreateRequest => ({
+  ...values,
+  countryId: Number(values.countryId),
+  stateId: Number(values.stateId),
+  cityId: Number(values.cityId),
+});
+
+const idToString = (value?: number) => (value != null ? String(value) : "");
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
 const toFormValues = (values: IWarehouse) => ({
   name: values.name ?? "",
   code: values.code ?? "",
   address: values.address ?? "",
+  countryId: idToString(values.countryId),
+  stateId: idToString(values.stateId),
+  cityId: idToString(values.cityId),
   active: String(values.active !== false),
 });
 
@@ -42,23 +64,12 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   const t = useTranslations("Administre.common");
 
   return {
-    success: (title: string) =>
-      Swal.fire({
-        title,
-        icon: "success",
-        timer: 2500,
-        showConfirmButton: false,
-        willClose: () => {
-          handleClose?.(true);
-          router.refresh();
-        },
-      }),
-    failure: (message?: string) =>
-      Swal.fire({
-        title: t("errorTitle"),
-        text: message || t("unexpectedError"),
-        icon: "error",
-      }),
+    success: (title: string) => {
+      notify.success(title);
+      handleClose?.(true);
+      router.refresh();
+    },
+    failure: (message?: string) => notify.error(t("errorTitle"), message || t("unexpectedError")),
   };
 };
 
@@ -69,8 +80,8 @@ export const RegisterWarehouse = ({
   const t = useTranslations("Administre.common");
   const feedback = useFeedback(handleClose);
 
-  const handleSubmit = async (values: IWarehouseCreateRequest) => {
-    const result = await createWarehouseServerAction(values);
+  const handleSubmit = async (values: WarehouseFormValues) => {
+    const result = await createWarehouseServerAction(toPayload(values));
     if (result.success) {
       feedback.success(t("createdSuccess"));
     } else {
@@ -102,8 +113,8 @@ export const UpdateWarehouse = ({
     return null;
   }
 
-  const handleSubmit = async (values: Omit<IWarehouseUpdateRequest, "id">) => {
-    const result = await updateWarehouseServerAction({ ...values, id } as IWarehouseUpdateRequest);
+  const handleSubmit = async (values: WarehouseFormValues) => {
+    const result = await updateWarehouseServerAction({ ...toPayload(values), id } as IWarehouseUpdateRequest);
     if (result.success) {
       feedback.success(t("updatedSuccess"));
     } else {

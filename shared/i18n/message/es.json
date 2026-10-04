@@ -165,12 +165,12 @@
     "brand": {
       "title": "Marcas",
       "description": "Organiza las marcas del catálogo.",
-      "create": "Nuevo marca",
+      "create": "Nueva marca",
       "createTitle": "Crear marca",
       "editTitle": "Editar marca",
       "total": "Total de marcas",
       "emptyTitle": "Todavía no hay marcas",
-      "emptyDescription": "Cuando registres el primer marca aparecerá en esta tabla.",
+      "emptyDescription": "Cuando registres la primera marca aparecerá en esta tabla.",
       "fields": {
         "name": "Nombre",
         "slug": "Slug (URL)",
@@ -282,7 +282,11 @@
         "name": "Nombre",
         "code": "Código",
         "address": "Dirección",
-        "active": "Activa"
+        "active": "Activa",
+        "countryId": "País",
+        "stateId": "Departamento",
+        "cityId": "Ciudad",
+        "location": "Ubicación"
       }
     },
     "paymentType": {
@@ -349,7 +353,12 @@
           "subtotal": "Subtotal",
           "total": "Total"
         }
-      }
+      },
+      "searchPlaceholder": "Buscar por número de orden o referencia…",
+      "revenueHint": "Suma de órdenes no canceladas",
+      "pending": "Pendientes",
+      "averageTicket": "Ticket promedio",
+      "viewDetail": "Ver detalle"
     },
     "inventoryMovement": {
       "title": "Movimientos de inventario",
@@ -378,7 +387,8 @@
         "toWarehouseId": "Bodega de destino",
         "quantity": "Cantidad",
         "reason": "Motivo"
-      }
+      },
+      "searchPlaceholder": "Buscar por producto, bodega o motivo…"
     },
     "unitMeasurement": {
       "title": "Unidades de medida",
@@ -524,7 +534,11 @@
         "run": "Probar",
         "missing": "Escribe un código y un monto mayor que 0.",
         "success": "Cupón válido: descuento de {discount}. Total a pagar: {total}."
-      }
+      },
+      "searchPlaceholder": "Buscar por código o nombre…",
+      "copyCode": "Copiar código",
+      "copyCodes": "Copiar códigos",
+      "codesCopied": "{count, plural, one {# código copiado} other {# códigos copiados}} al portapapeles"
     },
     "review": {
       "title": "Moderación de reseñas",
@@ -555,7 +569,15 @@
       "reject": "Rechazar",
       "rejectTitle": "Rechazar reseña",
       "rejectNotes": "Motivo (opcional, sólo interno)",
-      "rejectPlaceholder": "Ej.: lenguaje ofensivo, spam…"
+      "rejectPlaceholder": "Ej.: lenguaje ofensivo, spam…",
+      "searchPlaceholder": "Buscar en título, comentario, cliente o producto…",
+      "approvedOk": "Reseña aprobada",
+      "rejectedOk": "Reseña rechazada",
+      "bulkApproveTitle": "¿Aprobar {count, plural, one {# reseña} other {# reseñas}}?",
+      "selectAll": "Seleccionar todas las reseñas visibles",
+      "selectedCount": "{count, plural, one {# seleccionada} other {# seleccionadas}}",
+      "visibleCount": "{count, plural, one {# reseña} other {# reseñas}} en la vista",
+      "selectReview": "Seleccionar reseña {name}"
     },
     "motiveDevolution": {
       "title": "Motivos de devolución",
@@ -721,7 +743,8 @@
           "description": "Descripción",
           "recordedBy": "Registrada por"
         }
-      }
+      },
+      "searchPlaceholder": "Buscar por número, orden, referencia u observación…"
     },
     "shippingCost": {
       "title": "Costos de envío",
@@ -748,7 +771,8 @@
         "volume": "Volumen (m³)",
         "calculatedCost": "Costo",
         "isEstimated": "Tipo"
-      }
+      },
+      "searchPlaceholder": "Buscar por transportadora, origen o destino…"
     },
     "deliveryEstimate": {
       "title": "Tiempos de entrega",
@@ -776,7 +800,8 @@
         "window": "Ventana de entrega",
         "estimatedDays": "Días",
         "isBusinessDaysOnly": "Solo días hábiles"
-      }
+      },
+      "searchPlaceholder": "Buscar por transportadora o ruta…"
     },
     "dispatch": {
       "title": "Despachos",
@@ -849,7 +874,8 @@
           "weight": "Peso (kg)",
           "serviceType": "Tipo de servicio"
         }
-      }
+      },
+      "searchPlaceholder": "Buscar por guía, orden, dirección o ciudad…"
     },
     "cmsPage": {
       "title": "Páginas",
@@ -923,7 +949,12 @@
         "authorName": "Autor",
         "featuredImage": "Imagen destacada",
         "customFields": "Campos personalizados (JSON)"
-      }
+      },
+      "searchPlaceholder": "Buscar por título o slug…",
+      "publishedOk": "Página publicada",
+      "unpublishedOk": "Página despublicada",
+      "bulkPublishTitle": "¿Publicar {count, plural, one {# página} other {# páginas}}?",
+      "bulkUnpublishTitle": "¿Despublicar {count, plural, one {# página} other {# páginas}}?"
     },
     "recommendation": {
       "title": "Recomendaciones",
@@ -971,7 +1002,9 @@
         "reason": "Motivo",
         "isClicked": "Tuvo clic",
         "isPurchased": "Se compró"
-      }
+      },
+      "searchPlaceholder": "Buscar por producto o cliente…",
+      "noInteraction": "Sin interacción"
     },
     "searchQuery": {
       "title": "Búsquedas",
@@ -1002,7 +1035,11 @@
         "sortBy": "Orden",
         "page": "Paginación",
         "lastRunAt": "Fecha"
-      }
+      },
+      "searchPlaceholder": "Buscar término…",
+      "withoutResults": "Sin resultados",
+      "withResults": "Con resultados",
+      "registered": "Cliente registrado"
     },
     "personalization": {
       "title": "Personalización",
@@ -1048,7 +1085,69 @@
         "personalizedOffersJson": "Ofertas personalizadas",
         "uiPersonalizationJson": "Personalización de interfaz",
         "purchaseIntentJson": "Intención de compra"
-      }
+      },
+      "searchPlaceholder": "Buscar por cliente, segmento o estado…"
+    },
+    "taxonomy": {
+      "eyebrow": "Catálogo",
+      "searchPlaceholder": "Buscar por nombre, slug o descripción…",
+      "recent": "Nuevas (30 días)",
+      "recentHint": "Creadas en el último mes",
+      "withoutDescription": "Sin descripción",
+      "withoutDescriptionHint": "Mejora el SEO y la experiencia de compra",
+      "noDescription": "Sin descripción",
+      "createdAt": "Creado",
+      "updatedAt": "Última actualización",
+      "copySlug": "Copiar slug",
+      "slugCopied": "Slug copiado",
+      "deleteSelected": "Eliminar seleccionados",
+      "bulkConfirmTitle": "¿Eliminar {count, plural, one {# registro} other {# registros}}?",
+      "bulkConfirmText": "Los registros quedan inactivos y dejan de mostrarse en la tienda. Los que estén en uso no se eliminarán.",
+      "bulkDeleted": "{count, plural, one {# registro eliminado} other {# registros eliminados}}",
+      "bulkPartial": "{ok} eliminados · {failed} no se pudieron eliminar",
+      "exportTruncated": "Se exportaron los primeros 10.000 registros. Aplica filtros para exportar el resto.",
+      "slugPlaceholder": "se-genera-desde-el-nombre",
+      "slugHint": "Identificador para la URL. Si lo dejas vacío se genera automáticamente.",
+      "slugAuto": "Se generará automáticamente: {slug}",
+      "slugCustom": "Slug personalizado: solo minúsculas, números y guiones.",
+      "generateSlug": "Generar desde el nombre",
+      "descriptionPlaceholder": "Describe brevemente para clientes y buscadores…"
+    },
+    "productGrid": {
+      "eyebrow": "Catálogo",
+      "searchPlaceholder": "Buscar productos por nombre o descripción…",
+      "margin": "Margen",
+      "combo": "Combo",
+      "outOfStock": "Agotado",
+      "lowStock": "Stock bajo",
+      "available": "Disponible",
+      "unavailable": "Oculto",
+      "markAvailable": "Marcar disponible",
+      "markUnavailable": "Ocultar de la tienda",
+      "deleteSelected": "Eliminar seleccionados",
+      "bulkConfirmTitle": "¿Eliminar {count, plural, one {# producto} other {# productos}}?",
+      "bulkConfirmText": "Los productos quedan inactivos y dejan de venderse.",
+      "bulkDeleted": "{count, plural, one {# producto eliminado} other {# productos eliminados}}",
+      "bulkUpdated": "{count, plural, one {# producto actualizado} other {# productos actualizados}}",
+      "bulkPartial": "{ok} procesados · {failed} con error",
+      "availableHint": "{percent}% del catálogo a la venta",
+      "stockAlerts": "Alertas de stock",
+      "stockAlertsHint": "{out} agotados · {low} con ≤ {threshold} unidades",
+      "inventoryValue": "Valor del inventario",
+      "inventoryValueHint": "Stock × precio de costo",
+      "exportTruncated": "Se exportaron los primeros 10.000 productos. Aplica filtros para exportar el resto."
+    },
+    "comboGrid": {
+      "eyebrow": "Catálogo",
+      "searchPlaceholder": "Buscar por combo o producto…",
+      "combos": "Combos",
+      "average": "Componentes por combo",
+      "averageHint": "Promedio de productos distintos",
+      "deleteSelected": "Eliminar seleccionados",
+      "bulkConfirmTitle": "¿Eliminar {count, plural, one {# componente} other {# componentes}}?",
+      "bulkConfirmText": "Los productos dejarán de formar parte del combo.",
+      "bulkDeleted": "{count, plural, one {# componente eliminado} other {# componentes eliminados}}",
+      "bulkPartial": "{ok} eliminados · {failed} con error"
     }
   },
   "Home": {
@@ -1112,5 +1211,89 @@
     "lowStockEmpty": "Ningún producto está por debajo de 5 unidades.",
     "registerEntry": "Registrar entrada",
     "units": "{count} u."
+  },
+  "Geo": {
+    "country": "País",
+    "state": "Departamento",
+    "city": "Ciudad",
+    "selectCountry": "Selecciona un país",
+    "selectState": "Selecciona un departamento",
+    "selectCity": "Selecciona una ciudad",
+    "selectCountryFirst": "Selecciona primero un país",
+    "selectStateFirst": "Selecciona primero un departamento",
+    "loading": "Cargando…",
+    "empty": "Sin resultados",
+    "unavailable": "No se pudo cargar el catálogo de ubicaciones. Verifica que el servicio de parámetros esté en ejecución."
+  },
+  "Grid": {
+    "search": "Buscar",
+    "searchPlaceholder": "Buscar…",
+    "allOf": "{label}: todos",
+    "clearFilters": "Limpiar filtros",
+    "refresh": "Actualizar",
+    "view": "Vista",
+    "columns": "Columnas visibles",
+    "density": "Densidad",
+    "densities": {
+      "comfortable": "Cómoda",
+      "compact": "Compacta"
+    },
+    "export": "Exportar CSV",
+    "exportDone": "Se exportaron {count, plural, one {# registro} other {# registros}}",
+    "exportFailed": "No se pudo exportar",
+    "pagination": "Paginación",
+    "showing": "Mostrando {from}–{to} de {total}",
+    "selectedCount": "{count, plural, one {# seleccionado} other {# seleccionados}}",
+    "rowsPerPage": "Filas por página",
+    "pageOf": "Página {page} de {pages}",
+    "first": "Primera página",
+    "previous": "Página anterior",
+    "next": "Página siguiente",
+    "last": "Última página",
+    "selectPage": "Seleccionar todas las filas de la página",
+    "selectRow": "Seleccionar fila",
+    "actions": "Acciones",
+    "rowActions": "Acciones de la fila",
+    "bulkRegion": "Acciones en lote",
+    "clearSelection": "Quitar selección",
+    "noResultsTitle": "Sin resultados",
+    "noResultsDescription": "Ningún registro coincide con la búsqueda o los filtros aplicados."
+  },
+  "Notifications": {
+    "close": "Cerrar notificación",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "required": "Este dato es obligatorio"
+  },
+  "Crud": {
+    "deleteSelected": "Eliminar seleccionados",
+    "bulkConfirmTitle": "¿Eliminar {count, plural, one {# registro} other {# registros}}?",
+    "bulkConfirmText": "Esta acción no se puede deshacer. Los registros en uso no se eliminarán.",
+    "bulkDeleted": "{count, plural, one {# registro eliminado} other {# registros eliminados}}",
+    "bulkPartial": "{ok} procesados · {failed} con error",
+    "exportTruncated": "Se exportaron los primeros 10.000 registros. Aplica filtros para exportar el resto.",
+    "updatedAt": "Última actualización",
+    "createdAt": "Creado",
+    "activeCount": "Activos",
+    "recent": "Nuevos (30 días)",
+    "recentHint": "Creados en el último mes",
+    "domains": {
+      "catalog": "Catálogo",
+      "inventory": "Inventario",
+      "sales": "Ventas",
+      "logistics": "Logística",
+      "aftersales": "Postventa",
+      "marketing": "Marketing",
+      "specs": "Ficha técnica",
+      "content": "Contenido y crecimiento"
+    },
+    "noLocation": "Sin ubicación",
+    "withoutLocation": "Sin ubicación",
+    "withoutLocationHint": "Asigna país, departamento y ciudad",
+    "typesWithFeature": "Tipos con característica",
+    "featuresInCatalog": "Características en catálogo",
+    "productsWithSpecs": "Productos con ficha",
+    "productsWithSpecsHint": "Productos con al menos un valor técnico",
+    "bulkUpdated": "{count, plural, one {# registro actualizado} other {# registros actualizados}}"
   }
 }

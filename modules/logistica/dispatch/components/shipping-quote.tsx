@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import { FormShippingQuote } from "../scenes/formShippingQuote";
 import { validationShippingQuote, type ShippingQuoteFormValues } from "../schemas/dispatch.schema";
 import type { IDispatchCarrier, IShippingQuote } from "../models/dispatch.interface";
@@ -32,7 +32,7 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
     if (response.success) {
       setQuote(response.data ?? null);
     } else {
-      Swal.fire({ title: tCommon("errorTitle"), text: response.error || tCommon("unexpectedError"), icon: "error" });
+      notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
     }
   };
 

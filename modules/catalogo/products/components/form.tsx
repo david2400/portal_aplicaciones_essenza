@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type {
   IFormAddProps,
   IFormUpdateProps,
@@ -66,23 +66,12 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   const t = useTranslations("Administre.common");
 
   return {
-    success: (title: string) =>
-      Swal.fire({
-        title,
-        icon: "success",
-        timer: 2500,
-        showConfirmButton: false,
-        willClose: () => {
-          handleClose?.(true);
-          router.refresh();
-        },
-      }),
-    failure: (message?: string) =>
-      Swal.fire({
-        title: t("errorTitle"),
-        text: message || t("unexpectedError"),
-        icon: "error",
-      }),
+    success: (title: string, name?: string) => {
+      notify.success(title, name);
+      handleClose?.(true);
+      router.refresh();
+    },
+    failure: (message?: string) => notify.error(t("errorTitle"), message || t("unexpectedError")),
   };
 };
 
@@ -96,7 +85,7 @@ export const RegisterProduct = ({
   const handleSubmit = async (values: IProductCreateRequest) => {
     const result = await createProductServerAction(values);
     if (result.success) {
-      feedback.success(t("createdSuccess"));
+      feedback.success(t("createdSuccess"), values.name);
     } else {
       feedback.failure(result.error);
     }
@@ -129,7 +118,7 @@ export const UpdateProduct = ({
   const handleSubmit = async (values: Omit<IProductUpdateRequest, "id">) => {
     const result = await updateProductServerAction({ ...values, id } as IProductUpdateRequest);
     if (result.success) {
-      feedback.success(t("updatedSuccess"));
+      feedback.success(t("updatedSuccess"), values.name);
     } else {
       feedback.failure(result.error);
     }

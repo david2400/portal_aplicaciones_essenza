@@ -146,7 +146,7 @@ export const Dashboard = ({ data }: { data: IDashboardData }) => {
         <Panel
           title={t("pendingOrdersTitle")}
           action={
-            <Link href='/administre/orders' className='text-sm font-medium text-primary hover:underline'>
+            <Link href='/ventas/orders' className='text-sm font-medium text-primary hover:underline'>
               {t("viewOrders")}
             </Link>
           }>
@@ -157,7 +157,7 @@ export const Dashboard = ({ data }: { data: IDashboardData }) => {
         <Panel
           title={t("lowStockTitle")}
           action={
-            <Link href='/administre/inventory-movements' className='text-sm font-medium text-primary hover:underline'>
+            <Link href='/inventory/inventory-movements' className='text-sm font-medium text-primary hover:underline'>
               {t("registerEntry")}
             </Link>
           }>

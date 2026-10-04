@@ -2389,6 +2389,12 @@ export interface components {
             active?: boolean;
             /** Format: int64 */
             id: number;
+            /** Format: int64 — país (catálogo `parametros`). */
+            countryId?: number;
+            /** Format: int64 — departamento (catálogo `parametros`). */
+            stateId?: number;
+            /** Format: int64 — ciudad (catálogo `parametros`). */
+            cityId?: number;
         };
         WarehouseDto: {
             /** Format: int64 */
@@ -2397,6 +2403,12 @@ export interface components {
             code: string;
             address?: string;
             active?: boolean;
+            /** Format: int64 — país (catálogo `parametros`). */
+            countryId?: number;
+            /** Format: int64 — departamento (catálogo `parametros`). */
+            stateId?: number;
+            /** Format: int64 — ciudad (catálogo `parametros`). */
+            cityId?: number;
         };
         UpdateSupplierDto: {
             name: string;
@@ -2800,10 +2812,12 @@ export interface components {
         UpdateSubcategoryDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
             /** Format: int64 */
             categoryId: number;
             /** Format: int64 */
+            /** Se toma de la URL en el PUT. */
             id: number;
         };
         SubcategoryDto: {
@@ -2827,8 +2841,10 @@ export interface components {
         UpdateCategoryDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
             /** Format: int64 */
+            /** Se toma de la URL en el PUT. */
             id: number;
         };
         CategoryDto: {
@@ -2850,8 +2866,10 @@ export interface components {
         UpdateBrandDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
             /** Format: int64 */
+            /** Se toma de la URL en el PUT. */
             id: number;
         };
         BrandDto: {
@@ -3034,6 +3052,12 @@ export interface components {
             code: string;
             address?: string;
             active?: boolean;
+            /** Format: int64 — país (catálogo `parametros`). */
+            countryId?: number;
+            /** Format: int64 — departamento (catálogo `parametros`). */
+            stateId?: number;
+            /** Format: int64 — ciudad (catálogo `parametros`). */
+            cityId?: number;
         };
         CreateSupplierDto: {
             name: string;
@@ -3077,6 +3101,8 @@ export interface components {
             /** Format: double */
             maxPrice?: number;
             search?: string;
+            /** Solo disponibles (true) u ocultos (false). */
+            available?: boolean;
         };
         CreateProductComboDto: {
             /** Format: int32 */
@@ -3188,19 +3214,22 @@ export interface components {
         CreateSubcategoryDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
             /** Format: int64 */
             categoryId: number;
         };
         CreateCategoryDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
         };
         CreateBrandDto: {
             name: string;
             description?: string;
-            slug: string;
+            /** Opcional: si falta, el backend lo genera desde el nombre. */
+            slug?: string;
         };
         ShippingEstimateDto: {
             carrierCode?: string;

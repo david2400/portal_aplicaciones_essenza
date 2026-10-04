@@ -3,6 +3,9 @@
 import { revalidateTag } from 'next/cache';
 
 import { orders_repository } from './repository';
+import { orders_resource } from './search';
+import type { OrderDto } from './types';
+import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type { CreateOrderPayload, UpdateOrderPayload, DeleteOrderPayload } from './types';
 import { orders_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
@@ -57,6 +60,29 @@ export async function delete_order_action(payload: DeleteOrderPayload): Promise<
     await orders_repository.delete_order(payload);
     revalidate_orders(payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulk_delete_orders_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const result = await orders_resource.bulk_delete(ids);
+    revalidateTag(orders_tags.list());
+    for (const id of ids) revalidateTag(orders_tags.item(id));
+    return { success: true, data: result };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function export_orders_action(
+  query: GridQuery,
+): Promise<ActionResult<{ items: OrderDto[]; truncated: boolean }>> {
+  try {
+    return { success: true, data: await orders_resource.export_all(query) };
   } catch (error) {
     return handle_error(error);
   }

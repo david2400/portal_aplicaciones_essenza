@@ -1,10 +1,16 @@
 'use server';
 
+import { parse_grid_query } from '@/server/lib/pagination';
+import type { BulkResult } from '@/shared/models/pagination';
+import type { DispatchProductDto } from '@/server/domains/shipping_logistics/dispatch/dispatch-products/types';
+import { DISPATCH_GRID } from './grid';
 import {
   create_dispatch_product_action,
   update_dispatch_product_action,
   delete_dispatch_product_action,
   fetch_dispatch_product_shipping_estimate_action,
+  bulk_delete_dispatch_products_action,
+  export_dispatch_products_action,
 } from '@/server/domains/shipping_logistics/dispatch/dispatch-products/actions';
 import type {
   CreateDispatchProductDto,
@@ -97,4 +103,19 @@ export async function quoteShippingServerAction(
   return result.success
     ? { success: true, data: result.data.estimate }
     : fail(result.error, 'No se pudo obtener la cotización');
+}
+
+// ─── Lote y exportación ──────────────────────────────────────────────────────
+
+export async function bulkDeleteDispatchesServerAction(ids: number[]): Promise<ActionResult<BulkResult>> {
+  const result = await bulk_delete_dispatch_products_action(ids);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudieron eliminar los despachos');
+}
+
+/** Exporta todos los despachos que cumplen la búsqueda actual. */
+export async function exportDispatchesServerAction(
+  params: Record<string, string>,
+): Promise<ActionResult<{ items: DispatchProductDto[]; truncated: boolean }>> {
+  const result = await export_dispatch_products_action(parse_grid_query(params, DISPATCH_GRID));
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo exportar');
 }

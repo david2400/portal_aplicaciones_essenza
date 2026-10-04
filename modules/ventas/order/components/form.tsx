@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Swal from "sweetalert2";
+import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import { FormOrder } from "../scenes/formOrder";
 import { FormOrderItem, computeItemAmounts } from "../scenes/formOrderItem";
@@ -30,15 +30,11 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   return {
     done: async (result: { success: boolean; error?: string }, title: string) => {
       if (result.success) {
-        await Swal.fire({ title, icon: "success", timer: 2000, showConfirmButton: false });
+        notify.success(title);
         handleClose?.(true);
         router.refresh();
       } else {
-        Swal.fire({
-          title: t("errorTitle"),
-          text: result.error || t("unexpectedError"),
-          icon: "error",
-        });
+        notify.error(t("errorTitle"), result.error || t("unexpectedError"));
       }
     },
   };
