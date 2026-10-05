@@ -198,7 +198,7 @@ export const FormCmsPage = ({
             description={t("publishedAtHint")}
           />
           <FormField controller={{ control, name: "authorName" }} label={t("fields.authorName")} />
-          <Buttons type='submit' loading={isSubmitting} className='w-full'>
+          <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
             {tCommon("save")}
           </Buttons>
         </div>

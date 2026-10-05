@@ -51,7 +51,7 @@ export const FormFeature = ({
           className='col-span-12 md:col-span-6'
         />
       </div>
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         {tCommon("save")}
       </Buttons>
     </form>

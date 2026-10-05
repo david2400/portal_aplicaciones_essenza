@@ -5,7 +5,6 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
 import { confirm, notify, prompt } from "@/components/notifications";
 import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
@@ -18,7 +17,8 @@ import {
   HiOutlinePlusCircle,
   HiOutlineTrash,
 } from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { DataGrid, type GridColumn, type RowAction } from "@/components/data-grid";
+import { StatCards } from "@/components/stat-cards";
 import { Link } from "@/shared/i18n/routing";
 import { DevolutionDetailForm, EvidenceForm, UpdateDevolution } from "./form";
 import { DevolutionStatusBadge } from "./devolution-status-badge";
@@ -165,76 +165,90 @@ export const DevolutionDetail = ({
       } else showError(response.error);
     });
 
-  const detailColumns: ColumnDef<IDevolutionDetail>[] = [
+  const detailColumns: GridColumn<IDevolutionDetail>[] = [
     {
       accessorKey: "productOrderId",
       header: tDetails("fields.productOrderId"),
+      meta: { label: tDetails("fields.productOrderId"), hideable: false },
       cell: ({ row }) => (
         <span className='font-semibold text-foreground'>
           {names.lines.get(row.original.productOrderId ?? -1) ?? `#${row.original.productOrderId}`}
         </span>
       ),
     },
-    { accessorKey: "quantity", header: tDetails("fields.quantity") },
+    {
+      accessorKey: "quantity",
+      header: tDetails("fields.quantity"),
+      meta: { label: tDetails("fields.quantity"), align: "right", exportValue: (row) => row.quantity },
+      cell: ({ row }) => <span className='tabular-nums'>{row.original.quantity ?? "—"}</span>,
+    },
     {
       accessorKey: "receivedQuantity",
       header: tDetails("fields.receivedQuantity"),
-      cell: ({ row }) => row.original.receivedQuantity ?? 0,
+      meta: {
+        label: tDetails("fields.receivedQuantity"),
+        align: "right",
+        exportValue: (row) => row.receivedQuantity,
+      },
+      cell: ({ row }) => <span className='tabular-nums'>{row.original.receivedQuantity ?? 0}</span>,
     },
     {
       accessorKey: "condition",
       header: tDetails("fields.condition"),
+      meta: { label: tDetails("fields.condition"), exportValue: (row) => row.condition },
       cell: ({ row }) =>
         row.original.condition ? tDetails(`conditions.${row.original.condition}` as never) : "—",
     },
     {
       accessorKey: "unitPrice",
       header: tDetails("fields.unitPrice"),
-      cell: ({ row }) => formatMoney(row.original.unitPrice),
+      meta: { label: tDetails("fields.unitPrice"), align: "right", exportValue: (row) => row.unitPrice },
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.unitPrice)}</span>,
     },
     {
       accessorKey: "restockingFee",
       header: tDetails("fields.restockingFee"),
-      cell: ({ row }) => formatMoney(row.original.restockingFee),
+      meta: {
+        label: tDetails("fields.restockingFee"),
+        align: "right",
+        exportValue: (row) => row.restockingFee,
+      },
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.restockingFee)}</span>,
     },
     {
       accessorKey: "refundAmount",
       header: tDetails("fields.refundAmount"),
-      cell: ({ row }) => formatMoney(row.original.refundAmount),
-    },
-    {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => {
-        const name = names.lines.get(row.original.productOrderId ?? -1) ?? `#${row.original.id}`;
-        if (closed) return <span className='text-muted-foreground'>—</span>;
-        return (
-          <div className='flex gap-2'>
-            <Buttons
-              size='sm'
-              variant='outline'
-              aria-label={tCommon("editAria", { name })}
-              onClick={() => setDetailModal({ open: true, detail: row.original })}>
-              <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-              {tCommon("edit")}
-            </Buttons>
-            <Buttons
-              size='sm'
-              variant='ghost'
-              aria-label={tCommon("deleteAria", { name })}
-              onClick={() =>
-                row.original.id != null &&
-                confirmDelete(name, () => deleteDevolutionDetailServerAction(row.original.id as number))
-              }>
-              <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-              {tCommon("delete")}
-            </Buttons>
-          </div>
-        );
+      meta: {
+        label: tDetails("fields.refundAmount"),
+        align: "right",
+        exportValue: (row) => row.refundAmount,
       },
+      cell: ({ row }) => (
+        <span className='font-medium tabular-nums'>{formatMoney(row.original.refundAmount)}</span>
+      ),
     },
   ];
+
+  const detailRowActions = (detail: IDevolutionDetail): RowAction[] => {
+    if (closed) return [];
+    const name = names.lines.get(detail.productOrderId ?? -1) ?? `#${detail.id}`;
+    return [
+      {
+        label: tCommon("edit"),
+        icon: HiOutlinePencilSquare,
+        onSelect: () => setDetailModal({ open: true, detail }),
+      },
+      {
+        label: tCommon("delete"),
+        icon: HiOutlineTrash,
+        tone: "danger",
+        separated: true,
+        disabled: detail.id == null,
+        onSelect: () =>
+          void confirmDelete(name, () => deleteDevolutionDetailServerAction(detail.id as number)),
+      },
+    ];
+  };
 
   const summary = [
     { label: t("fields.state"), value: <DevolutionStatusBadge state={devolution.state} /> },
@@ -289,7 +303,7 @@ export const DevolutionDetail = ({
         </div>
         <div className='flex flex-wrap gap-2'>
           {!closed ? (
-            <Buttons variant='outline' onClick={() => setEditing(true)}>
+            <Buttons variant='outline' onClick={() => setEditing(true)} className='rounded-full'>
               <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
               {t("editTitle")}
             </Buttons>
@@ -298,7 +312,8 @@ export const DevolutionDetail = ({
             <Buttons
               key={next}
               variant={next === "X" ? "danger" : "default"}
-              onClick={() => handleTransition(next)}>
+              onClick={() => handleTransition(next)}
+              className='rounded-full'>
               {next === "X" ? null : <HiOutlineCheckCircle className='h-4 w-4' aria-hidden='true' />}
               {t(`actions.${next}`)}
             </Buttons>
@@ -306,153 +321,165 @@ export const DevolutionDetail = ({
         </div>
       </div>
 
-      <dl className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        {summary.map((entry) => (
-          <div key={entry.label} className='rounded-2xl border border-border bg-card p-5 shadow-sm'>
-            <dt className='text-sm font-semibold text-muted-foreground'>{entry.label}</dt>
-            <dd className='mt-2 text-xl font-semibold text-foreground'>{entry.value}</dd>
-          </div>
-        ))}
-      </dl>
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        <StatCards items={summary} />
 
-      <div className='grid gap-4 lg:grid-cols-3'>
-        <div className='rounded-2xl border border-border bg-card p-5 shadow-sm lg:col-span-2'>
-          <h3 className='text-base font-semibold text-foreground'>{t("timelineTitle")}</h3>
-          {state === "X" ? (
-            <p role='status' className='mt-3 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm'>
-              {t("rejectedNotice", { reason: devolution.inspectionNotes ?? "—" })}
-            </p>
-          ) : (
-            <ol className='mt-4 grid gap-3 sm:grid-cols-5'>
-              {TIMELINE.map((step, index) => {
-                const reached = index <= reachedIndex;
-                return (
-                  <li
-                    key={step}
-                    aria-current={step === state ? "step" : undefined}
-                    className={`rounded-xl border p-3 text-sm ${
-                      reached ? "border-primary/40 bg-primary/5" : "border-border opacity-60"
-                    }`}>
-                    <p className='font-semibold text-foreground'>{tStates(step)}</p>
-                    <p className='mt-1 break-words text-xs text-muted-foreground'>
-                      {timelineInfo[step] ?? (reached ? "✓" : "—")}
-                    </p>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
+        <div className='grid gap-4 lg:grid-cols-3'>
+          <div className='rounded-xl border border-border/70 bg-background/60 p-5 lg:col-span-2'>
+            <h3 className='text-base font-semibold text-foreground'>{t("timelineTitle")}</h3>
+            {state === "X" ? (
+              <p role='status' className='mt-3 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm'>
+                {t("rejectedNotice", { reason: devolution.inspectionNotes ?? "—" })}
+              </p>
+            ) : (
+              <ol className='mt-4 grid gap-3 sm:grid-cols-5'>
+                {TIMELINE.map((step, index) => {
+                  const reached = index <= reachedIndex;
+                  return (
+                    <li
+                      key={step}
+                      aria-current={step === state ? "step" : undefined}
+                      className={`rounded-xl border p-3 text-sm ${
+                        reached ? "border-primary/40 bg-primary/5" : "border-border opacity-60"
+                      }`}>
+                      <p className='font-semibold text-foreground'>{tStates(step)}</p>
+                      <p className='mt-1 break-words text-xs text-muted-foreground'>
+                        {timelineInfo[step] ?? (reached ? "✓" : "—")}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </div>
+
+          <dl className='space-y-3 rounded-xl border border-border/70 bg-background/60 p-5 text-sm'>
+            <div>
+              <dt className='text-muted-foreground'>{t("fields.returnMethodId")}</dt>
+              <dd className='font-medium text-foreground'>
+                {names.returnMethods.get(devolution.returnMethodId ?? -1) ?? "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-muted-foreground'>{t("fields.refundMethodId")}</dt>
+              <dd className='font-medium text-foreground'>
+                {names.refundMethods.get(devolution.refundMethodId ?? -1) ?? "—"}
+              </dd>
+            </div>
+            <div>
+              <dt className='text-muted-foreground'>{t("fields.externalReference")}</dt>
+              <dd className='font-medium text-foreground'>{devolution.externalReference || "—"}</dd>
+            </div>
+            <div>
+              <dt className='text-muted-foreground'>{t("fields.observation")}</dt>
+              <dd className='whitespace-pre-line text-foreground'>{devolution.observation || "—"}</dd>
+            </div>
+          </dl>
         </div>
 
-        <dl className='space-y-3 rounded-2xl border border-border bg-card p-5 text-sm shadow-sm'>
-          <div>
-            <dt className='text-muted-foreground'>{t("fields.returnMethodId")}</dt>
-            <dd className='font-medium text-foreground'>
-              {names.returnMethods.get(devolution.returnMethodId ?? -1) ?? "—"}
-            </dd>
+        <div className='space-y-3'>
+          <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+            <div>
+              <h3 className='text-base font-semibold text-foreground'>{tDetails("title")}</h3>
+              <p className='text-sm text-muted-foreground'>
+                {tDetails("refundSum", { amount: formatMoney(refundSum) })}
+              </p>
+            </div>
+            {!closed ? (
+              <Buttons
+                size='sm'
+                disabled={lines.length === 0}
+                onClick={() => setDetailModal({ open: true, detail: null })}
+                className='rounded-full'>
+                <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
+                {tDetails("create")}
+              </Buttons>
+            ) : null}
           </div>
-          <div>
-            <dt className='text-muted-foreground'>{t("fields.refundMethodId")}</dt>
-            <dd className='font-medium text-foreground'>
-              {names.refundMethods.get(devolution.refundMethodId ?? -1) ?? "—"}
-            </dd>
-          </div>
-          <div>
-            <dt className='text-muted-foreground'>{t("fields.externalReference")}</dt>
-            <dd className='font-medium text-foreground'>{devolution.externalReference || "—"}</dd>
-          </div>
-          <div>
-            <dt className='text-muted-foreground'>{t("fields.observation")}</dt>
-            <dd className='whitespace-pre-line text-foreground'>{devolution.observation || "—"}</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div className='space-y-3'>
-        <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
-          <div>
-            <h3 className='text-base font-semibold text-foreground'>{tDetails("title")}</h3>
-            <p className='text-sm text-muted-foreground'>
-              {tDetails("refundSum", { amount: formatMoney(refundSum) })}
+          {lines.length === 0 ? (
+            <p role='status' className='text-sm text-muted-foreground'>
+              {tDetails("noOrderLines")}
             </p>
-          </div>
-          {!closed ? (
+          ) : null}
+          <DataGrid<IDevolutionDetail>
+            mode='client'
+            embedded
+            id='devolution-details'
+            caption={tDetails("title")}
+            data={details}
+            columns={detailColumns}
+            getRowId={(detail) => String(detail.id)}
+            searchText={(detail) => names.lines.get(detail.productOrderId ?? -1) ?? ""}
+            rowActions={detailRowActions}
+            emptyState={{
+              title: tDetails("emptyTitle"),
+              description: tDetails("emptyDescription"),
+            }}
+          />
+        </div>
+
+        <div className='space-y-3'>
+          <div className='flex items-center justify-between'>
+            <h3 className='text-base font-semibold text-foreground'>{tEvidences("title")}</h3>
             <Buttons
               size='sm'
-              disabled={lines.length === 0}
-              onClick={() => setDetailModal({ open: true, detail: null })}>
+              variant='outline'
+              onClick={() => setEvidenceOpen(true)}
+              className='rounded-full'>
               <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-              {tDetails("create")}
+              {tEvidences("create")}
             </Buttons>
-          ) : null}
-        </div>
-        {lines.length === 0 ? (
-          <p role='status' className='text-sm text-muted-foreground'>
-            {tDetails("noOrderLines")}
-          </p>
-        ) : null}
-        <DataTable
-          data={details}
-          columns={detailColumns}
-          emptyTitle={tDetails("emptyTitle")}
-          emptyDescription={tDetails("emptyDescription")}
-        />
-      </div>
-
-      <div className='space-y-3'>
-        <div className='flex items-center justify-between'>
-          <h3 className='text-base font-semibold text-foreground'>{tEvidences("title")}</h3>
-          <Buttons size='sm' variant='outline' onClick={() => setEvidenceOpen(true)}>
-            <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
-            {tEvidences("create")}
-          </Buttons>
-        </div>
-        {evidences.length === 0 ? (
-          <div className='rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground'>
-            {tEvidences("emptyDescription")}
           </div>
-        ) : (
-          <ul className='grid gap-3 sm:grid-cols-2 lg:grid-cols-3'>
-            {evidences.map((evidence) => (
-              <li key={evidence.id} className='flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 shadow-sm'>
-                <div className='flex items-center justify-between gap-2'>
-                  <span className='inline-flex items-center gap-1.5 text-sm font-semibold text-foreground'>
-                    <HiOutlineDocumentText className='h-4 w-4 text-primary' aria-hidden='true' />
-                    {evidence.evidenceType
-                      ? tEvidences(`types.${evidence.evidenceType}` as never)
-                      : "—"}
-                  </span>
-                  <Buttons
-                    size='sm'
-                    variant='ghost'
-                    aria-label={tCommon("deleteAria", { name: evidence.evidenceType ?? `#${evidence.id}` })}
-                    onClick={() =>
-                      evidence.id != null &&
-                      confirmDelete(evidence.evidenceType ?? `#${evidence.id}`, () =>
-                        deleteDevolutionEvidenceServerAction(evidence.id as number),
-                      )
-                    }>
-                    <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-                  </Buttons>
-                </div>
-                {evidence.description ? (
-                  <p className='text-sm text-muted-foreground'>{evidence.description}</p>
-                ) : null}
-                <a
-                  href={evidence.resourceUrl}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='inline-flex items-center gap-1 truncate text-sm text-primary underline-offset-4 hover:underline'>
-                  <HiOutlineLink className='h-4 w-4 shrink-0' aria-hidden='true' />
-                  <span className='truncate'>{evidence.resourceUrl}</span>
-                </a>
-                <p className='text-xs text-muted-foreground'>
-                  {evidence.recordedBy || "—"} · {formatDateTime(evidence.recordedAt)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
+          {evidences.length === 0 ? (
+            <div className='rounded-xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground'>
+              {tEvidences("emptyDescription")}
+            </div>
+          ) : (
+            <ul className='grid gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+              {evidences.map((evidence) => (
+                <li
+                  key={evidence.id}
+                  className='flex flex-col gap-2 rounded-xl border border-border/70 bg-background/60 p-4'>
+                  <div className='flex items-center justify-between gap-2'>
+                    <span className='inline-flex items-center gap-1.5 text-sm font-semibold text-foreground'>
+                      <HiOutlineDocumentText className='h-4 w-4 text-primary' aria-hidden='true' />
+                      {evidence.evidenceType
+                        ? tEvidences(`types.${evidence.evidenceType}` as never)
+                        : "—"}
+                    </span>
+                    <Buttons
+                      size='sm'
+                      variant='ghost'
+                      aria-label={tCommon("deleteAria", { name: evidence.evidenceType ?? `#${evidence.id}` })}
+                      className='rounded-full text-destructive hover:text-destructive'
+                      onClick={() =>
+                        evidence.id != null &&
+                        confirmDelete(evidence.evidenceType ?? `#${evidence.id}`, () =>
+                          deleteDevolutionEvidenceServerAction(evidence.id as number),
+                        )
+                      }>
+                      <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
+                    </Buttons>
+                  </div>
+                  {evidence.description ? (
+                    <p className='text-sm text-muted-foreground'>{evidence.description}</p>
+                  ) : null}
+                  <a
+                    href={evidence.resourceUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='inline-flex items-center gap-1 truncate text-sm text-primary underline-offset-4 hover:underline'>
+                    <HiOutlineLink className='h-4 w-4 shrink-0' aria-hidden='true' />
+                    <span className='truncate'>{evidence.resourceUrl}</span>
+                  </a>
+                  <p className='text-xs text-muted-foreground'>
+                    {evidence.recordedBy || "—"} · {formatDateTime(evidence.recordedAt)}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       <Modal size='lg' title={t("editTitle")} open={editing} onOpenChange={setEditing} hideDefaultFooter={true}>

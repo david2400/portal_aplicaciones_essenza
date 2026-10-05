@@ -85,7 +85,7 @@ export const FormDeliveryEstimate = ({
           className='col-span-12 sm:col-span-6'
         />
       </div>
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         <HiOutlineCalendarDays className='h-4 w-4' aria-hidden='true' />
         {t("calculate")}
       </Buttons>

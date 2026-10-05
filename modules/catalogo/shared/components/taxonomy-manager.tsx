@@ -226,7 +226,7 @@ export function TaxonomyManager<T extends TaxonomyItem>({
   );
 
   const createButton = (
-    <Buttons onClick={() => setModal({ open: true, item: null })}>
+    <Buttons onClick={() => setModal({ open: true, item: null })} className='rounded-full'>
       <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
       {t("create")}
     </Buttons>
@@ -236,41 +236,44 @@ export function TaxonomyManager<T extends TaxonomyItem>({
     <section className='flex w-full flex-col gap-6'>
       <PageHeader title={t("title")} description={t("description")} icon={icon} eyebrow={tx("eyebrow")} actions={createButton} />
 
-      <StatCards
-        items={[
-          { label: t("total"), value: stats.total, icon },
-          { label: tx("recent"), value: stats.recent, icon: HiOutlineCalendarDays, hint: tx("recentHint") },
-          {
-            label: tx("withoutDescription"),
-            value: stats.withoutDescription,
-            icon: HiOutlineDocumentText,
-            tone: stats.withoutDescription > 0 ? "warning" : "success",
-            hint: tx("withoutDescriptionHint"),
-          },
-        ]}
-      />
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        <StatCards
+          items={[
+            { label: t("total"), value: stats.total, icon },
+            { label: tx("recent"), value: stats.recent, icon: HiOutlineCalendarDays, hint: tx("recentHint") },
+            {
+              label: tx("withoutDescription"),
+              value: stats.withoutDescription,
+              icon: HiOutlineDocumentText,
+              tone: stats.withoutDescription > 0 ? "warning" : "success",
+              hint: tx("withoutDescriptionHint"),
+            },
+          ]}
+        />
 
-      <DataGrid<T>
-        mode='server'
-        id={gridId}
-        caption={t("title")}
-        data={page.items}
-        pagination={{ page: page.page, size: page.size, total: page.total, totalPages: page.totalPages }}
-        columns={columns}
-        getRowId={(row) => String(row.id)}
-        searchPlaceholder={tx("searchPlaceholder")}
-        filters={filters}
-        rowActions={rowActions}
-        bulkActions={bulkActions}
-        exportName={gridId}
-        onExportAll={async () => {
-          const result = await actions.exportAll(Object.fromEntries(searchParams.entries()));
-          if (!result.success) throw new Error(result.error);
-          if (result.data?.truncated) notify.warning(tx("exportTruncated"));
-          return result.data?.items ?? [];
-        }}
-        emptyState={{ title: t("emptyTitle"), description: t("emptyDescription"), action: createButton }}
-      />
+        <DataGrid<T>
+          mode='server'
+          embedded
+          id={gridId}
+          caption={t("title")}
+          data={page.items}
+          pagination={{ page: page.page, size: page.size, total: page.total, totalPages: page.totalPages }}
+          columns={columns}
+          getRowId={(row) => String(row.id)}
+          searchPlaceholder={tx("searchPlaceholder")}
+          filters={filters}
+          rowActions={rowActions}
+          bulkActions={bulkActions}
+          exportName={gridId}
+          onExportAll={async () => {
+            const result = await actions.exportAll(Object.fromEntries(searchParams.entries()));
+            if (!result.success) throw new Error(result.error);
+            if (result.data?.truncated) notify.warning(tx("exportTruncated"));
+            return result.data?.items ?? [];
+          }}
+          emptyState={{ title: t("emptyTitle"), description: t("emptyDescription"), action: createButton }}
+        />
+      </div>
 
       <Modal
         size='lg'

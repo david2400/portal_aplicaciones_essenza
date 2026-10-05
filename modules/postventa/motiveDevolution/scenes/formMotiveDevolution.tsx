@@ -44,7 +44,7 @@ export const FormMotiveDevolution = ({
           className='col-span-12'
         />
       </div>
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         {tCommon("save")}
       </Buttons>
     </form>

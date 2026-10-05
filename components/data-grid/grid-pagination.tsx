@@ -44,7 +44,7 @@ export function GridPagination({ pagination, onPage, onSize, selected = 0 }: Gri
           <select
             value={size}
             onChange={(event) => onSize(Number(event.target.value))}
-            className='h-8 rounded-lg border border-border/70 bg-background px-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30'>
+            className='h-8 rounded-full border border-border/70 bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30'>
             {PAGE_SIZE_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -55,17 +55,41 @@ export function GridPagination({ pagination, onPage, onSize, selected = 0 }: Gri
 
         <span className='tabular-nums'>{t("pageOf", { page: page + 1, pages: Math.max(totalPages, 1) })}</span>
 
-        <div className='flex items-center gap-1'>
-          <Buttons variant='outline' size='icon-sm' onClick={() => onPage(0)} disabled={page <= 0} aria-label={t("first")}>
+        <div className='flex items-center gap-1.5'>
+          <Buttons
+            variant='outline'
+            size='icon-sm'
+            onClick={() => onPage(0)}
+            disabled={page <= 0}
+            aria-label={t("first")}
+            className='rounded-full'>
             <HiChevronDoubleLeft className='h-4 w-4' aria-hidden='true' />
           </Buttons>
-          <Buttons variant='outline' size='icon-sm' onClick={() => onPage(page - 1)} disabled={page <= 0} aria-label={t("previous")}>
+          <Buttons
+            variant='outline'
+            size='sm'
+            onClick={() => onPage(page - 1)}
+            disabled={page <= 0}
+            className='rounded-full'>
             <HiChevronLeft className='h-4 w-4' aria-hidden='true' />
+            {t("previous")}
           </Buttons>
-          <Buttons variant='outline' size='icon-sm' onClick={() => onPage(page + 1)} disabled={page >= lastPage} aria-label={t("next")}>
+          <Buttons
+            variant='outline'
+            size='sm'
+            onClick={() => onPage(page + 1)}
+            disabled={page >= lastPage}
+            className='rounded-full'>
+            {t("next")}
             <HiChevronRight className='h-4 w-4' aria-hidden='true' />
           </Buttons>
-          <Buttons variant='outline' size='icon-sm' onClick={() => onPage(lastPage)} disabled={page >= lastPage} aria-label={t("last")}>
+          <Buttons
+            variant='outline'
+            size='icon-sm'
+            onClick={() => onPage(lastPage)}
+            disabled={page >= lastPage}
+            aria-label={t("last")}
+            className='rounded-full'>
             <HiChevronDoubleRight className='h-4 w-4' aria-hidden='true' />
           </Buttons>
         </div>

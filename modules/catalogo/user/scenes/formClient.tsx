@@ -161,7 +161,7 @@ export const FormClient = ({initialValues, validationSchema, onSubmit}: IFormPro
             type='submit'
             id='signUp'
             // label={intl.formatMessage({id: 'register'})}
-            className='w-full'
+            className='w-full rounded-full'
             loading={isSubmitting}
           ></Buttons>
           <p className='text-md'>

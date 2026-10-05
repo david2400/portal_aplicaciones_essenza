@@ -5,7 +5,6 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { ColumnDef } from "@tanstack/react-table";
 import { confirm, notify } from "@/components/notifications";
 import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
@@ -16,7 +15,8 @@ import {
   HiOutlineTrash,
   HiOutlineCalculator,
 } from "react-icons/hi2";
-import { DataTable } from "@/components/data-table";
+import { DataGrid, type GridColumn, type RowAction } from "@/components/data-grid";
+import { StatCards } from "@/components/stat-cards";
 import { Link } from "@/shared/i18n/routing";
 import { OrderItemForm, UpdateOrder } from "./form";
 import { OrderStatusBadge } from "./order-status-badge";
@@ -105,59 +105,55 @@ export const OrderDetail = ({ order, items, products }: IOrderDetailProps) => {
     }
   };
 
-  const columns: ColumnDef<IOrderItem>[] = [
+  const columns: GridColumn<IOrderItem>[] = [
     {
       accessorKey: "productId",
       header: tItems("fields.productId"),
+      meta: { label: tItems("fields.productId"), hideable: false },
       cell: ({ row }) => (
         <span className='font-semibold text-foreground'>
           {productNames.get(row.original.productId ?? -1) ?? "—"}
         </span>
       ),
     },
-    { accessorKey: "quantity", header: tItems("fields.quantity") },
+    {
+      accessorKey: "quantity",
+      header: tItems("fields.quantity"),
+      meta: { label: tItems("fields.quantity"), align: "right", exportValue: (row) => row.quantity },
+      cell: ({ row }) => <span className='tabular-nums'>{row.original.quantity ?? "—"}</span>,
+    },
     {
       accessorKey: "subtotal",
       header: tItems("fields.subtotal"),
-      cell: ({ row }) => formatMoney(row.original.subtotal),
+      meta: { label: tItems("fields.subtotal"), align: "right", exportValue: (row) => row.subtotal },
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.subtotal)}</span>,
     },
     {
       accessorKey: "discount",
       header: tItems("fields.discount"),
-      cell: ({ row }) => formatMoney(row.original.discount),
+      meta: { label: tItems("fields.discount"), align: "right", exportValue: (row) => row.discount },
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.discount)}</span>,
     },
     {
       accessorKey: "total",
       header: tItems("fields.total"),
-      cell: ({ row }) => formatMoney(row.original.total),
+      meta: { label: tItems("fields.total"), align: "right", exportValue: (row) => row.total },
+      cell: ({ row }) => <span className='font-medium tabular-nums'>{formatMoney(row.original.total)}</span>,
+    },
+  ];
+
+  const itemRowActions = (item: IOrderItem): RowAction[] => [
+    {
+      label: tCommon("edit"),
+      icon: HiOutlinePencilSquare,
+      onSelect: () => setItemModal({ open: true, item }),
     },
     {
-      id: "actions",
-      header: tCommon("actions"),
-      enableSorting: false,
-      cell: ({ row }) => {
-        const name = productNames.get(row.original.productId ?? -1) ?? `#${row.original.id}`;
-        return (
-          <div className='flex gap-2'>
-            <Buttons
-              size='sm'
-              variant='outline'
-              aria-label={tCommon("editAria", { name })}
-              onClick={() => setItemModal({ open: true, item: row.original })}>
-              <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
-              {tCommon("edit")}
-            </Buttons>
-            <Buttons
-              size='sm'
-              variant='ghost'
-              aria-label={tCommon("deleteAria", { name })}
-              onClick={() => handleDeleteItem(row.original)}>
-              <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />
-              {tCommon("delete")}
-            </Buttons>
-          </div>
-        );
-      },
+      label: tCommon("delete"),
+      icon: HiOutlineTrash,
+      tone: "danger",
+      separated: true,
+      onSelect: () => handleDeleteItem(item),
     },
   ];
 
@@ -183,51 +179,55 @@ export const OrderDetail = ({ order, items, products }: IOrderDetailProps) => {
           </h2>
         </div>
         <div className='flex flex-wrap gap-2'>
-          <Buttons variant='outline' onClick={() => setEditingOrder(true)}>
+          <Buttons variant='outline' onClick={() => setEditingOrder(true)} className='rounded-full'>
             <HiOutlinePencilSquare className='h-4 w-4' aria-hidden='true' />
             {t("editTitle")}
           </Buttons>
-          <Buttons onClick={() => setItemModal({ open: true, item: null })}>
+          <Buttons onClick={() => setItemModal({ open: true, item: null })} className='rounded-full'>
             <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
             {tItems("create")}
           </Buttons>
         </div>
       </div>
 
-      <dl className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-        {summary.map((entry) => (
-          <div key={entry.label} className='rounded-2xl border border-border bg-card p-5 shadow-sm'>
-            <dt className='text-sm font-semibold text-muted-foreground'>{entry.label}</dt>
-            <dd className='mt-2 text-xl font-semibold text-foreground'>{entry.value}</dd>
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        <StatCards items={summary} />
+
+        {outOfSync && items.length > 0 ? (
+          <div
+            role='status'
+            className='flex flex-col gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4 text-sm text-foreground sm:flex-row sm:items-center sm:justify-between'>
+            <p>
+              {t("totalMismatch", {
+                orderTotal: formatMoney(order.total),
+                itemsTotal: formatMoney(totals.total),
+              })}
+            </p>
+            <Buttons size='sm' variant='outline' onClick={handleSyncTotal} className='rounded-full'>
+              <HiOutlineCalculator className='h-4 w-4' aria-hidden='true' />
+              {t("syncTotal")}
+            </Buttons>
           </div>
-        ))}
-      </dl>
+        ) : null}
 
-      {outOfSync && items.length > 0 ? (
-        <div
-          role='status'
-          className='flex flex-col gap-3 rounded-xl border border-warning/40 bg-warning/10 p-4 text-sm text-foreground sm:flex-row sm:items-center sm:justify-between'>
-          <p>
-            {t("totalMismatch", {
-              orderTotal: formatMoney(order.total),
-              itemsTotal: formatMoney(totals.total),
-            })}
-          </p>
-          <Buttons size='sm' variant='outline' onClick={handleSyncTotal}>
-            <HiOutlineCalculator className='h-4 w-4' aria-hidden='true' />
-            {t("syncTotal")}
-          </Buttons>
+        <div className='space-y-3'>
+          <h3 className='text-base font-semibold text-foreground'>{tItems("title")}</h3>
+          <DataGrid<IOrderItem>
+            mode='client'
+            embedded
+            id='order-items'
+            caption={tItems("title")}
+            data={items}
+            columns={columns}
+            getRowId={(item) => String(item.id)}
+            searchText={(item) => productNames.get(item.productId ?? -1) ?? ""}
+            rowActions={itemRowActions}
+            emptyState={{
+              title: tItems("emptyTitle"),
+              description: tItems("emptyDescription"),
+            }}
+          />
         </div>
-      ) : null}
-
-      <div className='space-y-3'>
-        <h3 className='text-base font-semibold text-foreground'>{tItems("title")}</h3>
-        <DataTable
-          data={items}
-          columns={columns}
-          emptyTitle={tItems("emptyTitle")}
-          emptyDescription={tItems("emptyDescription")}
-        />
       </div>
 
       <Modal

@@ -312,7 +312,7 @@ export const ProductManager = ({ page, stats, brands, categories, subcategories,
   );
 
   const createButton = (
-    <Buttons onClick={() => setModal({ open: true, item: null })}>
+    <Buttons onClick={() => setModal({ open: true, item: null })} className='rounded-full'>
       <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
       {t("create")}
     </Buttons>
@@ -322,35 +322,37 @@ export const ProductManager = ({ page, stats, brands, categories, subcategories,
     <section className='flex w-full flex-col gap-6'>
       <PageHeader title={t("title")} description={t("description")} icon={HiOutlineCube} eyebrow={tp("eyebrow")} actions={createButton} />
 
-      <StatCards
-        items={[
-          { label: t("total"), value: numberFormatter.format(stats.total), icon: HiOutlineCube },
-          {
-            label: t("availableCount"),
-            value: numberFormatter.format(stats.available),
-            icon: HiOutlineCheckBadge,
-            tone: "success",
-            hint: tp("availableHint", { percent: stats.total ? Math.round((stats.available / stats.total) * 100) : 0 }),
-          },
-          {
-            label: tp("stockAlerts"),
-            value: numberFormatter.format(stats.outOfStock + stats.lowStock),
-            icon: HiOutlineArchiveBox,
-            tone: stats.outOfStock > 0 ? "danger" : stats.lowStock > 0 ? "warning" : "success",
-            hint: tp("stockAlertsHint", { out: stats.outOfStock, low: stats.lowStock, threshold: LOW_STOCK_THRESHOLD }),
-          },
-          {
-            label: tp("inventoryValue"),
-            value: formatMoney(stats.inventoryValue),
-            icon: HiOutlineBanknotes,
-            hint: tp("inventoryValueHint"),
-          },
-        ]}
-      />
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        <StatCards
+          items={[
+            { label: t("total"), value: numberFormatter.format(stats.total), icon: HiOutlineCube },
+            {
+              label: t("availableCount"),
+              value: numberFormatter.format(stats.available),
+              icon: HiOutlineCheckBadge,
+              tone: "success",
+              hint: tp("availableHint", { percent: stats.total ? Math.round((stats.available / stats.total) * 100) : 0 }),
+            },
+            {
+              label: tp("stockAlerts"),
+              value: numberFormatter.format(stats.outOfStock + stats.lowStock),
+              icon: HiOutlineArchiveBox,
+              tone: stats.outOfStock > 0 ? "danger" : stats.lowStock > 0 ? "warning" : "success",
+              hint: tp("stockAlertsHint", { out: stats.outOfStock, low: stats.lowStock, threshold: LOW_STOCK_THRESHOLD }),
+            },
+            {
+              label: tp("inventoryValue"),
+              value: formatMoney(stats.inventoryValue),
+              icon: HiOutlineBanknotes,
+              hint: tp("inventoryValueHint"),
+            },
+          ]}
+        />
 
-      <DataGrid<IProduct>
-        mode='server'
-        id='productos'
+        <DataGrid<IProduct>
+          mode='server'
+          embedded
+          id='productos'
         caption={t("title")}
         data={page.items}
         pagination={{ page: page.page, size: page.size, total: page.total, totalPages: page.totalPages }}
@@ -369,6 +371,7 @@ export const ProductManager = ({ page, stats, brands, categories, subcategories,
         }}
         emptyState={{ title: t("emptyTitle"), description: t("emptyDescription"), action: createButton }}
       />
+      </div>
 
       <Modal
         size='xl'

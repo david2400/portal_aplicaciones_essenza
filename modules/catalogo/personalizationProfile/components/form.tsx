@@ -16,7 +16,7 @@ import { JSON_FIELDS, prettyJson, type JsonField } from "../constants";
 import {
   createProfileServerAction,
   updateProfileServerAction,
-} from "@/app/[locale]/administre/personalization/actions";
+} from "@/app/[locale]/contenido/personalization/actions";
 
 type Result = { success: true } | { success: false; error: string };
 

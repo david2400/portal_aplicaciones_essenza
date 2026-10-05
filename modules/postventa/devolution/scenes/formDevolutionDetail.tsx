@@ -139,7 +139,7 @@ export const FormDevolutionDetail = ({
         <span className='text-lg font-semibold text-foreground'>{formatMoney(refund)}</span>
       </div>
 
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         {tCommon("save")}
       </Buttons>
     </form>

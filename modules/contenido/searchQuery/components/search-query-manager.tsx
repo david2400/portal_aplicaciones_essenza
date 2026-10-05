@@ -180,7 +180,7 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
           }))}
         />
 
-        <div className='rounded-2xl border border-border bg-card p-5 shadow-sm'>
+        <div className='rounded-xl border border-border/70 bg-background/60 p-5'>
           <h3 className='text-base font-semibold text-foreground'>{t("opportunities")}</h3>
           <p className='mt-1 text-sm text-muted-foreground'>{t("opportunitiesHint")}</p>
           {opportunities.length === 0 ? (

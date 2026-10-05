@@ -209,7 +209,7 @@ export function CrudManager<T extends { id?: number }>(props: CrudManagerProps<T
   };
 
   const createButton = renderForm ? (
-    <Buttons onClick={() => setModal({ open: true, item: null })}>
+    <Buttons onClick={() => setModal({ open: true, item: null })} className='rounded-full'>
       <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
       {t("create")}
     </Buttons>
@@ -246,15 +246,23 @@ export function CrudManager<T extends { id?: number }>(props: CrudManagerProps<T
         }
       />
 
-      {stats && stats.length > 0 ? <StatCards items={stats} /> : null}
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        {stats && stats.length > 0 ? <StatCards items={stats} /> : null}
 
-      {children}
+        {children}
 
-      {props.mode === "server" ? (
-        <ServerGrid {...shared} page={props.page} onExportAll={props.onExportAll} truncatedLabel={tc("exportTruncated")} />
-      ) : (
-        <DataGrid<T> {...shared} mode='client' data={props.data} searchText={props.searchText} />
-      )}
+        {props.mode === "server" ? (
+          <ServerGrid
+            {...shared}
+            embedded
+            page={props.page}
+            onExportAll={props.onExportAll}
+            truncatedLabel={tc("exportTruncated")}
+          />
+        ) : (
+          <DataGrid<T> {...shared} embedded mode='client' data={props.data} searchText={props.searchText} />
+        )}
+      </div>
 
       {renderForm ? (
         <Modal

@@ -167,7 +167,7 @@ export const FormCoupon = ({
         </Fieldset>
       </div>
 
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         {tCommon("save")}
       </Buttons>
     </form>

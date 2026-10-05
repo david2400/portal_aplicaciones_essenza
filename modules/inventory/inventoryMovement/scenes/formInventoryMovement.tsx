@@ -102,7 +102,7 @@ export const FormInventoryMovement = ({
           className='col-span-12'
         />
       </div>
-      <Buttons type='submit' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
         {t("submit")}
       </Buttons>
     </form>

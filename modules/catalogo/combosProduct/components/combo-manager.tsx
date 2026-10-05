@@ -153,7 +153,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
   ];
 
   const createButton = (
-    <Buttons onClick={() => setModal({ open: true, item: null })}>
+    <Buttons onClick={() => setModal({ open: true, item: null })} className='rounded-full'>
       <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
       {t("create")}
     </Buttons>
@@ -169,17 +169,19 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
         actions={createButton}
       />
 
-      <StatCards
-        items={[
-          { label: tc("combos"), value: stats.combos, icon: HiOutlineSquare3Stack3D },
-          { label: t("total"), value: stats.components, icon: HiOutlineCube },
-          { label: tc("average"), value: stats.average, icon: HiOutlineSquares2X2, hint: tc("averageHint") },
-        ]}
-      />
+      <div className='flex flex-col gap-5 rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6'>
+        <StatCards
+          items={[
+            { label: tc("combos"), value: stats.combos, icon: HiOutlineSquare3Stack3D },
+            { label: t("total"), value: stats.components, icon: HiOutlineCube },
+            { label: tc("average"), value: stats.average, icon: HiOutlineSquares2X2, hint: tc("averageHint") },
+          ]}
+        />
 
-      <DataGrid<ICombo>
-        mode='client'
-        id='combos'
+        <DataGrid<ICombo>
+          mode='client'
+          embedded
+          id='combos'
         caption={t("title")}
         data={initialData}
         columns={columns}
@@ -191,6 +193,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
         exportName='combos'
         emptyState={{ title: t("emptyTitle"), description: t("emptyDescription"), action: createButton }}
       />
+      </div>
 
       <Modal
         size='lg'

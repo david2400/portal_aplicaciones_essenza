@@ -59,7 +59,7 @@ export const FormUser = ({initialValues, validationSchema, onSubmit}: IFormProps
             type='submit'
             id='signUp'
             // label={intl.formatMessage({id: 'register'})}
-            className='w-full'
+            className='w-full rounded-full'
             loading={isSubmitting}
           ></Buttons>
         </div>

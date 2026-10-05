@@ -26,7 +26,7 @@ export const PageHeader = ({ title, description, icon: Icon, eyebrow, actions }:
       ) : null}
       <div className='min-w-0'>
         {eyebrow ? (
-          <p className='text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground'>{eyebrow}</p>
+          <p className='text-xs font-semibold uppercase tracking-[0.14em] text-primary'>{eyebrow}</p>
         ) : null}
         <h2 className='truncate text-xl font-semibold tracking-tight text-foreground sm:text-2xl'>{title}</h2>
         {description ? <p className='mt-1 text-sm text-muted-foreground sm:text-base'>{description}</p> : null}

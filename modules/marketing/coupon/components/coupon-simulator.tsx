@@ -41,7 +41,7 @@ export const CouponSimulator = () => {
   };
 
   return (
-    <section className='rounded-2xl border border-border bg-card p-5 shadow-sm'>
+    <section className='rounded-xl border border-border/70 bg-background/60 p-5'>
       <div className='mb-4 flex items-center gap-2'>
         <HiOutlineBeaker className='h-5 w-5 text-primary' aria-hidden='true' />
         <h3 className='text-base font-semibold text-foreground'>{t("title")}</h3>
@@ -65,7 +65,7 @@ export const CouponSimulator = () => {
           onChange={(event) => setAmount(event.target.value)}
           className='col-span-12 sm:col-span-4'
         />
-        <Buttons type='submit' loading={loading} className='col-span-12 sm:col-span-3'>
+        <Buttons type='submit' loading={loading} className='col-span-12 sm:col-span-3 rounded-full'>
           {t("run")}
         </Buttons>
       </form>

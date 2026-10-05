@@ -8,7 +8,6 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  type FilterFns,
   type RowSelectionState,
   type VisibilityState,
 } from "@tanstack/react-table";
@@ -62,6 +61,11 @@ interface BaseProps<T> {
   toolbarExtra?: ReactNode;
   /** Etiqueta accesible de la tabla. */
   caption: string;
+  /**
+   * `true` cuando el grid va dentro de una tarjeta contenedora (panel de
+   * módulo): la tabla pierde su propio marco y hereda el de la tarjeta.
+   */
+  embedded?: boolean;
 }
 
 interface ServerProps<T> extends BaseProps<T> {
@@ -285,10 +289,31 @@ function GridCore<T>(props: DataGridProps<T> & { url: GridUrl | null }) {
         cell: ({ row }) => {
           const actions = rowActions(row.original);
           if (actions.length === 0) return null;
+          // Con pocas acciones se muestran como píldoras inline (más rápidas);
+          // con muchas, un menú compacto evita saturar la fila.
+          if (actions.length <= 3) {
+            return (
+              <div className='flex items-center justify-end gap-2'>
+                {actions.map((action) => (
+                  <Buttons
+                    key={action.label}
+                    size='sm'
+                    variant={action.tone === "danger" ? "ghost" : "outline"}
+                    disabled={action.disabled}
+                    aria-label={action.label}
+                    onClick={action.onSelect}
+                    className={cn("rounded-full", action.tone === "danger" && "text-destructive hover:text-destructive")}>
+                    {action.icon ? <action.icon className='h-4 w-4' aria-hidden='true' /> : null}
+                    {action.label}
+                  </Buttons>
+                ))}
+              </div>
+            );
+          }
           return (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Buttons variant='outline' size='icon-sm' aria-label={t("rowActions")} className='size-8'>
+                <Buttons variant='outline' size='icon-sm' aria-label={t("rowActions")} className='size-8 rounded-full'>
                   <HiEllipsisHorizontal className='h-4 w-4' aria-hidden='true' />
                 </Buttons>
               </DropdownMenuTrigger>
@@ -321,7 +346,7 @@ function GridCore<T>(props: DataGridProps<T> & { url: GridUrl | null }) {
     getRowId: (row) => getRowId(row),
     getCoreRowModel: getCoreRowModel(),
     // @repo/ui/table amplía FilterFns (fuzzy); aquí no se filtra en la tabla.
-    filterFns: {} as FilterFns,
+    filterFns: {},
     manualPagination: true,
     manualSorting: true,
     enableRowSelection: bulkActions.length > 0,
@@ -419,7 +444,8 @@ function GridCore<T>(props: DataGridProps<T> & { url: GridUrl | null }) {
                 variant={action.tone === "danger" ? "danger" : "outline"}
                 loading={runningBulk === action.label}
                 disabled={runningBulk !== null}
-                onClick={() => runBulk(action)}>
+                onClick={() => runBulk(action)}
+                className='rounded-full'>
                 {action.icon ? <action.icon className='h-4 w-4' aria-hidden='true' /> : null}
                 {action.label}
               </Buttons>
@@ -432,7 +458,12 @@ function GridCore<T>(props: DataGridProps<T> & { url: GridUrl | null }) {
         </div>
       ) : null}
 
-      <div className='relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm'>
+      <div
+        className={
+          props.embedded
+            ? "relative overflow-hidden rounded-xl border border-border/60"
+            : "relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm"
+        }>
         {loading ? (
           <div className='absolute inset-x-0 top-0 z-10 h-0.5 overflow-hidden bg-primary/10' aria-hidden='true'>
             <div className='h-full w-1/3 animate-[grid-progress_1.1s_ease-in-out_infinite] bg-primary' />
@@ -502,7 +533,7 @@ function GridCore<T>(props: DataGridProps<T> & { url: GridUrl | null }) {
                         {hasActiveQuery ? t("noResultsDescription") : emptyState.description}
                       </p>
                       {hasActiveQuery ? (
-                        <Buttons size='sm' variant='outline' onClick={reset}>
+                        <Buttons size='sm' variant='outline' onClick={reset} className='rounded-full'>
                           {t("clearFilters")}
                         </Buttons>
                       ) : (

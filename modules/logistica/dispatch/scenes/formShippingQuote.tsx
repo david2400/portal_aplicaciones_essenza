@@ -80,7 +80,7 @@ export const FormShippingQuote = ({
           className='col-span-12 sm:col-span-6'
         />
       </div>
-      <Buttons type='submit' variant='outline' loading={isSubmitting} className='w-full'>
+      <Buttons type='submit' variant='outline' loading={isSubmitting} className='w-full rounded-full'>
         <HiOutlineMagnifyingGlass className='h-4 w-4' aria-hidden='true' />
         {t("submit")}
       </Buttons>

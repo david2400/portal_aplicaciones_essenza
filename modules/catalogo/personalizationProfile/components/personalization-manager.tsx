@@ -20,7 +20,7 @@ import { ProfileViewer } from "./profile-viewer";
 import { SegmentBadge } from "./segment-badge";
 import { SEGMENTS, formatDateTime } from "../constants";
 import type { IPersonalizationProfile } from "../models/personalizationProfile.interface";
-import { deleteProfileServerAction } from "@/app/[locale]/administre/personalization/actions";
+import { deleteProfileServerAction } from "@/app/[locale]/contenido/personalization/actions";
 
 /** Perfiles de personalización: segmentos, puntuación, ficha de solo lectura y acciones en lote. */
 export const PersonalizationManager = ({ initialData }: { initialData: IPersonalizationProfile[] }) => {

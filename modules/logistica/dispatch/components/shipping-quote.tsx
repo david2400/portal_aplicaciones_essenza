@@ -39,7 +39,7 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
   const services = Object.entries(quote?.availableServices ?? {});
 
   return (
-    <div className='space-y-4 rounded-2xl border border-border bg-card p-5 shadow-sm'>
+    <div className='space-y-4 rounded-xl border border-border/70 bg-background/60 p-5'>
       <div>
         <h3 className='text-base font-semibold text-foreground'>{t("title")}</h3>
         <p className='mt-1 text-sm text-muted-foreground'>{t("description")}</p>

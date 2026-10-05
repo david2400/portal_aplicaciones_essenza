@@ -149,11 +149,15 @@ export const FormTaxonomy = ({
 
       <div className='flex flex-col-reverse gap-2 border-t border-border/70 pt-4 sm:flex-row sm:justify-end'>
         {onCancel ? (
-          <Buttons type='button' variant='outline' onClick={onCancel} disabled={isSubmitting}>
+          <Buttons type='button' variant='outline' onClick={onCancel} disabled={isSubmitting} className='rounded-full'>
             {tCommon("cancel")}
           </Buttons>
         ) : null}
-        <Buttons type='submit' loading={isSubmitting} disabled={!isDirty && !!initialValues.name}>
+        <Buttons
+          type='submit'
+          loading={isSubmitting}
+          disabled={!isDirty && !!initialValues.name}
+          className='rounded-full'>
           {tCommon("save")}
         </Buttons>
       </div>

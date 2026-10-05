@@ -46,7 +46,7 @@ interface GridToolbarProps<T> {
 }
 
 const selectClass =
-  "h-9 rounded-xl border border-border/70 bg-background px-3 pr-8 text-sm text-foreground shadow-sm transition-colors hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30";
+  "h-9 rounded-full border border-border/70 bg-background px-4 pr-8 text-sm text-foreground shadow-sm transition-colors hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30";
 
 export function GridToolbar<T>({
   table,
@@ -114,7 +114,7 @@ export function GridToolbar<T>({
               if (event.key === "Escape") setDraft("");
             }}
             placeholder={searchPlaceholder ?? t("searchPlaceholder")}
-            className='h-9 w-full rounded-xl border border-border/70 bg-background pl-9 pr-10 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30'
+            className='h-9 w-full rounded-full border border-border/70 bg-background pl-9 pr-10 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30'
           />
           <kbd className='pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-border bg-muted px-1.5 text-[10px] font-medium text-muted-foreground sm:block'>
             /
@@ -150,14 +150,20 @@ export function GridToolbar<T>({
         {extra}
 
         {onRefresh ? (
-          <Buttons variant='outline' size='icon-sm' onClick={onRefresh} aria-label={t("refresh")} title={t("refresh")}>
+          <Buttons
+            variant='outline'
+            size='icon-sm'
+            onClick={onRefresh}
+            aria-label={t("refresh")}
+            title={t("refresh")}
+            className='rounded-full'>
             <HiOutlineArrowPath className='h-4 w-4' aria-hidden='true' />
           </Buttons>
         ) : null}
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Buttons variant='outline' size='sm' aria-label={t("view")}>
+            <Buttons variant='outline' size='sm' aria-label={t("view")} className='rounded-full'>
               <HiOutlineViewColumns className='h-4 w-4' aria-hidden='true' />
               <span className='hidden sm:inline'>{t("view")}</span>
             </Buttons>
@@ -190,7 +196,7 @@ export function GridToolbar<T>({
         </DropdownMenu>
 
         {onExport ? (
-          <Buttons variant='outline' size='sm' onClick={onExport} loading={exporting}>
+          <Buttons variant='outline' size='sm' onClick={onExport} loading={exporting} className='rounded-full'>
             <HiOutlineArrowDownTray className='h-4 w-4' aria-hidden='true' />
             <span className='hidden sm:inline'>{t("export")}</span>
           </Buttons>

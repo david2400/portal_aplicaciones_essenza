@@ -33,7 +33,7 @@ export const StatCards = ({ items, className }: { items: StatCardItem[]; classNa
     {items.map(({ label, value, icon: Icon, hint, tone = "default" }) => (
       <div
         key={label}
-        className='rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow duration-200 hover:shadow-md'>
+        className='rounded-xl border border-border/70 bg-background/60 p-4'>
         <div className='flex items-start justify-between gap-3'>
           <dt className='text-sm font-medium text-muted-foreground'>{label}</dt>
           {Icon ? (

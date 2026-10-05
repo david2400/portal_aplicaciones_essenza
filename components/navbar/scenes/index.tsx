@@ -118,7 +118,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: "Páginas (CMS)", href: "/contenido/pages" },
       { label: "Recomendaciones", href: "/contenido/recommendations" },
       { label: "Búsquedas", href: "/contenido/search-queries" },
-      { label: "Personalización", href: "/administre/personalization" },
+      { label: "Personalización", href: "/contenido/personalization" },
     ],
   },
   {

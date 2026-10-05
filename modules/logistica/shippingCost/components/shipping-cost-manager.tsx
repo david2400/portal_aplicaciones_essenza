@@ -176,7 +176,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
       searchText={(row) => `${carrierName(row)} ${row.originAddress ?? ""} ${row.destinationAddress ?? ""}`}
       onDelete={(id) => deleteShippingCostServerAction(id)}>
       <div className='grid gap-4 lg:grid-cols-3'>
-        <div className='rounded-2xl border border-border bg-card p-5 shadow-sm lg:col-span-2'>
+        <div className='rounded-xl border border-border/70 bg-background/60 p-5 lg:col-span-2'>
           <h3 className='text-base font-semibold text-foreground'>{t("calculatorTitle")}</h3>
           <p className='mb-4 mt-1 text-sm text-muted-foreground'>{t("calculatorDescription")}</p>
           {activeCarriers === 0 ? (
@@ -195,7 +195,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
 
         <div
           aria-live='polite'
-          className='flex flex-col justify-center rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm'>
+          className='flex flex-col justify-center rounded-xl border border-primary/30 bg-primary/5 p-5'>
           {lastResult ? (
             <dl className='space-y-2 text-sm'>
               <dt className='text-muted-foreground'>{t("resultTitle")}</dt>
