@@ -37,15 +37,15 @@ export const FormDevolutionDetail = ({
 
   const [productOrderId, quantity, unitPrice, restockingFee] = useWatch({
     control,
-    name: ["productOrderId", "quantity", "unitPrice", "restockingFee"],
+    name: ["product_order_id", "quantity", "unit_price", "restocking_fee"],
   }) as [string, number, number, number];
 
   const selected = lines.find((line) => String(line.id) === String(productOrderId));
 
   // Al elegir otra línea de la orden se propone su precio unitario.
   useEffect(() => {
-    if (selected && (dirtyFields as Record<string, unknown>).productOrderId) {
-      setValue("unitPrice" as never, selected.unitPrice as never);
+    if (selected && (dirtyFields as Record<string, unknown>).product_order_id) {
+      setValue("unit_price" as never, selected.unit_price as never);
     }
   }, [selected, dirtyFields, setValue]);
 
@@ -56,7 +56,7 @@ export const FormDevolutionDetail = ({
         .map((line) => ({
           id: String(line.id),
           value: String(line.id),
-          label: `${line.productName} · ${t("purchased", { quantity: line.quantity })}`,
+          label: `${line.product_name} · ${t("purchased", { quantity: line.quantity })}`,
         })),
     [lines, t],
   );
@@ -73,7 +73,7 @@ export const FormDevolutionDetail = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "productOrderId" }}
+          controller={{ control, name: "product_order_id" }}
           label={t("fields.productOrderId")}
           data={lineOptions}
           placeholder={tCommon("selectPlaceholder")}
@@ -101,7 +101,7 @@ export const FormDevolutionDetail = ({
         />
 
         <FormField
-          controller={{ control, name: "receivedQuantity" }}
+          controller={{ control, name: "received_quantity" }}
           type='number'
           step='1'
           min={0}
@@ -110,7 +110,7 @@ export const FormDevolutionDetail = ({
         />
 
         <FormField
-          controller={{ control, name: "unitPrice" }}
+          controller={{ control, name: "unit_price" }}
           type='number'
           step='0.01'
           min={0}
@@ -119,7 +119,7 @@ export const FormDevolutionDetail = ({
         />
 
         <FormField
-          controller={{ control, name: "restockingFee" }}
+          controller={{ control, name: "restocking_fee" }}
           type='number'
           step='0.01'
           min={0}

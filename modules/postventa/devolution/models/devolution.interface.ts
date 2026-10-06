@@ -39,9 +39,9 @@ export interface IDevolutionOption {
 /** Línea de la orden original que puede devolverse. */
 export interface IDevolutionOrderLine {
   id?: number;
-  productName: string;
+  product_name: string;
   quantity: number;
-  unitPrice: number;
+  unit_price: number;
 }
 
 /** Catálogos que usa el formulario de devolución. */

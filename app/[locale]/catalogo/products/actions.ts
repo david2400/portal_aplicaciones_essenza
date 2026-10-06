@@ -8,6 +8,14 @@ import {
   export_products_action,
   update_product_action,
 } from '@/server/domains/inventory/products/actions';
+import {
+  get_product_attributes_action,
+  save_product_attributes_action,
+} from '@/server/domains/catalog/product-attributes/actions';
+import type {
+  ProductAttributesDto,
+  SaveProductAttributesDto,
+} from '@/server/domains/catalog/product-attributes/types';
 import type {
   CreateProductDto,
   ProductDto,
@@ -35,7 +43,7 @@ export async function createProductServerAction(
     : fail(result.error, 'No se pudo crear el producto');
 }
 
-export async function updateProductServerAction(payload: UpdateProductDto): Promise<ActionResult> {
+export async function updateProductServerAction(payload: UpdateProductDto & { id: number }): Promise<ActionResult> {
   const result = await update_product_action(payload);
   return result.success ? { success: true } : fail(result.error, 'No se pudo actualizar el producto');
 }
@@ -64,4 +72,21 @@ export async function exportProductsServerAction(
 ): Promise<ActionResult<{ items: ProductDto[]; truncated: boolean }>> {
   const result = await export_products_action(parse_grid_query(params, PRODUCT_GRID));
   return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo exportar');
+}
+
+// ─── Ficha técnica (Fase 4) ─────────────────────────────────────────────────
+
+export async function getProductAttributesServerAction(
+  productId: number,
+): Promise<ActionResult<ProductAttributesDto>> {
+  const result = await get_product_attributes_action(productId);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo cargar la ficha técnica');
+}
+
+export async function saveProductAttributesServerAction(
+  productId: number,
+  payload: SaveProductAttributesDto,
+): Promise<ActionResult<ProductAttributesDto>> {
+  const result = await save_product_attributes_action(productId, payload);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo guardar la ficha técnica');
 }

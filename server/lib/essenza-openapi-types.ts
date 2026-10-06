@@ -4,6 +4,25 @@
  */
 
 export interface paths {
+    "/api/shop/smart-search/queries/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get search query by id */
+        get: operations["getById"];
+        /** Update search query */
+        put: operations["update"];
+        post?: never;
+        /** Delete search query */
+        delete: operations["delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/shipping_logistics/trackings/{id}": {
         parameters: {
             query?: never;
@@ -15,18 +34,18 @@ export interface paths {
          * Get tracking by ID
          * @description Returns a tracking by its ID or 404 if not found
          */
-        get: operations["getById"];
+        get: operations["getById_1"];
         /**
          * Update tracking
          * @description Updates an existing tracking by ID
          */
-        put: operations["update"];
+        put: operations["update_1"];
         post?: never;
         /**
          * Delete tracking
          * @description Deletes a tracking by ID
          */
-        delete: operations["delete"];
+        delete: operations["delete_1"];
         options?: never;
         head?: never;
         patch?: never;
@@ -43,18 +62,18 @@ export interface paths {
          * Get dispatch detail by ID
          * @description Returns a dispatch detail by its ID or 404 if not found
          */
-        get: operations["getById_1"];
+        get: operations["getById_2"];
         /**
          * Update dispatch detail
          * @description Updates an existing dispatch detail by ID
          */
-        put: operations["update_1"];
+        put: operations["update_2"];
         post?: never;
         /**
          * Delete dispatch detail
          * @description Deletes a dispatch detail by ID
          */
-        delete: operations["delete_1"];
+        delete: operations["delete_2"];
         options?: never;
         head?: never;
         patch?: never;
@@ -71,18 +90,18 @@ export interface paths {
          * Get product order by ID
          * @description Returns a product order by its ID or 404 if not found
          */
-        get: operations["getById_2"];
+        get: operations["getById_3"];
         /**
          * Update product order
          * @description Updates an existing product order by ID
          */
-        put: operations["update_2"];
+        put: operations["update_3"];
         post?: never;
         /**
          * Delete product order
          * @description Deletes a product order by ID
          */
-        delete: operations["delete_2"];
+        delete: operations["delete_3"];
         options?: never;
         head?: never;
         patch?: never;
@@ -99,18 +118,18 @@ export interface paths {
          * Get payment type by ID
          * @description Returns a payment type by its ID or 404 if not found
          */
-        get: operations["getById_3"];
+        get: operations["getById_4"];
         /**
          * Update payment type
          * @description Updates an existing payment type by ID
          */
-        put: operations["update_3"];
+        put: operations["update_4"];
         post?: never;
         /**
          * Delete payment type
          * @description Deletes a payment type by ID
          */
-        delete: operations["delete_3"];
+        delete: operations["delete_4"];
         options?: never;
         head?: never;
         patch?: never;
@@ -127,18 +146,18 @@ export interface paths {
          * Get order by ID
          * @description Returns an order by its ID or 404 if not found
          */
-        get: operations["getById_4"];
+        get: operations["getById_5"];
         /**
          * Update order
          * @description Updates an existing order by ID
          */
-        put: operations["update_4"];
+        put: operations["update_5"];
         post?: never;
         /**
          * Delete order
          * @description Deletes an order by ID
          */
-        delete: operations["delete_4"];
+        delete: operations["delete_5"];
         options?: never;
         head?: never;
         patch?: never;
@@ -160,13 +179,32 @@ export interface paths {
          * Update review
          * @description Updates an existing product review
          */
-        put: operations["update_5"];
+        put: operations["update_6"];
         post?: never;
         /**
          * Delete review
          * @description Deletes a review by ID
          */
-        delete: operations["delete_5"];
+        delete: operations["delete_6"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/recommendations/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get recommendation by id */
+        get: operations["getById_6"];
+        /** Update recommendation */
+        put: operations["update_7"];
+        post?: never;
+        /** Delete recommendation */
+        delete: operations["delete_7"];
         options?: never;
         head?: never;
         patch?: never;
@@ -188,13 +226,13 @@ export interface paths {
          * Update coupon
          * @description Updates an existing coupon by ID
          */
-        put: operations["update_6"];
+        put: operations["update_8"];
         post?: never;
         /**
          * Delete coupon
          * @description Deletes a coupon by ID
          */
-        delete: operations["delete_6"];
+        delete: operations["delete_8"];
         options?: never;
         head?: never;
         patch?: never;
@@ -211,18 +249,18 @@ export interface paths {
          * Get shipping cost by ID
          * @description Returns a shipping cost by its ID or 404 if not found
          */
-        get: operations["getById_5"];
+        get: operations["getById_7"];
         /**
          * Update shipping cost
          * @description Updates an existing shipping cost by ID
          */
-        put: operations["update_7"];
+        put: operations["update_9"];
         post?: never;
         /**
          * Delete shipping cost
          * @description Deletes a shipping cost by ID
          */
-        delete: operations["delete_7"];
+        delete: operations["delete_9"];
         options?: never;
         head?: never;
         patch?: never;
@@ -239,18 +277,18 @@ export interface paths {
          * Get delivery estimate by ID
          * @description Returns a delivery estimate by its ID or 404 if not found
          */
-        get: operations["getById_6"];
+        get: operations["getById_8"];
         /**
          * Update delivery estimate
          * @description Updates an existing delivery estimate by ID
          */
-        put: operations["update_8"];
+        put: operations["update_10"];
         post?: never;
         /**
          * Delete delivery estimate
          * @description Deletes a delivery estimate by ID
          */
-        delete: operations["delete_8"];
+        delete: operations["delete_10"];
         options?: never;
         head?: never;
         patch?: never;
@@ -267,18 +305,18 @@ export interface paths {
          * Get carrier by ID
          * @description Returns a carrier by its ID or 404 if not found
          */
-        get: operations["getById_7"];
+        get: operations["getById_9"];
         /**
          * Update carrier
          * @description Updates an existing carrier by ID
          */
-        put: operations["update_9"];
+        put: operations["update_11"];
         post?: never;
         /**
          * Delete carrier
          * @description Deletes a carrier by ID
          */
-        delete: operations["delete_9"];
+        delete: operations["delete_11"];
         options?: never;
         head?: never;
         patch?: never;
@@ -295,18 +333,18 @@ export interface paths {
          * Get unit measurement by ID
          * @description Returns a unit measurement by its ID or 404 if not found
          */
-        get: operations["getById_8"];
+        get: operations["getById_10"];
         /**
          * Update unit measurement
          * @description Updates an existing unit measurement by ID
          */
-        put: operations["update_10"];
+        put: operations["update_12"];
         post?: never;
         /**
          * Delete unit measurement
          * @description Deletes a unit measurement by ID
          */
-        delete: operations["delete_10"];
+        delete: operations["delete_12"];
         options?: never;
         head?: never;
         patch?: never;
@@ -321,20 +359,23 @@ export interface paths {
         };
         /**
          * Get type product by ID
+         * @deprecated
          * @description Returns a type product by its ID or 404 if not found
          */
-        get: operations["getById_9"];
+        get: operations["getById_11"];
         /**
          * Update type product
+         * @deprecated
          * @description Updates an existing type product by ID
          */
-        put: operations["update_11"];
+        put: operations["update_13"];
         post?: never;
         /**
          * Delete type product
+         * @deprecated
          * @description Deletes a type product by ID
          */
-        delete: operations["delete_11"];
+        delete: operations["delete_13"];
         options?: never;
         head?: never;
         patch?: never;
@@ -347,13 +388,22 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Obtener la característica de un tipo de producto específico */
+        /**
+         * Obtener la característica de un tipo de producto específico
+         * @deprecated
+         */
         get: operations["findById_2"];
-        /** Actualizar la característica asignada a un tipo de producto */
-        put: operations["update_12"];
+        /**
+         * Actualizar la característica asignada a un tipo de producto
+         * @deprecated
+         */
+        put: operations["update_14"];
         post?: never;
-        /** Eliminar la relación para un tipo de producto */
-        delete: operations["delete_12"];
+        /**
+         * Eliminar la relación para un tipo de producto
+         * @deprecated
+         */
+        delete: operations["delete_14"];
         options?: never;
         head?: never;
         patch?: never;
@@ -368,20 +418,23 @@ export interface paths {
         };
         /**
          * Get product feature by IDs
+         * @deprecated
          * @description Returns a product-feature link by productId and featureId or 404 if not found
          */
-        get: operations["getById_10"];
+        get: operations["getById_12"];
         /**
          * Update product feature
+         * @deprecated
          * @description Updates a product-feature link by productId and featureId
          */
-        put: operations["update_13"];
+        put: operations["update_15"];
         post?: never;
         /**
          * Delete product feature
+         * @deprecated
          * @description Deletes a product-feature link by productId and featureId
          */
-        delete: operations["delete_13"];
+        delete: operations["delete_15"];
         options?: never;
         head?: never;
         patch?: never;
@@ -396,20 +449,23 @@ export interface paths {
         };
         /**
          * Get feature by ID
+         * @deprecated
          * @description Returns a feature by its ID or 404 if not found
          */
-        get: operations["getById_11"];
+        get: operations["getById_13"];
         /**
          * Update feature
+         * @deprecated
          * @description Updates an existing feature by ID
          */
-        put: operations["update_14"];
+        put: operations["update_16"];
         post?: never;
         /**
          * Delete feature
+         * @deprecated
          * @description Deletes a feature by ID
          */
-        delete: operations["delete_14"];
+        delete: operations["delete_16"];
         options?: never;
         head?: never;
         patch?: never;
@@ -422,10 +478,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put: operations["update_15"];
+        get: operations["getById_14"];
+        put: operations["update_17"];
         post?: never;
-        delete?: never;
+        delete: operations["delete_17"];
         options?: never;
         head?: never;
         patch?: never;
@@ -442,18 +498,18 @@ export interface paths {
          * Get supplier by ID
          * @description Returns a supplier by its ID or 404 if not found
          */
-        get: operations["getById_12"];
+        get: operations["getById_15"];
         /**
          * Update supplier
          * @description Updates an existing supplier by ID
          */
-        put: operations["update_16"];
+        put: operations["update_18"];
         post?: never;
         /**
          * Delete supplier
          * @description Deletes a supplier by ID
          */
-        delete: operations["delete_15"];
+        delete: operations["delete_18"];
         options?: never;
         head?: never;
         patch?: never;
@@ -470,18 +526,18 @@ export interface paths {
          * Get product by ID
          * @description Returns a product by its ID or 404 if not found
          */
-        get: operations["getById_13"];
+        get: operations["getById_16"];
         /**
          * Update product
          * @description Updates an existing product by ID
          */
-        put: operations["update_17"];
+        put: operations["update_19"];
         post?: never;
         /**
          * Delete product
          * @description Deletes a product by ID
          */
-        delete: operations["delete_16"];
+        delete: operations["delete_19"];
         options?: never;
         head?: never;
         patch?: never;
@@ -498,18 +554,18 @@ export interface paths {
          * Get product combo by ID
          * @description Returns a product combo by its ID or 404 if not found
          */
-        get: operations["getById_14"];
+        get: operations["getById_17"];
         /**
          * Update product combo
          * @description Updates an existing product combo by ID
          */
-        put: operations["update_18"];
+        put: operations["update_20"];
         post?: never;
         /**
          * Delete product combo
          * @description Deletes a product combo by ID
          */
-        delete: operations["delete_17"];
+        delete: operations["delete_20"];
         options?: never;
         head?: never;
         patch?: never;
@@ -526,18 +582,18 @@ export interface paths {
          * Get product child by ID
          * @description Returns a product child by its ID or 404 if not found
          */
-        get: operations["getById_15"];
+        get: operations["getById_18"];
         /**
          * Update product child
          * @description Updates an existing product child by ID
          */
-        put: operations["update_19"];
+        put: operations["update_21"];
         post?: never;
         /**
          * Delete product child
          * @description Deletes a product child by ID
          */
-        delete: operations["delete_18"];
+        delete: operations["delete_21"];
         options?: never;
         head?: never;
         patch?: never;
@@ -554,18 +610,18 @@ export interface paths {
          * Get dispatch product by ID
          * @description Returns a dispatch product by its ID or 404 if not found
          */
-        get: operations["getById_16"];
+        get: operations["getById_19"];
         /**
          * Update dispatch product
          * @description Updates an existing dispatch product by ID
          */
-        put: operations["update_20"];
+        put: operations["update_22"];
         post?: never;
         /**
          * Delete dispatch product
          * @description Deletes a dispatch product by ID
          */
-        delete: operations["delete_19"];
+        delete: operations["delete_22"];
         options?: never;
         head?: never;
         patch?: never;
@@ -582,18 +638,18 @@ export interface paths {
          * Get return method by ID
          * @description Returns a return method by its ID or 404 if not found
          */
-        get: operations["getById_17"];
+        get: operations["getById_20"];
         /**
          * Update return method
          * @description Updates an existing return method by ID
          */
-        put: operations["update_21"];
+        put: operations["update_23"];
         post?: never;
         /**
          * Delete return method
          * @description Deletes a return method by ID
          */
-        delete: operations["delete_20"];
+        delete: operations["delete_23"];
         options?: never;
         head?: never;
         patch?: never;
@@ -610,18 +666,18 @@ export interface paths {
          * Get refund method by ID
          * @description Returns a refund method by its ID or 404 if not found
          */
-        get: operations["getById_18"];
+        get: operations["getById_21"];
         /**
          * Update refund method
          * @description Updates an existing refund method by ID
          */
-        put: operations["update_22"];
+        put: operations["update_24"];
         post?: never;
         /**
          * Delete refund method
          * @description Deletes a refund method by ID
          */
-        delete: operations["delete_21"];
+        delete: operations["delete_24"];
         options?: never;
         head?: never;
         patch?: never;
@@ -638,18 +694,18 @@ export interface paths {
          * Get order devolution by ID
          * @description Returns an order devolution by its ID or 404 if not found
          */
-        get: operations["getById_19"];
+        get: operations["getById_22"];
         /**
          * Update order devolution
          * @description Updates an existing order devolution by ID
          */
-        put: operations["update_23"];
+        put: operations["update_25"];
         post?: never;
         /**
          * Delete order devolution
          * @description Deletes an order devolution by ID
          */
-        delete: operations["delete_22"];
+        delete: operations["delete_25"];
         options?: never;
         head?: never;
         patch?: never;
@@ -666,18 +722,18 @@ export interface paths {
          * Get order devolution evidence by ID
          * @description Returns an order devolution evidence by its ID or 404 if not found
          */
-        get: operations["getById_20"];
+        get: operations["getById_23"];
         /**
          * Update order devolution evidence
          * @description Updates an existing order devolution evidence by ID
          */
-        put: operations["update_24"];
+        put: operations["update_26"];
         post?: never;
         /**
          * Delete order devolution evidence
          * @description Deletes an order devolution evidence by ID
          */
-        delete: operations["delete_23"];
+        delete: operations["delete_26"];
         options?: never;
         head?: never;
         patch?: never;
@@ -694,18 +750,18 @@ export interface paths {
          * Get order devolution detail by ID
          * @description Returns an order devolution detail by its ID or 404 if not found
          */
-        get: operations["getById_21"];
+        get: operations["getById_24"];
         /**
          * Update order devolution detail
          * @description Updates an existing order devolution detail by ID
          */
-        put: operations["update_25"];
+        put: operations["update_27"];
         post?: never;
         /**
          * Delete order devolution detail
          * @description Deletes an order devolution detail by ID
          */
-        delete: operations["delete_24"];
+        delete: operations["delete_27"];
         options?: never;
         head?: never;
         patch?: never;
@@ -722,18 +778,37 @@ export interface paths {
          * Get motive devolution by ID
          * @description Returns a motive devolution by its ID or 404 if not found
          */
-        get: operations["getById_22"];
+        get: operations["getById_25"];
         /**
          * Update motive devolution
          * @description Updates an existing motive devolution by ID
          */
-        put: operations["update_26"];
+        put: operations["update_28"];
         post?: never;
         /**
          * Delete motive devolution
          * @description Deletes a motive devolution by ID
          */
-        delete: operations["delete_25"];
+        delete: operations["delete_28"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/cms/pages/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get page by id */
+        get: operations["getById_26"];
+        /** Update CMS page */
+        put: operations["update_29"];
+        post?: never;
+        /** Delete page */
+        delete: operations["delete_29"];
         options?: never;
         head?: never;
         patch?: never;
@@ -746,22 +821,68 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get subcategory by ID
-         * @description Returns a subcategory by its ID or 404 if not found
-         */
-        get: operations["getById_23"];
+        /** Get subcategory by ID */
+        get: operations["getById_27"];
         /**
          * Update subcategory
-         * @description Updates an existing subcategory by ID
+         * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_27"];
+        put: operations["update_30"];
         post?: never;
         /**
          * Delete subcategory
-         * @description Deletes a subcategory by ID
+         * @description Eliminación lógica.
          */
-        delete: operations["delete_26"];
+        delete: operations["delete_30"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{productId}/attributes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get product attributes
+         * @description Plantilla, atributos disponibles, valores, ejes por variante y lo que falta para publicar.
+         */
+        get: operations["get"];
+        /**
+         * Save product attributes
+         * @description Reemplaza plantilla, ficha y ejes de variante. Si el producto está publicado (ACTIVE) exige los obligatorios y todos los ejes en cada variante. 400 si una regla no se cumple.
+         */
+        put: operations["save"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/product_templates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get product template */
+        get: operations["findById_3"];
+        /**
+         * Update product template
+         * @description Reemplaza la lista de atributos.
+         */
+        put: operations["update_31"];
+        post?: never;
+        /**
+         * Delete product template
+         * @description 409 si algún producto la usa.
+         */
+        delete: operations["delete_31"];
         options?: never;
         head?: never;
         patch?: never;
@@ -774,22 +895,19 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get category by ID
-         * @description Returns a category by its ID or 404 if not found
-         */
-        get: operations["getById_24"];
+        /** Get category by ID */
+        get: operations["getById_28"];
         /**
          * Update category
-         * @description Updates an existing category by ID
+         * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_28"];
+        put: operations["update_32"];
         post?: never;
         /**
          * Delete category
-         * @description Deletes a category by ID
+         * @description Eliminación lógica.
          */
-        delete: operations["delete_27"];
+        delete: operations["delete_32"];
         options?: never;
         head?: never;
         patch?: never;
@@ -802,22 +920,109 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get brand by ID
-         * @description Returns a brand by its ID or 404 if not found
-         */
-        get: operations["getById_25"];
+        /** Get brand by ID */
+        get: operations["getById_29"];
         /**
          * Update brand
-         * @description Updates an existing brand by ID
+         * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_29"];
+        put: operations["update_33"];
         post?: never;
         /**
          * Delete brand
-         * @description Deletes a brand by ID
+         * @description Eliminación lógica.
          */
-        delete: operations["delete_28"];
+        delete: operations["delete_33"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/attributes/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get attribute */
+        get: operations["findById_4"];
+        /**
+         * Update attribute
+         * @description Reemplaza el atributo. 409 si se cambia el tipo de un atributo en uso o se quita una opción en uso.
+         */
+        put: operations["update_34"];
+        post?: never;
+        /**
+         * Delete attribute
+         * @description 409 si se usa en plantillas o productos.
+         */
+        delete: operations["delete_34"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/analytics/sales/records/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get record by id */
+        get: operations["findById_5"];
+        /** Update sales analytics record */
+        put: operations["update_35"];
+        post?: never;
+        /** Delete sales analytics record */
+        delete: operations["delete_35"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/advanced-features/personalization-profiles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Find personalization profile
+         * @description Retrieves a profile by id
+         */
+        get: operations["findById_6"];
+        /**
+         * Update personalization profile
+         * @description Updates an existing profile by id
+         */
+        put: operations["update_36"];
+        post?: never;
+        /**
+         * Delete personalization profile
+         * @description Deletes a profile by id
+         */
+        delete: operations["delete_36"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/smart-search/queries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List search queries */
+        get: operations["list"];
+        put?: never;
+        /** Create search query */
+        post: operations["create"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -840,7 +1045,7 @@ export interface paths {
          * Create tracking
          * @description Creates a new tracking and returns it with its generated ID
          */
-        post: operations["create"];
+        post: operations["create_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -864,7 +1069,7 @@ export interface paths {
          * Create dispatch detail
          * @description Creates a new dispatch detail and returns it with its generated ID
          */
-        post: operations["create_1"];
+        post: operations["create_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -888,7 +1093,7 @@ export interface paths {
          * Create product order
          * @description Creates a new product order and returns it with its generated ID
          */
-        post: operations["create_2"];
+        post: operations["create_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -912,7 +1117,7 @@ export interface paths {
          * Create payment type
          * @description Creates a new payment type and returns it with its generated ID
          */
-        post: operations["create_3"];
+        post: operations["create_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -936,7 +1141,47 @@ export interface paths {
          * Create order
          * @description Creates a new order and returns it with its generated ID
          */
-        post: operations["create_4"];
+        post: operations["create_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change order status
+         * @description PENDING → PAID descuenta el stock reservado; → CANCELLED libera la reserva (pendiente) o devuelve el stock (pagada o en proceso). 409 si la transición no está permitida.
+         */
+        post: operations["changeStatus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete
+         * @description Elimina varios registros; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete"];
         delete?: never;
         options?: never;
         head?: never;
@@ -960,7 +1205,7 @@ export interface paths {
          * Create review
          * @description Creates a new product review
          */
-        post: operations["create_5"];
+        post: operations["create_6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1007,6 +1252,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/recommendations/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List recommendations */
+        get: operations["list_1"];
+        put?: never;
+        /** Create recommendation */
+        post: operations["create_7"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/promotions/coupons": {
         parameters: {
             query?: never;
@@ -1024,7 +1287,7 @@ export interface paths {
          * Create coupon
          * @description Creates a new coupon and returns it with its generated ID
          */
-        post: operations["create_6"];
+        post: operations["create_8"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1088,7 +1351,7 @@ export interface paths {
          * Create shipping cost
          * @description Creates a new shipping cost calculation and returns it with its generated ID
          */
-        post: operations["create_7"];
+        post: operations["create_9"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1132,7 +1395,7 @@ export interface paths {
          * Create delivery estimate
          * @description Creates a new delivery estimate and returns it with its generated ID
          */
-        post: operations["create_8"];
+        post: operations["create_10"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1176,7 +1439,7 @@ export interface paths {
          * Create carrier
          * @description Creates a new carrier and returns it with its generated ID
          */
-        post: operations["create_9"];
+        post: operations["create_11"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1200,7 +1463,7 @@ export interface paths {
          * Create unit measurement
          * @description Creates a new unit measurement and returns it with its generated ID
          */
-        post: operations["create_10"];
+        post: operations["create_12"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1216,15 +1479,17 @@ export interface paths {
         };
         /**
          * List type products
+         * @deprecated
          * @description Returns all type products
          */
         get: operations["getAll_9"];
         put?: never;
         /**
          * Create type product
+         * @deprecated
          * @description Creates a new type product and returns it with its generated ID
          */
-        post: operations["create_11"];
+        post: operations["create_13"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1238,11 +1503,17 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Obtener todas las relaciones entre tipos de producto y características */
+        /**
+         * Obtener todas las relaciones entre tipos de producto y características
+         * @deprecated
+         */
         get: operations["findAll_2"];
         put?: never;
-        /** Crear una nueva relación entre tipo de producto y característica */
-        post: operations["create_12"];
+        /**
+         * Crear una nueva relación entre tipo de producto y característica
+         * @deprecated
+         */
+        post: operations["create_14"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1258,15 +1529,17 @@ export interface paths {
         };
         /**
          * List product features
+         * @deprecated
          * @description Returns all product-feature links
          */
         get: operations["getAll_10"];
         put?: never;
         /**
          * Create product feature
+         * @deprecated
          * @description Creates a new product-feature link and returns it
          */
-        post: operations["create_13"];
+        post: operations["create_15"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1282,15 +1555,17 @@ export interface paths {
         };
         /**
          * List features
+         * @deprecated
          * @description Returns all features
          */
         get: operations["getAll_11"];
         put?: never;
         /**
          * Create feature
+         * @deprecated
          * @description Creates a new feature and returns it with its generated ID
          */
-        post: operations["create_14"];
+        post: operations["create_16"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1304,9 +1579,25 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list"];
+        get: operations["list_2"];
         put?: never;
-        post: operations["create_15"];
+        post: operations["create_17"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["bulkDelete_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1330,7 +1621,7 @@ export interface paths {
          * Create supplier
          * @description Creates a new supplier and returns it with its generated ID
          */
-        post: operations["create_16"];
+        post: operations["create_18"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1352,9 +1643,9 @@ export interface paths {
         put?: never;
         /**
          * Create product
-         * @description Creates a new product and returns it with its generated ID
+         * @description Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID
          */
-        post: operations["create_17"];
+        post: operations["create_19"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1398,7 +1689,7 @@ export interface paths {
          * Create product combo
          * @description Creates a new product combo and returns it with its generated ID
          */
-        post: operations["create_18"];
+        post: operations["create_20"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1422,7 +1713,27 @@ export interface paths {
          * Create product child
          * @description Creates a new product child and returns it with its generated ID
          */
-        post: operations["create_19"];
+        post: operations["create_21"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/product_children/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete product children
+         * @description Deletes several product children; each id is processed independently
+         */
+        post: operations["bulkDelete_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1494,7 +1805,27 @@ export interface paths {
          * Create dispatch product
          * @description Creates a new dispatch product and returns it with its generated ID
          */
-        post: operations["create_20"];
+        post: operations["create_22"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/dispatch/dispatch_products/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete
+         * @description Elimina varios registros; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1518,7 +1849,7 @@ export interface paths {
          * Create return method
          * @description Creates a new return method and returns it with its generated ID
          */
-        post: operations["create_21"];
+        post: operations["create_23"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1542,7 +1873,7 @@ export interface paths {
          * Create refund method
          * @description Creates a new refund method and returns it with its generated ID
          */
-        post: operations["create_22"];
+        post: operations["create_24"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1566,7 +1897,27 @@ export interface paths {
          * Create order devolution
          * @description Creates a new order devolution and returns it with its generated ID
          */
-        post: operations["create_23"];
+        post: operations["create_25"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete
+         * @description Elimina varios registros; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1590,7 +1941,7 @@ export interface paths {
          * Create order devolution evidence
          * @description Creates a new order devolution evidence and returns it with its generated ID
          */
-        post: operations["create_24"];
+        post: operations["create_26"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1614,7 +1965,7 @@ export interface paths {
          * Create order devolution detail
          * @description Creates a new order devolution detail and returns it with its generated ID
          */
-        post: operations["create_25"];
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1638,7 +1989,25 @@ export interface paths {
          * Create motive devolution
          * @description Creates a new motive devolution and returns it with its generated ID
          */
-        post: operations["create_26"];
+        post: operations["create_28"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/cms/pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List pages */
+        get: operations["getAll_23"];
+        put?: never;
+        /** Create CMS page */
+        post: operations["create_29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1653,16 +2022,57 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List subcategories
-         * @description Returns all subcategories
+         * List all subcategories
+         * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_23"];
+        get: operations["getAll_24"];
         put?: never;
         /**
          * Create subcategory
-         * @description Creates a new subcategory and returns it with its generated ID
+         * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_27"];
+        post: operations["create_30"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/subcategories/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete subcategories
+         * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete_5"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/product_templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List product templates */
+        get: operations["findAll_3"];
+        put?: never;
+        /**
+         * Create product template
+         * @description Solo los atributos OPTION pueden ser eje de variante. 409 si el nombre ya existe.
+         */
+        post: operations["create_31"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1677,16 +2087,36 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List categories
-         * @description Returns all categories
+         * List all categories
+         * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_24"];
+        get: operations["getAll_25"];
         put?: never;
         /**
          * Create category
-         * @description Creates a new category and returns it with its generated ID
+         * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_28"];
+        post: operations["create_32"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/categories/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete categories
+         * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete_6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1701,16 +2131,102 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List brands
-         * @description Returns all brands
+         * List all brands
+         * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_25"];
+        get: operations["getAll_26"];
         put?: never;
         /**
          * Create brand
-         * @description Creates a new brand and returns it with its generated ID
+         * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_29"];
+        post: operations["create_33"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/brands/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete brands
+         * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkDelete_7"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/attributes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List attributes
+         * @description Todos los atributos con sus opciones (lista corta, sin paginar).
+         */
+        get: operations["findAll_4"];
+        put?: never;
+        /**
+         * Create attribute
+         * @description 409 si el código ya existe.
+         */
+        post: operations["create_34"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/analytics/sales/records": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List sales analytics records */
+        get: operations["findAll_5"];
+        put?: never;
+        /** Create sales analytics record */
+        post: operations["create_35"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/advanced-features/personalization-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List personalization profiles
+         * @description Returns all personalization profiles
+         */
+        get: operations["findAll_6"];
+        put?: never;
+        /**
+         * Create personalization profile
+         * @description Creates a personalization profile entry
+         */
+        post: operations["create_36"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1729,6 +2245,46 @@ export interface paths {
          * @description Devuelve información de costos y fechas estimadas de entrega
          */
         get: operations["getShippingEstimate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/reservations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Order stock reservations
+         * @description Reservas de stock por línea y bodega, con su estado.
+         */
+        get: operations["reservations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
+         */
+        get: operations["search_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1757,6 +2313,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/inventory/stock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stock por SKU y bodega
+         * @description Filtros opcionales: sku_id, product_id, warehouse_id
+         */
+        get: operations["find"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/inventory/inventory_movements": {
         parameters: {
             query?: never;
@@ -1764,7 +2340,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_1"];
+        get: operations["list_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1785,6 +2361,106 @@ export interface paths {
          * @description Returns shipping cost and delivery date estimates for a specific carrier and location
          */
         get: operations["getShippingEstimateForDispatch"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/dispatch/dispatch_products/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
+         */
+        get: operations["search_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
+         */
+        get: operations["search_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/subcategories/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search subcategories
+         * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
+         */
+        get: operations["search_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/categories/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search categories
+         * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
+         */
+        get: operations["search_5"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/brands/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search brands
+         * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
+         */
+        get: operations["search_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1897,75 +2573,120 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UpdateSearchQueryDto: {
+            /** Format: int64 */
+            customer_id?: number;
+            query?: string;
+            filters_json?: string;
+            sort_by?: string;
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            page_size?: number;
+            /** Format: int32 */
+            total_results?: number;
+            search_id?: string;
+            /** Format: date-time */
+            last_run_at?: string;
+        };
+        SearchQueryDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            customer_id?: number;
+            query?: string;
+            filters_json?: string;
+            sort_by?: string;
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            page_size?: number;
+            /** Format: int32 */
+            total_results?: number;
+            /** Format: date-time */
+            last_run_at?: string;
+            search_id?: string;
+        };
         UpdateTrackingDto: {
             /** Format: int64 */
-            dispatchProductId: number;
+            dispatch_product_id: number;
             /** Format: int64 */
             id: number;
         };
         TrackingDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            dispatchProductId?: number;
+            dispatch_product_id?: number;
         };
         UpdateDispatchDetailDto: {
             /** Format: int64 */
-            dispatchProductId: number;
+            dispatch_product_id: number;
             /** Format: int64 */
-            productOrderId: number;
+            product_order_id: number;
             /** Format: int64 */
             id: number;
         };
         DispatchDetailDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            dispatchProductId?: number;
+            dispatch_product_id?: number;
             /** Format: int64 */
-            productOrderId?: number;
+            product_order_id?: number;
         };
         UpdateProductOrderDto: {
             /** Format: int32 */
             quantity: number;
-            discount: number;
-            subtotal: number;
-            total: number;
+            discount?: number;
+            subtotal?: number;
+            total?: number;
             /** Format: int64 */
-            productId: number;
+            product_id?: number;
             /** Format: int64 */
-            orderId: number;
+            sku_id?: number;
+            /** Format: int64 */
+            order_id: number;
             /** Format: int64 */
             id: number;
         };
         ProductOrderDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int32 */
@@ -1974,9 +2695,14 @@ export interface components {
             subtotal?: number;
             total?: number;
             /** Format: int64 */
-            productId?: number;
+            product_id?: number;
             /** Format: int64 */
-            orderId?: number;
+            order_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            unit_price?: number;
         };
         UpdatePaymentTypeDto: {
             name: string;
@@ -1986,293 +2712,339 @@ export interface components {
         PaymentTypeDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
         };
         UpdateOrderDto: {
-            complementaryOrder?: string;
-            total: number;
-            state: string;
+            complementary_order?: string;
+            total?: number;
+            state?: string;
             /** Format: int64 */
             id: number;
         };
         OrderDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
-            complementaryOrder?: string;
+            complementary_order?: string;
             total?: number;
             state?: string;
+            stock_managed?: boolean;
+            cancel_reason?: string;
+            next_states?: string[];
         };
         UpdateProductReviewDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            customerId: number;
-            customerName: string;
-            customerEmail: string;
+            customer_id: number;
+            customer_name: string;
+            /** Format: email */
+            customer_email: string;
             /** Format: int32 */
             rating: number;
             title?: string;
             comment: string;
-            isVerifiedPurchase?: boolean;
-            isApproved?: boolean;
-            isHelpful?: boolean;
+            is_verified_purchase?: boolean;
+            is_approved?: boolean;
+            is_helpful?: boolean;
             /** Format: int32 */
-            helpfulCount?: number;
+            helpful_count?: number;
             /** Format: int32 */
-            notHelpfulCount?: number;
-            moderationStatus?: string;
-            moderationNotes?: string;
+            not_helpful_count?: number;
+            moderation_status?: string;
+            moderation_notes?: string;
             /** Format: date-time */
-            reviewDate?: string;
+            review_date?: string;
             /** Format: int64 */
             id: number;
         };
         ProductReviewDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            productId?: number;
+            product_id?: number;
             /** Format: int64 */
-            customerId?: number;
-            customerName?: string;
-            customerEmail?: string;
+            customer_id?: number;
+            customer_name?: string;
+            customer_email?: string;
             /** Format: int32 */
             rating?: number;
             title?: string;
             comment?: string;
-            isVerifiedPurchase?: boolean;
-            isApproved?: boolean;
-            isHelpful?: boolean;
+            is_verified_purchase?: boolean;
+            is_approved?: boolean;
+            is_helpful?: boolean;
             /** Format: int32 */
-            helpfulCount?: number;
+            helpful_count?: number;
             /** Format: int32 */
-            notHelpfulCount?: number;
-            moderationStatus?: string;
-            moderationNotes?: string;
+            not_helpful_count?: number;
+            moderation_status?: string;
+            moderation_notes?: string;
             /** Format: date-time */
-            reviewDate?: string;
+            review_date?: string;
+        };
+        UpdateProductRecommendationDto: {
+            product_name?: string;
+            product_image_url?: string;
+            product_price?: number;
+            recommendation_type?: string;
+            score?: number;
+            reason?: string;
+            /** Format: int32 */
+            position?: number;
+            is_clicked?: boolean;
+            is_purchased?: boolean;
+            context?: string;
+        };
+        ProductRecommendationDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            customer_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            product_name?: string;
+            product_image_url?: string;
+            product_price?: number;
+            recommendation_type?: string;
+            score?: number;
+            reason?: string;
+            /** Format: int32 */
+            position?: number;
+            is_clicked?: boolean;
+            is_purchased?: boolean;
+            context?: string;
         };
         UpdateCouponDto: {
             code: string;
             name: string;
             description?: string;
-            discountType: string;
-            discountValue: number;
-            minimumOrderAmount?: number;
-            maximumDiscountAmount?: number;
+            discount_type: string;
+            discount_value: number;
+            minimum_order_amount?: number;
+            maximum_discount_amount?: number;
             /** Format: int32 */
-            usageLimit?: number;
+            usage_limit?: number;
             /** Format: date-time */
-            validFrom: string;
+            valid_from: string;
             /** Format: date-time */
-            validUntil: string;
-            isActive: boolean;
-            isPublic: boolean;
-            applicableCategories?: string;
-            applicableProducts?: string;
-            excludedCategories?: string;
-            excludedProducts?: string;
+            valid_until: string;
+            is_active: boolean;
+            is_public: boolean;
+            applicable_categories?: string;
+            applicable_products?: string;
+            excluded_categories?: string;
+            excluded_products?: string;
             /** Format: int64 */
             id: number;
         };
         CouponDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             code?: string;
             name?: string;
             description?: string;
-            discountType?: string;
-            discountValue?: number;
-            minimumOrderAmount?: number;
-            maximumDiscountAmount?: number;
+            discount_type?: string;
+            discount_value?: number;
+            minimum_order_amount?: number;
+            maximum_discount_amount?: number;
             /** Format: int32 */
-            usageLimit?: number;
+            usage_limit?: number;
             /** Format: int32 */
-            usageCount?: number;
+            usage_count?: number;
             /** Format: date-time */
-            validFrom?: string;
+            valid_from?: string;
             /** Format: date-time */
-            validUntil?: string;
-            isActive?: boolean;
-            isPublic?: boolean;
-            applicableCategories?: string;
-            applicableProducts?: string;
-            excludedCategories?: string;
-            excludedProducts?: string;
+            valid_until?: string;
+            is_active?: boolean;
+            is_public?: boolean;
+            applicable_categories?: string;
+            applicable_products?: string;
+            excluded_categories?: string;
+            excluded_products?: string;
         };
         UpdateShippingCostDto: {
             /** Format: int64 */
-            carrierId: number;
-            originAddress: string;
-            destinationAddress: string;
+            carrier_id: number;
+            origin_address: string;
+            destination_address: string;
             distance?: number;
             weight?: number;
             volume?: number;
-            calculatedCost?: number;
-            calculationMethod?: string;
-            isEstimated: boolean;
+            calculated_cost?: number;
+            calculation_method?: string;
+            is_estimated: boolean;
             /** Format: int64 */
             id: number;
         };
         ShippingCostDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            carrierId?: number;
-            originAddress?: string;
-            destinationAddress?: string;
+            carrier_id?: number;
+            origin_address?: string;
+            destination_address?: string;
             distance?: number;
             weight?: number;
             volume?: number;
-            calculatedCost?: number;
-            calculationMethod?: string;
-            isEstimated?: boolean;
+            calculated_cost?: number;
+            calculation_method?: string;
+            is_estimated?: boolean;
         };
         UpdateDeliveryEstimateDto: {
             /** Format: int64 */
-            carrierId: number;
+            carrier_id: number;
             /** Format: int64 */
-            shippingCostId?: number;
-            originAddress: string;
-            destinationAddress: string;
+            shipping_cost_id?: number;
+            origin_address: string;
+            destination_address: string;
             /** Format: date-time */
-            shipmentDate: string;
+            shipment_date: string;
             /** Format: date */
-            estimatedDeliveryDate?: string;
+            estimated_delivery_date?: string;
             /** Format: date */
-            minDeliveryDate?: string;
+            min_delivery_date?: string;
             /** Format: date */
-            maxDeliveryDate?: string;
+            max_delivery_date?: string;
             /** Format: int32 */
-            estimatedDays?: number;
-            calculationMethod?: string;
-            isBusinessDaysOnly: boolean;
+            estimated_days?: number;
+            calculation_method?: string;
+            is_business_days_only: boolean;
             /** Format: int64 */
             id: number;
         };
         DeliveryEstimateDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            carrierId?: number;
+            carrier_id?: number;
             /** Format: int64 */
-            shippingCostId?: number;
-            originAddress?: string;
-            destinationAddress?: string;
+            shipping_cost_id?: number;
+            origin_address?: string;
+            destination_address?: string;
             /** Format: date-time */
-            shipmentDate?: string;
+            shipment_date?: string;
             /** Format: date */
-            estimatedDeliveryDate?: string;
+            estimated_delivery_date?: string;
             /** Format: date */
-            minDeliveryDate?: string;
+            min_delivery_date?: string;
             /** Format: date */
-            maxDeliveryDate?: string;
+            max_delivery_date?: string;
             /** Format: int32 */
-            estimatedDays?: number;
-            calculationMethod?: string;
-            isBusinessDaysOnly?: boolean;
+            estimated_days?: number;
+            calculation_method?: string;
+            is_business_days_only?: boolean;
         };
         UpdateCarrierDto: {
             name: string;
             code: string;
-            contactEmail?: string;
-            contactPhone?: string;
+            /** Format: email */
+            contact_email?: string;
+            contact_phone?: string;
             website?: string;
-            baseRate: number;
-            ratePerKm: number;
+            base_rate: number;
+            rate_per_km: number;
             /** Format: int32 */
-            maxDeliveryDays: number;
-            isActive: boolean;
+            max_delivery_days: number;
+            is_active: boolean;
             /** Format: int64 */
             id: number;
         };
         CarrierDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             code?: string;
-            contactEmail?: string;
-            contactPhone?: string;
+            contact_email?: string;
+            contact_phone?: string;
             website?: string;
-            baseRate?: number;
-            ratePerKm?: number;
+            base_rate?: number;
+            rate_per_km?: number;
             /** Format: int32 */
-            maxDeliveryDays?: number;
-            isActive?: boolean;
+            max_delivery_days?: number;
+            is_active?: boolean;
         };
         UpdateUnitMeasurementDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             name: string;
             /** Format: int64 */
             id: number;
@@ -2280,16 +3052,15 @@ export interface components {
         UnitMeasurementDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
-            /** Añadido a mano: el backend ahora devuelve `name` (UnitMeasurementDto.java). */
             name?: string;
         };
         UpdateTypeProductDto: {
@@ -2300,43 +3071,43 @@ export interface components {
         TypeProductDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
         };
         UpdateTypeProductFeatureDto: {
             /** Format: int64 */
-            featureId: number;
+            feature_id: number;
         };
         TypeProductFeatureDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
-            typeProductId?: number;
+            type_product_id?: number;
             /** Format: int64 */
-            featureId?: number;
-            typeProductName?: string;
-            featureName?: string;
+            feature_id?: number;
+            type_product_name?: string;
+            feature_name?: string;
         };
         UpdateProductFeatureDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            featureId: number;
+            feature_id: number;
             /** Format: double */
             value: number;
             /** Format: int64 */
@@ -2345,42 +3116,42 @@ export interface components {
         ProductFeatureDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
-            productId?: number;
+            product_id?: number;
             /** Format: int64 */
-            featureId?: number;
+            feature_id?: number;
             /** Format: double */
             value?: number;
         };
         UpdateFeatureDto: {
             name: string;
             /** Format: int64 */
-            unitId: number;
+            unit_id: number;
             /** Format: int64 */
             id: number;
         };
         FeatureDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             /** Format: int64 */
-            unitId?: number;
+            unit_id?: number;
         };
         UpdateWarehouseDto: {
             name: string;
@@ -2388,13 +3159,13 @@ export interface components {
             address?: string;
             active?: boolean;
             /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
+            /** Format: int64 */
             id: number;
-            /** Format: int64 — país (catálogo `parametros`). */
-            countryId?: number;
-            /** Format: int64 — departamento (catálogo `parametros`). */
-            stateId?: number;
-            /** Format: int64 — ciudad (catálogo `parametros`). */
-            cityId?: number;
         };
         WarehouseDto: {
             /** Format: int64 */
@@ -2403,17 +3174,18 @@ export interface components {
             code: string;
             address?: string;
             active?: boolean;
-            /** Format: int64 — país (catálogo `parametros`). */
-            countryId?: number;
-            /** Format: int64 — departamento (catálogo `parametros`). */
-            stateId?: number;
-            /** Format: int64 — ciudad (catálogo `parametros`). */
-            cityId?: number;
+            /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
         };
         UpdateSupplierDto: {
             name: string;
             phone: string;
             address: string;
+            /** Format: email */
             email: string;
             /** Format: int64 */
             id: number;
@@ -2421,27 +3193,47 @@ export interface components {
         SupplierDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name: string;
             phone?: string;
             address?: string;
+            /** Format: email */
             email?: string;
+        };
+        ProductBundleItemDto: {
+            /** Format: int64 */
+            product_id: number;
+            /** Format: int32 */
+            quantity: number;
+            contribution_percentage?: number;
+        };
+        ProductVariantDto: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            /** Format: int32 */
+            stock?: number;
+            unit_price?: number;
+            image_url?: string;
+            available?: boolean;
+            sellable?: boolean;
         };
         UpdateProductDto: {
             name: string;
             description: string;
             /** Format: int32 */
             stock: number;
-            realPrice: number;
-            unitPrice: number;
+            real_price: number;
+            unit_price: number;
             /** Format: double */
             length: number;
             /** Format: double */
@@ -2450,38 +3242,45 @@ export interface components {
             height: number;
             /** Format: double */
             weight: number;
-            imageUrl?: string;
+            image_url?: string;
             available?: boolean;
+            status?: string;
+            slug?: string;
             /** Format: int64 */
-            brandId: number;
+            brand_id: number;
             /** Format: int64 */
-            categoryId: number;
+            category_id: number;
             /** Format: int64 */
-            subcategoryId: number;
+            subcategory_id: number;
             /** Format: int64 */
-            supplierId: number;
-            isCombo?: boolean;
+            supplier_id: number;
+            is_combo?: boolean;
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
             /** Format: int64 */
-            id: number;
+            id?: number;
+            combo_with_bundle_items?: boolean;
+            bundle_items_only_for_combos?: boolean;
+            variants_only_for_non_combos?: boolean;
         };
         ProductDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             description?: string;
             /** Format: int32 */
             stock?: number;
-            realPrice?: number;
-            unitPrice?: number;
+            real_price?: number;
+            unit_price?: number;
             /** Format: double */
             length?: number;
             /** Format: double */
@@ -2490,56 +3289,91 @@ export interface components {
             height?: number;
             /** Format: double */
             weight?: number;
-            imageUrl?: string;
+            image_url?: string;
             available?: boolean;
             /** Format: int64 */
-            brandId?: number;
+            brand_id?: number;
             /** Format: int64 */
-            categoryId?: number;
+            category_id?: number;
             /** Format: int64 */
-            subcategoryId?: number;
+            subcategory_id?: number;
             /** Format: int64 */
-            supplierId?: number;
-            isCombo?: boolean;
+            supplier_id?: number;
+            is_combo?: boolean;
+            sellable?: boolean;
+            status?: string;
+            slug?: string;
+            product_type?: string;
+            skus?: components["schemas"]["ProductSkuDto"][];
+            images?: components["schemas"]["ProductImageDto"][];
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
+        };
+        ProductImageDto: {
+            /** Format: int64 */
+            id?: number;
+            url?: string;
+            /** Format: int32 */
+            position?: number;
+            alt_text?: string;
+            /** Format: int64 */
+            sku_id?: number;
+        };
+        ProductSkuDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            price?: number;
+            cost_price?: number;
+            compare_at_price?: number;
+            barcode?: string;
+            image_url?: string;
+            is_default?: boolean;
+            active?: boolean;
+            /** Format: int64 */
+            variant_id?: number;
+            /** Format: int32 */
+            stock?: number;
         };
         UpdateProductComboDto: {
             /** Format: int32 */
             quantity: number;
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            comboId: number;
+            combo_id: number;
             /** Format: int64 */
             id: number;
         };
         ProductComboDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int32 */
             quantity?: number;
             /** Format: int64 */
-            productId?: number;
+            product_id?: number;
             /** Format: int64 */
-            comboId?: number;
+            combo_id?: number;
         };
         UpdateProductChildDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             name: string;
             description?: string;
             /** Format: int32 */
             stock: number;
-            unitPrice: number;
-            imageUrl?: string;
+            unit_price: number;
+            image_url?: string;
             available?: boolean;
             /** Format: int64 */
             id: number;
@@ -2547,65 +3381,65 @@ export interface components {
         ProductChildDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            productId?: number;
+            product_id?: number;
             name?: string;
             description?: string;
             /** Format: int32 */
             stock?: number;
-            unitPrice?: number;
-            imageUrl?: string;
+            unit_price?: number;
+            image_url?: string;
             available?: boolean;
         };
         UpdateDispatchProductDto: {
-            guideNumber: string;
+            guide_number: string;
             address: string;
             /** Format: date */
-            estimatedDeliveryDate: string;
+            estimated_delivery_date: string;
             /** Format: date */
-            realDeliveryDate: string;
-            departmentOrigin: string;
-            cityOrigin: string;
-            departmentDestination: string;
-            cityDestination: string;
+            real_delivery_date: string;
+            department_origin: string;
+            city_origin: string;
+            department_destination: string;
+            city_destination: string;
             /** Format: int64 */
-            orderId: number;
+            order_id: number;
             /** Format: int64 */
             id: number;
         };
         DispatchProductDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
-            guideNumber?: string;
+            guide_number?: string;
             address?: string;
             /** Format: date */
-            estimatedDeliveryDate?: string;
+            estimated_delivery_date?: string;
             /** Format: date */
-            realDeliveryDate?: string;
-            departmentOrigin?: string;
-            cityOrigin?: string;
-            departmentDestination?: string;
-            cityDestination?: string;
+            real_delivery_date?: string;
+            department_origin?: string;
+            city_origin?: string;
+            department_destination?: string;
+            city_destination?: string;
             /** Format: int64 */
-            orderId?: number;
+            order_id?: number;
         };
         UpdateReturnMethodDto: {
             name: string;
@@ -2618,13 +3452,13 @@ export interface components {
         ReturnMethodDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
@@ -2643,13 +3477,13 @@ export interface components {
         RefundMethodDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
@@ -2661,103 +3495,103 @@ export interface components {
             observation: string;
             state?: string;
             /** Format: int64 */
-            motiveDevolutionId: number;
+            motive_devolution_id: number;
             /** Format: int64 */
-            orderId: number;
+            order_id: number;
             /** Format: int64 */
-            returnMethodId?: number;
+            return_method_id?: number;
             /** Format: int64 */
-            refundMethodId?: number;
-            totalRefundAmount?: number;
-            approvedBy?: string;
+            refund_method_id?: number;
+            total_refund_amount?: number;
+            approved_by?: string;
             /** Format: date-time */
-            approvedAt?: string;
-            receivedBy?: string;
+            approved_at?: string;
+            received_by?: string;
             /** Format: date-time */
-            receivedAt?: string;
-            inspectionNotes?: string;
-            externalReference?: string;
+            received_at?: string;
+            inspection_notes?: string;
+            external_reference?: string;
             /** Format: int64 */
             id: number;
         };
         OrderDevolutionDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             observation?: string;
             state?: string;
             /** Format: int64 */
-            motiveDevolutionId?: number;
+            motive_devolution_id?: number;
             /** Format: int64 */
-            orderId?: number;
+            order_id?: number;
             /** Format: int64 */
-            returnMethodId?: number;
+            return_method_id?: number;
             /** Format: int64 */
-            refundMethodId?: number;
-            totalRefundAmount?: number;
-            approvedBy?: string;
+            refund_method_id?: number;
+            total_refund_amount?: number;
+            approved_by?: string;
             /** Format: date-time */
-            approvedAt?: string;
-            receivedBy?: string;
+            approved_at?: string;
+            received_by?: string;
             /** Format: date-time */
-            receivedAt?: string;
-            inspectionNotes?: string;
-            externalReference?: string;
+            received_at?: string;
+            inspection_notes?: string;
+            external_reference?: string;
         };
         UpdateEvidenceDto: {
             /** Format: int64 */
-            orderDevolutionId: number;
-            evidenceType: string;
-            resourceUrl: string;
+            order_devolution_id: number;
+            evidence_type: string;
+            resource_url: string;
             description?: string;
-            recordedBy?: string;
+            recorded_by?: string;
             /** Format: date-time */
-            recordedAt?: string;
+            recorded_at?: string;
             /** Format: int64 */
             id: number;
         };
         EvidenceDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int64 */
-            orderDevolutionId?: number;
-            evidenceType?: string;
-            resourceUrl?: string;
+            order_devolution_id?: number;
+            evidence_type?: string;
+            resource_url?: string;
             description?: string;
-            recordedBy?: string;
+            recorded_by?: string;
             /** Format: date-time */
-            recordedAt?: string;
+            recorded_at?: string;
         };
         UpdateOrderDevolutionDetailDto: {
             /** Format: int32 */
             quantity: number;
             /** Format: int32 */
-            receivedQuantity?: number;
-            unitPrice?: number;
-            refundAmount?: number;
+            received_quantity?: number;
+            unit_price?: number;
+            refund_amount?: number;
             condition?: string;
-            restockingFee?: number;
+            restocking_fee?: number;
             /** Format: int64 */
-            orderDevolutionId: number;
+            order_devolution_id: number;
             /** Format: int64 */
-            productOrderId: number;
+            product_order_id: number;
             observation: string;
             /** Format: int64 */
             id: number;
@@ -2765,27 +3599,27 @@ export interface components {
         OrderDevolutionDetailDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             /** Format: int32 */
             quantity?: number;
             /** Format: int32 */
-            receivedQuantity?: number;
-            unitPrice?: number;
-            refundAmount?: number;
+            received_quantity?: number;
+            unit_price?: number;
+            refund_amount?: number;
             condition?: string;
-            restockingFee?: number;
+            restocking_fee?: number;
             /** Format: int64 */
-            orderDevolutionId?: number;
+            order_devolution_id?: number;
             /** Format: int64 */
-            productOrderId?: number;
+            product_order_id?: number;
             observation?: string;
         };
         UpdateMotiveDevolutionDto: {
@@ -2797,66 +3631,214 @@ export interface components {
         MotiveDevolutionDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             description?: string;
         };
+        UpdatePageDto: {
+            title?: string;
+            slug?: string;
+            content?: string;
+            excerpt?: string;
+            meta_title?: string;
+            meta_description?: string;
+            meta_keywords?: string;
+            status?: string;
+            template?: string;
+            is_featured?: boolean;
+            /** Format: int32 */
+            sort_order?: number;
+            /** Format: date-time */
+            published_at?: string;
+            /** Format: date-time */
+            scheduled_at?: string;
+            author_name?: string;
+            featured_image?: string;
+            page_type?: string;
+            custom_fields?: string;
+        };
+        PageDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            title?: string;
+            slug?: string;
+            content?: string;
+            excerpt?: string;
+            meta_title?: string;
+            meta_description?: string;
+            meta_keywords?: string;
+            status?: string;
+            template?: string;
+            is_featured?: boolean;
+            /** Format: int32 */
+            sort_order?: number;
+            /** Format: date-time */
+            published_at?: string;
+            /** Format: date-time */
+            scheduled_at?: string;
+            author_name?: string;
+            featured_image?: string;
+            page_type?: string;
+            custom_fields?: string;
+        };
         UpdateSubcategoryDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
             /** Format: int64 */
-            categoryId: number;
+            category_id: number;
             /** Format: int64 */
-            /** Se toma de la URL en el PUT. */
             id: number;
         };
         SubcategoryDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             description?: string;
             slug?: string;
             /** Format: int64 */
-            categoryId?: number;
+            category_id?: number;
+        };
+        AttributeValueDto: {
+            /** Format: int64 */
+            attribute_id: number;
+            value_text?: string;
+            value_number?: number;
+            value_boolean?: boolean;
+            /** Format: int64 */
+            option_id?: number;
+        };
+        SaveProductAttributesDto: {
+            /** Format: int64 */
+            template_id?: number;
+            values?: components["schemas"]["AttributeValueDto"][];
+            variants?: components["schemas"]["VariantAttributesDto"][];
+        };
+        VariantAttributesDto: {
+            /** Format: int64 */
+            sku_id: number;
+            readonly sku_code?: string;
+            readonly name?: string;
+            readonly active?: boolean;
+            options?: components["schemas"]["VariantOptionDto"][];
+        };
+        VariantOptionDto: {
+            /** Format: int64 */
+            attribute_id: number;
+            /** Format: int64 */
+            option_id: number;
+        };
+        /** @description Atributos disponibles: los de la plantilla o, sin plantilla, todos */
+        AttributeDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            description?: string;
+            /** @enum {string} */
+            data_type?: "TEXT" | "NUMBER" | "BOOLEAN" | "OPTION";
+            /** Format: int64 */
+            unit_id?: number;
+            /** @description Nombre de la unidad (solo lectura) */
+            unit_name?: string;
+            options?: components["schemas"]["AttributeOptionDto"][];
+            /** @description Se usa en plantillas o valores: no se puede borrar ni cambiar de tipo (solo lectura) */
+            in_use?: boolean;
+        };
+        AttributeOptionDto: {
+            /** Format: int64 */
+            id?: number;
+            value: string;
+            /** Format: int32 */
+            position?: number;
+        };
+        ProductAttributesDto: {
+            /** Format: int64 */
+            product_id?: number;
+            product_status?: string;
+            /** Format: int64 */
+            template_id?: number;
+            template?: components["schemas"]["ProductTemplateDto"];
+            /** @description Atributos disponibles: los de la plantilla o, sin plantilla, todos */
+            attributes?: components["schemas"]["AttributeDto"][];
+            values?: components["schemas"]["AttributeValueDto"][];
+            variants?: components["schemas"]["VariantAttributesDto"][];
+            /** @description Lo que falta para poder publicar (vacío si está completo) */
+            missing?: string[];
+        };
+        ProductTemplateDto: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            attributes?: components["schemas"]["TemplateAttributeDto"][];
+            /**
+             * Format: int64
+             * @description Productos que usan la plantilla (solo lectura)
+             */
+            product_count?: number;
+        };
+        TemplateAttributeDto: {
+            /** Format: int64 */
+            attribute_id: number;
+            /** @description Obligatorio para publicar (por defecto false) */
+            required?: boolean;
+            /** @description Eje de variante (por defecto false; solo OPTION) */
+            variant_axis?: boolean;
+            /** @description Filtrable en la tienda (por defecto false) */
+            filterable?: boolean;
+            /** Format: int32 */
+            position?: number;
+            attribute?: components["schemas"]["AttributeDto"];
+        };
+        SaveProductTemplateDto: {
+            name: string;
+            description?: string;
+            attributes?: components["schemas"]["TemplateAttributeDto"][];
         };
         UpdateCategoryDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
             /** Format: int64 */
-            /** Se toma de la URL en el PUT. */
             id: number;
         };
         CategoryDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
@@ -2866,163 +3848,341 @@ export interface components {
         UpdateBrandDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
             /** Format: int64 */
-            /** Se toma de la URL en el PUT. */
             id: number;
         };
         BrandDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             /** Format: int64 */
             id?: number;
             name?: string;
             description?: string;
             slug?: string;
         };
+        SaveAttributeDto: {
+            code: string;
+            name: string;
+            description?: string;
+            /** @enum {string} */
+            data_type: "TEXT" | "NUMBER" | "BOOLEAN" | "OPTION";
+            /** Format: int64 */
+            unit_id?: number;
+            options?: components["schemas"]["AttributeOptionDto"][];
+        };
+        UpdateSalesAnalyticsRecordDto: {
+            report_name?: string;
+            period?: string;
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+            total_revenue?: number;
+            average_order_value?: number;
+            /** Format: int32 */
+            total_orders?: number;
+            /** Format: int32 */
+            total_customers?: number;
+            /** Format: int32 */
+            new_customers?: number;
+            /** Format: int32 */
+            returning_customers?: number;
+            conversion_rate?: number;
+            customer_acquisition_cost?: number;
+            customer_lifetime_value?: number;
+            revenue_by_category_json?: string;
+            orders_by_channel_json?: string;
+            revenue_by_region_json?: string;
+            /** Format: int32 */
+            total_products_sold?: number;
+            refund_amount?: number;
+            refund_rate?: number;
+        };
+        SalesAnalyticsRecordDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            report_name?: string;
+            period?: string;
+            /** Format: date */
+            start_date?: string;
+            /** Format: date */
+            end_date?: string;
+            total_revenue?: number;
+            average_order_value?: number;
+            /** Format: int32 */
+            total_orders?: number;
+            /** Format: int32 */
+            total_customers?: number;
+            /** Format: int32 */
+            new_customers?: number;
+            /** Format: int32 */
+            returning_customers?: number;
+            conversion_rate?: number;
+            customer_acquisition_cost?: number;
+            customer_lifetime_value?: number;
+            revenue_by_category_json?: string;
+            orders_by_channel_json?: string;
+            revenue_by_region_json?: string;
+            /** Format: int32 */
+            total_products_sold?: number;
+            refund_amount?: number;
+            refund_rate?: number;
+        };
+        UpdatePersonalizationProfileDto: {
+            /** Format: int64 */
+            customer_id?: number;
+            session_id?: string;
+            segment?: string;
+            status?: string;
+            context_metadata_json?: string;
+            recommended_products_json?: string;
+            dynamic_pricing_json?: string;
+            personalized_content_json?: string;
+            personalized_offers_json?: string;
+            ui_personalization_json?: string;
+            purchase_intent_json?: string;
+            personalization_score?: number;
+            /** Format: date-time */
+            last_analysis_at?: string;
+        };
+        PersonalizationProfileDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            customer_id?: number;
+            session_id?: string;
+            segment?: string;
+            status?: string;
+            context_metadata_json?: string;
+            recommended_products_json?: string;
+            dynamic_pricing_json?: string;
+            personalized_content_json?: string;
+            personalized_offers_json?: string;
+            ui_personalization_json?: string;
+            purchase_intent_json?: string;
+            personalization_score?: number;
+            /** Format: date-time */
+            last_analysis_at?: string;
+        };
+        CreateSearchQueryDto: {
+            /** Format: int64 */
+            customer_id?: number;
+            query: string;
+            filters_json?: string;
+            sort_by?: string;
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            page_size: number;
+            /** Format: int32 */
+            total_results?: number;
+            search_id?: string;
+            /** Format: date-time */
+            last_run_at?: string;
+        };
         CreateTrackingDto: {
             /** Format: int64 */
-            dispatchProductId: number;
+            dispatch_product_id: number;
         };
         CreateDispatchDetailDto: {
             /** Format: int64 */
-            dispatchProductId: number;
+            dispatch_product_id: number;
             /** Format: int64 */
-            productOrderId: number;
+            product_order_id: number;
         };
         CreateProductOrderDto: {
             /** Format: int32 */
             quantity: number;
-            discount: number;
-            subtotal: number;
-            total: number;
+            discount?: number;
+            subtotal?: number;
+            total?: number;
             /** Format: int64 */
-            productId: number;
+            product_id?: number;
             /** Format: int64 */
-            orderId: number;
+            sku_id?: number;
+            /** Format: int64 */
+            order_id: number;
         };
         CreatePaymentTypeDto: {
             name: string;
         };
         CreateOrderDto: {
-            complementaryOrder?: string;
-            total: number;
-            state: string;
+            complementary_order?: string;
+            total?: number;
+            state?: string;
+        };
+        ChangeOrderStatusDto: {
+            /** @enum {string} */
+            state: "PENDING" | "PAID" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
+            /** @description Motivo (se guarda al cancelar) */
+            reason?: string;
+        };
+        BulkIdsRequest: {
+            ids: number[];
+        };
+        BulkOperationResult: {
+            /** Format: int32 */
+            requested?: number;
+            /** Format: int32 */
+            succeeded?: number;
+            failed?: components["schemas"]["Failure"][];
+        };
+        Failure: {
+            /** Format: int64 */
+            id?: number;
+            reason?: string;
         };
         CreateProductReviewDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            customerId: number;
-            customerName: string;
-            customerEmail: string;
+            customer_id: number;
+            customer_name: string;
+            /** Format: email */
+            customer_email: string;
             /** Format: int32 */
             rating: number;
             title?: string;
             comment: string;
-            isVerifiedPurchase?: boolean;
-            isApproved?: boolean;
-            isHelpful?: boolean;
+            is_verified_purchase?: boolean;
+            is_approved?: boolean;
+            is_helpful?: boolean;
             /** Format: int32 */
-            helpfulCount?: number;
+            helpful_count?: number;
             /** Format: int32 */
-            notHelpfulCount?: number;
-            moderationStatus?: string;
-            moderationNotes?: string;
+            not_helpful_count?: number;
+            moderation_status?: string;
+            moderation_notes?: string;
             /** Format: date-time */
-            reviewDate?: string;
+            review_date?: string;
         };
         VoteProductReviewHelpfulDto: {
             helpful: boolean;
         };
         ModerateProductReviewDto: {
-            moderationStatus: string;
-            moderationNotes?: string;
-            isApproved: boolean;
+            moderation_status: string;
+            moderation_notes?: string;
+            is_approved: boolean;
+        };
+        CreateProductRecommendationDto: {
+            /** Format: int64 */
+            customer_id: number;
+            /** Format: int64 */
+            product_id: number;
+            product_name?: string;
+            product_image_url?: string;
+            product_price?: number;
+            recommendation_type?: string;
+            score?: number;
+            reason?: string;
+            /** Format: int32 */
+            position?: number;
+            is_clicked?: boolean;
+            is_purchased?: boolean;
+            context?: string;
         };
         CreateCouponDto: {
             code: string;
             name: string;
             description?: string;
-            discountType: string;
-            discountValue: number;
-            minimumOrderAmount?: number;
-            maximumDiscountAmount?: number;
+            discount_type: string;
+            discount_value: number;
+            minimum_order_amount?: number;
+            maximum_discount_amount?: number;
             /** Format: int32 */
-            usageLimit?: number;
+            usage_limit?: number;
             /** Format: date-time */
-            validFrom: string;
+            valid_from: string;
             /** Format: date-time */
-            validUntil: string;
-            isActive: boolean;
-            isPublic: boolean;
-            applicableCategories?: string;
-            applicableProducts?: string;
-            excludedCategories?: string;
-            excludedProducts?: string;
+            valid_until: string;
+            is_active: boolean;
+            is_public: boolean;
+            applicable_categories?: string;
+            applicable_products?: string;
+            excluded_categories?: string;
+            excluded_products?: string;
         };
         CreateShippingCostDto: {
             /** Format: int64 */
-            carrierId: number;
-            originAddress: string;
-            destinationAddress: string;
+            carrier_id: number;
+            origin_address: string;
+            destination_address: string;
             distance?: number;
             weight?: number;
             volume?: number;
-            calculatedCost?: number;
-            calculationMethod?: string;
-            isEstimated: boolean;
+            calculated_cost?: number;
+            calculation_method?: string;
+            is_estimated: boolean;
         };
         CreateDeliveryEstimateDto: {
             /** Format: int64 */
-            carrierId: number;
+            carrier_id: number;
             /** Format: int64 */
-            shippingCostId?: number;
-            originAddress: string;
-            destinationAddress: string;
+            shipping_cost_id?: number;
+            origin_address: string;
+            destination_address: string;
             /** Format: date-time */
-            shipmentDate: string;
+            shipment_date: string;
             /** Format: date */
-            estimatedDeliveryDate?: string;
+            estimated_delivery_date?: string;
             /** Format: date */
-            minDeliveryDate?: string;
+            min_delivery_date?: string;
             /** Format: date */
-            maxDeliveryDate?: string;
+            max_delivery_date?: string;
             /** Format: int32 */
-            estimatedDays?: number;
-            calculationMethod?: string;
-            isBusinessDaysOnly: boolean;
+            estimated_days?: number;
+            calculation_method?: string;
+            is_business_days_only: boolean;
         };
         CreateCarrierDto: {
             name: string;
             code: string;
-            contactEmail?: string;
-            contactPhone?: string;
+            /** Format: email */
+            contact_email?: string;
+            contact_phone?: string;
             website?: string;
-            baseRate: number;
-            ratePerKm: number;
+            base_rate: number;
+            rate_per_km: number;
             /** Format: int32 */
-            maxDeliveryDays: number;
-            isActive: boolean;
+            max_delivery_days: number;
+            is_active: boolean;
         };
         CreateUnitMeasurementDto: {
             deleted?: boolean;
             /** Format: int32 */
-            usrCrea?: number;
+            usr_crea?: number;
             /** Format: int32 */
-            usrMod?: number;
+            usr_mod?: number;
             /** Format: date-time */
-            createdAt?: string;
+            created_at?: string;
             /** Format: date-time */
-            updatedAt?: string;
+            updated_at?: string;
             name: string;
         };
         CreateTypeProductDto: {
@@ -3030,39 +4190,40 @@ export interface components {
         };
         CreateTypeProductFeatureDto: {
             /** Format: int64 */
-            typeProductId: number;
+            type_product_id: number;
             /** Format: int64 */
-            featureId: number;
+            feature_id: number;
         };
         CreateProductFeatureDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            featureId: number;
+            feature_id: number;
             /** Format: double */
             value: number;
         };
         CreateFeatureDto: {
             name: string;
             /** Format: int64 */
-            unitId: number;
+            unit_id: number;
         };
         CreateWarehouseDto: {
             name: string;
             code: string;
             address?: string;
             active?: boolean;
-            /** Format: int64 — país (catálogo `parametros`). */
-            countryId?: number;
-            /** Format: int64 — departamento (catálogo `parametros`). */
-            stateId?: number;
-            /** Format: int64 — ciudad (catálogo `parametros`). */
-            cityId?: number;
+            /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
         };
         CreateSupplierDto: {
             name: string;
             phone: string;
             address: string;
+            /** Format: email */
             email: string;
         };
         CreateProductDto: {
@@ -3070,8 +4231,8 @@ export interface components {
             description: string;
             /** Format: int32 */
             stock: number;
-            realPrice: number;
-            unitPrice: number;
+            real_price: number;
+            unit_price: number;
             /** Format: double */
             length: number;
             /** Format: double */
@@ -3080,74 +4241,90 @@ export interface components {
             height: number;
             /** Format: double */
             weight: number;
-            imageUrl?: string;
+            image_url?: string;
             available?: boolean;
+            status?: string;
+            slug?: string;
             /** Format: int64 */
-            brandId: number;
+            brand_id: number;
             /** Format: int64 */
-            categoryId: number;
+            category_id: number;
             /** Format: int64 */
-            subcategoryId: number;
+            subcategory_id: number;
             /** Format: int64 */
-            supplierId: number;
-            isCombo?: boolean;
+            supplier_id: number;
+            is_combo?: boolean;
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
+            combo_with_bundle_items?: boolean;
+            bundle_items_only_for_combos?: boolean;
+            variants_only_for_non_combos?: boolean;
         };
         ProductFilter: {
-            brandIds?: number[];
-            categoryIds?: number[];
-            subcategoryIds?: number[];
+            brand_ids?: number[];
+            category_ids?: number[];
+            subcategory_ids?: number[];
             /** Format: double */
-            minPrice?: number;
+            min_price?: number;
             /** Format: double */
-            maxPrice?: number;
-            search?: string;
-            /** Solo disponibles (true) u ocultos (false). */
+            max_price?: number;
             available?: boolean;
+            search?: string;
+            statuses?: string[];
         };
         CreateProductComboDto: {
             /** Format: int32 */
             quantity: number;
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             /** Format: int64 */
-            comboId: number;
+            combo_id: number;
         };
         CreateProductChildDto: {
             /** Format: int64 */
-            productId: number;
+            product_id: number;
             name: string;
             description?: string;
             /** Format: int32 */
             stock: number;
-            unitPrice: number;
-            imageUrl?: string;
+            unit_price: number;
+            image_url?: string;
             available?: boolean;
         };
         InventoryMovementDto: {
             /** Format: int64 */
-            productId: number;
+            id?: number;
             /** Format: int64 */
-            fromWarehouseId?: number;
+            product_id?: number;
             /** Format: int64 */
-            toWarehouseId?: number;
+            sku_id?: number;
+            /** Format: int64 */
+            from_warehouse_id?: number;
+            /** Format: int64 */
+            to_warehouse_id?: number;
             type: string;
             /** Format: int32 */
             quantity: number;
             reason?: string;
+            reference_type?: string;
+            /** Format: int64 */
+            reference_id?: number;
+            /** Format: date-time */
+            created_at?: string;
         };
         CreateDispatchProductDto: {
-            guideNumber: string;
+            guide_number: string;
             address: string;
             /** Format: date */
-            estimatedDeliveryDate: string;
+            estimated_delivery_date: string;
             /** Format: date */
-            realDeliveryDate: string;
-            departmentOrigin: string;
-            cityOrigin: string;
-            departmentDestination: string;
-            cityDestination: string;
+            real_delivery_date: string;
+            department_origin: string;
+            city_origin: string;
+            department_destination: string;
+            city_destination: string;
             /** Format: int64 */
-            orderId: number;
+            order_id: number;
         };
         CreateReturnMethodDto: {
             name: string;
@@ -3165,84 +4342,176 @@ export interface components {
             observation: string;
             state?: string;
             /** Format: int64 */
-            motiveDevolutionId: number;
+            motive_devolution_id: number;
             /** Format: int64 */
-            orderId: number;
+            order_id: number;
             /** Format: int64 */
-            returnMethodId?: number;
+            return_method_id?: number;
             /** Format: int64 */
-            refundMethodId?: number;
-            totalRefundAmount?: number;
-            approvedBy?: string;
+            refund_method_id?: number;
+            total_refund_amount?: number;
+            approved_by?: string;
             /** Format: date-time */
-            approvedAt?: string;
-            receivedBy?: string;
+            approved_at?: string;
+            received_by?: string;
             /** Format: date-time */
-            receivedAt?: string;
-            inspectionNotes?: string;
-            externalReference?: string;
+            received_at?: string;
+            inspection_notes?: string;
+            external_reference?: string;
         };
         CreateEvidenceDto: {
             /** Format: int64 */
-            orderDevolutionId: number;
-            evidenceType: string;
-            resourceUrl: string;
+            order_devolution_id: number;
+            evidence_type: string;
+            resource_url: string;
             description?: string;
-            recordedBy?: string;
+            recorded_by?: string;
             /** Format: date-time */
-            recordedAt?: string;
+            recorded_at?: string;
         };
         CreateOrderDevolutionDetailDto: {
             /** Format: int32 */
             quantity: number;
             /** Format: int32 */
-            receivedQuantity?: number;
-            unitPrice?: number;
-            refundAmount?: number;
+            received_quantity?: number;
+            unit_price?: number;
+            refund_amount?: number;
             condition?: string;
-            restockingFee?: number;
+            restocking_fee?: number;
             /** Format: int64 */
-            orderDevolutionId: number;
+            order_devolution_id: number;
             /** Format: int64 */
-            productOrderId: number;
+            product_order_id: number;
             observation: string;
         };
         CreateMotiveDevolutionDto: {
             name: string;
             description?: string;
         };
+        CreatePageDto: {
+            title: string;
+            slug?: string;
+            content: string;
+            excerpt?: string;
+            meta_title?: string;
+            meta_description?: string;
+            meta_keywords?: string;
+            status?: string;
+            template?: string;
+            is_featured?: boolean;
+            /** Format: int32 */
+            sort_order?: number;
+            /** Format: date-time */
+            published_at?: string;
+            /** Format: date-time */
+            scheduled_at?: string;
+            author_name?: string;
+            featured_image?: string;
+            page_type?: string;
+            custom_fields?: string;
+        };
         CreateSubcategoryDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
             /** Format: int64 */
-            categoryId: number;
+            category_id: number;
         };
         CreateCategoryDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
         };
         CreateBrandDto: {
             name: string;
             description?: string;
-            /** Opcional: si falta, el backend lo genera desde el nombre. */
             slug?: string;
         };
-        ShippingEstimateDto: {
-            carrierCode?: string;
-            originZip?: string;
-            destinationZip?: string;
-            weight?: number;
-            selectedServiceType?: string;
-            shippingCost?: number;
+        CreateSalesAnalyticsRecordDto: {
+            report_name: string;
+            period: string;
             /** Format: date */
-            estimatedDeliveryDate?: string;
-            availableServices?: {
+            start_date: string;
+            /** Format: date */
+            end_date: string;
+            total_revenue?: number;
+            average_order_value?: number;
+            /** Format: int32 */
+            total_orders?: number;
+            /** Format: int32 */
+            total_customers?: number;
+            /** Format: int32 */
+            new_customers?: number;
+            /** Format: int32 */
+            returning_customers?: number;
+            conversion_rate?: number;
+            customer_acquisition_cost?: number;
+            customer_lifetime_value?: number;
+            revenue_by_category_json?: string;
+            orders_by_channel_json?: string;
+            revenue_by_region_json?: string;
+            /** Format: int32 */
+            total_products_sold?: number;
+            refund_amount?: number;
+            refund_rate?: number;
+        };
+        CreatePersonalizationProfileDto: {
+            /** Format: int64 */
+            customer_id: number;
+            session_id?: string;
+            segment: string;
+            status?: string;
+            context_metadata_json?: string;
+            recommended_products_json?: string;
+            dynamic_pricing_json?: string;
+            personalized_content_json?: string;
+            personalized_offers_json?: string;
+            ui_personalization_json?: string;
+            purchase_intent_json?: string;
+            personalization_score?: number;
+            /** Format: date-time */
+            last_analysis_at?: string;
+        };
+        ShippingEstimateDto: {
+            carrier_code?: string;
+            origin_zip?: string;
+            destination_zip?: string;
+            weight?: number;
+            selected_service_type?: string;
+            shipping_cost?: number;
+            /** Format: date */
+            estimated_delivery_date?: string;
+            available_services?: {
                 [key: string]: string;
             };
+        };
+        OrderReservationDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            line_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int64 */
+            warehouse_id?: number;
+            /** Format: int32 */
+            quantity?: number;
+            /** @enum {string} */
+            status?: "ACTIVE" | "COMMITTED" | "RELEASED" | "EXPIRED" | "RETURNED";
+            /** Format: date-time */
+            expires_at?: string;
+        };
+        PageResponseOrderDto: {
+            content?: components["schemas"]["OrderDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
         };
         Pageable: {
             /** Format: int32 */
@@ -3253,116 +4522,193 @@ export interface components {
         };
         PageWarehouseDto: {
             /** Format: int64 */
-            totalElements?: number;
+            total_elements?: number;
             /** Format: int32 */
-            totalPages?: number;
+            total_pages?: number;
+            pageable?: components["schemas"]["PageableObject"];
             /** Format: int32 */
             size?: number;
             content?: components["schemas"]["WarehouseDto"][];
             /** Format: int32 */
             number?: number;
-            sort?: components["schemas"]["SortObject"][];
+            sort?: components["schemas"]["SortObject"];
+            /** Format: int32 */
+            number_of_elements?: number;
             first?: boolean;
             last?: boolean;
-            /** Format: int32 */
-            numberOfElements?: number;
-            pageable?: components["schemas"]["PageableObject"];
             empty?: boolean;
         };
         PageableObject: {
+            paged?: boolean;
+            /** Format: int32 */
+            page_number?: number;
+            /** Format: int32 */
+            page_size?: number;
             /** Format: int64 */
             offset?: number;
-            sort?: components["schemas"]["SortObject"][];
-            paged?: boolean;
+            sort?: components["schemas"]["SortObject"];
             unpaged?: boolean;
-            /** Format: int32 */
-            pageSize?: number;
-            /** Format: int32 */
-            pageNumber?: number;
         };
         SortObject: {
-            direction?: string;
-            nullHandling?: string;
-            ascending?: boolean;
-            property?: string;
-            ignoreCase?: boolean;
+            sorted?: boolean;
+            empty?: boolean;
+            unsorted?: boolean;
+        };
+        StockItemDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            warehouse_id?: number;
+            /** Format: int32 */
+            on_hand?: number;
+            /** Format: int32 */
+            reserved?: number;
+            /** Format: int32 */
+            available?: number;
+            /** Format: int32 */
+            min_threshold?: number;
+            below_threshold?: boolean;
         };
         PageInventoryMovementDto: {
             /** Format: int64 */
-            totalElements?: number;
+            total_elements?: number;
             /** Format: int32 */
-            totalPages?: number;
+            total_pages?: number;
+            pageable?: components["schemas"]["PageableObject"];
             /** Format: int32 */
             size?: number;
             content?: components["schemas"]["InventoryMovementDto"][];
             /** Format: int32 */
             number?: number;
-            sort?: components["schemas"]["SortObject"][];
+            sort?: components["schemas"]["SortObject"];
+            /** Format: int32 */
+            number_of_elements?: number;
             first?: boolean;
             last?: boolean;
-            /** Format: int32 */
-            numberOfElements?: number;
-            pageable?: components["schemas"]["PageableObject"];
             empty?: boolean;
+        };
+        PageResponseDispatchProductDto: {
+            content?: components["schemas"]["DispatchProductDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        PageResponseOrderDevolutionDto: {
+            content?: components["schemas"]["OrderDevolutionDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        PageResponseSubcategoryDto: {
+            content?: components["schemas"]["SubcategoryDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        PageResponseCategoryDto: {
+            content?: components["schemas"]["CategoryDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        PageResponseBrandDto: {
+            content?: components["schemas"]["BrandDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
         };
         SalesAnalyticsDto: {
             /** Format: date */
             date?: string;
             period?: string;
-            totalRevenue?: number;
-            averageOrderValue?: number;
+            total_revenue?: number;
+            average_order_value?: number;
             /** Format: int32 */
-            totalOrders?: number;
+            total_orders?: number;
             /** Format: int32 */
-            totalCustomers?: number;
+            total_customers?: number;
             /** Format: int32 */
-            newCustomers?: number;
+            new_customers?: number;
             /** Format: int32 */
-            returningCustomers?: number;
-            conversionRate?: number;
-            customerAcquisitionCost?: number;
-            customerLifetimeValue?: number;
-            revenueByCategory?: {
+            returning_customers?: number;
+            conversion_rate?: number;
+            customer_acquisition_cost?: number;
+            customer_lifetime_value?: number;
+            revenue_by_category?: {
                 [key: string]: number;
             };
-            ordersByChannel?: {
+            orders_by_channel?: {
                 [key: string]: number;
             };
-            revenueByRegion?: {
+            revenue_by_region?: {
                 [key: string]: number;
             };
             /** Format: int32 */
-            totalProductsSold?: number;
-            refundAmount?: number;
-            refundRate?: number;
+            total_products_sold?: number;
+            refund_amount?: number;
+            refund_rate?: number;
         };
         SalesPerformanceKpiDto: {
-            revenueGrowth?: number;
-            orderGrowth?: number;
-            customerGrowth?: number;
-            averageOrderValueGrowth?: number;
-            conversionRateImprovement?: number;
+            revenue_growth?: number;
+            order_growth?: number;
+            customer_growth?: number;
+            average_order_value_growth?: number;
+            conversion_rate_improvement?: number;
         };
         SalesConversionFunnelDto: {
             /** Format: int32 */
             visitors?: number;
             /** Format: int32 */
-            productViews?: number;
+            product_views?: number;
             /** Format: int32 */
-            addToCart?: number;
+            add_to_cart?: number;
             /** Format: int32 */
             checkout?: number;
             /** Format: int32 */
             purchase?: number;
-            visitorToViewRate?: number;
-            viewToCartRate?: number;
-            cartToCheckoutRate?: number;
-            checkoutToPurchaseRate?: number;
-            overallConversionRate?: number;
+            visitor_to_view_rate?: number;
+            view_to_cart_rate?: number;
+            cart_to_checkout_rate?: number;
+            checkout_to_purchase_rate?: number;
+            overall_conversion_rate?: number;
         };
         SalesCohortAnalysisDto: {
-            cohortMonth?: string;
-            retentionByMonth?: {
+            cohort_month?: string;
+            retention_by_month?: {
                 [key: string]: number;
             };
         };
@@ -3376,6 +4722,74 @@ export interface components {
 export type $defs = Record<string, never>;
 export interface operations {
     getById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SearchQueryDto"];
+                };
+            };
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSearchQueryDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SearchQueryDto"];
+                };
+            };
+        };
+    };
+    delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -3405,7 +4819,7 @@ export interface operations {
             };
         };
     };
-    update: {
+    update_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -3447,7 +4861,7 @@ export interface operations {
             };
         };
     };
-    delete: {
+    delete_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -3475,7 +4889,7 @@ export interface operations {
             };
         };
     };
-    getById_1: {
+    getById_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -3505,7 +4919,7 @@ export interface operations {
             };
         };
     };
-    update_1: {
+    update_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -3547,7 +4961,7 @@ export interface operations {
             };
         };
     };
-    delete_1: {
+    delete_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -3575,7 +4989,7 @@ export interface operations {
             };
         };
     };
-    getById_2: {
+    getById_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -3605,7 +5019,7 @@ export interface operations {
             };
         };
     };
-    update_2: {
+    update_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -3647,7 +5061,7 @@ export interface operations {
             };
         };
     };
-    delete_2: {
+    delete_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -3675,7 +5089,7 @@ export interface operations {
             };
         };
     };
-    getById_3: {
+    getById_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -3705,7 +5119,7 @@ export interface operations {
             };
         };
     };
-    update_3: {
+    update_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -3747,7 +5161,7 @@ export interface operations {
             };
         };
     };
-    delete_3: {
+    delete_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -3775,7 +5189,7 @@ export interface operations {
             };
         };
     };
-    getById_4: {
+    getById_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -3805,7 +5219,7 @@ export interface operations {
             };
         };
     };
-    update_4: {
+    update_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -3847,7 +5261,7 @@ export interface operations {
             };
         };
     };
-    delete_4: {
+    delete_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -3905,7 +5319,7 @@ export interface operations {
             };
         };
     };
-    update_5: {
+    update_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -3946,7 +5360,7 @@ export interface operations {
             };
         };
     };
-    delete_5: {
+    delete_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -3967,6 +5381,74 @@ export interface operations {
             };
             /** @description Review not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductRecommendationDto"];
+                };
+            };
+        };
+    };
+    update_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductRecommendationDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductRecommendationDto"];
+                };
+            };
+        };
+    };
+    delete_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4004,7 +5486,7 @@ export interface operations {
             };
         };
     };
-    update_6: {
+    update_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -4045,7 +5527,7 @@ export interface operations {
             };
         };
     };
-    delete_6: {
+    delete_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -4073,7 +5555,7 @@ export interface operations {
             };
         };
     };
-    getById_5: {
+    getById_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -4103,7 +5585,7 @@ export interface operations {
             };
         };
     };
-    update_7: {
+    update_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -4145,7 +5627,7 @@ export interface operations {
             };
         };
     };
-    delete_7: {
+    delete_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -4173,7 +5655,7 @@ export interface operations {
             };
         };
     };
-    getById_6: {
+    getById_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -4203,7 +5685,7 @@ export interface operations {
             };
         };
     };
-    update_8: {
+    update_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -4245,7 +5727,7 @@ export interface operations {
             };
         };
     };
-    delete_8: {
+    delete_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -4273,7 +5755,7 @@ export interface operations {
             };
         };
     };
-    getById_7: {
+    getById_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -4303,7 +5785,7 @@ export interface operations {
             };
         };
     };
-    update_9: {
+    update_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -4345,7 +5827,7 @@ export interface operations {
             };
         };
     };
-    delete_9: {
+    delete_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -4373,7 +5855,7 @@ export interface operations {
             };
         };
     };
-    getById_8: {
+    getById_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -4403,7 +5885,7 @@ export interface operations {
             };
         };
     };
-    update_10: {
+    update_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -4445,7 +5927,7 @@ export interface operations {
             };
         };
     };
-    delete_10: {
+    delete_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -4473,7 +5955,7 @@ export interface operations {
             };
         };
     };
-    getById_9: {
+    getById_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -4503,7 +5985,7 @@ export interface operations {
             };
         };
     };
-    update_11: {
+    update_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -4545,7 +6027,7 @@ export interface operations {
             };
         };
     };
-    delete_11: {
+    delete_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -4595,7 +6077,7 @@ export interface operations {
             };
         };
     };
-    update_12: {
+    update_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -4621,7 +6103,7 @@ export interface operations {
             };
         };
     };
-    delete_12: {
+    delete_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -4641,7 +6123,7 @@ export interface operations {
             };
         };
     };
-    getById_10: {
+    getById_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -4673,7 +6155,7 @@ export interface operations {
             };
         };
     };
-    update_13: {
+    update_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -4717,7 +6199,7 @@ export interface operations {
             };
         };
     };
-    delete_13: {
+    delete_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -4747,7 +6229,7 @@ export interface operations {
             };
         };
     };
-    getById_11: {
+    getById_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -4777,7 +6259,7 @@ export interface operations {
             };
         };
     };
-    update_14: {
+    update_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -4819,7 +6301,7 @@ export interface operations {
             };
         };
     };
-    delete_14: {
+    delete_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -4847,7 +6329,29 @@ export interface operations {
             };
         };
     };
-    update_15: {
+    getById_14: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseDto"];
+                };
+            };
+        };
+    };
+    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -4873,7 +6377,27 @@ export interface operations {
             };
         };
     };
-    getById_12: {
+    delete_17: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -4903,7 +6427,7 @@ export interface operations {
             };
         };
     };
-    update_16: {
+    update_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -4945,7 +6469,7 @@ export interface operations {
             };
         };
     };
-    delete_15: {
+    delete_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -4973,7 +6497,7 @@ export interface operations {
             };
         };
     };
-    getById_13: {
+    getById_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -5003,7 +6527,7 @@ export interface operations {
             };
         };
     };
-    update_17: {
+    update_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -5045,7 +6569,7 @@ export interface operations {
             };
         };
     };
-    delete_16: {
+    delete_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -5073,7 +6597,7 @@ export interface operations {
             };
         };
     };
-    getById_14: {
+    getById_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -5103,7 +6627,7 @@ export interface operations {
             };
         };
     };
-    update_18: {
+    update_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -5145,7 +6669,7 @@ export interface operations {
             };
         };
     };
-    delete_17: {
+    delete_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -5173,7 +6697,7 @@ export interface operations {
             };
         };
     };
-    getById_15: {
+    getById_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -5203,7 +6727,7 @@ export interface operations {
             };
         };
     };
-    update_19: {
+    update_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -5245,7 +6769,7 @@ export interface operations {
             };
         };
     };
-    delete_18: {
+    delete_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -5273,7 +6797,7 @@ export interface operations {
             };
         };
     };
-    getById_16: {
+    getById_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -5303,7 +6827,7 @@ export interface operations {
             };
         };
     };
-    update_20: {
+    update_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -5345,7 +6869,7 @@ export interface operations {
             };
         };
     };
-    delete_19: {
+    delete_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -5373,7 +6897,7 @@ export interface operations {
             };
         };
     };
-    getById_17: {
+    getById_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -5403,7 +6927,7 @@ export interface operations {
             };
         };
     };
-    update_21: {
+    update_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -5445,7 +6969,7 @@ export interface operations {
             };
         };
     };
-    delete_20: {
+    delete_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -5473,7 +6997,7 @@ export interface operations {
             };
         };
     };
-    getById_18: {
+    getById_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -5503,7 +7027,7 @@ export interface operations {
             };
         };
     };
-    update_22: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -5545,7 +7069,7 @@ export interface operations {
             };
         };
     };
-    delete_21: {
+    delete_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -5573,7 +7097,7 @@ export interface operations {
             };
         };
     };
-    getById_19: {
+    getById_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -5603,7 +7127,7 @@ export interface operations {
             };
         };
     };
-    update_23: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -5645,7 +7169,7 @@ export interface operations {
             };
         };
     };
-    delete_22: {
+    delete_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -5673,7 +7197,7 @@ export interface operations {
             };
         };
     };
-    getById_20: {
+    getById_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -5703,7 +7227,7 @@ export interface operations {
             };
         };
     };
-    update_24: {
+    update_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -5745,7 +7269,7 @@ export interface operations {
             };
         };
     };
-    delete_23: {
+    delete_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -5773,7 +7297,7 @@ export interface operations {
             };
         };
     };
-    getById_21: {
+    getById_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -5803,7 +7327,7 @@ export interface operations {
             };
         };
     };
-    update_25: {
+    update_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -5845,7 +7369,7 @@ export interface operations {
             };
         };
     };
-    delete_24: {
+    delete_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -5873,7 +7397,7 @@ export interface operations {
             };
         };
     };
-    getById_22: {
+    getById_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -5903,7 +7427,7 @@ export interface operations {
             };
         };
     };
-    update_26: {
+    update_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -5945,7 +7469,7 @@ export interface operations {
             };
         };
     };
-    delete_25: {
+    delete_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -5973,233 +7497,25 @@ export interface operations {
             };
         };
     };
-    getById_23: {
+    getById_26: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Subcategory ID */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Subcategory found */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SubcategoryDto"];
+                    "*/*": components["schemas"]["PageDto"];
                 };
-            };
-            /** @description Subcategory not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Subcategory ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Subcategory data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateSubcategoryDto"];
-            };
-        };
-        responses: {
-            /** @description Subcategory updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SubcategoryDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Subcategory not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_26: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Subcategory ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Subcategory deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Subcategory not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_24: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Category ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Category found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CategoryDto"];
-                };
-            };
-            /** @description Category not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_28: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Category ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Category data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateCategoryDto"];
-            };
-        };
-        responses: {
-            /** @description Category updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["CategoryDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Category not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_27: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Category ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Category deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Category not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_25: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Brand ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Brand found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BrandDto"];
-                };
-            };
-            /** @description Brand not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
@@ -6208,19 +7524,415 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description Brand ID */
                 id: number;
             };
             cookie?: never;
         };
-        /** @description Brand data to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePageDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageDto"];
+                };
+            };
+        };
+    };
+    delete_29: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_27: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubcategoryDto"];
+                };
+            };
+        };
+    };
+    update_30: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSubcategoryDto"];
+            };
+        };
+        responses: {
+            /** @description Updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubcategoryDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Duplicated name or slug */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_30: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description In use */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductAttributesDto"];
+                };
+            };
+        };
+    };
+    save: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveProductAttributesDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductAttributesDto"];
+                };
+            };
+        };
+    };
+    findById_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductTemplateDto"];
+                };
+            };
+        };
+    };
+    update_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveProductTemplateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductTemplateDto"];
+                };
+            };
+        };
+    };
+    delete_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_28: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CategoryDto"];
+                };
+            };
+        };
+    };
+    update_32: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCategoryDto"];
+            };
+        };
+        responses: {
+            /** @description Updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CategoryDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Duplicated name or slug */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_32: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description In use */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_29: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BrandDto"];
+                };
+            };
+        };
+    };
+    update_33: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateBrandDto"];
             };
         };
         responses: {
-            /** @description Brand updated */
+            /** @description Updated */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -6236,7 +7948,215 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Brand not found */
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Duplicated name or slug */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_33: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description In use */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AttributeDto"];
+                };
+            };
+        };
+    };
+    update_34: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveAttributeDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AttributeDto"];
+                };
+            };
+        };
+    };
+    delete_34: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SalesAnalyticsRecordDto"];
+                };
+            };
+        };
+    };
+    update_35: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSalesAnalyticsRecordDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SalesAnalyticsRecordDto"];
+                };
+            };
+        };
+    };
+    delete_35: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findById_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Profile id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Profile found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalizationProfileDto"];
+                };
+            };
+            /** @description Profile not found */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -6245,31 +8165,116 @@ export interface operations {
             };
         };
     };
-    delete_28: {
+    update_36: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Brand ID */
+                /** @description Profile id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePersonalizationProfileDto"];
+            };
+        };
+        responses: {
+            /** @description Profile updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalizationProfileDto"];
+                };
+            };
+            /** @description Invalid payload */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Profile not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_36: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Profile id */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Brand deleted */
+            /** @description Profile deleted */
             204: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Brand not found */
+            /** @description Profile not found */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SearchQueryDto"][];
+                };
+            };
+        };
+    };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSearchQueryDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SearchQueryDto"];
+                };
             };
         };
     };
@@ -6293,7 +8298,7 @@ export interface operations {
             };
         };
     };
-    create: {
+    create_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -6352,7 +8357,7 @@ export interface operations {
             };
         };
     };
-    create_1: {
+    create_2: {
         parameters: {
             query?: never;
             header?: never;
@@ -6411,7 +8416,7 @@ export interface operations {
             };
         };
     };
-    create_2: {
+    create_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -6470,7 +8475,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -6529,7 +8534,7 @@ export interface operations {
             };
         };
     };
-    create_4: {
+    create_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -6568,6 +8573,56 @@ export interface operations {
             };
         };
     };
+    changeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeOrderStatusDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    bulkDelete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
     findAll: {
         parameters: {
             query?: {
@@ -6603,7 +8658,7 @@ export interface operations {
             };
         };
     };
-    create_5: {
+    create_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -6700,6 +8755,50 @@ export interface operations {
             };
         };
     };
+    list_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductRecommendationDto"][];
+                };
+            };
+        };
+    };
+    create_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProductRecommendationDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductRecommendationDto"];
+                };
+            };
+        };
+    };
     findAll_1: {
         parameters: {
             query?: never;
@@ -6720,7 +8819,7 @@ export interface operations {
             };
         };
     };
-    create_6: {
+    create_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -6857,7 +8956,7 @@ export interface operations {
             };
         };
     };
-    create_7: {
+    create_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -6961,7 +9060,7 @@ export interface operations {
             };
         };
     };
-    create_8: {
+    create_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -7065,7 +9164,7 @@ export interface operations {
             };
         };
     };
-    create_9: {
+    create_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -7124,7 +9223,7 @@ export interface operations {
             };
         };
     };
-    create_10: {
+    create_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -7183,7 +9282,7 @@ export interface operations {
             };
         };
     };
-    create_11: {
+    create_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -7242,7 +9341,7 @@ export interface operations {
             };
         };
     };
-    create_12: {
+    create_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -7286,7 +9385,7 @@ export interface operations {
             };
         };
     };
-    create_13: {
+    create_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -7345,7 +9444,7 @@ export interface operations {
             };
         };
     };
-    create_14: {
+    create_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -7384,7 +9483,7 @@ export interface operations {
             };
         };
     };
-    list: {
+    list_2: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -7406,7 +9505,7 @@ export interface operations {
             };
         };
     };
-    create_15: {
+    create_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -7426,6 +9525,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["WarehouseDto"];
+                };
+            };
+        };
+    };
+    bulkDelete_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
                 };
             };
         };
@@ -7450,7 +9573,7 @@ export interface operations {
             };
         };
     };
-    create_16: {
+    create_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -7513,7 +9636,7 @@ export interface operations {
             };
         };
     };
-    create_17: {
+    create_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -7601,7 +9724,7 @@ export interface operations {
             };
         };
     };
-    create_18: {
+    create_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -7660,7 +9783,7 @@ export interface operations {
             };
         };
     };
-    create_19: {
+    create_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -7696,6 +9819,30 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    bulkDelete_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
             };
         };
     };
@@ -7791,7 +9938,7 @@ export interface operations {
             };
         };
     };
-    create_20: {
+    create_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7830,6 +9977,30 @@ export interface operations {
             };
         };
     };
+    bulkDelete_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
     getAll_17: {
         parameters: {
             query?: never;
@@ -7850,7 +10021,7 @@ export interface operations {
             };
         };
     };
-    create_21: {
+    create_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -7909,7 +10080,7 @@ export interface operations {
             };
         };
     };
-    create_22: {
+    create_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7968,7 +10139,7 @@ export interface operations {
             };
         };
     };
-    create_23: {
+    create_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -8007,6 +10178,30 @@ export interface operations {
             };
         };
     };
+    bulkDelete_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
     getAll_20: {
         parameters: {
             query?: never;
@@ -8027,7 +10222,7 @@ export interface operations {
             };
         };
     };
-    create_24: {
+    create_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -8086,7 +10281,7 @@ export interface operations {
             };
         };
     };
-    create_25: {
+    create_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -8145,7 +10340,7 @@ export interface operations {
             };
         };
     };
-    create_26: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -8193,32 +10388,75 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of subcategories */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["PageDto"][];
                 };
             };
         };
     };
-    create_27: {
+    create_29: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Subcategory to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePageDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageDto"];
+                };
+            };
+        };
+    };
+    getAll_24: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SubcategoryDto"][];
+                };
+            };
+        };
+    };
+    create_30: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateSubcategoryDto"];
             };
         };
         responses: {
-            /** @description Subcategory created */
+            /** @description Created */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -8234,8 +10472,8 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server error */
-            500: {
+            /** @description Duplicated name or slug */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8243,7 +10481,31 @@ export interface operations {
             };
         };
     };
-    getAll_24: {
+    bulkDelete_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    findAll_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -8252,32 +10514,75 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of categories */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["ProductTemplateDto"][];
                 };
             };
         };
     };
-    create_28: {
+    create_31: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Category to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveProductTemplateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductTemplateDto"];
+                };
+            };
+        };
+    };
+    getAll_25: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CategoryDto"][];
+                };
+            };
+        };
+    };
+    create_32: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateCategoryDto"];
             };
         };
         responses: {
-            /** @description Category created */
+            /** @description Created */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -8293,8 +10598,8 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server error */
-            500: {
+            /** @description Duplicated name or slug */
+            409: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8302,7 +10607,31 @@ export interface operations {
             };
         };
     };
-    getAll_25: {
+    bulkDelete_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    getAll_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -8311,32 +10640,31 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of brands */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["BrandDto"][];
                 };
             };
         };
     };
-    create_29: {
+    create_33: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Brand to create */
         requestBody: {
             content: {
                 "application/json": components["schemas"]["CreateBrandDto"];
             };
         };
         responses: {
-            /** @description Brand created */
+            /** @description Created */
             201: {
                 headers: {
                     [name: string]: unknown;
@@ -8352,8 +10680,171 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Server error */
-            500: {
+            /** @description Duplicated name or slug */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    bulkDelete_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    findAll_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AttributeDto"][];
+                };
+            };
+        };
+    };
+    create_34: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveAttributeDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AttributeDto"];
+                };
+            };
+        };
+    };
+    findAll_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SalesAnalyticsRecordDto"][];
+                };
+            };
+        };
+    };
+    create_35: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSalesAnalyticsRecordDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SalesAnalyticsRecordDto"];
+                };
+            };
+        };
+    };
+    findAll_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Profiles retrieved */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalizationProfileDto"];
+                };
+            };
+        };
+    };
+    create_36: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePersonalizationProfileDto"];
+            };
+        };
+        responses: {
+            /** @description Profile created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PersonalizationProfileDto"];
+                };
+            };
+            /** @description Invalid payload */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -8387,6 +10878,54 @@ export interface operations {
             };
         };
     };
+    reservations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderReservationDto"][];
+                };
+            };
+        };
+    };
+    search_1: {
+        parameters: {
+            query?: {
+                q?: string;
+                state?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseOrderDto"];
+                };
+            };
+        };
+    };
     findPage: {
         parameters: {
             query: {
@@ -8409,7 +10948,31 @@ export interface operations {
             };
         };
     };
-    list_1: {
+    find: {
+        parameters: {
+            query?: {
+                sku_id?: number;
+                product_id?: number;
+                warehouse_id?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StockItemDto"][];
+                };
+            };
+        };
+    };
+    list_3: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -8466,6 +11029,141 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    search_2: {
+        parameters: {
+            query?: {
+                q?: string;
+                orderId?: number;
+                cityDestination?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseDispatchProductDto"];
+                };
+            };
+        };
+    };
+    search_3: {
+        parameters: {
+            query?: {
+                q?: string;
+                state?: string;
+                motiveDevolutionId?: number;
+                orderId?: number;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseOrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    search_4: {
+        parameters: {
+            query?: {
+                /** @description Texto libre */
+                q?: string;
+                /** @description Filtrar por categoría */
+                categoryId?: number;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSubcategoryDto"];
+                };
+            };
+        };
+    };
+    search_5: {
+        parameters: {
+            query?: {
+                /** @description Texto libre */
+                q?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCategoryDto"];
+                };
+            };
+        };
+    };
+    search_6: {
+        parameters: {
+            query?: {
+                /** @description Texto libre */
+                q?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseBrandDto"];
+                };
             };
         };
     };

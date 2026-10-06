@@ -9,14 +9,15 @@ import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
 import { FormInventoryMovement } from "../scenes/formInventoryMovement";
 import { validationInventoryMovement } from "../schemas/inventory-movement.schema";
-import type { IInventoryMovement, MovementType } from "../models/inventory-movement.interface";
+import type { IInventoryMovement, ISkuOption, MovementType } from "../models/inventory-movement.interface";
 import { registerMovementServerAction } from "@/app/[locale]/inventory/inventory-movements/actions";
 
 type MovementFormValues = {
   type: MovementType;
-  productId: number;
-  fromWarehouseId?: number;
-  toWarehouseId?: number;
+  product_id: number;
+  sku_id?: number;
+  from_warehouse_id?: number;
+  to_warehouse_id?: number;
   quantity: number;
   reason?: string;
 };
@@ -25,7 +26,12 @@ export const RegisterInventoryMovement = ({
   handleClose,
   products,
   warehouses,
-}: IFormAddProps & { products: ISelectOption[]; warehouses: ISelectOption[] }) => {
+  skusByProduct,
+}: IFormAddProps & {
+  products: ISelectOption[];
+  warehouses: ISelectOption[];
+  skusByProduct?: Record<string, ISkuOption[]>;
+}) => {
   const router = useRouter();
   const t = useTranslations("Administre.inventoryMovement");
   const tCommon = useTranslations("Administre.common");
@@ -34,11 +40,12 @@ export const RegisterInventoryMovement = ({
     // Sólo se envían las bodegas que aplican al tipo de movimiento.
     const payload: IInventoryMovement = {
       type: values.type,
-      productId: values.productId,
+      product_id: values.product_id,
+      sku_id: values.sku_id || undefined,
       quantity: values.quantity,
       reason: values.reason || undefined,
-      fromWarehouseId: values.type === "ENTRY" ? undefined : values.fromWarehouseId,
-      toWarehouseId: values.type === "EXIT" ? undefined : values.toWarehouseId,
+      from_warehouse_id: values.type === "ENTRY" ? undefined : values.from_warehouse_id,
+      to_warehouse_id: values.type === "EXIT" ? undefined : values.to_warehouse_id,
     };
 
     const result = await registerMovementServerAction(payload);
@@ -55,9 +62,10 @@ export const RegisterInventoryMovement = ({
     <FormInventoryMovement
       initialValues={{
         type: "ENTRY",
-        productId: "",
-        fromWarehouseId: "",
-        toWarehouseId: "",
+        product_id: "",
+        sku_id: "",
+        from_warehouse_id: "",
+        to_warehouse_id: "",
         quantity: 1,
         reason: "",
       }}
@@ -65,6 +73,7 @@ export const RegisterInventoryMovement = ({
       validationSchema={validationInventoryMovement()}
       products={products}
       warehouses={warehouses}
+      skusByProduct={skusByProduct}
     />
   );
 };

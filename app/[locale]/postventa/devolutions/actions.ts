@@ -73,12 +73,12 @@ export async function deleteDevolutionServerAction(id: number): Promise<ActionRe
 export type DevolutionTransitionPatch = Pick<
   OrderDevolutionDto,
   | 'state'
-  | 'approvedBy'
-  | 'approvedAt'
-  | 'receivedBy'
-  | 'receivedAt'
-  | 'inspectionNotes'
-  | 'totalRefundAmount'
+  | 'approved_by'
+  | 'approved_at'
+  | 'received_by'
+  | 'received_at'
+  | 'inspection_notes'
+  | 'total_refund_amount'
 >;
 
 /**
@@ -101,17 +101,17 @@ export async function transitionDevolutionServerAction(
     id,
     observation: current.observation ?? '',
     state: current.state,
-    motiveDevolutionId: current.motiveDevolutionId ?? 0,
-    orderId: current.orderId ?? 0,
-    returnMethodId: current.returnMethodId,
-    refundMethodId: current.refundMethodId,
-    totalRefundAmount: current.totalRefundAmount,
-    approvedBy: current.approvedBy,
-    approvedAt: current.approvedAt,
-    receivedBy: current.receivedBy,
-    receivedAt: current.receivedAt,
-    inspectionNotes: current.inspectionNotes,
-    externalReference: current.externalReference,
+    motive_devolution_id: current.motive_devolution_id ?? 0,
+    order_id: current.order_id ?? 0,
+    return_method_id: current.return_method_id,
+    refund_method_id: current.refund_method_id,
+    total_refund_amount: current.total_refund_amount,
+    approved_by: current.approved_by,
+    approved_at: current.approved_at,
+    received_by: current.received_by,
+    received_at: current.received_at,
+    inspection_notes: current.inspection_notes,
+    external_reference: current.external_reference,
     ...patch,
   } as UpdateOrderDevolutionPayload);
 

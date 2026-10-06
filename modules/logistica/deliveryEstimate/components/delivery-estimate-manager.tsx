@@ -55,26 +55,26 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
     () => new Map(carriers.map((carrier) => [carrier.id ?? -1, carrier.name ?? `#${carrier.id}`])),
     [carriers],
   );
-  const carrierName = (row: IDeliveryEstimate) => carrierNames.get(row.carrierId ?? -1) ?? "—";
-  const route = (row: IDeliveryEstimate) => `${row.originAddress ?? "—"} → ${row.destinationAddress ?? "—"}`;
+  const carrierName = (row: IDeliveryEstimate) => carrierNames.get(row.carrier_id ?? -1) ?? "—";
+  const route = (row: IDeliveryEstimate) => `${row.origin_address ?? "—"} → ${row.destination_address ?? "—"}`;
 
   const data = useMemo(() => [...initialData].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)), [initialData]);
-  const days = initialData.map((item) => item.estimatedDays).filter((value): value is number => value != null);
+  const days = initialData.map((item) => item.estimated_days).filter((value): value is number => value != null);
   const averageDays = days.length ? (days.reduce((acc, value) => acc + value, 0) / days.length).toFixed(1) : "—";
-  const activeCarriers = carriers.filter((carrier) => carrier.isActive !== false).length;
+  const activeCarriers = carriers.filter((carrier) => carrier.is_active !== false).length;
 
   const handleCalculate = async (values: DeliveryEstimateFormValues) => {
-    const shipmentDate = values.shipmentDate.length === 16 ? `${values.shipmentDate}:00` : values.shipmentDate;
+    const shipmentDate = values.shipment_date.length === 16 ? `${values.shipment_date}:00` : values.shipment_date;
     const response = await calculateDeliveryEstimateServerAction({
-      carrier_id: values.carrierId,
-      origin_address: values.originAddress,
-      destination_address: values.destinationAddress,
+      carrier_id: values.carrier_id,
+      origin_address: values.origin_address,
+      destination_address: values.destination_address,
       shipment_date: shipmentDate,
-      is_business_days_only: values.isBusinessDaysOnly,
+      is_business_days_only: values.is_business_days_only,
     });
     if (response.success) {
       setLastResult(response.data ?? null);
-      notify.success(t("resultTitle"), formatDate(response.data?.estimatedDeliveryDate));
+      notify.success(t("resultTitle"), formatDate(response.data?.estimated_delivery_date));
       router.refresh();
     } else {
       notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
@@ -84,7 +84,7 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
   const columns = useMemo<GridColumn<IDeliveryEstimate>[]>(
     () => [
       {
-        id: "carrierId",
+        id: "carrier_id",
         accessorFn: (row) => carrierName(row),
         header: t("fields.carrierId"),
         meta: { label: t("fields.carrierId"), hideable: false, exportValue: (row) => carrierName(row) },
@@ -98,19 +98,19 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
         cell: ({ row }) => route(row.original),
       },
       {
-        id: "shipmentDate",
-        accessorFn: (row) => row.shipmentDate ?? "",
+        id: "shipment_date",
+        accessorFn: (row) => row.shipment_date ?? "",
         header: t("fields.shipmentDate"),
-        meta: { label: t("fields.shipmentDate"), exportValue: (row) => row.shipmentDate },
-        cell: ({ row }) => formatDate(row.original.shipmentDate),
+        meta: { label: t("fields.shipmentDate"), exportValue: (row) => row.shipment_date },
+        cell: ({ row }) => formatDate(row.original.shipment_date),
       },
       {
         id: "estimatedDeliveryDate",
-        accessorFn: (row) => row.estimatedDeliveryDate ?? "",
+        accessorFn: (row) => row.estimated_delivery_date ?? "",
         header: t("fields.estimatedDeliveryDate"),
-        meta: { label: t("fields.estimatedDeliveryDate"), exportValue: (row) => row.estimatedDeliveryDate },
+        meta: { label: t("fields.estimatedDeliveryDate"), exportValue: (row) => row.estimated_delivery_date },
         cell: ({ row }) => (
-          <span className='font-semibold text-foreground'>{formatDate(row.original.estimatedDeliveryDate)}</span>
+          <span className='font-semibold text-foreground'>{formatDate(row.original.estimated_delivery_date)}</span>
         ),
       },
       {
@@ -120,28 +120,28 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
         meta: {
           label: t("fields.window"),
           defaultHidden: true,
-          exportValue: (row) => `${row.minDeliveryDate ?? ""} – ${row.maxDeliveryDate ?? ""}`,
+          exportValue: (row) => `${row.min_delivery_date ?? ""} – ${row.max_delivery_date ?? ""}`,
         },
-        cell: ({ row }) => `${formatDate(row.original.minDeliveryDate)} – ${formatDate(row.original.maxDeliveryDate)}`,
+        cell: ({ row }) => `${formatDate(row.original.min_delivery_date)} – ${formatDate(row.original.max_delivery_date)}`,
       },
       {
         id: "estimatedDays",
-        accessorFn: (row) => row.estimatedDays ?? 0,
+        accessorFn: (row) => row.estimated_days ?? 0,
         header: t("fields.estimatedDays"),
-        meta: { label: t("fields.estimatedDays"), align: "right", exportValue: (row) => row.estimatedDays },
-        cell: ({ row }) => row.original.estimatedDays ?? "—",
+        meta: { label: t("fields.estimatedDays"), align: "right", exportValue: (row) => row.estimated_days },
+        cell: ({ row }) => row.original.estimated_days ?? "—",
       },
       {
-        id: "isBusinessDaysOnly",
+        id: "is_business_days_only",
         header: t("fields.isBusinessDaysOnly"),
         enableSorting: false,
         meta: {
           label: t("fields.isBusinessDaysOnly"),
-          exportValue: (row) => (row.isBusinessDaysOnly ? tCommon("yes") : tCommon("no")),
+          exportValue: (row) => (row.is_business_days_only ? tCommon("yes") : tCommon("no")),
         },
         cell: ({ row }) => (
-          <Badge variant={row.original.isBusinessDaysOnly ? "default" : "outline"}>
-            {row.original.isBusinessDaysOnly ? tCommon("yes") : tCommon("no")}
+          <Badge variant={row.original.is_business_days_only ? "default" : "outline"}>
+            {row.original.is_business_days_only ? tCommon("yes") : tCommon("no")}
           </Badge>
         ),
       },
@@ -152,21 +152,21 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
 
   const filters: GridFilter<IDeliveryEstimate>[] = [
     {
-      id: "carrierId",
+      id: "carrier_id",
       label: t("fields.carrierId"),
       options: carriers
         .filter((carrier) => carrier.id != null)
         .map((carrier) => ({ value: String(carrier.id), label: carrier.name ?? `#${carrier.id}` })),
-      accessor: (row) => row.carrierId,
+      accessor: (row) => row.carrier_id,
     },
     {
-      id: "isBusinessDaysOnly",
+      id: "is_business_days_only",
       label: t("fields.isBusinessDaysOnly"),
       options: [
         { value: "true", label: tCommon("yes") },
         { value: "false", label: tCommon("no") },
       ],
-      accessor: (row) => String(Boolean(row.isBusinessDaysOnly)),
+      accessor: (row) => String(Boolean(row.is_business_days_only)),
     },
   ];
 
@@ -204,11 +204,11 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
           ) : (
             <FormDeliveryEstimate
               initialValues={{
-                carrierId: "",
-                originAddress: "",
-                destinationAddress: "",
-                shipmentDate: nowInputValue(),
-                isBusinessDaysOnly: "true",
+                carrier_id: "",
+                origin_address: "",
+                destination_address: "",
+                shipment_date: nowInputValue(),
+                is_business_days_only: "true",
               }}
               validationSchema={validationSchema}
               onSubmit={handleCalculate}
@@ -223,14 +223,14 @@ export const DeliveryEstimateManager = ({ initialData, carriers }: IDeliveryEsti
           {lastResult ? (
             <dl className='space-y-2 text-sm'>
               <dt className='text-muted-foreground'>{t("resultTitle")}</dt>
-              <dd className='text-3xl font-semibold text-foreground'>{formatDate(lastResult.estimatedDeliveryDate)}</dd>
+              <dd className='text-3xl font-semibold text-foreground'>{formatDate(lastResult.estimated_delivery_date)}</dd>
               <dd className='text-muted-foreground'>
                 {t("resultWindow", {
-                  min: formatDate(lastResult.minDeliveryDate),
-                  max: formatDate(lastResult.maxDeliveryDate),
+                  min: formatDate(lastResult.min_delivery_date),
+                  max: formatDate(lastResult.max_delivery_date),
                 })}
               </dd>
-              <dd className='text-muted-foreground'>{t("resultDays", { days: lastResult.estimatedDays ?? "—" })}</dd>
+              <dd className='text-muted-foreground'>{t("resultDays", { days: lastResult.estimated_days ?? "—" })}</dd>
             </dl>
           ) : (
             <p className='text-sm text-muted-foreground'>{t("resultEmpty")}</p>

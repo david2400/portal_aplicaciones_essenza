@@ -49,7 +49,7 @@ export const FormShippingQuote = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "carrierCode" }}
+          controller={{ control, name: "carrier_code" }}
           label={t("fields.carrierCode")}
           data={carrierOptions}
           placeholder={tCommon("selectPlaceholder")}
@@ -57,12 +57,12 @@ export const FormShippingQuote = ({
           className='col-span-12'
         />
         <FormField
-          controller={{ control, name: "originZip" }}
+          controller={{ control, name: "origin_zip" }}
           label={t("fields.originZip")}
           className='col-span-12 sm:col-span-6'
         />
         <FormField
-          controller={{ control, name: "destinationZip" }}
+          controller={{ control, name: "destination_zip" }}
           label={t("fields.destinationZip")}
           className='col-span-12 sm:col-span-6'
         />

@@ -67,7 +67,7 @@ export async function addDispatchLineServerAction(
   dispatchProductId: number,
   productOrderId: number,
 ): Promise<ActionResult<{ id?: number }>> {
-  const result = await create_dispatch_detail_action({ dispatchProductId, productOrderId });
+  const result = await create_dispatch_detail_action({ dispatch_product_id: dispatchProductId, product_order_id: productOrderId });
   return result.success
     ? { success: true, data: result.data }
     : fail(result.error, 'No se pudo agregar el producto al despacho');
@@ -83,7 +83,7 @@ export async function deleteDispatchLineServerAction(id: number): Promise<Action
 export async function addTrackingServerAction(
   dispatchProductId: number,
 ): Promise<ActionResult<{ id?: number }>> {
-  const result = await create_tracking_action({ dispatchProductId });
+  const result = await create_tracking_action({ dispatch_product_id: dispatchProductId });
   return result.success
     ? { success: true, data: result.data }
     : fail(result.error, 'No se pudo registrar el evento de seguimiento');

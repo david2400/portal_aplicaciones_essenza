@@ -2,17 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { z } from "zod";
-import { ORDER_STATES } from "../constants";
 
 export const validationOrder = () => {
   const intl = useTranslations("Form");
 
+  // El total lo calcula el backend y el estado cambia con las acciones del detalle.
+  void intl;
   return z.object({
-    complementaryOrder: z.string().optional(),
-    total: z.coerce
-      .number({ invalid_type_error: intl("requiredField") })
-      .min(0, { message: intl("requiredField") }),
-    state: z.enum(ORDER_STATES, { errorMap: () => ({ message: intl("requiredField") }) }),
+    complementary_order: z.string().max(255).optional(),
   });
 };
 
@@ -21,7 +18,7 @@ export const validationOrderItem = () => {
   const number = () => z.coerce.number({ invalid_type_error: intl("requiredField") });
 
   return z.object({
-    productId: number().int().positive({ message: intl("requiredField") }),
+    sku_id: number().int().positive({ message: intl("requiredField") }),
     quantity: number().int().min(1, { message: intl("requiredField") }),
     discount: number().min(0, { message: intl("requiredField") }),
   });

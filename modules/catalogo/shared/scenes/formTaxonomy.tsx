@@ -100,7 +100,7 @@ export const FormTaxonomy = ({
 
         {categoryOptions ? (
           <FormSelectField
-            controller={{ control, name: "categoryId" }}
+            controller={{ control, name: "category_id" }}
             label={t("fields.categoryId")}
             data={categoryOptions}
             placeholder={tCommon("selectPlaceholder")}

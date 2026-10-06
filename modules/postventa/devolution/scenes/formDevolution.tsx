@@ -56,7 +56,7 @@ export const FormDevolution = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "orderId" }}
+          controller={{ control, name: "order_id" }}
           label={t("fields.orderId")}
           data={options.orders}
           placeholder={tCommon("selectPlaceholder")}
@@ -66,7 +66,7 @@ export const FormDevolution = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "motiveDevolutionId" }}
+          controller={{ control, name: "motive_devolution_id" }}
           label={t("fields.motiveDevolutionId")}
           data={options.motives}
           placeholder={tCommon("selectPlaceholder")}
@@ -75,7 +75,7 @@ export const FormDevolution = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "returnMethodId" }}
+          controller={{ control, name: "return_method_id" }}
           label={t("fields.returnMethodId")}
           data={options.returnMethods}
           placeholder={tCommon("selectPlaceholder")}
@@ -84,7 +84,7 @@ export const FormDevolution = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "refundMethodId" }}
+          controller={{ control, name: "refund_method_id" }}
           label={t("fields.refundMethodId")}
           data={options.refundMethods}
           placeholder={tCommon("selectPlaceholder")}
@@ -93,7 +93,7 @@ export const FormDevolution = ({
         />
 
         <FormField
-          controller={{ control, name: "externalReference" }}
+          controller={{ control, name: "external_reference" }}
           label={t("fields.externalReference")}
           className='col-span-12 md:col-span-6'
         />

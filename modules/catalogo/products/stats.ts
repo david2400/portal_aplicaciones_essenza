@@ -20,5 +20,5 @@ export const buildProductStats = (items: IProduct[]): ProductStats => ({
   available: items.filter((item) => item.available).length,
   outOfStock: items.filter((item) => (item.stock ?? 0) <= 0).length,
   lowStock: items.filter((item) => (item.stock ?? 0) > 0 && (item.stock ?? 0) <= LOW_STOCK_THRESHOLD).length,
-  inventoryValue: items.reduce((acc, item) => acc + (item.stock ?? 0) * (item.realPrice ?? 0), 0),
+  inventoryValue: items.reduce((acc, item) => acc + (item.stock ?? 0) * (item.real_price ?? 0), 0),
 });

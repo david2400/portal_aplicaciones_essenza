@@ -70,12 +70,12 @@ export const RegisterDevolution = ({
   return (
     <FormDevolution
       initialValues={{
-        orderId: "",
-        motiveDevolutionId: "",
-        returnMethodId: "",
-        refundMethodId: "",
+        order_id: "",
+        motive_devolution_id: "",
+        return_method_id: "",
+        refund_method_id: "",
         observation: "",
-        externalReference: "",
+        external_reference: "",
       }}
       onSubmit={handleSubmit}
       validationSchema={validationDevolution()}
@@ -101,12 +101,12 @@ export const UpdateDevolution = ({
     const result = await updateDevolutionServerAction({
       id,
       state: devolution.state,
-      totalRefundAmount: devolution.totalRefundAmount,
-      approvedBy: devolution.approvedBy,
-      approvedAt: devolution.approvedAt,
-      receivedBy: devolution.receivedBy,
-      receivedAt: devolution.receivedAt,
-      inspectionNotes: devolution.inspectionNotes,
+      total_refund_amount: devolution.total_refund_amount,
+      approved_by: devolution.approved_by,
+      approved_at: devolution.approved_at,
+      received_by: devolution.received_by,
+      received_at: devolution.received_at,
+      inspection_notes: devolution.inspection_notes,
       ...values,
     });
     await feedback.done(result, t("updatedSuccess"));
@@ -115,12 +115,12 @@ export const UpdateDevolution = ({
   return (
     <FormDevolution
       initialValues={{
-        orderId: idToString(devolution.orderId),
-        motiveDevolutionId: idToString(devolution.motiveDevolutionId),
-        returnMethodId: idToString(devolution.returnMethodId),
-        refundMethodId: idToString(devolution.refundMethodId),
+        order_id: idToString(devolution.order_id),
+        motive_devolution_id: idToString(devolution.motive_devolution_id),
+        return_method_id: idToString(devolution.return_method_id),
+        refund_method_id: idToString(devolution.refund_method_id),
         observation: devolution.observation ?? "",
-        externalReference: devolution.externalReference ?? "",
+        external_reference: devolution.external_reference ?? "",
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
@@ -148,8 +148,8 @@ export const DevolutionDetailForm = ({
   const handleSubmit = async (values: DevolutionDetailFormValues) => {
     const payload = {
       ...values,
-      orderDevolutionId: devolutionId,
-      refundAmount: computeRefund(values.quantity, values.unitPrice, values.restockingFee),
+      order_devolution_id: devolutionId,
+      refund_amount: computeRefund(values.quantity, values.unit_price, values.restocking_fee),
     };
     const result =
       detail?.id != null
@@ -163,11 +163,11 @@ export const DevolutionDetailForm = ({
   return (
     <FormDevolutionDetail
       initialValues={{
-        productOrderId: idToString(detail?.productOrderId ?? firstLine?.id),
+        product_order_id: idToString(detail?.product_order_id ?? firstLine?.id),
         quantity: detail?.quantity ?? 1,
-        receivedQuantity: detail?.receivedQuantity ?? 0,
-        unitPrice: detail?.unitPrice ?? firstLine?.unitPrice ?? 0,
-        restockingFee: detail?.restockingFee ?? 0,
+        received_quantity: detail?.received_quantity ?? 0,
+        unit_price: detail?.unit_price ?? firstLine?.unit_price ?? 0,
+        restocking_fee: detail?.restocking_fee ?? 0,
         condition: detail?.condition ?? "OPENED",
         observation: detail?.observation ?? "",
       }}
@@ -190,15 +190,15 @@ export const EvidenceForm = ({
   const handleSubmit = async (values: DevolutionEvidenceFormValues) => {
     const result = await createDevolutionEvidenceServerAction({
       ...values,
-      orderDevolutionId: devolutionId,
-      recordedAt: nowLocalDateTime(),
+      order_devolution_id: devolutionId,
+      recorded_at: nowLocalDateTime(),
     });
     await feedback.done(result, t("createdSuccess"));
   };
 
   return (
     <FormEvidence
-      initialValues={{ evidenceType: "PHOTO", resourceUrl: "", description: "", recordedBy: "" }}
+      initialValues={{ evidence_type: "PHOTO", resource_url: "", description: "", recorded_by: "" }}
       onSubmit={handleSubmit}
       validationSchema={validationDevolutionEvidence()}
     />

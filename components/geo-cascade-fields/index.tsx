@@ -46,9 +46,9 @@ export const GeoCascadeFields = ({
   setValue,
   initialCountryId = "",
   initialStateId = "",
-  countryFieldName = "countryId",
-  stateFieldName = "stateId",
-  cityFieldName = "cityId",
+  countryFieldName = "country_id",
+  stateFieldName = "state_id",
+  cityFieldName = "city_id",
   className = "col-span-12 grid grid-cols-1 gap-4 md:grid-cols-3",
 }: GeoCascadeFieldsProps) => {
   const t = useTranslations("Geo");

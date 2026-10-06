@@ -47,8 +47,8 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
   const terms = useMemo(() => aggregateTerms(queries), [queries]);
 
   const total = queries.length;
-  const zero = queries.filter((query) => (query.totalResults ?? 0) === 0).length;
-  const results = queries.reduce((acc, query) => acc + (query.totalResults ?? 0), 0);
+  const zero = queries.filter((query) => (query.total_results ?? 0) === 0).length;
+  const results = queries.reduce((acc, query) => acc + (query.total_results ?? 0), 0);
   const zeroRate = total > 0 ? zero / total : 0;
   const avgResults = total > 0 ? results / total : 0;
 
@@ -66,11 +66,11 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
       },
       {
         id: "totalResults",
-        accessorFn: (row) => row.totalResults ?? 0,
+        accessorFn: (row) => row.total_results ?? 0,
         header: t("fields.totalResults"),
-        meta: { label: t("fields.totalResults"), align: "right", exportValue: (row) => row.totalResults ?? 0 },
+        meta: { label: t("fields.totalResults"), align: "right", exportValue: (row) => row.total_results ?? 0 },
         cell: ({ row }) => {
-          const value = row.original.totalResults ?? 0;
+          const value = row.original.total_results ?? 0;
           return <Badge variant={value === 0 ? "destructive" : "secondary"}>{value}</Badge>;
         },
       },
@@ -80,23 +80,23 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
         enableSorting: false,
         meta: {
           label: t("fields.customerId"),
-          exportValue: (row) => (row.customerId != null ? row.customerId : t("anonymous")),
+          exportValue: (row) => (row.customer_id != null ? row.customer_id : t("anonymous")),
         },
-        cell: ({ row }) => (row.original.customerId != null ? `#${row.original.customerId}` : t("anonymous")),
+        cell: ({ row }) => (row.original.customer_id != null ? `#${row.original.customer_id}` : t("anonymous")),
       },
       {
         id: "sortBy",
         header: t("fields.sortBy"),
         enableSorting: false,
-        meta: { label: t("fields.sortBy"), defaultHidden: true, exportValue: (row) => row.sortBy },
-        cell: ({ row }) => row.original.sortBy || "—",
+        meta: { label: t("fields.sortBy"), defaultHidden: true, exportValue: (row) => row.sort_by },
+        cell: ({ row }) => row.original.sort_by || "—",
       },
       {
         id: "pagination",
         header: t("fields.page"),
         enableSorting: false,
         meta: { label: t("fields.page"), defaultHidden: true },
-        cell: ({ row }) => t("pageOf", { page: (row.original.page ?? 0) + 1, size: row.original.pageSize ?? "—" }),
+        cell: ({ row }) => t("pageOf", { page: (row.original.page ?? 0) + 1, size: row.original.page_size ?? "—" }),
       },
       {
         id: "date",
@@ -117,7 +117,7 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
         { value: "zero", label: t("withoutResults") },
         { value: "some", label: t("withResults") },
       ],
-      accessor: (row) => ((row.totalResults ?? 0) === 0 ? "zero" : "some"),
+      accessor: (row) => ((row.total_results ?? 0) === 0 ? "zero" : "some"),
     },
     {
       id: "customer",
@@ -126,7 +126,7 @@ export const SearchQueryManager = ({ initialData }: { initialData: ISearchQuery[
         { value: "anonymous", label: t("anonymous") },
         { value: "registered", label: t("registered") },
       ],
-      accessor: (row) => (row.customerId == null ? "anonymous" : "registered"),
+      accessor: (row) => (row.customer_id == null ? "anonymous" : "registered"),
     },
   ];
 

@@ -10,13 +10,14 @@ import {
   delete_order_action,
   bulk_delete_orders_action,
   export_orders_action,
+  change_order_status_action,
 } from '@/server/domains/sales/orders/actions';
 import {
   create_product_order_action,
   update_product_order_action,
   delete_product_order_action,
 } from '@/server/domains/sales/product-orders/actions';
-import type { CreateOrderDto, UpdateOrderDto } from '@/server/domains/sales/orders/types';
+import type { ChangeOrderStatusDto, CreateOrderDto, UpdateOrderDto } from '@/server/domains/sales/orders/types';
 import type {
   CreateProductOrderDto,
   UpdateProductOrderDto,
@@ -64,8 +65,18 @@ export async function updateOrderItemServerAction(payload: UpdateProductOrderDto
   return result.success ? { success: true } : fail(result.error, 'No se pudo actualizar el ítem');
 }
 
-export async function deleteOrderItemServerAction(id: number): Promise<ActionResult> {
-  const result = await delete_product_order_action({ id });
+/** Cambia el estado de la orden (pagar descuenta stock; cancelar lo libera o devuelve). */
+export async function changeOrderStatusServerAction(
+  id: number,
+  state: ChangeOrderStatusDto['state'],
+  reason?: string,
+): Promise<ActionResult> {
+  const result = await change_order_status_action(id, { state, reason });
+  return result.success ? { success: true } : fail(result.error, 'No se pudo cambiar el estado de la orden');
+}
+
+export async function deleteOrderItemServerAction(id: number, orderId?: number): Promise<ActionResult> {
+  const result = await delete_product_order_action({ id, order_id: orderId });
   return result.success ? { success: true } : fail(result.error, 'No se pudo eliminar el ítem');
 }
 

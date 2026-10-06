@@ -11,3 +11,7 @@ export const list_orders = cache(async () => {
 export const get_order_by_id = cache(async ({ id }: { id: number }) => {
   return orders_repository.get_order_by_id(id);
 });
+
+export const get_order_reservations = cache(async ({ id }: { id: number }) => {
+  return orders_repository.list_order_reservations(id);
+});

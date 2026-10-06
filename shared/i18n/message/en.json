@@ -112,10 +112,6 @@
     "order": "Orders",
     "inventoryMovement": "Inventory movements",
     "unitMeasurement": "Units of measure",
-    "typeProduct": "Product types",
-    "feature": "Features",
-    "typeProductFeature": "Features by type",
-    "productFeature": "Values by product",
     "coupon": "Coupons",
     "review": "Reviews",
     "motiveDevolution": "Return reasons",
@@ -129,7 +125,10 @@
     "cmsPage": "Pages",
     "recommendation": "Recommendations",
     "searchQuery": "Searches",
-    "personalization": "Personalization"
+    "personalization": "Personalization",
+    "productChild": "Product variants",
+    "attributes": "Attributes",
+    "productTemplates": "Product templates"
   },
   "Administre": {
     "sectionLabel": "Administration",
@@ -230,10 +229,22 @@
         "imageUrl": "Image URL",
         "available": "Available",
         "isCombo": "Is combo",
-        "description": "Description"
+        "description": "Description",
+        "status": "Status",
+        "slug": "Slug (URL)",
+        "skus": "SKU"
       },
       "availableCount": "Available for sale",
-      "stockTotal": "Units in stock"
+      "stockTotal": "Units in stock",
+      "statuses": {
+        "DRAFT": "Draft",
+        "ACTIVE": "Published",
+        "INACTIVE": "Paused",
+        "ARCHIVED": "Archived"
+      },
+      "slugHint": "Optional. Leave it empty to generate it from the name.",
+      "slugPlaceholder": "floral-perfume-50ml",
+      "slugFormat": "Lowercase letters, numbers and hyphens only"
     },
     "combo": {
       "title": "Combos",
@@ -332,10 +343,6 @@
       "view": "View",
       "viewAria": "View details of {name}",
       "backToList": "Back to orders",
-      "totalHint": "You can recalculate it from the detail view using the items total.",
-      "totalMismatch": "The order total ({orderTotal}) does not match the sum of its items ({itemsTotal}).",
-      "syncTotal": "Use the items total",
-      "totalSynced": "Total updated",
       "items": {
         "title": "Order products",
         "create": "Add product",
@@ -348,14 +355,48 @@
           "quantity": "Quantity",
           "discount": "Discount",
           "subtotal": "Subtotal",
-          "total": "Total"
-        }
+          "total": "Total",
+          "skuId": "Product (SKU)",
+          "unitPrice": "Unit price",
+          "stock": "Stock"
+        },
+        "locked": "The order is no longer pending: its lines can't be changed.",
+        "frozenPrice": "The price the line was added with is kept.",
+        "priceFromSku": "The SKU's current price is used and frozen on the line."
       },
       "searchPlaceholder": "Search by order number or reference…",
       "revenueHint": "Sum of non-cancelled orders",
       "pending": "Pending",
       "averageTicket": "Average ticket",
-      "viewDetail": "View detail"
+      "viewDetail": "View detail",
+      "formHint": "The total is computed from the lines and the status changes with the buttons on the order detail.",
+      "transitions": {
+        "PENDING": "Back to pending",
+        "PAID": "Mark as paid",
+        "PROCESSING": "Move to processing",
+        "SHIPPED": "Mark as shipped",
+        "DELIVERED": "Mark as delivered",
+        "CANCELLED": "Cancel order"
+      },
+      "confirmTransition": "The order will move to “{state}”.",
+      "payCommits": "Paying deducts the stock reserved for the order from inventory.",
+      "cancelReleases": "The stock reserved for the order is released.",
+      "cancelRestocks": "The order already deducted stock: units go back to the warehouses they came from.",
+      "cancelReason": "Reason (optional)",
+      "stateChanged": "Order {state}",
+      "legacyStock": "Order created before stock management: it doesn't reserve or deduct inventory.",
+      "pendingStock": "Lines reserve stock until the order is paid or cancelled.",
+      "pendingStockUntil": "Lines reserve stock until {date}; if it isn't paid by then, the order is cancelled automatically.",
+      "committedStock": "The order's stock has already been deducted from inventory.",
+      "cancelledStock": "Cancelled order: its stock was released or returned to the warehouses.",
+      "cancelledWithReason": "Cancelled order: {reason}",
+      "reservationStatus": {
+        "ACTIVE": "Reserved",
+        "COMMITTED": "Deducted",
+        "RELEASED": "Released",
+        "EXPIRED": "Expired",
+        "RETURNED": "Returned"
+      }
     },
     "inventoryMovement": {
       "title": "Inventory movements",
@@ -383,13 +424,24 @@
         "fromWarehouseId": "Origin warehouse",
         "toWarehouseId": "Destination warehouse",
         "quantity": "Quantity",
-        "reason": "Reason"
+        "reason": "Reason",
+        "skuId": "Variant (SKU)",
+        "source": "Source"
       },
-      "searchPlaceholder": "Search by product, warehouse or reason…"
+      "searchPlaceholder": "Search by product, warehouse or reason…",
+      "skuHint": "This product has variants: choose which one moves.",
+      "sources": {
+        "MANUAL": "Manual",
+        "PRODUCT_EDIT": "Product form",
+        "VARIANT_EDIT": "Variant form",
+        "MIGRATION": "Opening (migration)",
+        "ORDER": "Sale (order)",
+        "ORDER_CANCEL": "Order cancellation"
+      }
     },
     "unitMeasurement": {
       "title": "Units of measure",
-      "description": "Units used for technical attributes (cm, kg, ml…).",
+      "description": "Units used to express technical attributes (cm, kg, ml…).",
       "create": "New unit of measure",
       "createTitle": "Create unit of measure",
       "editTitle": "Edit unit of measure",
@@ -399,64 +451,6 @@
       "fields": {
         "name": "Name"
       }
-    },
-    "typeProduct": {
-      "title": "Product types",
-      "description": "Product families that share the same technical sheet.",
-      "create": "New product type",
-      "createTitle": "Create product type",
-      "editTitle": "Edit product type",
-      "total": "Total product types",
-      "emptyTitle": "No product types yet",
-      "emptyDescription": "When you add the first product type it will appear in this table.",
-      "fields": {
-        "name": "Name"
-      }
-    },
-    "feature": {
-      "title": "Features",
-      "description": "Measurable technical attributes (weight, voltage, capacity…).",
-      "create": "New feature",
-      "createTitle": "Create feature",
-      "editTitle": "Edit feature",
-      "total": "Total features",
-      "emptyTitle": "No features yet",
-      "emptyDescription": "When you add the first feature it will appear in this table.",
-      "fields": {
-        "name": "Name",
-        "unitId": "Unit of measure"
-      }
-    },
-    "typeProductFeature": {
-      "title": "Features by type",
-      "description": "Define which feature each product type sheet asks for.",
-      "create": "Assign feature",
-      "createTitle": "Assign feature to a type",
-      "editTitle": "Edit assignment",
-      "total": "Total assignments",
-      "emptyTitle": "No assignments yet",
-      "emptyDescription": "When you add the first assignment it will appear in this table.",
-      "fields": {
-        "typeProductId": "Product type",
-        "featureId": "Feature"
-      }
-    },
-    "productFeature": {
-      "title": "Values by product",
-      "description": "Technical values of each product per feature.",
-      "create": "Add value",
-      "createTitle": "Add technical value",
-      "editTitle": "Edit technical value",
-      "total": "Total values",
-      "emptyTitle": "No values yet",
-      "emptyDescription": "When you add the first value it will appear in this table.",
-      "fields": {
-        "productId": "Product",
-        "featureId": "Feature",
-        "value": "Value"
-      },
-      "filterLabel": "Product",
-      "allProducts": "All products"
     },
     "coupon": {
       "title": "Coupons",
@@ -1145,6 +1139,161 @@
       "bulkConfirmText": "Products will no longer be part of the bundle.",
       "bulkDeleted": "{count, plural, one {# component deleted} other {# components deleted}}",
       "bulkPartial": "{ok} deleted · {failed} failed"
+    },
+    "productChild": {
+      "title": "Product variants",
+      "description": "Sizes, shades and presentations of each product with their own price, stock and availability.",
+      "create": "New variant",
+      "createTitle": "Create variant",
+      "editTitle": "Edit variant",
+      "emptyTitle": "No variants yet",
+      "emptyDescription": "Create the first variant to sell a product in different presentations.",
+      "searchPlaceholder": "Search by variant, description or product…",
+      "total": "Variants",
+      "stockAlerts": "Stock alerts",
+      "stockAlertsHint": "{out} out of stock · {low} with {threshold} units or fewer",
+      "inventoryValue": "Inventory value",
+      "enable": "Enable",
+      "disable": "Disable",
+      "enabledOk": "Variant enabled",
+      "disabledOk": "Variant disabled",
+      "nothingToChange": "The selected variants already have that status",
+      "bulkEnableTitle": "Enable {count, plural, one {# variant} other {# variants}}?",
+      "bulkDisableTitle": "Disable {count, plural, one {# variant} other {# variants}}?",
+      "nameHint": "E.g.: 50 ml, Shade 03, Size M",
+      "imagePreview": "Image preview",
+      "noImage": "No image",
+      "stockLevels": {
+        "out": "Out of stock",
+        "low": "Low stock",
+        "ok": "In stock"
+      },
+      "fields": {
+        "productId": "Product",
+        "name": "Variant",
+        "description": "Description",
+        "stock": "Stock",
+        "unitPrice": "Unit price",
+        "imageUrl": "Image URL",
+        "available": "Available"
+      },
+      "validation": {
+        "stockInteger": "Stock must be a whole number",
+        "stockMin": "Stock cannot be negative",
+        "pricePositive": "Price must be greater than zero",
+        "imageUrl": "Enter a URL starting with http:// or https://"
+      }
+    },
+    "attribute": {
+      "title": "Attributes",
+      "description": "Specification and variant attributes: text, number, yes/no or options (color, size…).",
+      "create": "New attribute",
+      "createTitle": "Create attribute",
+      "editTitle": "Edit attribute",
+      "total": "Total attributes",
+      "emptyTitle": "No attributes yet",
+      "emptyDescription": "Once you register the first attribute it will appear in this table.",
+      "searchPlaceholder": "Search by name, code or option…",
+      "fields": {
+        "name": "Name",
+        "code": "Code",
+        "dataType": "Data type",
+        "unitId": "Unit of measure",
+        "description": "Description",
+        "options": "Options",
+        "inUse": "Usage"
+      },
+      "types": {
+        "TEXT": "Text",
+        "NUMBER": "Number",
+        "BOOLEAN": "Yes / No",
+        "OPTION": "Options"
+      },
+      "typeHints": {
+        "TEXT": "Free text (e.g. material).",
+        "NUMBER": "Numeric value with an optional unit (e.g. weight in kg).",
+        "BOOLEAN": "Yes or no (e.g. water resistant).",
+        "OPTION": "Closed list of values. Only these attributes can define variants (color, size)."
+      },
+      "codeHint": "Stable identifier: lowercase letters, numbers and \"_\". Suggested from the name.",
+      "typeLocked": "The attribute is in use: its type can't be changed.",
+      "noUnit": "No unit",
+      "optionsHint": "Allowed values, in display order. An option in use can't be removed.",
+      "optionLabel": "Option {index}",
+      "removeOption": "Remove option {index}",
+      "addOption": "Add option",
+      "moreOptions": "and {count} more",
+      "inUse": "In use",
+      "notInUse": "Unused",
+      "optionAttributes": "Option attributes",
+      "optionAttributesHint": "They can define variants in a template.",
+      "unused": "Unused",
+      "validation": {
+        "code": "Use lowercase letters, numbers and \"_\" (start with a letter, 2 to 60 characters).",
+        "optionsRequired": "Add at least one option.",
+        "optionDuplicated": "This option is repeated."
+      }
+    },
+    "productTemplate": {
+      "title": "Product templates",
+      "description": "Which attributes each product type's specification asks for and which ones define its variants.",
+      "create": "New template",
+      "createTitle": "Create template",
+      "editTitle": "Edit template",
+      "total": "Total templates",
+      "emptyTitle": "No templates yet",
+      "emptyDescription": "Once you register the first template it will appear in this table.",
+      "searchPlaceholder": "Search by name or attribute…",
+      "fields": {
+        "name": "Name",
+        "description": "Description",
+        "attributes": "Attributes",
+        "sheet": "Specification",
+        "axes": "Variant axes",
+        "productCount": "Products",
+        "required": "Required to publish",
+        "variantAxis": "Variant axis",
+        "filterable": "Filterable in the store"
+      },
+      "attributesHint": "The specification holds regular attributes; variant axes (option attributes only) are chosen on each variant. Required ones are enforced when the product is published.",
+      "noAttributes": "No attributes yet.",
+      "attributeLabel": "Attribute {index}",
+      "addAttribute": "Add attribute",
+      "removeAttribute": "Remove attribute {index}",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "axisHint": "Only option attributes can be variant axes.",
+      "noAxes": "No variants",
+      "withAxes": "With variants",
+      "withAxesHint": "Templates with at least one variant axis.",
+      "productsUsing": "Products with a template",
+      "validation": {
+        "duplicated": "This attribute is already in the template.",
+        "axisOnlyOption": "Only option attributes can be variant axes."
+      }
+    },
+    "productAttributes": {
+      "action": "Specification",
+      "title": "Specification · {name}",
+      "loading": "Loading specification…",
+      "template": "Template",
+      "noTemplate": "No template",
+      "templateHint": "Changing the template discards values for attributes that aren't in the new one.",
+      "noTemplateHint": "No template: free specification with any attribute and no variant axes.",
+      "published": "Published",
+      "notPublished": "Not published",
+      "missingPublished": "The product is published: fill in what's missing to save.",
+      "missingDraft": "Missing before publishing:",
+      "complete": "Specification complete.",
+      "sheet": "Attributes",
+      "emptySheet": "The template has no specification attributes.",
+      "noValue": "No value",
+      "variants": "Variants",
+      "variant": "Variant",
+      "noVariants": "The product has no variants. Create them in Catalog › Variants.",
+      "inactiveVariant": "inactive",
+      "variantsHint": "Each variant needs one option per axis to be published; two variants can't share a combination.",
+      "duplicatedCombination": "Some variants share the same combination of options."
     }
   },
   "Home": {
@@ -1287,10 +1436,6 @@
     "noLocation": "No location",
     "withoutLocation": "Missing location",
     "withoutLocationHint": "Set country, state and city",
-    "typesWithFeature": "Types with feature",
-    "featuresInCatalog": "Features in catalog",
-    "productsWithSpecs": "Products with specs",
-    "productsWithSpecsHint": "Products with at least one technical value",
     "bulkUpdated": "{count, plural, one {# record updated} other {# records updated}}"
   }
 }

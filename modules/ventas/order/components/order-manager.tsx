@@ -44,8 +44,8 @@ export const OrderManager = ({ page, stats, items }: IOrderManagerProps) => {
   const unitsByOrder = useMemo(() => {
     const counts = new Map<number, number>();
     items.forEach((item) => {
-      if (item.orderId == null) return;
-      counts.set(item.orderId, (counts.get(item.orderId) ?? 0) + (item.quantity ?? 0));
+      if (item.order_id == null) return;
+      counts.set(item.order_id, (counts.get(item.order_id) ?? 0) + (item.quantity ?? 0));
     });
     return counts;
   }, [items]);
@@ -89,14 +89,14 @@ export const OrderManager = ({ page, stats, items }: IOrderManagerProps) => {
         id: "complementaryOrder",
         header: t("fields.complementaryOrder"),
         enableSorting: false,
-        meta: { label: t("fields.complementaryOrder"), exportValue: (row) => row.complementaryOrder },
-        cell: ({ row }) => row.original.complementaryOrder || "—",
+        meta: { label: t("fields.complementaryOrder"), exportValue: (row) => row.complementary_order },
+        cell: ({ row }) => row.original.complementary_order || "—",
       },
       {
         id: "createdAt",
         header: tCrud("createdAt"),
-        meta: { label: tCrud("createdAt"), exportValue: (row) => formatApiDate(row.createdAt) },
-        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.createdAt)}</span>,
+        meta: { label: tCrud("createdAt"), exportValue: (row) => formatApiDate(row.created_at) },
+        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.created_at)}</span>,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

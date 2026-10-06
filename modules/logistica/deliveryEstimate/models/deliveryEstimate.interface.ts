@@ -16,6 +16,6 @@ export type IDeliveryEstimateCalculateRequest = CalculateDeliveryEstimateParams;
 export interface IDeliveryCarrier {
   id?: number;
   name?: string;
-  maxDeliveryDays?: number;
-  isActive?: boolean;
+  max_delivery_days?: number;
+  is_active?: boolean;
 }

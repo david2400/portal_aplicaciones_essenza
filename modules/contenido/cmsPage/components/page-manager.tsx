@@ -33,19 +33,19 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
   const tCrud = useTranslations("Crud");
 
   const data = useMemo(
-    () => [...initialData].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || (b.id ?? 0) - (a.id ?? 0)),
+    () => [...initialData].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || (b.id ?? 0) - (a.id ?? 0)),
     [initialData],
   );
 
   const published = initialData.filter((page) => page.status === "PUBLISHED").length;
   const drafts = initialData.filter((page) => !page.status || page.status === "DRAFT").length;
-  const featured = initialData.filter((page) => page.isFeatured).length;
+  const featured = initialData.filter((page) => page.is_featured).length;
 
   const setPublished = (page: ICmsPage, publish: boolean) =>
     updatePageServerAction({
       id: page.id as number,
       status: publish ? "PUBLISHED" : "DRAFT",
-      ...(publish && !page.publishedAt ? { publishedAt: nowLocalDateTime() } : {}),
+      ...(publish && !page.published_at ? { published_at: nowLocalDateTime() } : {}),
     });
 
   const togglePublish = async (page: ICmsPage) => {
@@ -77,8 +77,8 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
 
   const scheduleLabel = (page: ICmsPage) =>
     page.status === "SCHEDULED"
-      ? t("scheduledFor", { date: formatDateTime(page.scheduledAt) })
-      : formatDateTime(page.publishedAt);
+      ? t("scheduledFor", { date: formatDateTime(page.scheduled_at) })
+      : formatDateTime(page.published_at);
 
   const columns = useMemo<GridColumn<ICmsPage>[]>(
     () => [
@@ -92,7 +92,7 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
             <Link
               href={`/contenido/pages/${row.original.id}`}
               className='inline-flex items-center gap-1.5 font-semibold text-foreground underline-offset-4 hover:underline'>
-              {row.original.isFeatured ? (
+              {row.original.is_featured ? (
                 <HiOutlineStar className='h-4 w-4 text-warning' aria-label={t("fields.isFeatured")} />
               ) : null}
               {row.original.title}
@@ -102,15 +102,15 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
         ),
       },
       {
-        id: "pageType",
+        id: "page_type",
         header: t("fields.pageType"),
         enableSorting: false,
         meta: {
           label: t("fields.pageType"),
-          exportValue: (row) => (row.pageType ? tTypes(row.pageType as never) : ""),
+          exportValue: (row) => (row.page_type ? tTypes(row.page_type as never) : ""),
         },
         cell: ({ row }) =>
-          row.original.pageType ? <Badge variant='outline'>{tTypes(row.original.pageType as never)}</Badge> : "—",
+          row.original.page_type ? <Badge variant='outline'>{tTypes(row.original.page_type as never)}</Badge> : "—",
       },
       {
         id: "status",
@@ -120,18 +120,18 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
         cell: ({ row }) => <PageStatusBadge status={row.original.status} />,
       },
       {
-        id: "publishedAt",
-        accessorFn: (row) => row.publishedAt ?? row.scheduledAt ?? "",
+        id: "published_at",
+        accessorFn: (row) => row.published_at ?? row.scheduled_at ?? "",
         header: t("fields.publishedAt"),
-        meta: { label: t("fields.publishedAt"), exportValue: (row) => row.publishedAt ?? row.scheduledAt },
+        meta: { label: t("fields.publishedAt"), exportValue: (row) => row.published_at ?? row.scheduled_at },
         cell: ({ row }) => scheduleLabel(row.original),
       },
       {
-        id: "sortOrder",
-        accessorFn: (row) => row.sortOrder ?? 0,
+        id: "sort_order",
+        accessorFn: (row) => row.sort_order ?? 0,
         header: t("fields.sortOrder"),
-        meta: { label: t("fields.sortOrder"), align: "right", exportValue: (row) => row.sortOrder ?? 0 },
-        cell: ({ row }) => row.original.sortOrder ?? 0,
+        meta: { label: t("fields.sortOrder"), align: "right", exportValue: (row) => row.sort_order ?? 0 },
+        cell: ({ row }) => row.original.sort_order ?? 0,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,7 +152,7 @@ export const CmsPageManager = ({ initialData }: { initialData: ICmsPage[] }) => 
         { value: "true", label: tCommon("yes") },
         { value: "false", label: tCommon("no") },
       ],
-      accessor: (row) => String(Boolean(row.isFeatured)),
+      accessor: (row) => String(Boolean(row.is_featured)),
     },
   ];
 

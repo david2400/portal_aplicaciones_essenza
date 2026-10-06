@@ -36,7 +36,7 @@ export const FormShippingCost = ({
   const carrierOptions = useMemo(
     () =>
       carriers
-        .filter((carrier) => carrier.id != null && carrier.isActive !== false)
+        .filter((carrier) => carrier.id != null && carrier.is_active !== false)
         .map((carrier) => ({
           id: String(carrier.id),
           value: String(carrier.id),
@@ -49,7 +49,7 @@ export const FormShippingCost = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "carrierId" }}
+          controller={{ control, name: "carrier_id" }}
           label={t("fields.carrierId")}
           data={carrierOptions}
           placeholder={tCommon("selectPlaceholder")}
@@ -57,12 +57,12 @@ export const FormShippingCost = ({
           className='col-span-12'
         />
         <FormField
-          controller={{ control, name: "originAddress" }}
+          controller={{ control, name: "origin_address" }}
           label={t("fields.originAddress")}
           className='col-span-12 md:col-span-6'
         />
         <FormField
-          controller={{ control, name: "destinationAddress" }}
+          controller={{ control, name: "destination_address" }}
           label={t("fields.destinationAddress")}
           className='col-span-12 md:col-span-6'
         />

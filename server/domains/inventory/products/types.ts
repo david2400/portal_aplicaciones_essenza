@@ -17,7 +17,7 @@ export type ProductSearchParams = ListProductsParams & {
   filter: ProductFilter;
 };
 
-export type UpdateProductPayload = UpdateProductDto;
+export type UpdateProductPayload = UpdateProductDto & { id: number };
 
 export type DeleteProductPayload = {
   id: number;

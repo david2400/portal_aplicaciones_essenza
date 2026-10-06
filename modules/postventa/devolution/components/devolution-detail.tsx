@@ -86,12 +86,12 @@ export const DevolutionDetail = ({
       motives: toMap(catalogs.motives),
       returnMethods: toMap(catalogs.returnMethods),
       refundMethods: toMap(catalogs.refundMethods),
-      lines: new Map(lines.map((line) => [line.id ?? -1, line.productName])),
+      lines: new Map(lines.map((line) => [line.id ?? -1, line.product_name])),
     };
   }, [catalogs, lines]);
 
   const refundSum = useMemo(
-    () => details.reduce((acc, detail) => acc + (detail.refundAmount ?? 0), 0),
+    () => details.reduce((acc, detail) => acc + (detail.refund_amount ?? 0), 0),
     [details],
   );
 
@@ -120,23 +120,23 @@ export const DevolutionDetail = ({
   const handleTransition = async (next: DevolutionState) => {
     if (next === "A") {
       const approvedBy = await askText(t("actions.A"), t("fields.approvedBy"));
-      if (approvedBy) await applyTransition({ state: "A", approvedBy, approvedAt: nowLocalDateTime() });
+      if (approvedBy) await applyTransition({ state: "A", approved_by: approvedBy, approved_at: nowLocalDateTime() });
       return;
     }
     if (next === "X") {
       const reason = await askText(t("actions.X"), t("rejectReason"), true);
-      if (reason) await applyTransition({ state: "X", inspectionNotes: reason });
+      if (reason) await applyTransition({ state: "X", inspection_notes: reason });
       return;
     }
     if (next === "R") {
       const receivedBy = await askText(t("actions.R"), t("fields.receivedBy"));
-      if (receivedBy) await applyTransition({ state: "R", receivedBy, receivedAt: nowLocalDateTime() });
+      if (receivedBy) await applyTransition({ state: "R", received_by: receivedBy, received_at: nowLocalDateTime() });
       return;
     }
     if (next === "I") {
       const inspectionNotes = await askText(t("actions.I"), t("fields.inspectionNotes"), true);
       if (inspectionNotes) {
-        await applyTransition({ state: "I", inspectionNotes, totalRefundAmount: refundSum });
+        await applyTransition({ state: "I", inspection_notes: inspectionNotes, total_refund_amount: refundSum });
       }
       return;
     }
@@ -146,7 +146,7 @@ export const DevolutionDetail = ({
         description: t("refundConfirm", { amount: formatMoney(refundSum) }),
         confirmLabel: t("actions.F"),
       });
-      if (ok) await applyTransition({ state: "F", totalRefundAmount: refundSum });
+      if (ok) await applyTransition({ state: "F", total_refund_amount: refundSum });
     }
   };
 
@@ -167,12 +167,12 @@ export const DevolutionDetail = ({
 
   const detailColumns: GridColumn<IDevolutionDetail>[] = [
     {
-      accessorKey: "productOrderId",
+      accessorKey: "product_order_id",
       header: tDetails("fields.productOrderId"),
       meta: { label: tDetails("fields.productOrderId"), hideable: false },
       cell: ({ row }) => (
         <span className='font-semibold text-foreground'>
-          {names.lines.get(row.original.productOrderId ?? -1) ?? `#${row.original.productOrderId}`}
+          {names.lines.get(row.original.product_order_id ?? -1) ?? `#${row.original.product_order_id}`}
         </span>
       ),
     },
@@ -183,14 +183,14 @@ export const DevolutionDetail = ({
       cell: ({ row }) => <span className='tabular-nums'>{row.original.quantity ?? "—"}</span>,
     },
     {
-      accessorKey: "receivedQuantity",
+      accessorKey: "received_quantity",
       header: tDetails("fields.receivedQuantity"),
       meta: {
         label: tDetails("fields.receivedQuantity"),
         align: "right",
-        exportValue: (row) => row.receivedQuantity,
+        exportValue: (row) => row.received_quantity,
       },
-      cell: ({ row }) => <span className='tabular-nums'>{row.original.receivedQuantity ?? 0}</span>,
+      cell: ({ row }) => <span className='tabular-nums'>{row.original.received_quantity ?? 0}</span>,
     },
     {
       accessorKey: "condition",
@@ -200,38 +200,38 @@ export const DevolutionDetail = ({
         row.original.condition ? tDetails(`conditions.${row.original.condition}` as never) : "—",
     },
     {
-      accessorKey: "unitPrice",
+      accessorKey: "unit_price",
       header: tDetails("fields.unitPrice"),
-      meta: { label: tDetails("fields.unitPrice"), align: "right", exportValue: (row) => row.unitPrice },
-      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.unitPrice)}</span>,
+      meta: { label: tDetails("fields.unitPrice"), align: "right", exportValue: (row) => row.unit_price },
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.unit_price)}</span>,
     },
     {
-      accessorKey: "restockingFee",
+      accessorKey: "restocking_fee",
       header: tDetails("fields.restockingFee"),
       meta: {
         label: tDetails("fields.restockingFee"),
         align: "right",
-        exportValue: (row) => row.restockingFee,
+        exportValue: (row) => row.restocking_fee,
       },
-      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.restockingFee)}</span>,
+      cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.restocking_fee)}</span>,
     },
     {
-      accessorKey: "refundAmount",
+      accessorKey: "refund_amount",
       header: tDetails("fields.refundAmount"),
       meta: {
         label: tDetails("fields.refundAmount"),
         align: "right",
-        exportValue: (row) => row.refundAmount,
+        exportValue: (row) => row.refund_amount,
       },
       cell: ({ row }) => (
-        <span className='font-medium tabular-nums'>{formatMoney(row.original.refundAmount)}</span>
+        <span className='font-medium tabular-nums'>{formatMoney(row.original.refund_amount)}</span>
       ),
     },
   ];
 
   const detailRowActions = (detail: IDevolutionDetail): RowAction[] => {
     if (closed) return [];
-    const name = names.lines.get(detail.productOrderId ?? -1) ?? `#${detail.id}`;
+    const name = names.lines.get(detail.product_order_id ?? -1) ?? `#${detail.id}`;
     return [
       {
         label: tCommon("edit"),
@@ -255,11 +255,11 @@ export const DevolutionDetail = ({
     {
       label: t("fields.orderId"),
       value:
-        devolution.orderId != null ? (
+        devolution.order_id != null ? (
           <Link
-            href={`/ventas/orders/${devolution.orderId}`}
+            href={`/ventas/orders/${devolution.order_id}`}
             className='text-primary underline-offset-4 hover:underline'>
-            #{devolution.orderId}
+            #{devolution.order_id}
           </Link>
         ) : (
           "—"
@@ -267,23 +267,23 @@ export const DevolutionDetail = ({
     },
     {
       label: t("fields.motiveDevolutionId"),
-      value: names.motives.get(devolution.motiveDevolutionId ?? -1) ?? "—",
+      value: names.motives.get(devolution.motive_devolution_id ?? -1) ?? "—",
     },
     {
       label: t("fields.totalRefundAmount"),
-      value: formatMoney(devolution.totalRefundAmount ?? refundSum),
+      value: formatMoney(devolution.total_refund_amount ?? refundSum),
     },
   ];
 
   const timelineInfo: Partial<Record<DevolutionState, string | undefined>> = {
-    P: devolution.createdAt ? formatDateTime(devolution.createdAt) : undefined,
-    A: devolution.approvedAt
-      ? `${devolution.approvedBy ?? "—"} · ${formatDateTime(devolution.approvedAt)}`
+    P: devolution.created_at ? formatDateTime(devolution.created_at) : undefined,
+    A: devolution.approved_at
+      ? `${devolution.approved_by ?? "—"} · ${formatDateTime(devolution.approved_at)}`
       : undefined,
-    R: devolution.receivedAt
-      ? `${devolution.receivedBy ?? "—"} · ${formatDateTime(devolution.receivedAt)}`
+    R: devolution.received_at
+      ? `${devolution.received_by ?? "—"} · ${formatDateTime(devolution.received_at)}`
       : undefined,
-    I: state === "I" || state === "F" ? devolution.inspectionNotes : undefined,
+    I: state === "I" || state === "F" ? devolution.inspection_notes : undefined,
   };
   const reachedIndex = TIMELINE.indexOf(state);
 
@@ -329,7 +329,7 @@ export const DevolutionDetail = ({
             <h3 className='text-base font-semibold text-foreground'>{t("timelineTitle")}</h3>
             {state === "X" ? (
               <p role='status' className='mt-3 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm'>
-                {t("rejectedNotice", { reason: devolution.inspectionNotes ?? "—" })}
+                {t("rejectedNotice", { reason: devolution.inspection_notes ?? "—" })}
               </p>
             ) : (
               <ol className='mt-4 grid gap-3 sm:grid-cols-5'>
@@ -357,18 +357,18 @@ export const DevolutionDetail = ({
             <div>
               <dt className='text-muted-foreground'>{t("fields.returnMethodId")}</dt>
               <dd className='font-medium text-foreground'>
-                {names.returnMethods.get(devolution.returnMethodId ?? -1) ?? "—"}
+                {names.returnMethods.get(devolution.return_method_id ?? -1) ?? "—"}
               </dd>
             </div>
             <div>
               <dt className='text-muted-foreground'>{t("fields.refundMethodId")}</dt>
               <dd className='font-medium text-foreground'>
-                {names.refundMethods.get(devolution.refundMethodId ?? -1) ?? "—"}
+                {names.refundMethods.get(devolution.refund_method_id ?? -1) ?? "—"}
               </dd>
             </div>
             <div>
               <dt className='text-muted-foreground'>{t("fields.externalReference")}</dt>
-              <dd className='font-medium text-foreground'>{devolution.externalReference || "—"}</dd>
+              <dd className='font-medium text-foreground'>{devolution.external_reference || "—"}</dd>
             </div>
             <div>
               <dt className='text-muted-foreground'>{t("fields.observation")}</dt>
@@ -409,7 +409,7 @@ export const DevolutionDetail = ({
             data={details}
             columns={detailColumns}
             getRowId={(detail) => String(detail.id)}
-            searchText={(detail) => names.lines.get(detail.productOrderId ?? -1) ?? ""}
+            searchText={(detail) => names.lines.get(detail.product_order_id ?? -1) ?? ""}
             rowActions={detailRowActions}
             emptyState={{
               title: tDetails("emptyTitle"),
@@ -443,18 +443,18 @@ export const DevolutionDetail = ({
                   <div className='flex items-center justify-between gap-2'>
                     <span className='inline-flex items-center gap-1.5 text-sm font-semibold text-foreground'>
                       <HiOutlineDocumentText className='h-4 w-4 text-primary' aria-hidden='true' />
-                      {evidence.evidenceType
-                        ? tEvidences(`types.${evidence.evidenceType}` as never)
+                      {evidence.evidence_type
+                        ? tEvidences(`types.${evidence.evidence_type}` as never)
                         : "—"}
                     </span>
                     <Buttons
                       size='sm'
                       variant='ghost'
-                      aria-label={tCommon("deleteAria", { name: evidence.evidenceType ?? `#${evidence.id}` })}
+                      aria-label={tCommon("deleteAria", { name: evidence.evidence_type ?? `#${evidence.id}` })}
                       className='rounded-full text-destructive hover:text-destructive'
                       onClick={() =>
                         evidence.id != null &&
-                        confirmDelete(evidence.evidenceType ?? `#${evidence.id}`, () =>
+                        confirmDelete(evidence.evidence_type ?? `#${evidence.id}`, () =>
                           deleteDevolutionEvidenceServerAction(evidence.id as number),
                         )
                       }>
@@ -465,15 +465,15 @@ export const DevolutionDetail = ({
                     <p className='text-sm text-muted-foreground'>{evidence.description}</p>
                   ) : null}
                   <a
-                    href={evidence.resourceUrl}
+                    href={evidence.resource_url}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='inline-flex items-center gap-1 truncate text-sm text-primary underline-offset-4 hover:underline'>
                     <HiOutlineLink className='h-4 w-4 shrink-0' aria-hidden='true' />
-                    <span className='truncate'>{evidence.resourceUrl}</span>
+                    <span className='truncate'>{evidence.resource_url}</span>
                   </a>
                   <p className='text-xs text-muted-foreground'>
-                    {evidence.recordedBy || "—"} · {formatDateTime(evidence.recordedAt)}
+                    {evidence.recorded_by || "—"} · {formatDateTime(evidence.recorded_at)}
                   </p>
                 </li>
               ))}

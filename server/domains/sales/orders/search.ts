@@ -14,7 +14,7 @@ export const orders_resource = create_search_resource<OrderDto>({
   list_tag: orders_tags.list(),
   list_all: () => orders_repository.list_orders(),
   delete_one: (id) => orders_repository.delete_order({ id }),
-  search_fields: (item) => [item.id, item.complementaryOrder],
+  search_fields: (item) => [item.id, item.complementary_order],
   filter_fields: {
     state: (item) => item.state,
   },

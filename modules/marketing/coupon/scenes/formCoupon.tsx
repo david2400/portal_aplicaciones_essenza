@@ -15,6 +15,7 @@ import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import { DISCOUNT_TYPES, type INamedItem } from "../models/coupon.interface";
 
+import { fieldKey } from "@/shared/i18n/field-key";
 const toItems = (items: INamedItem[]) =>
   items
     .filter((item) => item.id != null)
@@ -44,7 +45,7 @@ export const FormCoupon = ({
     formState: { isSubmitting },
   } = useForm<CouponInputs>({ resolver: zodResolver(validationSchema), defaultValues: initialValues });
 
-  const discountType = useWatch({ control, name: "discountType" }) as string;
+  const discountType = useWatch({ control, name: "discount_type" }) as string;
   const categoryItems = useMemo(() => toItems(categories), [categories]);
   const productItems = useMemo(() => toItems(products), [products]);
 
@@ -79,14 +80,14 @@ export const FormCoupon = ({
 
         <Fieldset legend={t("sections.discount")}>
           <FormSelectField
-            controller={{ control, name: "discountType" }}
+            controller={{ control, name: "discount_type" }}
             label={t("fields.discountType")}
             data={typeOptions}
             triggerClassName='!w-full'
             className='col-span-12 md:col-span-4'
           />
           <FormField
-            controller={{ control, name: "discountValue" }}
+            controller={{ control, name: "discount_value" }}
             type='number'
             step='0.01'
             min={0}
@@ -94,7 +95,7 @@ export const FormCoupon = ({
             className='col-span-12 sm:col-span-6 md:col-span-4'
           />
           <FormField
-            controller={{ control, name: "maximumDiscountAmount" }}
+            controller={{ control, name: "maximum_discount_amount" }}
             type='number'
             step='0.01'
             min={0}
@@ -102,7 +103,7 @@ export const FormCoupon = ({
             className='col-span-12 sm:col-span-6 md:col-span-4'
           />
           <FormField
-            controller={{ control, name: "minimumOrderAmount" }}
+            controller={{ control, name: "minimum_order_amount" }}
             type='number'
             step='0.01'
             min={0}
@@ -110,7 +111,7 @@ export const FormCoupon = ({
             className='col-span-12 sm:col-span-6 md:col-span-4'
           />
           <FormField
-            controller={{ control, name: "usageLimit" }}
+            controller={{ control, name: "usage_limit" }}
             type='number'
             step='1'
             min={1}
@@ -122,26 +123,26 @@ export const FormCoupon = ({
 
         <Fieldset legend={t("sections.validity")}>
           <FormField
-            controller={{ control, name: "validFrom" }}
+            controller={{ control, name: "valid_from" }}
             type='datetime-local'
             label={t("fields.validFrom")}
             className='col-span-12 md:col-span-6'
           />
           <FormField
-            controller={{ control, name: "validUntil" }}
+            controller={{ control, name: "valid_until" }}
             type='datetime-local'
             label={t("fields.validUntil")}
             className='col-span-12 md:col-span-6'
           />
           <FormSelectField
-            controller={{ control, name: "isActive" }}
+            controller={{ control, name: "is_active" }}
             label={t("fields.isActive")}
             data={booleanOptions}
             triggerClassName='!w-full'
             className='col-span-12 sm:col-span-6'
           />
           <FormSelectField
-            controller={{ control, name: "isPublic" }}
+            controller={{ control, name: "is_public" }}
             label={t("fields.isPublic")}
             data={booleanOptions}
             description={t("isPublicHint")}
@@ -154,14 +155,14 @@ export const FormCoupon = ({
           <p className='col-span-12 text-sm text-muted-foreground'>{t("rulesHint")}</p>
           {(
             [
-              ["applicableCategories", categoryItems],
-              ["excludedCategories", categoryItems],
-              ["applicableProducts", productItems],
-              ["excludedProducts", productItems],
+              ["applicable_categories", categoryItems],
+              ["excluded_categories", categoryItems],
+              ["applicable_products", productItems],
+              ["excluded_products", productItems],
             ] as const
           ).map(([name, items]) => (
             <div key={name} className='col-span-12 max-h-48 overflow-y-auto rounded-lg border border-border p-3 md:col-span-6'>
-              <FormCheckboxField controller={{ control, name }} label={t(`fields.${name}`)} items={[...items]} />
+              <FormCheckboxField controller={{ control, name }} label={t(fieldKey(name) as never)} items={[...items]} />
             </div>
           ))}
         </Fieldset>

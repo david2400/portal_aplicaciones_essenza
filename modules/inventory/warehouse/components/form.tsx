@@ -26,24 +26,24 @@ const EMPTY_VALUES = {
   name: "",
   code: "",
   address: "",
-  countryId: "",
-  stateId: "",
-  cityId: "",
+  country_id: "",
+  state_id: "",
+  city_id: "",
   active: "true",
 };
 
 /** Ids del formulario (string del select) → número que espera el backend. */
-type WarehouseFormValues = Omit<IWarehouseCreateRequest, "countryId" | "stateId" | "cityId"> & {
-  countryId: string;
-  stateId: string;
-  cityId: string;
+type WarehouseFormValues = Omit<IWarehouseCreateRequest, "country_id" | "state_id" | "city_id"> & {
+  country_id: string;
+  state_id: string;
+  city_id: string;
 };
 
 const toPayload = (values: WarehouseFormValues): IWarehouseCreateRequest => ({
   ...values,
-  countryId: Number(values.countryId),
-  stateId: Number(values.stateId),
-  cityId: Number(values.cityId),
+  country_id: Number(values.country_id),
+  state_id: Number(values.state_id),
+  city_id: Number(values.city_id),
 });
 
 const idToString = (value?: number) => (value != null ? String(value) : "");
@@ -53,9 +53,9 @@ const toFormValues = (values: IWarehouse) => ({
   name: values.name ?? "",
   code: values.code ?? "",
   address: values.address ?? "",
-  countryId: idToString(values.countryId),
-  stateId: idToString(values.stateId),
-  cityId: idToString(values.cityId),
+  country_id: idToString(values.country_id),
+  state_id: idToString(values.state_id),
+  city_id: idToString(values.city_id),
   active: String(values.active !== false),
 });
 

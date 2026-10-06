@@ -47,11 +47,11 @@ export const SubcategoryManager = ({ page, stats, categories }: ISubcategoryMana
         header: t("fields.categoryId"),
         meta: {
           label: t("fields.categoryId"),
-          exportValue: (row) => categoryNames.get(row.categoryId ?? -1) ?? "",
+          exportValue: (row) => categoryNames.get(row.category_id ?? -1) ?? "",
         },
         cell: ({ row }) =>
-          row.original.categoryId != null ? (
-            <Badge variant='outline'>{categoryNames.get(row.original.categoryId) ?? `#${row.original.categoryId}`}</Badge>
+          row.original.category_id != null ? (
+            <Badge variant='outline'>{categoryNames.get(row.original.category_id) ?? `#${row.original.category_id}`}</Badge>
           ) : (
             "—"
           ),

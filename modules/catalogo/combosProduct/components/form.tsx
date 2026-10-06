@@ -23,15 +23,15 @@ import {
 
 /** Valores iniciales del formulario de creación. */
 const EMPTY_VALUES = {
-  comboId: "",
-  productId: "",
+  combo_id: "",
+  product_id: "",
   quantity: 1,
 };
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
 const toFormValues = (values: ICombo) => ({
-  comboId: values.comboId != null ? String(values.comboId) : "",
-  productId: values.productId != null ? String(values.productId) : "",
+  combo_id: values.combo_id != null ? String(values.combo_id) : "",
+  product_id: values.product_id != null ? String(values.product_id) : "",
   quantity: values.quantity ?? 0,
 });
 

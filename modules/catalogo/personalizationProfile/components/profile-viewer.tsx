@@ -7,21 +7,22 @@ import { SegmentBadge } from "./segment-badge";
 import { JSON_FIELDS, formatDateTime, prettyJson } from "../constants";
 import type { IPersonalizationProfile } from "../models/personalizationProfile.interface";
 
+import { fieldKey } from "@/shared/i18n/field-key";
 /** Vista de solo lectura del perfil con los datos JSON formateados. */
 export const ProfileViewer = ({ profile }: { profile: IPersonalizationProfile }) => {
   const t = useTranslations("Administre.personalization");
   const filled = JSON_FIELDS.filter((field) => profile[field]?.trim());
 
   const summary = [
-    { label: t("fields.customerId"), value: `#${profile.customerId ?? "—"}` },
+    { label: t("fields.customerId"), value: `#${profile.customer_id ?? "—"}` },
     { label: t("fields.segment"), value: <SegmentBadge segment={profile.segment} /> },
     {
       label: t("fields.personalizationScore"),
-      value: profile.personalizationScore != null ? profile.personalizationScore.toFixed(2) : "—",
+      value: profile.personalization_score != null ? profile.personalization_score.toFixed(2) : "—",
     },
     { label: t("fields.status"), value: profile.status || "—" },
-    { label: t("fields.sessionId"), value: profile.sessionId || "—" },
-    { label: t("fields.lastAnalysisAt"), value: formatDateTime(profile.lastAnalysisAt) },
+    { label: t("fields.sessionId"), value: profile.session_id || "—" },
+    { label: t("fields.lastAnalysisAt"), value: formatDateTime(profile.last_analysis_at) },
   ];
 
   return (
@@ -42,7 +43,7 @@ export const ProfileViewer = ({ profile }: { profile: IPersonalizationProfile })
           {filled.map((field) => (
             <details key={field} className='rounded-xl border border-border'>
               <summary className='cursor-pointer px-4 py-2 text-sm font-semibold text-foreground'>
-                {t(`fields.${field}`)}
+                {t(fieldKey(field) as never)}
               </summary>
               <pre className='max-h-64 overflow-auto border-t border-border bg-muted/30 p-4 text-xs'>
                 {prettyJson(profile[field])}

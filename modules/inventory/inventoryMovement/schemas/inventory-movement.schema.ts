@@ -20,29 +20,30 @@ export const validationInventoryMovement = () => {
   return z
     .object({
       type: z.enum(MOVEMENT_TYPES, { errorMap: () => required }),
-      productId: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive(required),
-      fromWarehouseId: optionalId,
-      toWarehouseId: optionalId,
+      product_id: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive(required),
+      sku_id: optionalId,
+      from_warehouse_id: optionalId,
+      to_warehouse_id: optionalId,
       quantity: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().min(1, required),
       reason: z.string().optional(),
     })
     .superRefine((values, ctx) => {
       const needsFrom = values.type === "EXIT" || values.type === "TRANSFER";
       const needsTo = values.type === "ENTRY" || values.type === "TRANSFER";
-      if (needsFrom && !values.fromWarehouseId) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["fromWarehouseId"], ...required });
+      if (needsFrom && !values.from_warehouse_id) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["from_warehouse_id"], ...required });
       }
-      if (needsTo && !values.toWarehouseId) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["toWarehouseId"], ...required });
+      if (needsTo && !values.to_warehouse_id) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["to_warehouse_id"], ...required });
       }
       if (
         values.type === "TRANSFER" &&
-        values.fromWarehouseId &&
-        values.fromWarehouseId === values.toWarehouseId
+        values.from_warehouse_id &&
+        values.from_warehouse_id === values.to_warehouse_id
       ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          path: ["toWarehouseId"],
+          path: ["to_warehouse_id"],
           message: t("sameWarehouse"),
         });
       }

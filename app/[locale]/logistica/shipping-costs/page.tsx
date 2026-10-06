@@ -24,12 +24,12 @@ const ShippingCostsPage = async () => {
   return (
     <ShippingCostManager
       initialData={initialData}
-      carriers={carriers.map(({ id, name, baseRate, ratePerKm, isActive }) => ({
+      carriers={carriers.map(({ id, name, base_rate, rate_per_km, is_active }) => ({
         id,
         name,
-        baseRate,
-        ratePerKm,
-        isActive,
+        base_rate,
+        rate_per_km,
+        is_active,
       }))}
     />
   );

@@ -12,6 +12,7 @@ import { Link } from "@/shared/i18n/routing";
 const SECTIONS = [
   { label: "Órdenes", href: "/ventas/orders" },
   { label: "Productos", href: "/catalogo/products" },
+  { label: "Variantes", href: "/catalogo/variants" },
   { label: "Movimientos", href: "/inventory/inventory-movements" },
   { label: "Bodegas", href: "/inventory/warehouses" },
   { label: "Proveedores", href: "/inventory/suppliers" },

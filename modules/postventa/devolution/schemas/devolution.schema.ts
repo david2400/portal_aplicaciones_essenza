@@ -19,12 +19,12 @@ export const validationDevolution = () => {
       .positive({ message: intl("requiredField") });
 
   return z.object({
-    orderId: requiredId(),
-    motiveDevolutionId: requiredId(),
-    returnMethodId: optionalId(),
-    refundMethodId: optionalId(),
+    order_id: requiredId(),
+    motive_devolution_id: requiredId(),
+    return_method_id: optionalId(),
+    refund_method_id: optionalId(),
     observation: z.string().trim().min(1, { message: intl("requiredField") }),
-    externalReference: z.string().trim().max(50).optional(),
+    external_reference: z.string().trim().max(50).optional(),
   });
 };
 
@@ -33,11 +33,11 @@ export const validationDevolutionDetail = () => {
   const number = () => z.coerce.number({ invalid_type_error: intl("requiredField") });
 
   return z.object({
-    productOrderId: number().int().positive({ message: intl("requiredField") }),
+    product_order_id: number().int().positive({ message: intl("requiredField") }),
     quantity: number().int().positive({ message: intl("positiveNumber") }),
-    receivedQuantity: number().int().min(0, { message: intl("requiredField") }),
-    unitPrice: number().min(0, { message: intl("requiredField") }),
-    restockingFee: number().min(0, { message: intl("requiredField") }),
+    received_quantity: number().int().min(0, { message: intl("requiredField") }),
+    unit_price: number().min(0, { message: intl("requiredField") }),
+    restocking_fee: number().min(0, { message: intl("requiredField") }),
     condition: z.enum(DETAIL_CONDITIONS, { errorMap: () => ({ message: intl("requiredField") }) }),
     observation: z.string().trim().min(1, { message: intl("requiredField") }),
   });
@@ -47,10 +47,10 @@ export const validationDevolutionEvidence = () => {
   const intl = useTranslations("Form");
 
   return z.object({
-    evidenceType: z.enum(EVIDENCE_TYPES, { errorMap: () => ({ message: intl("requiredField") }) }),
-    resourceUrl: z.string().trim().url({ message: intl("invalidUrl") }),
+    evidence_type: z.enum(EVIDENCE_TYPES, { errorMap: () => ({ message: intl("requiredField") }) }),
+    resource_url: z.string().trim().url({ message: intl("invalidUrl") }),
     description: z.string().optional(),
-    recordedBy: z.string().optional(),
+    recorded_by: z.string().optional(),
   });
 };
 

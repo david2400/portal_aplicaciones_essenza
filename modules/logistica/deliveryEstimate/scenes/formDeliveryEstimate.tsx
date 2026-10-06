@@ -36,7 +36,7 @@ export const FormDeliveryEstimate = ({
   const carrierOptions = useMemo(
     () =>
       carriers
-        .filter((carrier) => carrier.id != null && carrier.isActive !== false)
+        .filter((carrier) => carrier.id != null && carrier.is_active !== false)
         .map((carrier) => ({
           id: String(carrier.id),
           value: String(carrier.id),
@@ -54,7 +54,7 @@ export const FormDeliveryEstimate = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "carrierId" }}
+          controller={{ control, name: "carrier_id" }}
           label={t("fields.carrierId")}
           data={carrierOptions}
           placeholder={tCommon("selectPlaceholder")}
@@ -62,23 +62,23 @@ export const FormDeliveryEstimate = ({
           className='col-span-12'
         />
         <FormField
-          controller={{ control, name: "originAddress" }}
+          controller={{ control, name: "origin_address" }}
           label={t("fields.originAddress")}
           className='col-span-12 md:col-span-6'
         />
         <FormField
-          controller={{ control, name: "destinationAddress" }}
+          controller={{ control, name: "destination_address" }}
           label={t("fields.destinationAddress")}
           className='col-span-12 md:col-span-6'
         />
         <FormField
-          controller={{ control, name: "shipmentDate" }}
+          controller={{ control, name: "shipment_date" }}
           type='datetime-local'
           label={t("fields.shipmentDate")}
           className='col-span-12 sm:col-span-6'
         />
         <FormSelectField
-          controller={{ control, name: "isBusinessDaysOnly" }}
+          controller={{ control, name: "is_business_days_only" }}
           label={t("fields.isBusinessDaysOnly")}
           data={booleanOptions}
           triggerClassName='!w-full'

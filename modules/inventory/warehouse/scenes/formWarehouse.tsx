@@ -58,8 +58,8 @@ export const FormWarehouse = ({
         <GeoCascadeFields
           control={control}
           setValue={(name, value) => setValue(name as never, value as never, { shouldValidate: false })}
-          initialCountryId={initialValues?.countryId}
-          initialStateId={initialValues?.stateId}
+          initialCountryId={initialValues?.country_id}
+          initialStateId={initialValues?.state_id}
         />
 
         <FormField

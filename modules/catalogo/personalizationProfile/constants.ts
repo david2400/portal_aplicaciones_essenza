@@ -25,13 +25,13 @@ export const isSegment = (value?: string): value is Segment =>
 
 /** Campos JSON del perfil (máx. 4000 caracteres cada uno). */
 export const JSON_FIELDS = [
-  "contextMetadataJson",
-  "recommendedProductsJson",
-  "dynamicPricingJson",
-  "personalizedContentJson",
-  "personalizedOffersJson",
-  "uiPersonalizationJson",
-  "purchaseIntentJson",
+  "context_metadata_json",
+  "recommended_products_json",
+  "dynamic_pricing_json",
+  "personalized_content_json",
+  "personalized_offers_json",
+  "ui_personalization_json",
+  "purchase_intent_json",
 ] as const;
 export type JsonField = (typeof JSON_FIELDS)[number];
 

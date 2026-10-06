@@ -64,11 +64,11 @@ export const DevolutionManager = ({ page, stats, catalogs }: IDevolutionManagerP
       {
         id: "orderId",
         header: t("fields.orderId"),
-        meta: { label: t("fields.orderId"), exportValue: (row) => row.orderId },
+        meta: { label: t("fields.orderId"), exportValue: (row) => row.order_id },
         cell: ({ row }) =>
-          row.original.orderId != null ? (
-            <Link href={`/ventas/orders/${row.original.orderId}`} className='underline-offset-4 hover:underline'>
-              #{row.original.orderId}
+          row.original.order_id != null ? (
+            <Link href={`/ventas/orders/${row.original.order_id}`} className='underline-offset-4 hover:underline'>
+              #{row.original.order_id}
             </Link>
           ) : (
             "—"
@@ -78,8 +78,8 @@ export const DevolutionManager = ({ page, stats, catalogs }: IDevolutionManagerP
         id: "motiveDevolutionId",
         header: t("fields.motiveDevolutionId"),
         enableSorting: false,
-        meta: { label: t("fields.motiveDevolutionId"), exportValue: (row) => motiveNames.get(row.motiveDevolutionId ?? -1) },
-        cell: ({ row }) => motiveNames.get(row.original.motiveDevolutionId ?? -1) ?? "—",
+        meta: { label: t("fields.motiveDevolutionId"), exportValue: (row) => motiveNames.get(row.motive_devolution_id ?? -1) },
+        cell: ({ row }) => motiveNames.get(row.original.motive_devolution_id ?? -1) ?? "—",
       },
       {
         id: "state",
@@ -90,14 +90,14 @@ export const DevolutionManager = ({ page, stats, catalogs }: IDevolutionManagerP
       {
         id: "totalRefundAmount",
         header: t("fields.totalRefundAmount"),
-        meta: { label: t("fields.totalRefundAmount"), align: "right", exportValue: (row) => row.totalRefundAmount },
-        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.totalRefundAmount)}</span>,
+        meta: { label: t("fields.totalRefundAmount"), align: "right", exportValue: (row) => row.total_refund_amount },
+        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.total_refund_amount)}</span>,
       },
       {
         id: "createdAt",
         header: tCrud("createdAt"),
-        meta: { label: tCrud("createdAt"), exportValue: (row) => formatApiDate(row.createdAt) },
-        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.createdAt)}</span>,
+        meta: { label: tCrud("createdAt"), exportValue: (row) => formatApiDate(row.created_at) },
+        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.created_at)}</span>,
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps

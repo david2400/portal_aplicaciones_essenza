@@ -44,12 +44,12 @@ export const CouponManager = ({ initialData, categories, products }: ICouponMana
   const tCrud = useTranslations("Crud");
 
   const formatDiscount = (coupon: ICoupon) => {
-    if (coupon.discountType === "FREE_SHIPPING") return t("types.FREE_SHIPPING");
-    if (coupon.discountType === "PERCENTAGE") return `${coupon.discountValue ?? 0}%`;
-    return formatMoney(coupon.discountValue);
+    if (coupon.discount_type === "FREE_SHIPPING") return t("types.FREE_SHIPPING");
+    if (coupon.discount_type === "PERCENTAGE") return `${coupon.discount_value ?? 0}%`;
+    return formatMoney(coupon.discount_value);
   };
   const usage = (coupon: ICoupon) =>
-    `${coupon.usageCount ?? 0} / ${coupon.usageLimit != null ? coupon.usageLimit : "∞"}`;
+    `${coupon.usage_count ?? 0} / ${coupon.usage_limit != null ? coupon.usage_limit : "∞"}`;
 
   const columns = useMemo<GridColumn<ICoupon>[]>(
     () => [
@@ -77,18 +77,18 @@ export const CouponManager = ({ initialData, categories, products }: ICouponMana
         enableSorting: false,
         meta: {
           label: t("fields.validity"),
-          exportValue: (row) => `${formatDate(row.validFrom)} – ${formatDate(row.validUntil)}`,
+          exportValue: (row) => `${formatDate(row.valid_from)} – ${formatDate(row.valid_until)}`,
         },
-        cell: ({ row }) => `${formatDate(row.original.validFrom)} – ${formatDate(row.original.validUntil)}`,
+        cell: ({ row }) => `${formatDate(row.original.valid_from)} – ${formatDate(row.original.valid_until)}`,
       },
       {
         id: "usage",
         header: t("fields.usage"),
         meta: { label: t("fields.usage"), align: "right", exportValue: (row) => usage(row) },
-        accessorFn: (row) => row.usageCount ?? 0,
+        accessorFn: (row) => row.usage_count ?? 0,
         cell: ({ row }) => {
-          const limit = row.original.usageLimit;
-          const used = row.original.usageCount ?? 0;
+          const limit = row.original.usage_limit;
+          const used = row.original.usage_count ?? 0;
           const ratio = limit ? Math.min(100, Math.round((used / limit) * 100)) : null;
           return (
             <div className='flex min-w-24 flex-col items-end gap-1'>
@@ -113,15 +113,15 @@ export const CouponManager = ({ initialData, categories, products }: ICouponMana
         },
       },
       {
-        id: "isPublic",
+        id: "is_public",
         header: t("fields.isPublic"),
         enableSorting: false,
         meta: {
           label: t("fields.isPublic"),
           defaultHidden: true,
-          exportValue: (row) => (row.isPublic ? tCommon("yes") : tCommon("no")),
+          exportValue: (row) => (row.is_public ? tCommon("yes") : tCommon("no")),
         },
-        cell: ({ row }) => (row.original.isPublic ? tCommon("yes") : tCommon("no")),
+        cell: ({ row }) => (row.original.is_public ? tCommon("yes") : tCommon("no")),
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,20 +136,20 @@ export const CouponManager = ({ initialData, categories, products }: ICouponMana
       accessor: (row) => couponStatus(row),
     },
     {
-      id: "isPublic",
+      id: "is_public",
       label: t("fields.isPublic"),
       options: [
         { value: "true", label: tCommon("yes") },
         { value: "false", label: tCommon("no") },
       ],
-      accessor: (row) => String(Boolean(row.isPublic)),
+      accessor: (row) => String(Boolean(row.is_public)),
     },
   ];
 
   const statuses = initialData.map((coupon) => couponStatus(coupon));
   const active = statuses.filter((status) => status === "active").length;
   const scheduled = statuses.filter((status) => status === "scheduled").length;
-  const uses = initialData.reduce((acc, coupon) => acc + (coupon.usageCount ?? 0), 0);
+  const uses = initialData.reduce((acc, coupon) => acc + (coupon.usage_count ?? 0), 0);
 
   const copyCodes = async (rows: ICoupon[]) => {
     const codes = rows.map((row) => row.code).filter(Boolean).join("\n");

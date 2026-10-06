@@ -16,9 +16,9 @@ export async function moderateReviewServerAction(
 ): Promise<ActionResult> {
   const result = await moderate_product_review_action({
     id,
-    moderationStatus: decision,
-    isApproved: decision === 'APPROVED',
-    moderationNotes: notes || undefined,
+    moderation_status: decision,
+    is_approved: decision === 'APPROVED',
+    moderation_notes: notes || undefined,
   });
   return result.success ? { success: true } : { success: false, error: result.error ?? 'No se pudo moderar la reseña' };
 }

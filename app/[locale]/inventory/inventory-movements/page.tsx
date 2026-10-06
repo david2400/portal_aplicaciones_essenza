@@ -28,7 +28,12 @@ const InventoryMovementsPage = async () => {
   return (
     <InventoryMovementManager
       initialData={initialData}
-      products={products.map(({ id, name }) => ({ id, name }))}
+      products={products.map(({ id, name, skus }) => ({
+        id,
+        name,
+        // Solo los SKUs de variantes: un producto simple usa su SKU por defecto.
+        skus: (skus ?? []).filter((sku) => sku.variant_id != null).map(({ id: skuId, name: skuName, code }) => ({ id: skuId, name: skuName, code })),
+      }))}
       warehouses={warehouses.map(({ id, name, code }) => ({ id, name: code ? `${code} · ${name}` : name }))}
     />
   );

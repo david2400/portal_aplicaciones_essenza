@@ -41,19 +41,19 @@ export const Dashboard = ({ data }: { data: IDashboardData }) => {
   const { report, kpis, trends, funnel, pendingOrders, lowStock, rangeDays } = data;
 
   const tiles = [
-    { label: t("revenue"), value: formatMoney(report?.totalRevenue), delta: kpis?.revenueGrowth },
-    { label: t("orders"), value: formatInt(report?.totalOrders), delta: kpis?.orderGrowth },
-    { label: t("averageOrderValue"), value: formatMoney(report?.averageOrderValue), delta: kpis?.averageOrderValueGrowth },
-    { label: t("customers"), value: formatInt(report?.totalCustomers), delta: kpis?.customerGrowth },
-    { label: t("conversionRate"), value: formatPercent(report?.conversionRate), delta: kpis?.conversionRateImprovement },
-    { label: t("refundRate"), value: formatPercent(report?.refundRate), delta: null },
+    { label: t("revenue"), value: formatMoney(report?.total_revenue), delta: kpis?.revenue_growth },
+    { label: t("orders"), value: formatInt(report?.total_orders), delta: kpis?.order_growth },
+    { label: t("averageOrderValue"), value: formatMoney(report?.average_order_value), delta: kpis?.average_order_value_growth },
+    { label: t("customers"), value: formatInt(report?.total_customers), delta: kpis?.customer_growth },
+    { label: t("conversionRate"), value: formatPercent(report?.conversion_rate), delta: kpis?.conversion_rate_improvement },
+    { label: t("refundRate"), value: formatPercent(report?.refund_rate), delta: null },
   ];
 
   const funnelSteps = funnel
     ? [
         { label: t("funnel.visitors"), value: funnel.visitors },
-        { label: t("funnel.productViews"), value: funnel.productViews },
-        { label: t("funnel.addToCart"), value: funnel.addToCart },
+        { label: t("funnel.productViews"), value: funnel.product_views },
+        { label: t("funnel.addToCart"), value: funnel.add_to_cart },
         { label: t("funnel.checkout"), value: funnel.checkout },
         { label: t("funnel.purchase"), value: funnel.purchase },
       ]
@@ -133,7 +133,7 @@ export const Dashboard = ({ data }: { data: IDashboardData }) => {
               ))}
               <li className='pt-2 text-sm text-muted-foreground'>
                 {t("funnel.overall")}:{" "}
-                <span className='font-semibold text-foreground'>{formatPercent(funnel?.overallConversionRate)}</span>
+                <span className='font-semibold text-foreground'>{formatPercent(funnel?.overall_conversion_rate)}</span>
               </li>
             </ol>
           ) : (

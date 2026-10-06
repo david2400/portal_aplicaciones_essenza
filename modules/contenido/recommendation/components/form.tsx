@@ -20,15 +20,15 @@ import {
 type Result = { success: true } | { success: false; error: string };
 
 const toFormValues = (item?: IRecommendation | null) => ({
-  customerId: item?.customerId ?? "",
-  productId: item?.productId != null ? String(item.productId) : "",
-  recommendationType: item?.recommendationType ?? "CROSS_SELL",
+  customer_id: item?.customer_id ?? "",
+  product_id: item?.product_id != null ? String(item.product_id) : "",
+  recommendation_type: item?.recommendation_type ?? "CROSS_SELL",
   context: item?.context ?? "PRODUCT_PAGE",
   score: item?.score ?? 0.5,
   position: item?.position ?? 1,
   reason: item?.reason ?? "",
-  isClicked: String(Boolean(item?.isClicked)),
-  isPurchased: String(Boolean(item?.isPurchased)),
+  is_clicked: String(Boolean(item?.is_clicked)),
+  is_purchased: String(Boolean(item?.is_purchased)),
 });
 
 /**
@@ -56,13 +56,13 @@ export const RecommendationForm = ({
   };
 
   const handleSubmit = async (values: RecommendationFormValues) => {
-    const product = products.find((p) => p.id === values.productId);
+    const product = products.find((p) => p.id === values.product_id);
     const payload = {
       ...values,
       reason: values.reason?.trim() ?? "",
-      productName: product?.name ?? item?.productName,
-      productPrice: product?.unitPrice ?? item?.productPrice,
-      productImageUrl: product?.imageUrl ?? item?.productImageUrl,
+      product_name: product?.name ?? item?.product_name,
+      product_price: product?.unit_price ?? item?.product_price,
+      product_image_url: product?.image_url ?? item?.product_image_url,
     };
     if (id != null) {
       done(await updateRecommendationServerAction({ ...payload, id }), t("updatedSuccess"));

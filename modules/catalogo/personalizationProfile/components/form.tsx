@@ -21,11 +21,11 @@ import {
 type Result = { success: true } | { success: false; error: string };
 
 const toFormValues = (profile?: IPersonalizationProfile | null) => ({
-  customerId: profile?.customerId ?? "",
+  customer_id: profile?.customer_id ?? "",
   segment: profile?.segment ?? "NEW_CUSTOMER",
-  personalizationScore: profile?.personalizationScore ?? "",
+  personalization_score: profile?.personalization_score ?? "",
   status: profile?.status ?? "",
-  sessionId: profile?.sessionId ?? "",
+  session_id: profile?.session_id ?? "",
   ...Object.fromEntries(JSON_FIELDS.map((field) => [field, prettyJson(profile?.[field])])),
 });
 
@@ -66,7 +66,7 @@ export const PersonalizationProfileForm = ({
       ...values,
       ...jsonPayload,
       status: values.status?.trim() ?? "",
-      sessionId: values.sessionId?.trim() ?? "",
+      session_id: values.session_id?.trim() ?? "",
     };
     if (id != null) {
       done(await updateProfileServerAction({ ...payload, id }), t("updatedSuccess"));

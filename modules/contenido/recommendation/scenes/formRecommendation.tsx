@@ -42,7 +42,7 @@ export const FormRecommendation = ({
         .map((product) => ({
           id: String(product.id),
           value: String(product.id),
-          label: `${product.name ?? `#${product.id}`} · ${formatMoney(product.unitPrice)}`,
+          label: `${product.name ?? `#${product.id}`} · ${formatMoney(product.unit_price)}`,
         })),
     [products],
   );
@@ -62,7 +62,7 @@ export const FormRecommendation = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormField
-          controller={{ control, name: "customerId" }}
+          controller={{ control, name: "customer_id" }}
           type='number'
           step='1'
           min={1}
@@ -71,7 +71,7 @@ export const FormRecommendation = ({
           className='col-span-12 md:col-span-4'
         />
         <FormSelectField
-          controller={{ control, name: "productId" }}
+          controller={{ control, name: "product_id" }}
           label={t("fields.productId")}
           data={productOptions}
           placeholder={tCommon("selectPlaceholder")}
@@ -84,7 +84,7 @@ export const FormRecommendation = ({
           <p className='col-span-12 -mt-2 text-xs text-muted-foreground'>{t("identityLocked")}</p>
         ) : null}
         <FormSelectField
-          controller={{ control, name: "recommendationType" }}
+          controller={{ control, name: "recommendation_type" }}
           label={t("fields.recommendationType")}
           data={typeOptions}
           triggerClassName='!w-full'
@@ -115,14 +115,14 @@ export const FormRecommendation = ({
           className='col-span-12 sm:col-span-6 md:col-span-3'
         />
         <FormSelectField
-          controller={{ control, name: "isClicked" }}
+          controller={{ control, name: "is_clicked" }}
           label={t("fields.isClicked")}
           data={booleanOptions}
           triggerClassName='!w-full'
           className='col-span-12 sm:col-span-6 md:col-span-3'
         />
         <FormSelectField
-          controller={{ control, name: "isPurchased" }}
+          controller={{ control, name: "is_purchased" }}
           label={t("fields.isPurchased")}
           data={booleanOptions}
           triggerClassName='!w-full'

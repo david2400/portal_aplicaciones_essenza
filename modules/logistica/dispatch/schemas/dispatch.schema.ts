@@ -15,20 +15,20 @@ export const validationDispatch = () => {
   const required = () => z.string().trim().min(1, { message: intl("requiredField") });
 
   return z.object({
-    orderId: z.coerce
+    order_id: z.coerce
       .number({ invalid_type_error: intl("requiredField") })
       .int()
       .positive({ message: intl("requiredField") }),
-    guideNumber: required(),
+    guide_number: required(),
     address: required(),
-    departmentOrigin: required(),
-    cityOrigin: required(),
-    departmentDestination: required(),
-    cityDestination: required(),
-    estimatedDeliveryDate: required().refine((value) => value >= todayIso(), {
+    department_origin: required(),
+    city_origin: required(),
+    department_destination: required(),
+    city_destination: required(),
+    estimated_delivery_date: required().refine((value) => value >= todayIso(), {
       message: intl("dateNotPast"),
     }),
-    realDeliveryDate: required().refine((value) => value <= todayIso(), {
+    real_delivery_date: required().refine((value) => value <= todayIso(), {
       message: intl("dateNotFuture"),
     }),
   });
@@ -39,9 +39,9 @@ export const validationShippingQuote = () => {
   const required = () => z.string().trim().min(1, { message: intl("requiredField") });
 
   return z.object({
-    carrierCode: required(),
-    originZip: required(),
-    destinationZip: required(),
+    carrier_code: required(),
+    origin_zip: required(),
+    destination_zip: required(),
     weight: z
       .union([z.literal(""), z.coerce.number().positive({ message: intl("positiveNumber") })])
       .optional()

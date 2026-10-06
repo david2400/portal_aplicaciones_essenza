@@ -9,6 +9,7 @@ import { z } from "zod";
 import { FormField } from "@repo/ui/form/scenes/form-field";
 import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
+import { PRODUCT_STATUSES } from "../models/product.interface";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
@@ -34,6 +35,12 @@ export const FormProduct = ({
     defaultValues: initialValues,
   });
 
+  const statusOptions: ISelectOption[] = PRODUCT_STATUSES.map((status) => ({
+    id: status,
+    value: status,
+    label: t(`statuses.${status}`),
+  }));
+
   const booleanOptions: ISelectOption[] = [
     { id: "true", value: "true", label: tCommon("yes") },
     { id: "false", value: "false", label: tCommon("no") },
@@ -49,7 +56,7 @@ export const FormProduct = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "supplierId" }}
+          controller={{ control, name: "supplier_id" }}
           label={t("fields.supplierId")}
           data={options.suppliers ?? []}
           placeholder={tCommon("selectPlaceholder")}
@@ -58,7 +65,7 @@ export const FormProduct = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "brandId" }}
+          controller={{ control, name: "brand_id" }}
           label={t("fields.brandId")}
           data={options.brands ?? []}
           placeholder={tCommon("selectPlaceholder")}
@@ -67,7 +74,7 @@ export const FormProduct = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "categoryId" }}
+          controller={{ control, name: "category_id" }}
           label={t("fields.categoryId")}
           data={options.categories ?? []}
           placeholder={tCommon("selectPlaceholder")}
@@ -76,7 +83,7 @@ export const FormProduct = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "subcategoryId" }}
+          controller={{ control, name: "subcategory_id" }}
           label={t("fields.subcategoryId")}
           data={options.subcategories ?? []}
           placeholder={tCommon("selectPlaceholder")}
@@ -94,7 +101,7 @@ export const FormProduct = ({
         />
 
         <FormField
-          controller={{ control, name: "realPrice" }}
+          controller={{ control, name: "real_price" }}
           type='number'
           step='0.01'
           min={0}
@@ -103,7 +110,7 @@ export const FormProduct = ({
         />
 
         <FormField
-          controller={{ control, name: "unitPrice" }}
+          controller={{ control, name: "unit_price" }}
           type='number'
           step='0.01'
           min={0}
@@ -148,25 +155,33 @@ export const FormProduct = ({
         />
 
         <FormField
-          controller={{ control, name: "imageUrl" }}
+          controller={{ control, name: "image_url" }}
           label={t("fields.imageUrl")}
           className='col-span-12 md:col-span-6'
         />
 
         <FormSelectField
-          controller={{ control, name: "available" }}
-          label={t("fields.available")}
-          data={booleanOptions}
+          controller={{ control, name: "status" }}
+          label={t("fields.status")}
+          data={statusOptions}
           triggerClassName='!w-full'
           className='col-span-12 sm:col-span-6 md:col-span-3'
         />
 
         <FormSelectField
-          controller={{ control, name: "isCombo" }}
+          controller={{ control, name: "is_combo" }}
           label={t("fields.isCombo")}
           data={booleanOptions}
           triggerClassName='!w-full'
           className='col-span-12 sm:col-span-6 md:col-span-3'
+        />
+
+        <FormField
+          controller={{ control, name: "slug" }}
+          label={t("fields.slug")}
+          description={t("slugHint")}
+          placeholder={t("slugPlaceholder")}
+          className='col-span-12 md:col-span-6'
         />
 
         <FormTextAreaField

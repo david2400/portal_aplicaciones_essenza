@@ -14,10 +14,10 @@ export const dispatch_products_resource = create_search_resource<DispatchProduct
   list_tag: dispatch_products_tags.list(),
   list_all: () => dispatch_products_repository.list_dispatch_products(),
   delete_one: (id) => dispatch_products_repository.delete_dispatch_product({ id }),
-  search_fields: (item) => [item.id, item.orderId, item.guideNumber, item.address, item.cityOrigin, item.cityDestination],
+  search_fields: (item) => [item.id, item.order_id, item.guide_number, item.address, item.city_origin, item.city_destination],
   filter_fields: {
-    orderId: (item) => item.orderId,
-    cityDestination: (item) => item.cityDestination,
+    orderId: (item) => item.order_id,
+    cityDestination: (item) => item.city_destination,
   },
 });
 

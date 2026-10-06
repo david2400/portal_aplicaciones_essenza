@@ -54,13 +54,13 @@ export const FormCarrier = ({
         />
 
         <FormField
-          controller={{ control, name: "contactEmail" }}
+          controller={{ control, name: "contact_email" }}
           label={t("fields.contactEmail")}
           className='col-span-12 md:col-span-6'
         />
 
         <FormField
-          controller={{ control, name: "contactPhone" }}
+          controller={{ control, name: "contact_phone" }}
           label={t("fields.contactPhone")}
           className='col-span-12 md:col-span-6'
         />
@@ -72,7 +72,7 @@ export const FormCarrier = ({
         />
 
         <FormField
-          controller={{ control, name: "baseRate" }}
+          controller={{ control, name: "base_rate" }}
           type='number'
           step='0.01'
           min={0}
@@ -81,7 +81,7 @@ export const FormCarrier = ({
         />
 
         <FormField
-          controller={{ control, name: "ratePerKm" }}
+          controller={{ control, name: "rate_per_km" }}
           type='number'
           step='0.01'
           min={0}
@@ -90,7 +90,7 @@ export const FormCarrier = ({
         />
 
         <FormField
-          controller={{ control, name: "maxDeliveryDays" }}
+          controller={{ control, name: "max_delivery_days" }}
           type='number'
           step='1'
           min={0}
@@ -99,7 +99,7 @@ export const FormCarrier = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "isActive" }}
+          controller={{ control, name: "is_active" }}
           label={t("fields.isActive")}
           data={booleanOptions}
           triggerClassName='!w-full'

@@ -37,7 +37,7 @@ export const FormCombo = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "comboId" }}
+          controller={{ control, name: "combo_id" }}
           label={t("fields.comboId")}
           data={options.products ?? []}
           placeholder={tCommon("selectPlaceholder")}
@@ -46,7 +46,7 @@ export const FormCombo = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "productId" }}
+          controller={{ control, name: "product_id" }}
           label={t("fields.productId")}
           data={options.products ?? []}
           placeholder={tCommon("selectPlaceholder")}

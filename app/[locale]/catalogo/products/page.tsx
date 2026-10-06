@@ -8,6 +8,8 @@ import { list_subcategories } from "@/server/domains/catalog/subcategories/queri
 import { list_products } from "@/server/domains/inventory/products/queries";
 import { search_products } from "@/server/domains/inventory/products/search";
 import { list_suppliers } from "@/server/domains/inventory/suppliers/queries";
+import { list_attributes } from "@/server/domains/catalog/attributes/queries";
+import { list_product_templates } from "@/server/domains/catalog/product-templates/queries";
 import { parse_grid_query } from "@/server/lib/pagination";
 import { ProductManager } from "@/modules/catalogo/products";
 import { buildProductStats } from "@/modules/catalogo/products/stats";
@@ -34,13 +36,15 @@ const named = (items: Array<{ id?: number; name?: string }>) => items.map(({ id,
 
 const ProductPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const query = parse_grid_query(await searchParams, PRODUCT_GRID);
-  const [page, all, brands, categories, subcategories, suppliers] = await Promise.all([
+  const [page, all, brands, categories, subcategories, suppliers, templates, attributes] = await Promise.all([
     search_products(query),
     list_products({ size: 500 }),
     list_brands(),
     list_categories(),
     list_subcategories(),
     list_suppliers(),
+    list_product_templates(),
+    list_attributes(),
   ]);
 
   return (
@@ -49,8 +53,10 @@ const ProductPage = async ({ searchParams }: { searchParams: SearchParams }) => 
       stats={buildProductStats(all)}
       brands={named(brands)}
       categories={named(categories)}
-      subcategories={subcategories.map(({ id, name, categoryId }) => ({ id, name, categoryId }))}
+      subcategories={subcategories.map(({ id, name, category_id }) => ({ id, name, category_id }))}
       suppliers={named(suppliers)}
+      templates={templates}
+      attributes={attributes}
     />
   );
 };

@@ -12,7 +12,7 @@ import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
-import { MOVEMENT_TYPES } from "../models/inventory-movement.interface";
+import { MOVEMENT_TYPES, type ISkuOption } from "../models/inventory-movement.interface";
 
 export const FormInventoryMovement = ({
   initialValues,
@@ -20,7 +20,13 @@ export const FormInventoryMovement = ({
   onSubmit,
   products,
   warehouses,
-}: IFormProps<any> & { products: ISelectOption[]; warehouses: ISelectOption[] }) => {
+  skusByProduct = {},
+}: IFormProps<any> & {
+  products: ISelectOption[];
+  warehouses: ISelectOption[];
+  /** Variantes por producto (id de producto → SKUs); vacío si no tiene variantes. */
+  skusByProduct?: Record<string, ISkuOption[]>;
+}) => {
   const t = useTranslations("Administre.inventoryMovement");
   const tCommon = useTranslations("Administre.common");
   type MovementInputs = z.infer<typeof validationSchema>;
@@ -35,6 +41,10 @@ export const FormInventoryMovement = ({
   });
 
   const type = useWatch({ control, name: "type" }) as string;
+  const productId = useWatch({ control, name: "product_id" }) as string | number | undefined;
+  const skuOptions: ISelectOption[] = (skusByProduct[String(productId ?? "")] ?? [])
+    .filter((sku) => sku.id != null)
+    .map((sku) => ({ id: String(sku.id), value: String(sku.id), label: sku.code ? `${sku.name} · ${sku.code}` : (sku.name ?? `#${sku.id}`) }));
   const showFrom = type === "EXIT" || type === "TRANSFER";
   const showTo = type === "ENTRY" || type === "TRANSFER";
 
@@ -65,7 +75,7 @@ export const FormInventoryMovement = ({
         />
 
         <FormSelectField
-          controller={{ control, name: "productId" }}
+          controller={{ control, name: "product_id" }}
           label={t("fields.productId")}
           data={products}
           placeholder={tCommon("selectPlaceholder")}
@@ -74,9 +84,21 @@ export const FormInventoryMovement = ({
           className='col-span-12'
         />
 
+        {skuOptions.length > 0 ? (
+          <FormSelectField
+            controller={{ control, name: "sku_id" }}
+            label={t("fields.skuId")}
+            description={t("skuHint")}
+            data={skuOptions}
+            placeholder={tCommon("selectPlaceholder")}
+            triggerClassName='!w-full'
+            className='col-span-12'
+          />
+        ) : null}
+
         {showFrom ? (
           <FormSelectField
-            controller={{ control, name: "fromWarehouseId" }}
+            controller={{ control, name: "from_warehouse_id" }}
             label={t("fields.fromWarehouseId")}
             data={warehouses}
             placeholder={tCommon("selectPlaceholder")}
@@ -87,7 +109,7 @@ export const FormInventoryMovement = ({
 
         {showTo ? (
           <FormSelectField
-            controller={{ control, name: "toWarehouseId" }}
+            controller={{ control, name: "to_warehouse_id" }}
             label={t("fields.toWarehouseId")}
             data={warehouses}
             placeholder={tCommon("selectPlaceholder")}

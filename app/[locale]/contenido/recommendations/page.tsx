@@ -27,7 +27,7 @@ const RecommendationsPage = async () => {
   return (
     <RecommendationManager
       initialData={initialData}
-      products={products.map(({ id, name, unitPrice, imageUrl }) => ({ id, name, unitPrice, imageUrl }))}
+      products={products.map(({ id, name, unit_price, image_url }) => ({ id, name, unit_price, image_url }))}
     />
   );
 };

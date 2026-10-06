@@ -11,16 +11,12 @@ import { FormField } from "@repo/ui/form/scenes/form-field";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
-import type { IOrderProduct } from "../models/order.interface";
+import type { IOrderItem, IOrderSku } from "../models/order.interface";
 import { formatMoney } from "../constants";
 
-/** Calcula subtotal y total de un ítem a partir del precio de venta del producto. */
-export const computeItemAmounts = (
-  product: IOrderProduct | undefined,
-  quantity: number,
-  discount: number,
-) => {
-  const subtotal = (product?.unitPrice ?? 0) * (Number(quantity) || 0);
+/** Vista previa de importes (el cálculo definitivo lo hace el backend). */
+export const computeItemAmounts = (unitPrice: number | undefined, quantity: number, discount: number) => {
+  const subtotal = (unitPrice ?? 0) * (Number(quantity) || 0);
   const total = Math.max(subtotal - (Number(discount) || 0), 0);
   return { subtotal, total };
 };
@@ -29,8 +25,9 @@ export const FormOrderItem = ({
   initialValues,
   validationSchema,
   onSubmit,
-  products,
-}: IFormProps<any> & { products: IOrderProduct[] }) => {
+  skus,
+  frozen = null,
+}: IFormProps<any> & { skus: IOrderSku[]; frozen?: IOrderItem | null }) => {
   const t = useTranslations("Administre.order.items");
   const tCommon = useTranslations("Administre.common");
   type ItemInputs = z.infer<typeof validationSchema>;
@@ -44,33 +41,41 @@ export const FormOrderItem = ({
     defaultValues: initialValues,
   });
 
-  const [productId, quantity, discount] = useWatch({
+  const [skuId, quantity, discount] = useWatch({
     control,
-    name: ["productId", "quantity", "discount"],
+    name: ["sku_id", "quantity", "discount"],
   }) as [string, number, number];
 
-  const productOptions = useMemo(
-    () =>
-      products
-        .filter((product) => product.id != null)
-        .map((product) => ({
-          id: String(product.id),
-          value: String(product.id),
-          label: `${product.name ?? `#${product.id}`} · ${formatMoney(product.unitPrice)}`,
-        })),
-    [products],
-  );
+  const skuOptions = useMemo(() => {
+    const options = skus.map((sku) => ({
+      id: String(sku.id),
+      value: String(sku.id),
+      label: `${sku.label} · ${formatMoney(sku.unit_price)}`,
+    }));
+    // La línea guardada puede ser de un SKU que ya no está a la venta: se mantiene visible.
+    if (frozen?.sku_id != null && !skus.some((sku) => sku.id === frozen.sku_id)) {
+      options.unshift({
+        id: String(frozen.sku_id),
+        value: String(frozen.sku_id),
+        label: `${frozen.product_name ?? `#${frozen.product_id}`} · ${frozen.sku_code ?? ""} · ${formatMoney(frozen.unit_price)}`,
+      });
+    }
+    return options;
+  }, [skus, frozen]);
 
-  const selected = products.find((product) => String(product.id) === String(productId));
-  const { subtotal, total } = computeItemAmounts(selected, quantity, discount);
+  // Si no cambia el SKU, se conserva el precio congelado de la línea.
+  const keepsFrozenPrice = frozen?.sku_id != null && String(frozen.sku_id) === String(skuId);
+  const unitPrice = keepsFrozenPrice ? frozen?.unit_price : skus.find((sku) => String(sku.id) === String(skuId))?.unit_price;
+  const { subtotal, total } = computeItemAmounts(unitPrice, quantity, discount);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "productId" }}
-          label={t("fields.productId")}
-          data={productOptions}
+          controller={{ control, name: "sku_id" }}
+          label={t("fields.skuId")}
+          description={keepsFrozenPrice ? t("frozenPrice") : t("priceFromSku")}
+          data={skuOptions}
           placeholder={tCommon("selectPlaceholder")}
           searchable
           triggerClassName='!w-full'
@@ -96,7 +101,11 @@ export const FormOrderItem = ({
         />
       </div>
 
-      <dl className='grid grid-cols-2 gap-4 rounded-xl border border-border bg-muted/30 p-4 text-sm'>
+      <dl className='grid grid-cols-3 gap-4 rounded-xl border border-border bg-muted/30 p-4 text-sm'>
+        <div>
+          <dt className='text-muted-foreground'>{t("fields.unitPrice")}</dt>
+          <dd className='mt-1 text-lg font-semibold text-foreground'>{formatMoney(unitPrice)}</dd>
+        </div>
         <div>
           <dt className='text-muted-foreground'>{t("fields.subtotal")}</dt>
           <dd className='mt-1 text-lg font-semibold text-foreground'>{formatMoney(subtotal)}</dd>

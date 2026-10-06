@@ -115,10 +115,6 @@
     "order": "Órdenes",
     "inventoryMovement": "Movimientos de inventario",
     "unitMeasurement": "Unidades de medida",
-    "typeProduct": "Tipos de producto",
-    "feature": "Características",
-    "typeProductFeature": "Características por tipo",
-    "productFeature": "Valores por producto",
     "coupon": "Cupones",
     "review": "Reseñas",
     "motiveDevolution": "Motivos de devolución",
@@ -132,7 +128,10 @@
     "cmsPage": "Páginas",
     "recommendation": "Recomendaciones",
     "searchQuery": "Búsquedas",
-    "personalization": "Personalización"
+    "personalization": "Personalización",
+    "productChild": "Variantes de producto",
+    "attributes": "Atributos",
+    "productTemplates": "Plantillas de producto"
   },
   "Administre": {
     "sectionLabel": "Administración",
@@ -233,10 +232,22 @@
         "imageUrl": "URL de la imagen",
         "available": "Disponible",
         "isCombo": "Es combo",
-        "description": "Descripción"
+        "description": "Descripción",
+        "status": "Estado",
+        "slug": "Slug (URL)",
+        "skus": "SKU"
       },
       "availableCount": "Disponibles para venta",
-      "stockTotal": "Unidades en stock"
+      "stockTotal": "Unidades en stock",
+      "statuses": {
+        "DRAFT": "Borrador",
+        "ACTIVE": "Publicado",
+        "INACTIVE": "Pausado",
+        "ARCHIVED": "Archivado"
+      },
+      "slugHint": "Opcional. Si lo dejas vacío se genera a partir del nombre.",
+      "slugPlaceholder": "perfume-floral-50ml",
+      "slugFormat": "Solo minúsculas, números y guiones"
     },
     "combo": {
       "title": "Combos",
@@ -335,10 +346,6 @@
       "view": "Ver",
       "viewAria": "Ver detalle de {name}",
       "backToList": "Volver a órdenes",
-      "totalHint": "Puedes recalcularlo desde el detalle con la suma de los ítems.",
-      "totalMismatch": "El total de la orden ({orderTotal}) no coincide con la suma de sus ítems ({itemsTotal}).",
-      "syncTotal": "Usar la suma de los ítems",
-      "totalSynced": "Total actualizado",
       "items": {
         "title": "Productos de la orden",
         "create": "Agregar producto",
@@ -351,14 +358,48 @@
           "quantity": "Cantidad",
           "discount": "Descuento",
           "subtotal": "Subtotal",
-          "total": "Total"
-        }
+          "total": "Total",
+          "skuId": "Producto (SKU)",
+          "unitPrice": "Precio unitario",
+          "stock": "Stock"
+        },
+        "locked": "La orden ya no está pendiente: sus líneas no se pueden modificar.",
+        "frozenPrice": "Se conserva el precio con el que se agregó la línea.",
+        "priceFromSku": "Se usa el precio vigente del SKU; queda congelado en la línea."
       },
       "searchPlaceholder": "Buscar por número de orden o referencia…",
       "revenueHint": "Suma de órdenes no canceladas",
       "pending": "Pendientes",
       "averageTicket": "Ticket promedio",
-      "viewDetail": "Ver detalle"
+      "viewDetail": "Ver detalle",
+      "formHint": "El total se calcula con las líneas y el estado se cambia con los botones del detalle de la orden.",
+      "transitions": {
+        "PENDING": "Volver a pendiente",
+        "PAID": "Marcar como pagada",
+        "PROCESSING": "Pasar a en proceso",
+        "SHIPPED": "Marcar como enviada",
+        "DELIVERED": "Marcar como entregada",
+        "CANCELLED": "Cancelar orden"
+      },
+      "confirmTransition": "La orden pasará a «{state}».",
+      "payCommits": "Al pagar se descuenta del inventario el stock reservado para la orden.",
+      "cancelReleases": "Se libera el stock reservado para la orden.",
+      "cancelRestocks": "La orden ya descontó stock: las unidades vuelven a las bodegas de donde salieron.",
+      "cancelReason": "Motivo (opcional)",
+      "stateChanged": "Orden {state}",
+      "legacyStock": "Orden anterior a la gestión de stock: no reserva ni descuenta inventario.",
+      "pendingStock": "Las líneas reservan stock hasta que la orden se pague o se cancele.",
+      "pendingStockUntil": "Las líneas reservan stock hasta el {date}; si no se paga antes, la orden se cancela sola.",
+      "committedStock": "El stock de la orden ya se descontó del inventario.",
+      "cancelledStock": "Orden cancelada: su stock se liberó o se devolvió a las bodegas.",
+      "cancelledWithReason": "Orden cancelada: {reason}",
+      "reservationStatus": {
+        "ACTIVE": "Reservado",
+        "COMMITTED": "Descontado",
+        "RELEASED": "Liberado",
+        "EXPIRED": "Vencido",
+        "RETURNED": "Devuelto"
+      }
     },
     "inventoryMovement": {
       "title": "Movimientos de inventario",
@@ -386,13 +427,24 @@
         "fromWarehouseId": "Bodega de origen",
         "toWarehouseId": "Bodega de destino",
         "quantity": "Cantidad",
-        "reason": "Motivo"
+        "reason": "Motivo",
+        "skuId": "Variante (SKU)",
+        "source": "Origen"
       },
-      "searchPlaceholder": "Buscar por producto, bodega o motivo…"
+      "searchPlaceholder": "Buscar por producto, bodega o motivo…",
+      "skuHint": "El producto tiene variantes: elige cuál se mueve.",
+      "sources": {
+        "MANUAL": "Manual",
+        "PRODUCT_EDIT": "Ficha de producto",
+        "VARIANT_EDIT": "Ficha de variante",
+        "MIGRATION": "Apertura (migración)",
+        "ORDER": "Venta (orden)",
+        "ORDER_CANCEL": "Cancelación de orden"
+      }
     },
     "unitMeasurement": {
       "title": "Unidades de medida",
-      "description": "Unidades para expresar las características técnicas (cm, kg, ml…).",
+      "description": "Unidades para expresar los atributos técnicos (cm, kg, ml…).",
       "create": "Nueva unidad de medida",
       "createTitle": "Crear unidad de medida",
       "editTitle": "Editar unidad de medida",
@@ -402,64 +454,6 @@
       "fields": {
         "name": "Nombre"
       }
-    },
-    "typeProduct": {
-      "title": "Tipos de producto",
-      "description": "Familias de producto que comparten una misma ficha técnica.",
-      "create": "Nuevo tipo de producto",
-      "createTitle": "Crear tipo de producto",
-      "editTitle": "Editar tipo de producto",
-      "total": "Total de tipos de producto",
-      "emptyTitle": "Todavía no hay tipos de producto",
-      "emptyDescription": "Cuando registres el primer tipo de producto aparecerá en esta tabla.",
-      "fields": {
-        "name": "Nombre"
-      }
-    },
-    "feature": {
-      "title": "Características",
-      "description": "Atributos técnicos medibles (peso, voltaje, capacidad…).",
-      "create": "Nueva característica",
-      "createTitle": "Crear característica",
-      "editTitle": "Editar característica",
-      "total": "Total de características",
-      "emptyTitle": "Todavía no hay características",
-      "emptyDescription": "Cuando registres la primera característica aparecerá en esta tabla.",
-      "fields": {
-        "name": "Nombre",
-        "unitId": "Unidad de medida"
-      }
-    },
-    "typeProductFeature": {
-      "title": "Características por tipo",
-      "description": "Define qué característica pide la ficha de cada tipo de producto.",
-      "create": "Asignar característica",
-      "createTitle": "Asignar característica a un tipo",
-      "editTitle": "Editar asignación",
-      "total": "Total de asignaciones",
-      "emptyTitle": "Todavía no hay asignaciones",
-      "emptyDescription": "Cuando registres la primera asignación aparecerá en esta tabla.",
-      "fields": {
-        "typeProductId": "Tipo de producto",
-        "featureId": "Característica"
-      }
-    },
-    "productFeature": {
-      "title": "Valores por producto",
-      "description": "Valores técnicos de cada producto según sus características.",
-      "create": "Agregar valor",
-      "createTitle": "Agregar valor técnico",
-      "editTitle": "Editar valor técnico",
-      "total": "Total de valores",
-      "emptyTitle": "Todavía no hay valores",
-      "emptyDescription": "Cuando registres el primer valor aparecerá en esta tabla.",
-      "fields": {
-        "productId": "Producto",
-        "featureId": "Característica",
-        "value": "Valor"
-      },
-      "filterLabel": "Producto",
-      "allProducts": "Todos los productos"
     },
     "coupon": {
       "title": "Cupones",
@@ -1148,6 +1142,161 @@
       "bulkConfirmText": "Los productos dejarán de formar parte del combo.",
       "bulkDeleted": "{count, plural, one {# componente eliminado} other {# componentes eliminados}}",
       "bulkPartial": "{ok} eliminados · {failed} con error"
+    },
+    "productChild": {
+      "title": "Variantes de producto",
+      "description": "Tallas, tonos y presentaciones de cada producto con su propio precio, stock y disponibilidad.",
+      "create": "Nueva variante",
+      "createTitle": "Crear variante",
+      "editTitle": "Editar variante",
+      "emptyTitle": "Todavía no hay variantes",
+      "emptyDescription": "Crea la primera variante para vender un producto en distintas presentaciones.",
+      "searchPlaceholder": "Buscar por variante, descripción o producto…",
+      "total": "Variantes",
+      "stockAlerts": "Alertas de stock",
+      "stockAlertsHint": "{out} agotadas · {low} con {threshold} o menos unidades",
+      "inventoryValue": "Valor en inventario",
+      "enable": "Activar",
+      "disable": "Desactivar",
+      "enabledOk": "Variante activada",
+      "disabledOk": "Variante desactivada",
+      "nothingToChange": "Las variantes seleccionadas ya tienen ese estado",
+      "bulkEnableTitle": "¿Activar {count, plural, one {# variante} other {# variantes}}?",
+      "bulkDisableTitle": "¿Desactivar {count, plural, one {# variante} other {# variantes}}?",
+      "nameHint": "Ej.: 50 ml, Tono 03, Talla M",
+      "imagePreview": "Vista previa de la imagen",
+      "noImage": "Sin imagen",
+      "stockLevels": {
+        "out": "Agotada",
+        "low": "Stock bajo",
+        "ok": "Disponible"
+      },
+      "fields": {
+        "productId": "Producto",
+        "name": "Variante",
+        "description": "Descripción",
+        "stock": "Stock",
+        "unitPrice": "Precio unitario",
+        "imageUrl": "URL de la imagen",
+        "available": "Disponible"
+      },
+      "validation": {
+        "stockInteger": "El stock debe ser un número entero",
+        "stockMin": "El stock no puede ser negativo",
+        "pricePositive": "El precio debe ser mayor que cero",
+        "imageUrl": "Ingresa una URL que empiece por http:// o https://"
+      }
+    },
+    "attribute": {
+      "title": "Atributos",
+      "description": "Atributos de la ficha técnica y de las variantes: texto, número, sí/no u opciones (color, talla…).",
+      "create": "Nuevo atributo",
+      "createTitle": "Crear atributo",
+      "editTitle": "Editar atributo",
+      "total": "Total de atributos",
+      "emptyTitle": "Todavía no hay atributos",
+      "emptyDescription": "Cuando registres el primer atributo aparecerá en esta tabla.",
+      "searchPlaceholder": "Buscar por nombre, código u opción…",
+      "fields": {
+        "name": "Nombre",
+        "code": "Código",
+        "dataType": "Tipo de dato",
+        "unitId": "Unidad de medida",
+        "description": "Descripción",
+        "options": "Opciones",
+        "inUse": "Uso"
+      },
+      "types": {
+        "TEXT": "Texto",
+        "NUMBER": "Número",
+        "BOOLEAN": "Sí / No",
+        "OPTION": "Opciones"
+      },
+      "typeHints": {
+        "TEXT": "Texto libre (p. ej. material).",
+        "NUMBER": "Valor numérico, con unidad opcional (p. ej. peso en kg).",
+        "BOOLEAN": "Sí o no (p. ej. resistente al agua).",
+        "OPTION": "Lista cerrada de valores. Solo estos atributos pueden definir variantes (color, talla)."
+      },
+      "codeHint": "Identificador estable: minúsculas, números y \"_\". Se propone desde el nombre.",
+      "typeLocked": "El atributo ya se usa: su tipo no se puede cambiar.",
+      "noUnit": "Sin unidad",
+      "optionsHint": "Valores permitidos, en el orden en que se mostrarán. Una opción en uso no se puede quitar.",
+      "optionLabel": "Opción {index}",
+      "removeOption": "Quitar la opción {index}",
+      "addOption": "Agregar opción",
+      "moreOptions": "y {count} más",
+      "inUse": "En uso",
+      "notInUse": "Sin uso",
+      "optionAttributes": "Atributos de opciones",
+      "optionAttributesHint": "Pueden definir variantes en una plantilla.",
+      "unused": "Sin uso",
+      "validation": {
+        "code": "Usa minúsculas, números y \"_\" (empieza por letra, 2 a 60 caracteres).",
+        "optionsRequired": "Agrega al menos una opción.",
+        "optionDuplicated": "Esta opción está repetida."
+      }
+    },
+    "productTemplate": {
+      "title": "Plantillas de producto",
+      "description": "Qué atributos pide la ficha de cada tipo de producto y cuáles definen sus variantes.",
+      "create": "Nueva plantilla",
+      "createTitle": "Crear plantilla",
+      "editTitle": "Editar plantilla",
+      "total": "Total de plantillas",
+      "emptyTitle": "Todavía no hay plantillas",
+      "emptyDescription": "Cuando registres la primera plantilla aparecerá en esta tabla.",
+      "searchPlaceholder": "Buscar por nombre o atributo…",
+      "fields": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "attributes": "Atributos",
+        "sheet": "Ficha técnica",
+        "axes": "Ejes de variante",
+        "productCount": "Productos",
+        "required": "Obligatorio para publicar",
+        "variantAxis": "Eje de variante",
+        "filterable": "Filtrable en la tienda"
+      },
+      "attributesHint": "La ficha lleva los atributos normales; los ejes de variante (solo atributos de opciones) se eligen en cada variante. Los obligatorios se exigen al publicar el producto.",
+      "noAttributes": "Sin atributos todavía.",
+      "attributeLabel": "Atributo {index}",
+      "addAttribute": "Agregar atributo",
+      "removeAttribute": "Quitar el atributo {index}",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "axisHint": "Solo los atributos de opciones pueden ser eje de variante.",
+      "noAxes": "Sin variantes",
+      "withAxes": "Con variantes",
+      "withAxesHint": "Plantillas con al menos un eje de variante.",
+      "productsUsing": "Productos con plantilla",
+      "validation": {
+        "duplicated": "Este atributo ya está en la plantilla.",
+        "axisOnlyOption": "Solo los atributos de opciones pueden ser eje de variante."
+      }
+    },
+    "productAttributes": {
+      "action": "Ficha técnica",
+      "title": "Ficha técnica · {name}",
+      "loading": "Cargando ficha técnica…",
+      "template": "Plantilla",
+      "noTemplate": "Sin plantilla",
+      "templateHint": "Cambiar de plantilla descarta los valores de atributos que no estén en la nueva.",
+      "noTemplateHint": "Sin plantilla: ficha libre con cualquier atributo y sin ejes de variante.",
+      "published": "Publicado",
+      "notPublished": "No publicado",
+      "missingPublished": "El producto está publicado: completa lo que falta para poder guardar.",
+      "missingDraft": "Falta para poder publicar:",
+      "complete": "Ficha completa.",
+      "sheet": "Atributos",
+      "emptySheet": "La plantilla no tiene atributos de ficha.",
+      "noValue": "Sin valor",
+      "variants": "Variantes",
+      "variant": "Variante",
+      "noVariants": "El producto no tiene variantes. Créalas en Catálogo › Variantes.",
+      "inactiveVariant": "inactiva",
+      "variantsHint": "Cada variante necesita una opción por eje para publicar; dos variantes no pueden repetir combinación.",
+      "duplicatedCombination": "Hay variantes con la misma combinación de opciones."
     }
   },
   "Home": {
@@ -1290,10 +1439,6 @@
     "noLocation": "Sin ubicación",
     "withoutLocation": "Sin ubicación",
     "withoutLocationHint": "Asigna país, departamento y ciudad",
-    "typesWithFeature": "Tipos con característica",
-    "featuresInCatalog": "Características en catálogo",
-    "productsWithSpecs": "Productos con ficha",
-    "productsWithSpecsHint": "Productos con al menos un valor técnico",
     "bulkUpdated": "{count, plural, one {# registro actualizado} other {# registros actualizados}}"
   }
 }

@@ -27,19 +27,19 @@ const toFormValues = (page?: ICmsPage | null) => ({
   slug: page?.slug ?? "",
   content: page?.content ?? "",
   excerpt: page?.excerpt ?? "",
-  metaTitle: page?.metaTitle ?? "",
-  metaDescription: page?.metaDescription ?? "",
-  metaKeywords: page?.metaKeywords ?? "",
+  meta_title: page?.meta_title ?? "",
+  meta_description: page?.meta_description ?? "",
+  meta_keywords: page?.meta_keywords ?? "",
   status: page?.status || "DRAFT",
-  pageType: page?.pageType || "STATIC",
+  page_type: page?.page_type || "STATIC",
   template: page?.template ?? "",
-  isFeatured: String(Boolean(page?.isFeatured)),
-  sortOrder: page?.sortOrder ?? 0,
-  publishedAt: toInputDateTime(page?.publishedAt),
-  scheduledAt: toInputDateTime(page?.scheduledAt),
-  authorName: page?.authorName ?? "",
-  featuredImage: page?.featuredImage ?? "",
-  customFields: page?.customFields ?? "",
+  is_featured: String(Boolean(page?.is_featured)),
+  sort_order: page?.sort_order ?? 0,
+  published_at: toInputDateTime(page?.published_at),
+  scheduled_at: toInputDateTime(page?.scheduled_at),
+  author_name: page?.author_name ?? "",
+  featured_image: page?.featured_image ?? "",
+  custom_fields: page?.custom_fields ?? "",
 });
 
 /**
@@ -55,22 +55,22 @@ const toPayload = (values: CmsPageFormValues, isUpdate: boolean): ICmsPageCreate
     slug: values.slug?.trim() || undefined,
     content: values.content,
     excerpt: blank(values.excerpt),
-    metaTitle: blank(values.metaTitle),
-    metaDescription: blank(values.metaDescription),
-    metaKeywords: blank(values.metaKeywords),
+    meta_title: blank(values.meta_title),
+    meta_description: blank(values.meta_description),
+    meta_keywords: blank(values.meta_keywords),
     status: values.status,
-    pageType: values.pageType,
+    page_type: values.page_type,
     template: blank(values.template),
-    isFeatured: values.isFeatured,
-    sortOrder: values.sortOrder,
+    is_featured: values.is_featured,
+    sort_order: values.sort_order,
     // Al publicar sin fecha se registra el momento actual.
-    publishedAt:
-      fromInputDateTime(values.publishedAt) ??
+    published_at:
+      fromInputDateTime(values.published_at) ??
       (values.status === "PUBLISHED" ? nowLocalDateTime() : undefined),
-    scheduledAt: values.status === "SCHEDULED" ? fromInputDateTime(values.scheduledAt) : undefined,
-    authorName: blank(values.authorName),
-    featuredImage: blank(values.featuredImage),
-    customFields: blank(values.customFields),
+    scheduled_at: values.status === "SCHEDULED" ? fromInputDateTime(values.scheduled_at) : undefined,
+    author_name: blank(values.author_name),
+    featured_image: blank(values.featured_image),
+    custom_fields: blank(values.custom_fields),
   };
 };
 
@@ -120,7 +120,7 @@ export const CmsPageEditor = ({ page }: { page?: ICmsPage | null }) => {
         {!isNew ? (
           <div className='flex items-center gap-3 text-sm text-muted-foreground'>
             <PageStatusBadge status={page?.status} />
-            <span>{t("lastUpdated", { date: formatDateTime(page?.updatedAt ?? page?.createdAt) })}</span>
+            <span>{t("lastUpdated", { date: formatDateTime(page?.updated_at ?? page?.created_at) })}</span>
           </div>
         ) : null}
       </div>

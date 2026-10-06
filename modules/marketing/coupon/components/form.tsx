@@ -19,31 +19,31 @@ type CouponFormValues = {
   code: string;
   name: string;
   description?: string;
-  discountType: DiscountType;
-  discountValue: number;
-  minimumOrderAmount?: number;
-  maximumDiscountAmount?: number;
-  usageLimit?: number;
-  validFrom: string;
-  validUntil: string;
-  isActive: boolean;
-  isPublic: boolean;
-  applicableCategories?: string[];
-  applicableProducts?: string[];
-  excludedCategories?: string[];
-  excludedProducts?: string[];
+  discount_type: DiscountType;
+  discount_value: number;
+  minimum_order_amount?: number;
+  maximum_discount_amount?: number;
+  usage_limit?: number;
+  valid_from: string;
+  valid_until: string;
+  is_active: boolean;
+  is_public: boolean;
+  applicable_categories?: string[];
+  applicable_products?: string[];
+  excluded_categories?: string[];
+  excluded_products?: string[];
 };
 
 /** Valores del formulario → contrato del backend (fechas ISO, listas como CSV). */
 const toPayload = (values: CouponFormValues): ICouponCreateRequest => ({
   ...values,
   description: values.description || undefined,
-  validFrom: fromInputDateTime(values.validFrom),
-  validUntil: fromInputDateTime(values.validUntil),
-  applicableCategories: listToCsv(values.applicableCategories),
-  applicableProducts: listToCsv(values.applicableProducts),
-  excludedCategories: listToCsv(values.excludedCategories),
-  excludedProducts: listToCsv(values.excludedProducts),
+  valid_from: fromInputDateTime(values.valid_from),
+  valid_until: fromInputDateTime(values.valid_until),
+  applicable_categories: listToCsv(values.applicable_categories),
+  applicable_products: listToCsv(values.applicable_products),
+  excluded_categories: listToCsv(values.excluded_categories),
+  excluded_products: listToCsv(values.excluded_products),
 });
 
 const toFormValues = (coupon?: ICoupon | null) => {
@@ -56,19 +56,19 @@ const toFormValues = (coupon?: ICoupon | null) => {
     code: coupon?.code ?? "",
     name: coupon?.name ?? "",
     description: coupon?.description ?? "",
-    discountType: (coupon?.discountType as DiscountType) ?? "PERCENTAGE",
-    discountValue: coupon?.discountValue ?? 10,
-    minimumOrderAmount: coupon?.minimumOrderAmount ?? "",
-    maximumDiscountAmount: coupon?.maximumDiscountAmount ?? "",
-    usageLimit: coupon?.usageLimit ?? "",
-    validFrom: coupon ? toInputDateTime(coupon.validFrom) : local(now),
-    validUntil: coupon ? toInputDateTime(coupon.validUntil) : local(inThirtyDays),
-    isActive: String(coupon?.isActive ?? true),
-    isPublic: String(coupon?.isPublic ?? false),
-    applicableCategories: csvToList(coupon?.applicableCategories),
-    applicableProducts: csvToList(coupon?.applicableProducts),
-    excludedCategories: csvToList(coupon?.excludedCategories),
-    excludedProducts: csvToList(coupon?.excludedProducts),
+    discount_type: (coupon?.discount_type as DiscountType) ?? "PERCENTAGE",
+    discount_value: coupon?.discount_value ?? 10,
+    minimum_order_amount: coupon?.minimum_order_amount ?? "",
+    maximum_discount_amount: coupon?.maximum_discount_amount ?? "",
+    usage_limit: coupon?.usage_limit ?? "",
+    valid_from: coupon ? toInputDateTime(coupon.valid_from) : local(now),
+    valid_until: coupon ? toInputDateTime(coupon.valid_until) : local(inThirtyDays),
+    is_active: String(coupon?.is_active ?? true),
+    is_public: String(coupon?.is_public ?? false),
+    applicable_categories: csvToList(coupon?.applicable_categories),
+    applicable_products: csvToList(coupon?.applicable_products),
+    excluded_categories: csvToList(coupon?.excluded_categories),
+    excluded_products: csvToList(coupon?.excluded_products),
   };
 };
 

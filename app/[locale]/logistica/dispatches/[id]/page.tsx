@@ -47,17 +47,17 @@ const DispatchDetailPage = async ({ params }: { params: Params }) => {
   return (
     <DispatchDetail
       dispatch={dispatch}
-      lines={lines.filter((line) => line.dispatchProductId === dispatchId)}
-      trackings={trackings.filter((tracking) => tracking.dispatchProductId === dispatchId)}
+      lines={lines.filter((line) => line.dispatch_product_id === dispatchId)}
+      trackings={trackings.filter((tracking) => tracking.dispatch_product_id === dispatchId)}
       orderLines={productOrders
-        .filter((item) => item.orderId === dispatch.orderId)
+        .filter((item) => item.order_id === dispatch.order_id)
         .map((item) => ({
           id: item.id,
-          productName: productNames.get(item.productId) ?? `#${item.productId}`,
+          product_name: productNames.get(item.product_id) ?? `#${item.product_id}`,
           quantity: item.quantity ?? 0,
         }))}
       carriers={carriers
-        .filter((carrier) => carrier.isActive !== false)
+        .filter((carrier) => carrier.is_active !== false)
         .map(({ id, name, code }) => ({ id, name, code }))}
       orders={orders.map((order) => ({
         id: order.id,

@@ -25,13 +25,13 @@ const formatValue = (value: number) => money.format(value);
 export const TrendChart = ({ data }: ITrendChartProps) => {
   const t = useTranslations("Dashboard");
   const [active, setActive] = useState<number | null>(null);
-  const max = Math.max(...data.map((point) => point.totalRevenue ?? 0), 1);
+  const max = Math.max(...data.map((point) => point.total_revenue ?? 0), 1);
 
   return (
     <figure className='space-y-3'>
       <div className='relative flex h-48 items-end gap-[2px] border-b border-border' aria-hidden='true'>
         {data.map((point, index) => {
-          const value = point.totalRevenue ?? 0;
+          const value = point.total_revenue ?? 0;
           const height = Math.max((value / max) * 100, value > 0 ? 2 : 0);
           return (
             <button
@@ -71,7 +71,7 @@ export const TrendChart = ({ data }: ITrendChartProps) => {
           {data.map((point, index) => (
             <tr key={`${point.date}-row-${index}`}>
               <td>{point.date}</td>
-              <td>{formatValue(point.totalRevenue ?? 0)}</td>
+              <td>{formatValue(point.total_revenue ?? 0)}</td>
             </tr>
           ))}
         </tbody>

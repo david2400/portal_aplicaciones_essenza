@@ -12,17 +12,17 @@ export const validationRecommendation = () => {
   const number = () => z.coerce.number({ invalid_type_error: intl("requiredField") });
 
   return z.object({
-    customerId: number().int().positive({ message: intl("requiredField") }),
-    productId: number().int().positive({ message: intl("requiredField") }),
-    recommendationType: z.enum(RECOMMENDATION_TYPES),
+    customer_id: number().int().positive({ message: intl("requiredField") }),
+    product_id: number().int().positive({ message: intl("requiredField") }),
+    recommendation_type: z.enum(RECOMMENDATION_TYPES),
     context: z.enum(RECOMMENDATION_CONTEXTS),
     score: number()
       .min(0, { message: intl("range", { min: 0, max: 1 }) })
       .max(1, { message: intl("range", { min: 0, max: 1 }) }),
     position: number().int().min(1, { message: intl("positiveNumber") }),
     reason: z.string().trim().max(255, { message: intl("maxLength", { max: 255 }) }).optional(),
-    isClicked: bool(),
-    isPurchased: bool(),
+    is_clicked: bool(),
+    is_purchased: bool(),
   });
 };
 

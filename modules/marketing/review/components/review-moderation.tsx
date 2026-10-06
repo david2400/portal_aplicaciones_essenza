@@ -71,7 +71,7 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
     [products],
   );
   const productName = (review: IReview) =>
-    productNames.get(review.productId ?? -1) ?? t("productFallback", { id: review.productId ?? "—" });
+    productNames.get(review.product_id ?? -1) ?? t("productFallback", { id: review.product_id ?? "—" });
 
   const rated = initialData.filter((review) => review.rating != null);
   const pending = initialData.filter((review) => reviewStatus(review) === "PENDING").length;
@@ -88,11 +88,11 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
       .filter(
         (review) =>
           !needle ||
-          [review.title, review.comment, review.customerName, review.customerEmail, productName(review)]
+          [review.title, review.comment, review.customer_name, review.customer_email, productName(review)]
             .filter(Boolean)
             .some((value) => String(value).toLowerCase().includes(needle)),
       )
-      .sort((a, b) => (b.reviewDate ?? "").localeCompare(a.reviewDate ?? ""));
+      .sort((a, b) => (b.review_date ?? "").localeCompare(a.review_date ?? ""));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, statusFilter, ratingFilter, query, productNames]);
 
@@ -183,7 +183,7 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
     const ok = await confirm({
       title: tCommon("deleteConfirmTitle"),
       description: tCommon("deleteConfirmText", {
-        name: review.title || t("reviewBy", { name: review.customerName ?? "—" }),
+        name: review.title || t("reviewBy", { name: review.customer_name ?? "—" }),
       }),
       confirmLabel: tCommon("deleteConfirmButton"),
       tone: "danger",
@@ -369,7 +369,7 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
                       </div>
                     </div>
                     <div className='flex flex-wrap items-center gap-2'>
-                      {review.isVerifiedPurchase ? (
+                      {review.is_verified_purchase ? (
                         <Badge variant='secondary'>
                           <HiOutlineCheckBadge className='h-3.5 w-3.5' aria-hidden='true' /> {t("verified")}
                         </Badge>
@@ -382,16 +382,16 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
                   <p className='whitespace-pre-line text-sm text-muted-foreground'>{review.comment}</p>
 
                   <p className='text-xs text-muted-foreground'>
-                    {t("reviewBy", { name: review.customerName ?? "—" })}
-                    {review.customerEmail ? ` · ${review.customerEmail}` : ""}
-                    {review.reviewDate ? ` · ${new Date(review.reviewDate).toLocaleDateString("es-CO")}` : ""}
+                    {t("reviewBy", { name: review.customer_name ?? "—" })}
+                    {review.customer_email ? ` · ${review.customer_email}` : ""}
+                    {review.review_date ? ` · ${new Date(review.review_date).toLocaleDateString("es-CO")}` : ""}
                     {" · "}
-                    {t("helpful", { yes: review.helpfulCount ?? 0, no: review.notHelpfulCount ?? 0 })}
+                    {t("helpful", { yes: review.helpful_count ?? 0, no: review.not_helpful_count ?? 0 })}
                   </p>
 
-                  {review.moderationNotes ? (
+                  {review.moderation_notes ? (
                     <p className='rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground'>
-                      <span className='font-semibold'>{t("notes")}:</span> {review.moderationNotes}
+                      <span className='font-semibold'>{t("notes")}:</span> {review.moderation_notes}
                     </p>
                   ) : null}
 
@@ -421,7 +421,7 @@ export const ReviewModeration = ({ initialData, products }: IReviewModerationPro
                       size='sm'
                       variant='ghost'
                       disabled={isBusy}
-                      aria-label={tCommon("deleteAria", { name: review.title || review.customerName || "" })}
+                      aria-label={tCommon("deleteAria", { name: review.title || review.customer_name || "" })}
                       onClick={() => remove(review)}
                       className='rounded-full text-destructive hover:text-destructive'>
                       <HiOutlineTrash className='h-4 w-4' aria-hidden='true' />

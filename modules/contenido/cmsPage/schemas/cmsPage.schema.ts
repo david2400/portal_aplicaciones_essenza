@@ -26,26 +26,26 @@ export const validationCmsPage = () => {
         .optional(),
       content: z.string().trim().min(1, { message: intl("requiredField") }),
       excerpt: max(PAGE_LIMITS.excerpt).optional(),
-      metaTitle: max(PAGE_LIMITS.metaTitle).optional(),
-      metaDescription: max(PAGE_LIMITS.metaDescription).optional(),
-      metaKeywords: max(PAGE_LIMITS.metaKeywords).optional(),
+      meta_title: max(PAGE_LIMITS.meta_title).optional(),
+      meta_description: max(PAGE_LIMITS.meta_description).optional(),
+      meta_keywords: max(PAGE_LIMITS.meta_keywords).optional(),
       status: z.enum(PAGE_STATUSES),
-      pageType: z.enum(PAGE_TYPES),
+      page_type: z.enum(PAGE_TYPES),
       template: max(PAGE_LIMITS.template).optional(),
-      isFeatured: z
+      is_featured: z
         .union([z.boolean(), z.enum(["true", "false"])])
         .transform((value) => value === true || value === "true"),
-      sortOrder: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().min(0),
-      publishedAt: z.string().optional(),
-      scheduledAt: z.string().optional(),
-      authorName: max(PAGE_LIMITS.authorName).optional(),
-      featuredImage: z
-        .union([z.literal(""), max(PAGE_LIMITS.featuredImage).url({ message: intl("invalidUrl") })])
+      sort_order: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().min(0),
+      published_at: z.string().optional(),
+      scheduled_at: z.string().optional(),
+      author_name: max(PAGE_LIMITS.author_name).optional(),
+      featured_image: z
+        .union([z.literal(""), max(PAGE_LIMITS.featured_image).url({ message: intl("invalidUrl") })])
         .optional(),
-      customFields: z.string().optional().refine(isJson, { message: intl("invalidJson") }),
+      custom_fields: z.string().optional().refine(isJson, { message: intl("invalidJson") }),
     })
-    .refine((values) => values.status !== "SCHEDULED" || !!values.scheduledAt, {
-      path: ["scheduledAt"],
+    .refine((values) => values.status !== "SCHEDULED" || !!values.scheduled_at, {
+      path: ["scheduled_at"],
       message: intl("requiredField"),
     });
 };

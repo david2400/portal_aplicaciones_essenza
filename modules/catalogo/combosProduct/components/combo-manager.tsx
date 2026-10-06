@@ -57,7 +57,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
   const formOptions = useMemo(() => ({ products: toOptions(products) }), [products]);
 
   const stats = useMemo(() => {
-    const combos = new Set(initialData.map((item) => item.comboId));
+    const combos = new Set(initialData.map((item) => item.combo_id));
     return {
       components: initialData.length,
       combos: combos.size,
@@ -65,7 +65,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
     };
   }, [initialData]);
 
-  const label = (row: ICombo) => `${name(row.comboId)} → ${name(row.productId)}`;
+  const label = (row: ICombo) => `${name(row.combo_id)} → ${name(row.product_id)}`;
 
   const deleteMany = async (rows: ICombo[]) => {
     const ids = rows.map((row) => row.id).filter((id): id is number => id != null);
@@ -111,21 +111,21 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
   const columns = useMemo<GridColumn<ICombo>[]>(
     () => [
       {
-        id: "comboId",
+        id: "combo_id",
         header: t("fields.comboId"),
-        meta: { label: t("fields.comboId"), hideable: false, exportValue: (row) => name(row.comboId) },
+        meta: { label: t("fields.comboId"), hideable: false, exportValue: (row) => name(row.combo_id) },
         cell: ({ row }) => (
           <span className='inline-flex items-center gap-2 font-semibold text-foreground'>
             <HiOutlineSquare3Stack3D className='h-4 w-4 text-primary' aria-hidden='true' />
-            {name(row.original.comboId)}
+            {name(row.original.combo_id)}
           </span>
         ),
       },
       {
-        id: "productId",
+        id: "product_id",
         header: t("fields.productId"),
-        meta: { label: t("fields.productId"), exportValue: (row) => name(row.productId) },
-        cell: ({ row }) => name(row.original.productId),
+        meta: { label: t("fields.productId"), exportValue: (row) => name(row.product_id) },
+        cell: ({ row }) => name(row.original.product_id),
       },
       {
         id: "quantity",
@@ -140,7 +140,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
 
   const comboOptions = useMemo(
     () =>
-      [...new Set(initialData.map((item) => item.comboId).filter((id): id is number => id != null))].map((id) => ({
+      [...new Set(initialData.map((item) => item.combo_id).filter((id): id is number => id != null))].map((id) => ({
         value: String(id),
         label: name(id),
       })),
@@ -149,7 +149,7 @@ export const ComboManager = ({ initialData, products }: IComboManagerProps) => {
   );
 
   const filters: GridFilter<ICombo>[] = [
-    { id: "comboId", label: t("fields.comboId"), options: comboOptions, accessor: (row) => row.comboId },
+    { id: "combo_id", label: t("fields.comboId"), options: comboOptions, accessor: (row) => row.combo_id },
   ];
 
   const createButton = (

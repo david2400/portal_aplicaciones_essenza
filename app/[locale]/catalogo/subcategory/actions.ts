@@ -17,7 +17,7 @@ import { SUBCATEGORY_GRID } from './grid';
  * para que la UI muestre el motivo real del error (en producción Next.js
  * oculta el mensaje de las excepciones) y marque los campos inválidos.
  */
-type SubcategoryFormValues = { name: string; slug?: string; description?: string; categoryId?: number };
+type SubcategoryFormValues = { name: string; slug?: string; description?: string; category_id?: number };
 
 const fail = (
   result: { error?: string; fieldErrors?: Record<string, string> },
@@ -27,18 +27,18 @@ const fail = (
 const missingCategory = (): ActionResult<never> => ({
   success: false,
   error: 'Selecciona la categoría a la que pertenece la subcategoría.',
-  fieldErrors: { categoryId: 'Selecciona una categoría' },
+  fieldErrors: { category_id: 'Selecciona una categoría' },
 });
 
 export async function createSubcategoryServerAction(values: SubcategoryFormValues): Promise<ActionResult<{ id?: number }>> {
-  if (!values.categoryId) return missingCategory();
-  const result = await create_subcategory_action({ ...values, categoryId: values.categoryId });
+  if (!values.category_id) return missingCategory();
+  const result = await create_subcategory_action({ ...values, category_id: values.category_id });
   return result.success ? { success: true, data: result.data } : fail(result, 'No se pudo crear la subcategoría');
 }
 
 export async function updateSubcategoryServerAction(id: number, values: SubcategoryFormValues): Promise<ActionResult> {
-  if (!values.categoryId) return missingCategory();
-  const result = await update_subcategory_action({ ...values, categoryId: values.categoryId, id });
+  if (!values.category_id) return missingCategory();
+  const result = await update_subcategory_action({ ...values, category_id: values.category_id, id });
   return result.success ? { success: true } : fail(result, 'No se pudo actualizar la subcategoría');
 }
 

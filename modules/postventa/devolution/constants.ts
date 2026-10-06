@@ -72,5 +72,5 @@ export const nowLocalDateTime = () => {
 };
 
 /** Monto a reembolsar de una línea: cantidad × precio − cargo de reposición. */
-export const computeRefund = (quantity: number, unitPrice: number, restockingFee: number) =>
-  Math.max((Number(quantity) || 0) * (Number(unitPrice) || 0) - (Number(restockingFee) || 0), 0);
+export const computeRefund = (quantity: number, unit_price: number, restocking_fee: number) =>
+  Math.max((Number(quantity) || 0) * (Number(unit_price) || 0) - (Number(restocking_fee) || 0), 0);

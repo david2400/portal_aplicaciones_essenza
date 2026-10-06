@@ -16,48 +16,61 @@ import type {
   IProductCreateRequest,
   IProductUpdateRequest,
 } from "../models/product.interface";
+import { statusOf } from "../models/product.interface";
 import {
   createProductServerAction,
   updateProductServerAction,
 } from "@/app/[locale]/catalogo/products/actions";
 
+/**
+ * El estado editorial manda; `available` se envía derivado para clientes y
+ * pantallas que aún lo leen. Slug vacío => lo genera el backend.
+ */
+const toPayload = <T extends { status?: string; slug?: string }>(values: T) => ({
+  ...values,
+  available: values.status === "ACTIVE",
+  slug: values.slug ? values.slug : undefined,
+});
+
 /** Valores iniciales del formulario de creación. */
 const EMPTY_VALUES = {
   name: "",
-  supplierId: "",
-  brandId: "",
-  categoryId: "",
-  subcategoryId: "",
+  supplier_id: "",
+  brand_id: "",
+  category_id: "",
+  subcategory_id: "",
   stock: 0,
-  realPrice: 0,
-  unitPrice: 0,
+  real_price: 0,
+  unit_price: 0,
   length: 0,
   width: 0,
   height: 0,
   weight: 0,
-  imageUrl: "",
-  available: "true",
-  isCombo: "false",
+  image_url: "",
+  status: "ACTIVE",
+  slug: "",
+  is_combo: "false",
   description: "",
 };
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
 const toFormValues = (values: IProduct) => ({
   name: values.name ?? "",
-  supplierId: values.supplierId != null ? String(values.supplierId) : "",
-  brandId: values.brandId != null ? String(values.brandId) : "",
-  categoryId: values.categoryId != null ? String(values.categoryId) : "",
-  subcategoryId: values.subcategoryId != null ? String(values.subcategoryId) : "",
+  supplier_id: values.supplier_id != null ? String(values.supplier_id) : "",
+  brand_id: values.brand_id != null ? String(values.brand_id) : "",
+  category_id: values.category_id != null ? String(values.category_id) : "",
+  subcategory_id: values.subcategory_id != null ? String(values.subcategory_id) : "",
   stock: values.stock ?? 0,
-  realPrice: values.realPrice ?? 0,
-  unitPrice: values.unitPrice ?? 0,
+  real_price: values.real_price ?? 0,
+  unit_price: values.unit_price ?? 0,
   length: values.length ?? 0,
   width: values.width ?? 0,
   height: values.height ?? 0,
   weight: values.weight ?? 0,
-  imageUrl: values.imageUrl ?? "",
-  available: String(Boolean(values.available)),
-  isCombo: String(Boolean(values.isCombo)),
+  image_url: values.image_url ?? "",
+  status: statusOf(values),
+  slug: values.slug ?? "",
+  is_combo: String(Boolean(values.is_combo)),
   description: values.description ?? "",
 });
 
@@ -83,7 +96,7 @@ export const RegisterProduct = ({
   const feedback = useFeedback(handleClose);
 
   const handleSubmit = async (values: IProductCreateRequest) => {
-    const result = await createProductServerAction(values);
+    const result = await createProductServerAction(toPayload(values));
     if (result.success) {
       feedback.success(t("createdSuccess"), values.name);
     } else {
@@ -116,7 +129,7 @@ export const UpdateProduct = ({
   }
 
   const handleSubmit = async (values: Omit<IProductUpdateRequest, "id">) => {
-    const result = await updateProductServerAction({ ...values, id } as IProductUpdateRequest);
+    const result = await updateProductServerAction({ ...toPayload(values), id } as IProductUpdateRequest);
     if (result.success) {
       feedback.success(t("updatedSuccess"), values.name);
     } else {

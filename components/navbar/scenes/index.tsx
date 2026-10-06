@@ -68,6 +68,7 @@ const NAV_ITEMS: NavItem[] = [
     icon: <BiCategory className='h-4 w-4' />,
     options: [
       { label: "Productos", href: "/catalogo/products" },
+      { label: "Variantes", href: "/catalogo/variants" },
       { label: "Combos", href: "/catalogo/combo" },
       { label: "Marcas", href: "/catalogo/brand" },
       { label: "Categorías", href: "/catalogo/category" },
@@ -125,10 +126,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "Ficha técnica",
     icon: <BiListCheck className='h-4 w-4' />,
     options: [
-      { label: "Valores por producto", href: "/fichaTecnica/product-features" },
-      { label: "Características", href: "/fichaTecnica/features" },
-      { label: "Tipos de producto", href: "/fichaTecnica/type-products" },
-      { label: "Características por tipo", href: "/fichaTecnica/type-product-features" },
+      { label: "Atributos", href: "/fichaTecnica/attributes" },
+      { label: "Plantillas de producto", href: "/fichaTecnica/templates" },
       { label: "Unidades de medida", href: "/fichaTecnica/unit-measurements" },
     ],
   },

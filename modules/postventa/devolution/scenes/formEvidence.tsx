@@ -37,7 +37,7 @@ export const FormEvidence = ({ initialValues, validationSchema, onSubmit }: IFor
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormSelectField
-          controller={{ control, name: "evidenceType" }}
+          controller={{ control, name: "evidence_type" }}
           label={t("fields.evidenceType")}
           data={typeOptions}
           triggerClassName='!w-full'
@@ -45,7 +45,7 @@ export const FormEvidence = ({ initialValues, validationSchema, onSubmit }: IFor
         />
 
         <FormField
-          controller={{ control, name: "resourceUrl" }}
+          controller={{ control, name: "resource_url" }}
           type='url'
           label={t("fields.resourceUrl")}
           placeholder='https://'
@@ -53,7 +53,7 @@ export const FormEvidence = ({ initialValues, validationSchema, onSubmit }: IFor
         />
 
         <FormField
-          controller={{ control, name: "recordedBy" }}
+          controller={{ control, name: "recorded_by" }}
           label={t("fields.recordedBy")}
           className='col-span-12 md:col-span-6'
         />

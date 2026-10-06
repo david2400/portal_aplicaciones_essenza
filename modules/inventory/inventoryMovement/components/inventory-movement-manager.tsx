@@ -18,12 +18,14 @@ import {
   MOVEMENT_TYPES,
   type IInventoryMovement,
   type INamedItem,
+  type IProductWithSkus,
+  REFERENCE_TYPES,
   type MovementType,
 } from "../models/inventory-movement.interface";
 
 interface IInventoryMovementManagerProps {
   initialData: IInventoryMovement[];
-  products: INamedItem[];
+  products: IProductWithSkus[];
   warehouses: INamedItem[];
 }
 
@@ -51,6 +53,14 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
   const productNames = useMemo(() => toLookup(products), [products]);
   const warehouseNames = useMemo(() => toLookup(warehouses), [warehouses]);
   const productOptions = useMemo(() => toOptions(products), [products]);
+  const skusByProduct = useMemo(
+    () => Object.fromEntries(products.map((product) => [String(product.id), product.skus ?? []])),
+    [products],
+  );
+  const skuCodes = useMemo(
+    () => new Map(products.flatMap((product) => product.skus ?? []).map((sku) => [sku.id ?? -1, sku.code ?? sku.name ?? ""])),
+    [products],
+  );
   const warehouseOptions = useMemo(() => toOptions(warehouses), [warehouses]);
 
   const rows = useMemo<MovementRow[]>(
@@ -62,7 +72,12 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
     initialData.filter((movement) => movement.type === type).reduce((acc, movement) => acc + (movement.quantity ?? 0), 0);
 
   const warehouseLabel = (id?: number) => (id == null ? "—" : (warehouseNames.get(id) ?? `#${id}`));
-  const productLabel = (row: MovementRow) => productNames.get(row.productId ?? -1) ?? `#${row.productId}`;
+  const productLabel = (row: MovementRow) => productNames.get(row.product_id ?? -1) ?? `#${row.product_id}`;
+  const skuLabel = (row: MovementRow) => (row.sku_id == null ? "" : (skuCodes.get(row.sku_id) ?? ""));
+  const sourceLabel = (row: MovementRow) =>
+    row.reference_type && (REFERENCE_TYPES as readonly string[]).includes(row.reference_type)
+      ? t(`sources.${row.reference_type as (typeof REFERENCE_TYPES)[number]}`)
+      : t("sources.MANUAL");
   const typeLabel = (row: MovementRow) =>
     MOVEMENT_TYPES.includes(row.type as MovementType) ? t(`types.${row.type as MovementType}`) : row.type;
 
@@ -78,11 +93,18 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
         ),
       },
       {
-        id: "productId",
+        id: "product_id",
         accessorFn: (row) => productLabel(row),
         header: t("fields.productId"),
         meta: { label: t("fields.productId"), exportValue: (row) => productLabel(row) },
-        cell: ({ row }) => <span className='font-semibold text-foreground'>{productLabel(row.original)}</span>,
+        cell: ({ row }) => (
+          <div className='min-w-0'>
+            <span className='font-semibold text-foreground'>{productLabel(row.original)}</span>
+            {skuLabel(row.original) ? (
+              <p className='font-mono text-xs text-muted-foreground'>{skuLabel(row.original)}</p>
+            ) : null}
+          </div>
+        ),
       },
       {
         id: "route",
@@ -90,13 +112,13 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
         enableSorting: false,
         meta: {
           label: `${t("fields.fromWarehouseId")} → ${t("fields.toWarehouseId")}`,
-          exportValue: (row) => `${warehouseLabel(row.fromWarehouseId)} → ${warehouseLabel(row.toWarehouseId)}`,
+          exportValue: (row) => `${warehouseLabel(row.from_warehouse_id)} → ${warehouseLabel(row.to_warehouse_id)}`,
         },
         cell: ({ row }) => (
           <span className='inline-flex items-center gap-1.5 text-sm'>
-            {warehouseLabel(row.original.fromWarehouseId)}
+            {warehouseLabel(row.original.from_warehouse_id)}
             <HiOutlineArrowRight className='h-3.5 w-3.5 text-muted-foreground' aria-hidden='true' />
-            {warehouseLabel(row.original.toWarehouseId)}
+            {warehouseLabel(row.original.to_warehouse_id)}
           </span>
         ),
       },
@@ -116,6 +138,13 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
         },
       },
       {
+        id: "source",
+        header: t("fields.source"),
+        enableSorting: false,
+        meta: { label: t("fields.source"), exportValue: (row) => sourceLabel(row) },
+        cell: ({ row }) => <Badge variant='outline'>{sourceLabel(row.original)}</Badge>,
+      },
+      {
         id: "reason",
         header: t("fields.reason"),
         enableSorting: false,
@@ -124,7 +153,7 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [productNames, warehouseNames, t],
+    [productNames, warehouseNames, skuCodes, t],
   );
 
   const warehouseFilterOptions = warehouses
@@ -139,16 +168,16 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
       accessor: (row) => row.type,
     },
     {
-      id: "fromWarehouseId",
+      id: "from_warehouse_id",
       label: t("fields.fromWarehouseId"),
       options: warehouseFilterOptions,
-      accessor: (row) => row.fromWarehouseId,
+      accessor: (row) => row.from_warehouse_id,
     },
     {
-      id: "toWarehouseId",
+      id: "to_warehouse_id",
       label: t("fields.toWarehouseId"),
       options: warehouseFilterOptions,
-      accessor: (row) => row.toWarehouseId,
+      accessor: (row) => row.to_warehouse_id,
     },
   ];
 
@@ -170,10 +199,15 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
       rowLabel={(row) => productLabel(row)}
       searchPlaceholder={t("searchPlaceholder")}
       searchText={(row) =>
-        `${productLabel(row)} ${row.reason ?? ""} ${warehouseLabel(row.fromWarehouseId)} ${warehouseLabel(row.toWarehouseId)}`
+        `${productLabel(row)} ${row.reason ?? ""} ${warehouseLabel(row.from_warehouse_id)} ${warehouseLabel(row.to_warehouse_id)}`
       }
       renderForm={(_item, close) => (
-        <RegisterInventoryMovement handleClose={close} products={productOptions} warehouses={warehouseOptions} />
+        <RegisterInventoryMovement
+          handleClose={close}
+          products={productOptions}
+          warehouses={warehouseOptions}
+          skusByProduct={skusByProduct}
+        />
       )}
     />
   );

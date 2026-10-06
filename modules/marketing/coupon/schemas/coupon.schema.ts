@@ -27,29 +27,29 @@ export const validationCoupon = () => {
         .pipe(z.string().min(3, t("codeLength")).max(50, t("codeLength")).regex(/^[A-Z0-9_-]+$/, t("codeFormat"))),
       name: z.string().trim().min(1, required).max(255),
       description: z.string().max(1000).optional(),
-      discountType: z.enum(DISCOUNT_TYPES, { errorMap: () => required }),
-      discountValue: z.coerce.number({ invalid_type_error: intl("requiredField") }).min(0.01, t("discountPositive")),
-      minimumOrderAmount: optionalNumber(0),
-      maximumDiscountAmount: optionalNumber(0),
-      usageLimit: z.preprocess(
+      discount_type: z.enum(DISCOUNT_TYPES, { errorMap: () => required }),
+      discount_value: z.coerce.number({ invalid_type_error: intl("requiredField") }).min(0.01, t("discountPositive")),
+      minimum_order_amount: optionalNumber(0),
+      maximum_discount_amount: optionalNumber(0),
+      usage_limit: z.preprocess(
         (value) => (value === "" || value == null ? undefined : value),
         z.coerce.number().int().min(1, t("usageLimit")).optional(),
       ),
-      validFrom: z.string().min(1, required),
-      validUntil: z.string().min(1, required),
-      isActive: bool,
-      isPublic: bool,
-      applicableCategories: z.array(z.string()).optional(),
-      applicableProducts: z.array(z.string()).optional(),
-      excludedCategories: z.array(z.string()).optional(),
-      excludedProducts: z.array(z.string()).optional(),
+      valid_from: z.string().min(1, required),
+      valid_until: z.string().min(1, required),
+      is_active: bool,
+      is_public: bool,
+      applicable_categories: z.array(z.string()).optional(),
+      applicable_products: z.array(z.string()).optional(),
+      excluded_categories: z.array(z.string()).optional(),
+      excluded_products: z.array(z.string()).optional(),
     })
     .superRefine((values, ctx) => {
-      if (values.discountType === "PERCENTAGE" && values.discountValue > 100) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["discountValue"], message: t("percentageMax") });
+      if (values.discount_type === "PERCENTAGE" && values.discount_value > 100) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["discount_value"], message: t("percentageMax") });
       }
-      if (values.validFrom && values.validUntil && values.validUntil <= values.validFrom) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["validUntil"], message: t("dateRange") });
+      if (values.valid_from && values.valid_until && values.valid_until <= values.valid_from) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["valid_until"], message: t("dateRange") });
       }
     });
 };

@@ -18,6 +18,6 @@ export type IRecommendationUpdateRequest = UpdateProductRecommendationPayload;
 export interface IRecommendationProduct {
   id?: number;
   name?: string;
-  unitPrice?: number;
-  imageUrl?: string;
+  unit_price?: number;
+  image_url?: string;
 }

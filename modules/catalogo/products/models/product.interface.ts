@@ -12,4 +12,11 @@ import type {
  */
 export type IProduct = ProductDto;
 export type IProductCreateRequest = CreateProductDto;
-export type IProductUpdateRequest = UpdateProductDto;
+export type IProductUpdateRequest = UpdateProductDto & { id: number };
+
+/** Estados editoriales del catálogo (Fase 2). Solo ACTIVE está publicado. */
+export const PRODUCT_STATUSES = ["DRAFT", "ACTIVE", "INACTIVE", "ARCHIVED"] as const;
+export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
+
+export const statusOf = (product: Pick<IProduct, "status" | "available">): ProductStatus =>
+  (product.status as ProductStatus | undefined) ?? (product.available ? "ACTIVE" : "INACTIVE");

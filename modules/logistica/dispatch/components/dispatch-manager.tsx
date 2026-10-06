@@ -39,14 +39,14 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
   const t = useTranslations("Administre.dispatch");
   const tCrud = useTranslations("Crud");
 
-  const label = (row: IDispatch) => row.guideNumber || `#${row.id}`;
+  const label = (row: IDispatch) => row.guide_number || `#${row.id}`;
 
   const stats = useMemo(() => {
     const dueSoon = all.filter((item) => {
-      const days = daysFromToday(item.estimatedDeliveryDate);
+      const days = daysFromToday(item.estimated_delivery_date);
       return days != null && days >= 0 && days <= 7;
     }).length;
-    const cities = new Set(all.map((item) => item.cityDestination?.trim().toLowerCase()).filter(Boolean));
+    const cities = new Set(all.map((item) => item.city_destination?.trim().toLowerCase()).filter(Boolean));
     return { total: all.length, dueSoon, cities: cities.size };
   }, [all]);
 
@@ -55,7 +55,7 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
       {
         id: "guideNumber",
         header: t("fields.guideNumber"),
-        meta: { label: t("fields.guideNumber"), hideable: false, exportValue: (row) => row.guideNumber },
+        meta: { label: t("fields.guideNumber"), hideable: false, exportValue: (row) => row.guide_number },
         cell: ({ row }) => (
           <Link
             href={`/logistica/dispatches/${row.original.id}`}
@@ -67,11 +67,11 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
       {
         id: "orderId",
         header: t("fields.orderId"),
-        meta: { label: t("fields.orderId"), exportValue: (row) => row.orderId },
+        meta: { label: t("fields.orderId"), exportValue: (row) => row.order_id },
         cell: ({ row }) =>
-          row.original.orderId != null ? (
-            <Link href={`/ventas/orders/${row.original.orderId}`} className='underline-offset-4 hover:underline'>
-              #{row.original.orderId}
+          row.original.order_id != null ? (
+            <Link href={`/ventas/orders/${row.original.order_id}`} className='underline-offset-4 hover:underline'>
+              #{row.original.order_id}
             </Link>
           ) : (
             "—"
@@ -82,24 +82,24 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
         header: t("fields.route"),
         meta: {
           label: t("fields.route"),
-          exportValue: (row) => `${row.cityOrigin ?? ""} → ${row.cityDestination ?? ""}`,
+          exportValue: (row) => `${row.city_origin ?? ""} → ${row.city_destination ?? ""}`,
         },
         cell: ({ row }) => (
           <span className='inline-flex items-center gap-1.5'>
             <HiOutlineMapPin className='h-4 w-4 text-muted-foreground' aria-hidden='true' />
-            {row.original.cityOrigin ?? "—"} → {row.original.cityDestination ?? "—"}
+            {row.original.city_origin ?? "—"} → {row.original.city_destination ?? "—"}
           </span>
         ),
       },
       {
         id: "estimatedDeliveryDate",
         header: t("fields.estimatedDeliveryDate"),
-        meta: { label: t("fields.estimatedDeliveryDate"), exportValue: (row) => row.estimatedDeliveryDate },
+        meta: { label: t("fields.estimatedDeliveryDate"), exportValue: (row) => row.estimated_delivery_date },
         cell: ({ row }) => {
-          const days = daysFromToday(row.original.estimatedDeliveryDate);
+          const days = daysFromToday(row.original.estimated_delivery_date);
           return (
             <span className='inline-flex items-center gap-2 whitespace-nowrap'>
-              {formatLocalDate(row.original.estimatedDeliveryDate)}
+              {formatLocalDate(row.original.estimated_delivery_date)}
               {days != null && days >= 0 && days <= 7 ? <Badge variant='secondary'>{t("dueIn", { days })}</Badge> : null}
             </span>
           );
@@ -108,8 +108,8 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
       {
         id: "realDeliveryDate",
         header: t("fields.realDeliveryDate"),
-        meta: { label: t("fields.realDeliveryDate"), exportValue: (row) => row.realDeliveryDate },
-        cell: ({ row }) => <span className='whitespace-nowrap'>{formatLocalDate(row.original.realDeliveryDate)}</span>,
+        meta: { label: t("fields.realDeliveryDate"), exportValue: (row) => row.real_delivery_date },
+        cell: ({ row }) => <span className='whitespace-nowrap'>{formatLocalDate(row.original.real_delivery_date)}</span>,
       },
       {
         id: "address",
@@ -125,7 +125,7 @@ export const DispatchManager = ({ page, all, orders }: IDispatchManagerProps) =>
 
   const cityOptions = useMemo(
     () =>
-      [...new Set(all.map((item) => item.cityDestination).filter((city): city is string => Boolean(city)))]
+      [...new Set(all.map((item) => item.city_destination).filter((city): city is string => Boolean(city)))]
         .sort((a, b) => a.localeCompare(b, "es"))
         .map((city) => ({ value: city, label: city })),
     [all],

@@ -23,9 +23,9 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
 
   const handleSubmit = async (values: ShippingQuoteFormValues) => {
     const response = await quoteShippingServerAction({
-      carrier_code: values.carrierCode,
-      origin_zip: values.originZip,
-      destination_zip: values.destinationZip,
+      carrier_code: values.carrier_code,
+      origin_zip: values.origin_zip,
+      destination_zip: values.destination_zip,
       weight: values.weight,
       service_type: values.serviceType || undefined,
     });
@@ -36,7 +36,7 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
     }
   };
 
-  const services = Object.entries(quote?.availableServices ?? {});
+  const services = Object.entries(quote?.available_services ?? {});
 
   return (
     <div className='space-y-4 rounded-xl border border-border/70 bg-background/60 p-5'>
@@ -47,7 +47,7 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
 
       {carriers.some((carrier) => !!carrier.code) ? (
         <FormShippingQuote
-          initialValues={{ carrierCode: "", originZip: "", destinationZip: "", weight: "", serviceType: "" }}
+          initialValues={{ carrier_code: "", origin_zip: "", destination_zip: "", weight: "", serviceType: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
           carriers={carriers}
@@ -60,17 +60,17 @@ export const ShippingQuote = ({ carriers }: { carriers: IDispatchCarrier[] }) =>
 
       <div aria-live='polite'>
         {quote ? (
-          quote.shippingCost == null && services.length === 0 ? (
+          quote.shipping_cost == null && services.length === 0 ? (
             <p className='rounded-xl border border-warning/40 bg-warning/10 p-3 text-sm'>{t("unavailable")}</p>
           ) : (
             <dl className='space-y-2 rounded-xl border border-primary/30 bg-primary/5 p-4 text-sm'>
               <div className='flex items-center justify-between'>
                 <dt className='text-muted-foreground'>{t("cost")}</dt>
-                <dd className='text-lg font-semibold text-foreground'>{formatMoney(quote.shippingCost)}</dd>
+                <dd className='text-lg font-semibold text-foreground'>{formatMoney(quote.shipping_cost)}</dd>
               </div>
               <div className='flex items-center justify-between'>
                 <dt className='text-muted-foreground'>{t("estimatedDate")}</dt>
-                <dd className='font-medium text-foreground'>{formatDate(quote.estimatedDeliveryDate)}</dd>
+                <dd className='font-medium text-foreground'>{formatDate(quote.estimated_delivery_date)}</dd>
               </div>
               {services.length > 0 ? (
                 <div>

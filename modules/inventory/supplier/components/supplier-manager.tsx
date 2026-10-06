@@ -61,10 +61,10 @@ export const SupplierManager = ({ initialData }: ISupplierManagerProps) => {
       {
         id: "updatedAt",
         header: tCrud("updatedAt"),
-        meta: { label: tCrud("updatedAt"), exportValue: (row) => formatApiDate(row.updatedAt ?? row.createdAt) },
+        meta: { label: tCrud("updatedAt"), exportValue: (row) => formatApiDate(row.updated_at ?? row.created_at) },
         cell: ({ row }) => (
           <span className='whitespace-nowrap text-muted-foreground'>
-            {formatApiDate(row.original.updatedAt ?? row.original.createdAt)}
+            {formatApiDate(row.original.updated_at ?? row.original.created_at)}
           </span>
         ),
       },
@@ -77,7 +77,7 @@ export const SupplierManager = ({ initialData }: ISupplierManagerProps) => {
     { label: t("total"), value: initialData.length, icon: HiOutlineBuildingOffice2 },
     {
       label: tCrud("recent"),
-      value: initialData.filter((item) => createdWithin(item.createdAt, 30, now)).length,
+      value: initialData.filter((item) => createdWithin(item.created_at, 30, now)).length,
       icon: HiOutlineCalendarDays,
       hint: tCrud("recentHint"),
     },

@@ -9,7 +9,7 @@ export type ModerationStatus = (typeof MODERATION_STATUSES)[number];
 
 /** Estado efectivo: si el backend no envía `moderationStatus`, se deduce de `isApproved`. */
 export const reviewStatus = (review: IReview): ModerationStatus => {
-  const status = review.moderationStatus?.toUpperCase();
+  const status = review.moderation_status?.toUpperCase();
   if (status === "APPROVED" || status === "REJECTED" || status === "PENDING") return status;
-  return review.isApproved ? "APPROVED" : "PENDING";
+  return review.is_approved ? "APPROVED" : "PENDING";
 };

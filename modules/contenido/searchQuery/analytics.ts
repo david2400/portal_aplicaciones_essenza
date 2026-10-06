@@ -12,7 +12,7 @@ export const normalizeTerm = (value?: string) =>
     .trim();
 
 /** Fecha de referencia de una búsqueda: última ejecución o creación. */
-export const queryDate = (query: ISearchQuery) => query.lastRunAt ?? query.createdAt;
+export const queryDate = (query: ISearchQuery) => query.last_run_at ?? query.created_at;
 
 export const withinDays = (query: ISearchQuery, days: number | null) => {
   if (days == null) return true;
@@ -31,8 +31,8 @@ export const aggregateTerms = (queries: ISearchQuery[]): ISearchTerm[] => {
     if (!term) continue;
     const entry = map.get(term) ?? { count: 0, results: 0, zero: 0 };
     entry.count += 1;
-    entry.results += query.totalResults ?? 0;
-    if ((query.totalResults ?? 0) === 0) entry.zero += 1;
+    entry.results += query.total_results ?? 0;
+    if ((query.total_results ?? 0) === 0) entry.zero += 1;
     const date = queryDate(query);
     if (date && (!entry.lastSeen || date > entry.lastSeen)) entry.lastSeen = date;
     map.set(term, entry);

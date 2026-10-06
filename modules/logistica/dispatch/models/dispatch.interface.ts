@@ -31,7 +31,7 @@ export interface IDispatchOrder {
 /** Línea de la orden que puede incluirse en el despacho. */
 export interface IDispatchOrderLine {
   id?: number;
-  productName: string;
+  product_name: string;
   quantity: number;
 }
 

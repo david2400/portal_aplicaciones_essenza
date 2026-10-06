@@ -31,12 +31,12 @@ export const PersonalizationManager = ({ initialData }: { initialData: IPersonal
   const [viewing, setViewing] = useState<IPersonalizationProfile | null>(null);
 
   const data = useMemo(
-    () => [...initialData].sort((a, b) => (b.personalizationScore ?? 0) - (a.personalizationScore ?? 0)),
+    () => [...initialData].sort((a, b) => (b.personalization_score ?? 0) - (a.personalization_score ?? 0)),
     [initialData],
   );
 
   const scores = initialData
-    .map((profile) => profile.personalizationScore)
+    .map((profile) => profile.personalization_score)
     .filter((value): value is number => value != null);
   const avgScore = scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : 0;
   const vip = initialData.filter((profile) => profile.segment === "VIP").length;
@@ -53,16 +53,16 @@ export const PersonalizationManager = ({ initialData }: { initialData: IPersonal
   );
 
   const profileLabel = (profile: IPersonalizationProfile) =>
-    t("profileLabel", { id: profile.customerId ?? profile.id ?? "—" });
+    t("profileLabel", { id: profile.customer_id ?? profile.id ?? "—" });
 
   const columns = useMemo<GridColumn<IPersonalizationProfile>[]>(
     () => [
       {
-        id: "customerId",
-        accessorFn: (row) => row.customerId ?? 0,
+        id: "customer_id",
+        accessorFn: (row) => row.customer_id ?? 0,
         header: t("fields.customerId"),
-        meta: { label: t("fields.customerId"), hideable: false, exportValue: (row) => row.customerId },
-        cell: ({ row }) => <span className='font-semibold text-foreground'>#{row.original.customerId ?? "—"}</span>,
+        meta: { label: t("fields.customerId"), hideable: false, exportValue: (row) => row.customer_id },
+        cell: ({ row }) => <span className='font-semibold text-foreground'>#{row.original.customer_id ?? "—"}</span>,
       },
       {
         id: "segment",
@@ -75,12 +75,12 @@ export const PersonalizationManager = ({ initialData }: { initialData: IPersonal
         cell: ({ row }) => <SegmentBadge segment={row.original.segment} />,
       },
       {
-        id: "personalizationScore",
-        accessorFn: (row) => row.personalizationScore ?? -1,
+        id: "personalization_score",
+        accessorFn: (row) => row.personalization_score ?? -1,
         header: t("fields.personalizationScore"),
-        meta: { label: t("fields.personalizationScore"), exportValue: (row) => row.personalizationScore },
+        meta: { label: t("fields.personalizationScore"), exportValue: (row) => row.personalization_score },
         cell: ({ row }) => {
-          const score = row.original.personalizationScore;
+          const score = row.original.personalization_score;
           if (score == null) return "—";
           return (
             <div className='flex items-center gap-2'>
@@ -107,10 +107,10 @@ export const PersonalizationManager = ({ initialData }: { initialData: IPersonal
       },
       {
         id: "lastAnalysisAt",
-        accessorFn: (row) => row.lastAnalysisAt ?? row.updatedAt ?? "",
+        accessorFn: (row) => row.last_analysis_at ?? row.updated_at ?? "",
         header: t("fields.lastAnalysisAt"),
-        meta: { label: t("fields.lastAnalysisAt"), exportValue: (row) => row.lastAnalysisAt ?? row.updatedAt },
-        cell: ({ row }) => formatDateTime(row.original.lastAnalysisAt ?? row.original.updatedAt),
+        meta: { label: t("fields.lastAnalysisAt"), exportValue: (row) => row.last_analysis_at ?? row.updated_at },
+        cell: ({ row }) => formatDateTime(row.original.last_analysis_at ?? row.original.updated_at),
       },
     ],
     [t, tSegments],
@@ -147,7 +147,7 @@ export const PersonalizationManager = ({ initialData }: { initialData: IPersonal
       ]}
       rowLabel={profileLabel}
       searchPlaceholder={t("searchPlaceholder")}
-      searchText={(row) => `${row.customerId ?? ""} ${row.status ?? ""} ${row.segment ?? ""}`}
+      searchText={(row) => `${row.customer_id ?? ""} ${row.status ?? ""} ${row.segment ?? ""}`}
       extraRowActions={(row) => [{ label: t("view"), icon: HiOutlineEye, onSelect: () => setViewing(row) }]}
       renderForm={(item, close) =>
         item ? (

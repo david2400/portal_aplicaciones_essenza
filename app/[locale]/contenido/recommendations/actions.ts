@@ -32,14 +32,14 @@ export async function createRecommendationServerAction(
     : fail(result.error, 'No se pudo crear la recomendación');
 }
 
-/** `customerId` y `productId` no se pueden cambiar: el PUT los ignora. */
+/** `customer_id` y `product_id` no se pueden cambiar: el PUT los ignora. */
 export async function updateRecommendationServerAction(
   payload: UpdateProductRecommendationPayload,
 ): Promise<ActionResult> {
-  const rest = { ...payload };
-  delete rest.customerId;
-  delete rest.productId;
-  const result = await update_product_recommendation_action(rest);
+  const rest: Record<string, unknown> = { ...payload };
+  delete rest.customer_id;
+  delete rest.product_id;
+  const result = await update_product_recommendation_action(rest as UpdateProductRecommendationPayload);
   return result.success ? { success: true } : fail(result.error, 'No se pudo actualizar la recomendación');
 }
 

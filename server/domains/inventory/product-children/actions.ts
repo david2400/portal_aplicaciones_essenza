@@ -3,6 +3,10 @@
 import { revalidateTag } from 'next/cache';
 
 import { product_children_repository } from './repository';
+import { list_product_children } from './queries';
+import { create_search_resource } from '@/server/lib/search-resource';
+import type { BulkResult } from '@/shared/models/pagination';
+import type { ProductChildDto } from './types';
 import type {
   CreateProductChildDto,
   UpdateProductChildPayload,
@@ -65,6 +69,24 @@ export async function delete_product_child_action(
     await product_children_repository.delete_product_child(payload);
     revalidate_product_child_tags(payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+/** Borrado en lote: `POST /bulk-delete` o, si el backend aún no lo tiene, uno a uno. */
+export async function bulk_delete_product_children_action(ids: number[]): Promise<ActionResult<BulkResult>> {
+  try {
+    const resource = create_search_resource<ProductChildDto>({
+      base_path: '/api/shop/inventory/product_children',
+      list_tag: product_children_tags.list(),
+      list_all: () => list_product_children(),
+      delete_one: (id) => product_children_repository.delete_product_child({ id }),
+      search_fields: (item) => [item.name, item.description],
+    });
+    const result = await resource.bulk_delete(ids);
+    revalidate_product_child_tags();
+    return { success: true, data: result };
   } catch (error) {
     return handle_error(error);
   }

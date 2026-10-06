@@ -13,6 +13,7 @@ import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import { JSON_FIELDS, SEGMENTS } from "../constants";
 
+import { fieldKey } from "@/shared/i18n/field-key";
 export const FormPersonalizationProfile = ({
   initialValues,
   validationSchema,
@@ -39,7 +40,7 @@ export const FormPersonalizationProfile = ({
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
         <FormField
-          controller={{ control, name: "customerId" }}
+          controller={{ control, name: "customer_id" }}
           type='number'
           step='1'
           min={1}
@@ -54,7 +55,7 @@ export const FormPersonalizationProfile = ({
           className='col-span-12 sm:col-span-6 md:col-span-4'
         />
         <FormField
-          controller={{ control, name: "personalizationScore" }}
+          controller={{ control, name: "personalization_score" }}
           type='number'
           step='0.01'
           min={0}
@@ -68,7 +69,7 @@ export const FormPersonalizationProfile = ({
           className='col-span-12 sm:col-span-6'
         />
         <FormField
-          controller={{ control, name: "sessionId" }}
+          controller={{ control, name: "session_id" }}
           label={t("fields.sessionId")}
           className='col-span-12 sm:col-span-6'
         />
@@ -82,7 +83,7 @@ export const FormPersonalizationProfile = ({
             <FormTextAreaField
               key={field}
               controller={{ control, name: field }}
-              label={t(`fields.${field}`)}
+              label={t(fieldKey(field) as never)}
               rows={4}
               classNameInput='font-mono text-xs'
               className='col-span-12 md:col-span-6'

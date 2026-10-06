@@ -36,23 +36,23 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
   const data = useMemo(() => [...initialData].sort((a, b) => (b.score ?? 0) - (a.score ?? 0)), [initialData]);
 
   const total = initialData.length;
-  const clicked = initialData.filter((item) => item.isClicked).length;
-  const purchased = initialData.filter((item) => item.isPurchased).length;
+  const clicked = initialData.filter((item) => item.is_clicked).length;
+  const purchased = initialData.filter((item) => item.is_purchased).length;
   const avgScore = total ? initialData.reduce((acc, item) => acc + (item.score ?? 0), 0) / total : 0;
 
-  const typeLabel = (row: IRecommendation) => (row.recommendationType ? tTypes(row.recommendationType as never) : "—");
+  const typeLabel = (row: IRecommendation) => (row.recommendation_type ? tTypes(row.recommendation_type as never) : "—");
   const contextLabel = (row: IRecommendation) => (row.context ? tContexts(row.context as never) : "—");
-  const productLabel = (row: IRecommendation) => row.productName ?? `#${row.productId}`;
+  const productLabel = (row: IRecommendation) => row.product_name ?? `#${row.product_id}`;
 
   const byType = useMemo(
     () =>
       RECOMMENDATION_TYPES.map((type) => {
-        const group = initialData.filter((item) => item.recommendationType === type);
+        const group = initialData.filter((item) => item.recommendation_type === type);
         return {
           key: type,
           label: tTypes(type),
           value: group.length,
-          hint: t("ctrHint", { value: formatPercent(rate(group.filter((i) => i.isClicked).length, group.length)) }),
+          hint: t("ctrHint", { value: formatPercent(rate(group.filter((i) => i.is_clicked).length, group.length)) }),
         };
       }).filter((item) => item.value > 0),
     [initialData, t, tTypes],
@@ -67,7 +67,7 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
           label: tContexts(context),
           value: group.length,
           hint: t("conversionHint", {
-            value: formatPercent(rate(group.filter((i) => i.isPurchased).length, group.length)),
+            value: formatPercent(rate(group.filter((i) => i.is_purchased).length, group.length)),
           }),
         };
       }).filter((item) => item.value > 0),
@@ -83,35 +83,35 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
         meta: { label: t("fields.productId"), hideable: false, exportValue: (row) => productLabel(row) },
         cell: ({ row }) => (
           <div className='flex min-w-0 items-center gap-3'>
-            {row.original.productImageUrl ? (
+            {row.original.product_image_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={row.original.productImageUrl}
+                src={row.original.product_image_url}
                 alt=''
                 className='h-10 w-10 shrink-0 rounded-lg border border-border object-cover'
               />
             ) : null}
             <div className='min-w-0'>
               <p className='truncate font-semibold text-foreground'>{productLabel(row.original)}</p>
-              <p className='text-xs text-muted-foreground'>{formatMoney(row.original.productPrice)}</p>
+              <p className='text-xs text-muted-foreground'>{formatMoney(row.original.product_price)}</p>
             </div>
           </div>
         ),
       },
       {
-        id: "customerId",
-        accessorFn: (row) => row.customerId ?? 0,
+        id: "customer_id",
+        accessorFn: (row) => row.customer_id ?? 0,
         header: t("fields.customerId"),
-        meta: { label: t("fields.customerId"), exportValue: (row) => row.customerId },
-        cell: ({ row }) => `#${row.original.customerId ?? "—"}`,
+        meta: { label: t("fields.customerId"), exportValue: (row) => row.customer_id },
+        cell: ({ row }) => `#${row.original.customer_id ?? "—"}`,
       },
       {
-        id: "recommendationType",
+        id: "recommendation_type",
         header: t("fields.recommendationType"),
         enableSorting: false,
         meta: { label: t("fields.recommendationType"), exportValue: (row) => typeLabel(row) },
         cell: ({ row }) =>
-          row.original.recommendationType ? <Badge variant='secondary'>{typeLabel(row.original)}</Badge> : "—",
+          row.original.recommendation_type ? <Badge variant='secondary'>{typeLabel(row.original)}</Badge> : "—",
       },
       {
         id: "context",
@@ -149,12 +149,12 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
         enableSorting: false,
         meta: {
           label: t("funnel"),
-          exportValue: (row) => (row.isPurchased ? t("purchased") : row.isClicked ? t("clicked") : "—"),
+          exportValue: (row) => (row.is_purchased ? t("purchased") : row.is_clicked ? t("clicked") : "—"),
         },
         cell: ({ row }) => (
           <div className='flex gap-1'>
-            <Badge variant={row.original.isClicked ? "default" : "outline"}>{t("clicked")}</Badge>
-            <Badge variant={row.original.isPurchased ? "default" : "outline"}>{t("purchased")}</Badge>
+            <Badge variant={row.original.is_clicked ? "default" : "outline"}>{t("clicked")}</Badge>
+            <Badge variant={row.original.is_purchased ? "default" : "outline"}>{t("purchased")}</Badge>
           </div>
         ),
       },
@@ -168,7 +168,7 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
       id: "type",
       label: t("fields.recommendationType"),
       options: RECOMMENDATION_TYPES.map((type) => ({ value: type, label: tTypes(type) })),
-      accessor: (row) => row.recommendationType,
+      accessor: (row) => row.recommendation_type,
     },
     {
       id: "context",
@@ -184,7 +184,7 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
         { value: "clicked", label: t("clicked") },
         { value: "purchased", label: t("purchased") },
       ],
-      accessor: (row) => (row.isPurchased ? "purchased" : row.isClicked ? "clicked" : "none"),
+      accessor: (row) => (row.is_purchased ? "purchased" : row.is_clicked ? "clicked" : "none"),
     },
   ];
 
@@ -210,7 +210,7 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
       ]}
       rowLabel={(row) => productLabel(row)}
       searchPlaceholder={t("searchPlaceholder")}
-      searchText={(row) => `${productLabel(row)} ${row.customerId ?? ""}`}
+      searchText={(row) => `${productLabel(row)} ${row.customer_id ?? ""}`}
       renderForm={(item, close) => <RecommendationForm item={item} products={products} handleClose={close} />}
       onDelete={(id) => deleteRecommendationServerAction(id)}>
       <div className='grid gap-4 lg:grid-cols-2'>

@@ -16,7 +16,7 @@ export type IShippingCostCalculateRequest = CalculateShippingCostParams;
 export interface IShippingCarrier {
   id?: number;
   name?: string;
-  baseRate?: number;
-  ratePerKm?: number;
-  isActive?: boolean;
+  base_rate?: number;
+  rate_per_km?: number;
+  is_active?: boolean;
 }

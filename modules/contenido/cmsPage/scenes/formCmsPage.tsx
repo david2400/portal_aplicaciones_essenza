@@ -50,7 +50,7 @@ export const FormCmsPage = ({
 
   const [title, slug, content, excerpt, metaTitle, metaDescription, featuredImage, status] = useWatch({
     control,
-    name: ["title", "slug", "content", "excerpt", "metaTitle", "metaDescription", "featuredImage", "status"],
+    name: ["title", "slug", "content", "excerpt", "meta_title", "meta_description", "featured_image", "status"],
   }) as string[];
 
   // Mientras el usuario no edite el slug, se deriva del título.
@@ -148,27 +148,27 @@ export const FormCmsPage = ({
             <p className='line-clamp-2 text-sm text-muted-foreground'>{serpDescription}</p>
           </div>
           <div>
-            <FormField controller={{ control, name: "metaTitle" }} label={t("fields.metaTitle")} />
+            <FormField controller={{ control, name: "meta_title" }} label={t("fields.metaTitle")} />
             <div className='mt-1 flex justify-end'>
-              <Counter value={metaTitle} max={PAGE_LIMITS.metaTitle} recommended={SEO_RECOMMENDED.metaTitle} />
+              <Counter value={metaTitle} max={PAGE_LIMITS.meta_title} recommended={SEO_RECOMMENDED.meta_title} />
             </div>
           </div>
           <div>
             <FormTextAreaField
-              controller={{ control, name: "metaDescription" }}
+              controller={{ control, name: "meta_description" }}
               label={t("fields.metaDescription")}
               rows={3}
             />
             <div className='mt-1 flex justify-end'>
               <Counter
                 value={metaDescription}
-                max={PAGE_LIMITS.metaDescription}
-                recommended={SEO_RECOMMENDED.metaDescription}
+                max={PAGE_LIMITS.meta_description}
+                recommended={SEO_RECOMMENDED.meta_description}
               />
             </div>
           </div>
           <FormField
-            controller={{ control, name: "metaKeywords" }}
+            controller={{ control, name: "meta_keywords" }}
             label={t("fields.metaKeywords")}
             description={t("keywordsHint")}
           />
@@ -186,18 +186,18 @@ export const FormCmsPage = ({
           />
           {status === "SCHEDULED" ? (
             <FormField
-              controller={{ control, name: "scheduledAt" }}
+              controller={{ control, name: "scheduled_at" }}
               type='datetime-local'
               label={t("fields.scheduledAt")}
             />
           ) : null}
           <FormField
-            controller={{ control, name: "publishedAt" }}
+            controller={{ control, name: "published_at" }}
             type='datetime-local'
             label={t("fields.publishedAt")}
             description={t("publishedAtHint")}
           />
-          <FormField controller={{ control, name: "authorName" }} label={t("fields.authorName")} />
+          <FormField controller={{ control, name: "author_name" }} label={t("fields.authorName")} />
           <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
             {tCommon("save")}
           </Buttons>
@@ -206,7 +206,7 @@ export const FormCmsPage = ({
         <div className='space-y-4 rounded-2xl border border-border bg-card p-5 shadow-sm'>
           <h3 className='text-base font-semibold text-foreground'>{t("organization")}</h3>
           <FormSelectField
-            controller={{ control, name: "pageType" }}
+            controller={{ control, name: "page_type" }}
             label={t("fields.pageType")}
             data={typeOptions}
             triggerClassName='!w-full'
@@ -214,13 +214,13 @@ export const FormCmsPage = ({
           <FormField controller={{ control, name: "template" }} label={t("fields.template")} />
           <div className='grid grid-cols-2 gap-4'>
             <FormSelectField
-              controller={{ control, name: "isFeatured" }}
+              controller={{ control, name: "is_featured" }}
               label={t("fields.isFeatured")}
               data={booleanOptions}
               triggerClassName='!w-full'
             />
             <FormField
-              controller={{ control, name: "sortOrder" }}
+              controller={{ control, name: "sort_order" }}
               type='number'
               step='1'
               min={0}
@@ -232,7 +232,7 @@ export const FormCmsPage = ({
         <div className='space-y-4 rounded-2xl border border-border bg-card p-5 shadow-sm'>
           <h3 className='text-base font-semibold text-foreground'>{t("fields.featuredImage")}</h3>
           <FormField
-            controller={{ control, name: "featuredImage" }}
+            controller={{ control, name: "featured_image" }}
             type='url'
             placeholder='https://'
             label={t("fields.featuredImage")}
@@ -249,7 +249,7 @@ export const FormCmsPage = ({
 
         <div className='space-y-2 rounded-2xl border border-border bg-card p-5 shadow-sm'>
           <FormTextAreaField
-            controller={{ control, name: "customFields" }}
+            controller={{ control, name: "custom_fields" }}
             label={t("fields.customFields")}
             rows={5}
             classNameInput='font-mono text-xs'

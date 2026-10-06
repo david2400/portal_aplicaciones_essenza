@@ -42,54 +42,54 @@ export const CarrierManager = ({ initialData }: ICarrierManagerProps) => {
         cell: ({ row }) => <span className='font-mono text-xs'>{row.original.code || "—"}</span>,
       },
       {
-        id: "contactEmail",
+        id: "contact_email",
         header: t("fields.contactEmail"),
-        meta: { label: t("fields.contactEmail"), exportValue: (row) => row.contactEmail },
+        meta: { label: t("fields.contactEmail"), exportValue: (row) => row.contact_email },
         cell: ({ row }) =>
-          row.original.contactEmail ? (
-            <a href={`mailto:${row.original.contactEmail}`} className='text-primary underline-offset-4 hover:underline'>
-              {row.original.contactEmail}
+          row.original.contact_email ? (
+            <a href={`mailto:${row.original.contact_email}`} className='text-primary underline-offset-4 hover:underline'>
+              {row.original.contact_email}
             </a>
           ) : (
             "—"
           ),
       },
       {
-        id: "baseRate",
+        id: "base_rate",
         header: t("fields.baseRate"),
-        meta: { label: t("fields.baseRate"), align: "right", exportValue: (row) => row.baseRate },
-        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.baseRate)}</span>,
+        meta: { label: t("fields.baseRate"), align: "right", exportValue: (row) => row.base_rate },
+        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.base_rate)}</span>,
       },
       {
-        id: "ratePerKm",
+        id: "rate_per_km",
         header: t("fields.ratePerKm"),
-        meta: { label: t("fields.ratePerKm"), align: "right", exportValue: (row) => row.ratePerKm },
-        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.ratePerKm)}</span>,
+        meta: { label: t("fields.ratePerKm"), align: "right", exportValue: (row) => row.rate_per_km },
+        cell: ({ row }) => <span className='tabular-nums'>{formatMoney(row.original.rate_per_km)}</span>,
       },
       {
-        id: "maxDeliveryDays",
+        id: "max_delivery_days",
         header: t("fields.maxDeliveryDays"),
-        meta: { label: t("fields.maxDeliveryDays"), align: "right", exportValue: (row) => row.maxDeliveryDays },
-        cell: ({ row }) => <span className='tabular-nums'>{formatNumber(row.original.maxDeliveryDays)}</span>,
+        meta: { label: t("fields.maxDeliveryDays"), align: "right", exportValue: (row) => row.max_delivery_days },
+        cell: ({ row }) => <span className='tabular-nums'>{formatNumber(row.original.max_delivery_days)}</span>,
       },
       {
-        id: "isActive",
+        id: "is_active",
         header: t("fields.isActive"),
         enableSorting: false,
-        meta: { label: t("fields.isActive"), exportValue: (row) => (row.isActive === false ? tCommon("no") : tCommon("yes")) },
+        meta: { label: t("fields.isActive"), exportValue: (row) => (row.is_active === false ? tCommon("no") : tCommon("yes")) },
         cell: ({ row }) => (
-          <Badge variant={row.original.isActive === false ? "outline" : "default"}>
-            {row.original.isActive === false ? tCommon("inactive") : tCommon("active")}
+          <Badge variant={row.original.is_active === false ? "outline" : "default"}>
+            {row.original.is_active === false ? tCommon("inactive") : tCommon("active")}
           </Badge>
         ),
       },
       {
         id: "updatedAt",
         header: tCrud("updatedAt"),
-        meta: { label: tCrud("updatedAt"), exportValue: (row) => formatApiDate(row.updatedAt ?? row.createdAt) },
+        meta: { label: tCrud("updatedAt"), exportValue: (row) => formatApiDate(row.updated_at ?? row.created_at) },
         cell: ({ row }) => (
           <span className='whitespace-nowrap text-muted-foreground'>
-            {formatApiDate(row.original.updatedAt ?? row.original.createdAt)}
+            {formatApiDate(row.original.updated_at ?? row.original.created_at)}
           </span>
         ),
       },
@@ -102,13 +102,13 @@ export const CarrierManager = ({ initialData }: ICarrierManagerProps) => {
     { label: t("total"), value: initialData.length, icon: HiOutlineTruck },
       {
         label: tCrud("activeCount"),
-        value: initialData.filter((item) => item.isActive !== false).length,
+        value: initialData.filter((item) => item.is_active !== false).length,
         icon: HiOutlineCheckCircle,
         tone: "success" as const,
       },
     {
       label: tCrud("recent"),
-      value: initialData.filter((item) => createdWithin(item.createdAt, 30, now)).length,
+      value: initialData.filter((item) => createdWithin(item.created_at, 30, now)).length,
       icon: HiOutlineCalendarDays,
       hint: tCrud("recentHint"),
     },
@@ -124,7 +124,7 @@ export const CarrierManager = ({ initialData }: ICarrierManagerProps) => {
       columns={columns}
       stats={stats}
       rowLabel={(row) => row.name ?? `#${row.id}`}
-      searchText={(row) => (row.name ?? "") + " " + (row.code ?? "") + " " + (row.contactEmail ?? "")}
+      searchText={(row) => (row.name ?? "") + " " + (row.code ?? "") + " " + (row.contact_email ?? "")}
       renderForm={(item, close) =>
         item ? (
           <UpdateCarrier initialValues={item} handleClose={close} />

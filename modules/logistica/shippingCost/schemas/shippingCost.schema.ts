@@ -14,12 +14,12 @@ export const validationShippingCost = () => {
   const intl = useTranslations("Form");
 
   return z.object({
-    carrierId: z.coerce
+    carrier_id: z.coerce
       .number({ invalid_type_error: intl("requiredField") })
       .int()
       .positive({ message: intl("requiredField") }),
-    originAddress: z.string().trim().min(1, { message: intl("requiredField") }),
-    destinationAddress: z.string().trim().min(1, { message: intl("requiredField") }),
+    origin_address: z.string().trim().min(1, { message: intl("requiredField") }),
+    destination_address: z.string().trim().min(1, { message: intl("requiredField") }),
     weight: optionalPositive(),
     volume: optionalPositive(),
   });

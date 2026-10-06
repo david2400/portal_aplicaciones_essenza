@@ -47,7 +47,7 @@ const toFormValues = (item: TaxonomyItem | null, withCategory: boolean) => ({
   name: item?.name ?? "",
   slug: item?.slug ?? "",
   description: item?.description ?? "",
-  ...(withCategory ? { categoryId: item?.categoryId != null ? String(item.categoryId) : "" } : {}),
+  ...(withCategory ? { category_id: item?.category_id != null ? String(item.category_id) : "" } : {}),
 });
 
 /**
@@ -208,16 +208,16 @@ export function TaxonomyManager<T extends TaxonomyItem>({
       {
         id: "createdAt",
         header: tx("createdAt"),
-        meta: { label: tx("createdAt"), defaultHidden: true, exportValue: (row) => formatApiDate(row.createdAt) },
-        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.createdAt)}</span>,
+        meta: { label: tx("createdAt"), defaultHidden: true, exportValue: (row) => formatApiDate(row.created_at) },
+        cell: ({ row }) => <span className='whitespace-nowrap text-muted-foreground'>{formatApiDate(row.original.created_at)}</span>,
       },
       {
         id: "updatedAt",
         header: tx("updatedAt"),
-        meta: { label: tx("updatedAt"), exportValue: (row) => formatApiDate(row.updatedAt ?? row.createdAt) },
+        meta: { label: tx("updatedAt"), exportValue: (row) => formatApiDate(row.updated_at ?? row.created_at) },
         cell: ({ row }) => (
           <span className='whitespace-nowrap text-muted-foreground'>
-            {formatApiDate(row.original.updatedAt ?? row.original.createdAt)}
+            {formatApiDate(row.original.updated_at ?? row.original.created_at)}
           </span>
         ),
       },

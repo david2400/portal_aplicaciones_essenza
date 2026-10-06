@@ -24,7 +24,7 @@ export async function generateMetadata({
 const WarehousePage = async () => {
   const initialData = await list_all_warehouses();
   const cityLabels = await get_city_labels(
-    initialData.map((warehouse) => warehouse.cityId).filter((id): id is number => id != null),
+    initialData.map((warehouse) => warehouse.city_id).filter((id): id is number => id != null),
   );
 
   return <WarehouseManager initialData={initialData} cityLabels={cityLabels} />;

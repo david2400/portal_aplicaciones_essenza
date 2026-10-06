@@ -33,15 +33,15 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
 };
 
 const toFormValues = (dispatch?: IDispatch | null) => ({
-  orderId: dispatch?.orderId != null ? String(dispatch.orderId) : "",
-  guideNumber: dispatch?.guideNumber ?? "",
+  order_id: dispatch?.order_id != null ? String(dispatch.order_id) : "",
+  guide_number: dispatch?.guide_number ?? "",
   address: dispatch?.address ?? "",
-  departmentOrigin: dispatch?.departmentOrigin ?? "",
-  cityOrigin: dispatch?.cityOrigin ?? "",
-  departmentDestination: dispatch?.departmentDestination ?? "",
-  cityDestination: dispatch?.cityDestination ?? "",
-  estimatedDeliveryDate: dispatch?.estimatedDeliveryDate?.slice(0, 10) ?? todayIso(),
-  realDeliveryDate: dispatch?.realDeliveryDate?.slice(0, 10) ?? todayIso(),
+  department_origin: dispatch?.department_origin ?? "",
+  city_origin: dispatch?.city_origin ?? "",
+  department_destination: dispatch?.department_destination ?? "",
+  city_destination: dispatch?.city_destination ?? "",
+  estimated_delivery_date: dispatch?.estimated_delivery_date?.slice(0, 10) ?? todayIso(),
+  real_delivery_date: dispatch?.real_delivery_date?.slice(0, 10) ?? todayIso(),
 });
 
 export const RegisterDispatch = ({

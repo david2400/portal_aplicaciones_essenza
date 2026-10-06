@@ -27,7 +27,7 @@ export const WarehouseManager = ({ initialData, cityLabels = {} }: IWarehouseMan
   const tCommon = useTranslations("Administre.common");
   const tCrud = useTranslations("Crud");
 
-  const location = (row: IWarehouse) => (row.cityId != null ? (cityLabels[row.cityId] ?? `#${row.cityId}`) : "");
+  const location = (row: IWarehouse) => (row.city_id != null ? (cityLabels[row.city_id] ?? `#${row.city_id}`) : "");
 
   const columns = useMemo<GridColumn<IWarehouse>[]>(
     () => [
@@ -49,7 +49,7 @@ export const WarehouseManager = ({ initialData, cityLabels = {} }: IWarehouseMan
         enableSorting: false,
         meta: { label: t("fields.location"), exportValue: (row) => location(row) },
         cell: ({ row }) =>
-          row.original.cityId != null ? (
+          row.original.city_id != null ? (
             <span className='inline-flex items-center gap-1.5'>
               <HiOutlineMapPin className='h-4 w-4 text-muted-foreground' aria-hidden='true' />
               {location(row.original)}
@@ -93,7 +93,7 @@ export const WarehouseManager = ({ initialData, cityLabels = {} }: IWarehouseMan
   ];
 
   const active = initialData.filter((item) => item.active !== false).length;
-  const withoutLocation = initialData.filter((item) => item.cityId == null).length;
+  const withoutLocation = initialData.filter((item) => item.city_id == null).length;
 
   return (
     <CrudManager<IWarehouse>

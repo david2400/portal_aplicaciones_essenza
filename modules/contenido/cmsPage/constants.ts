@@ -14,7 +14,7 @@ export const PAGE_STATUS_VARIANT: Record<PageStatus, "default" | "secondary" | "
 export const isPageStatus = (value?: string): value is PageStatus =>
   !!value && (PAGE_STATUSES as readonly string[]).includes(value);
 
-/** Tipos de página documentados en `PageDto.pageType`. */
+/** Tipos de página documentados en `PageDto.page_type`. */
 export const PAGE_TYPES = ["STATIC", "LANDING", "BLOG", "CATEGORY"] as const;
 export type PageType = (typeof PAGE_TYPES)[number];
 
@@ -23,16 +23,16 @@ export const PAGE_LIMITS = {
   title: 180,
   slug: 200,
   excerpt: 255,
-  metaTitle: 180,
-  metaDescription: 255,
-  metaKeywords: 255,
+  meta_title: 180,
+  meta_description: 255,
+  meta_keywords: 255,
   template: 80,
-  authorName: 120,
-  featuredImage: 255,
+  author_name: 120,
+  featured_image: 255,
 } as const;
 
 /** Longitudes recomendadas para buscadores. */
-export const SEO_RECOMMENDED = { metaTitle: 60, metaDescription: 160 } as const;
+export const SEO_RECOMMENDED = { meta_title: 60, meta_description: 160 } as const;
 
 /** Igual que el `slugify` del backend: minúsculas, sin tildes, guiones. */
 export const slugify = (value: string) =>

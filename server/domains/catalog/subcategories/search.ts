@@ -15,7 +15,7 @@ export const subcategories_resource = create_search_resource<SubcategoryDto>({
   list_all: () => subcategories_repository.list_subcategories(),
   delete_one: (id) => subcategories_repository.delete_subcategory({ id }),
   search_fields: (item) => [item.name, item.slug, item.description],
-  filter_fields: { categoryId: (item) => item.categoryId },
+  filter_fields: { categoryId: (item) => item.category_id },
 });
 
 export const search_subcategories = cache(async (query: GridQuery) => subcategories_resource.search(query));

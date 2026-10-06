@@ -7,14 +7,13 @@ import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import { FormOrder } from "../scenes/formOrder";
-import { FormOrderItem, computeItemAmounts } from "../scenes/formOrderItem";
+import { FormOrderItem } from "../scenes/formOrderItem";
 import { validationOrder, validationOrderItem } from "../schemas/order.schema";
-import { isOrderState } from "../constants";
 import type {
   IOrder,
   IOrderCreateRequest,
   IOrderItem,
-  IOrderProduct,
+  IOrderSku,
 } from "../models/order.interface";
 import {
   createOrderServerAction,
@@ -40,20 +39,20 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   };
 };
 
-type OrderFormValues = { complementaryOrder?: string; total: number; state: string };
+type OrderFormValues = { complementary_order?: string };
 
 export const RegisterOrder = ({ handleClose }: IFormAddProps) => {
   const t = useTranslations("Administre.common");
   const feedback = useFeedback(handleClose);
 
   const handleSubmit = async (values: OrderFormValues) => {
-    const result = await createOrderServerAction(values as IOrderCreateRequest);
+    const result = await createOrderServerAction({ complementary_order: values.complementary_order } as IOrderCreateRequest);
     await feedback.done(result, t("createdSuccess"));
   };
 
   return (
     <FormOrder
-      initialValues={{ complementaryOrder: "", total: 0, state: "PENDING" }}
+      initialValues={{ complementary_order: "" }}
       onSubmit={handleSubmit}
       validationSchema={validationOrder()}
     />
@@ -72,39 +71,34 @@ export const UpdateOrder = ({
   const id = order.id;
 
   const handleSubmit = async (values: OrderFormValues) => {
-    const result = await updateOrderServerAction({ ...values, id });
+    const result = await updateOrderServerAction({ id, complementary_order: values.complementary_order });
     await feedback.done(result, t("updatedSuccess"));
   };
 
   return (
     <FormOrder
-      initialValues={{
-        complementaryOrder: order.complementaryOrder ?? "",
-        total: order.total ?? 0,
-        state: isOrderState(order.state) ? order.state : "PENDING",
-      }}
+      initialValues={{ complementary_order: order.complementary_order ?? "" }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
     />
   );
 };
 
-type ItemFormValues = { productId: number; quantity: number; discount: number };
+type ItemFormValues = { sku_id: number; quantity: number; discount: number };
 
 export const OrderItemForm = ({
   orderId,
   item,
-  products,
+  skus,
   handleClose,
-}: IFormAddProps & { orderId: number; item?: IOrderItem | null; products: IOrderProduct[] }) => {
+}: IFormAddProps & { orderId: number; item?: IOrderItem | null; skus: IOrderSku[] }) => {
   const t = useTranslations("Administre.common");
   const feedback = useFeedback(handleClose);
   const validationSchema = validationOrderItem();
 
   const handleSubmit = async (values: ItemFormValues) => {
-    const product = products.find((p) => p.id === values.productId);
-    const { subtotal, total } = computeItemAmounts(product, values.quantity, values.discount);
-    const payload = { ...values, orderId, subtotal, total };
+    // El backend congela el precio del SKU y calcula subtotal, total y el total de la orden.
+    const payload = { order_id: orderId, sku_id: values.sku_id, quantity: values.quantity, discount: values.discount };
 
     const result =
       item?.id != null
@@ -116,13 +110,14 @@ export const OrderItemForm = ({
   return (
     <FormOrderItem
       initialValues={{
-        productId: item?.productId != null ? String(item.productId) : "",
+        sku_id: item?.sku_id != null ? String(item.sku_id) : "",
         quantity: item?.quantity ?? 1,
         discount: item?.discount ?? 0,
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
-      products={products}
+      skus={skus}
+      frozen={item ?? null}
     />
   );
 };

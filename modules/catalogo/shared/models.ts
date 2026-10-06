@@ -8,9 +8,9 @@ export interface TaxonomyItem {
   name?: string;
   slug?: string;
   description?: string;
-  categoryId?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  category_id?: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 /** Indicadores calculados en el servidor para el encabezado. */
@@ -24,7 +24,7 @@ export interface TaxonomyFormValues {
   name: string;
   slug?: string;
   description?: string;
-  categoryId?: number;
+  category_id?: number;
 }
 
 /** Server actions que el gestor necesita de cada recurso. */

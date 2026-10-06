@@ -14,11 +14,11 @@ export const order_devolutions_resource = create_search_resource<OrderDevolution
   list_tag: order_devolutions_tags.list(),
   list_all: () => order_devolutions_repository.list_order_devolutions(),
   delete_one: (id) => order_devolutions_repository.delete_order_devolution({ id }),
-  search_fields: (item) => [item.id, item.orderId, item.externalReference, item.observation],
+  search_fields: (item) => [item.id, item.order_id, item.external_reference, item.observation],
   filter_fields: {
     state: (item) => item.state,
-    motiveDevolutionId: (item) => item.motiveDevolutionId,
-    orderId: (item) => item.orderId,
+    motiveDevolutionId: (item) => item.motive_devolution_id,
+    orderId: (item) => item.order_id,
   },
 });
 

@@ -24,11 +24,11 @@ const DeliveryEstimatesPage = async () => {
   return (
     <DeliveryEstimateManager
       initialData={initialData}
-      carriers={carriers.map(({ id, name, maxDeliveryDays, isActive }) => ({
+      carriers={carriers.map(({ id, name, max_delivery_days, is_active }) => ({
         id,
         name,
-        maxDeliveryDays,
-        isActive,
+        max_delivery_days,
+        is_active,
       }))}
     />
   );

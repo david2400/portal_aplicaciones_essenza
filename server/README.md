@@ -31,12 +31,18 @@ server/
 - **Tags = dominios**: cada `tag` del OpenAPI genera un subdirectorio en `domains/`.
 - **Cache tags** siguen el patrón `dominio:entidad[:id]` para soportar revalidación selectiva.
 - **Tipos**: se reutilizan los generados por `openapi-typescript` (`lib/essenza-openapi-types.ts`).
+- **Contrato en snake_case**: el API (JSON, Swagger y `field_errors`) usa snake_case, y los modelos, esquemas y
+  campos de formulario del panel usan exactamente esos nombres (`unit_price`, `sku_id`). Las excepciones son los
+  parámetros de URL (`@RequestParam`, p. ej. `carrierId`) y los campos de orden (`sort=unitPrice`), que el backend
+  recibe con el nombre Java. Las props de componentes, variables y claves i18n siguen en camelCase
+  (`fieldKey("guide_number")` → `fields.guideNumber`).
 - Todos los módulos bajo `server/` deben iniciar con `import 'server-only';`.
 
 ## Flujo recomendado
 
-1. Actualiza `endpoint.json` con los contratos más recientes.
-2. Regenera tipos con `pnpm exec openapi-typescript apps/draco/endpoint.json --output apps/draco/server/lib/essenza-openapi-types.ts`.
+1. Con el backend arrancado, descarga la spec: `curl http://localhost:8083/v3/api-docs -o endpoint.json`.
+2. Regenera tipos (desde `apps/essenza-tienda-virtual`): `pnpm dlx openapi-typescript@7 endpoint.json --output server/lib/essenza-openapi-types.ts`.
+   No edites el archivo generado a mano: `pnpm check-types` señala lo que haya que ajustar.
 3. Implementa/actualiza el dominio correspondiente (tipos, repositorios, queries, actions).
 4. Consume queries/actions desde Server Components o Client Components (vía Server Actions) según corresponda.
 

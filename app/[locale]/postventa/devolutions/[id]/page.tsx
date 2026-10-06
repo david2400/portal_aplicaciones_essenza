@@ -44,22 +44,22 @@ const DevolutionDetailPage = async ({ params }: { params: Params }) => {
 
   // Líneas de la orden original: precio unitario = total de la línea / cantidad.
   const lines = productOrders
-    .filter((item) => item.orderId === devolution.orderId)
+    .filter((item) => item.order_id === devolution.order_id)
     .map((item) => {
       const quantity = item.quantity ?? 0;
       return {
         id: item.id,
-        productName: productNames.get(item.productId) ?? `#${item.productId}`,
+        product_name: productNames.get(item.product_id) ?? `#${item.product_id}`,
         quantity,
-        unitPrice: quantity > 0 ? Math.round(((item.total ?? 0) / quantity) * 100) / 100 : 0,
+        unit_price: quantity > 0 ? Math.round(((item.total ?? 0) / quantity) * 100) / 100 : 0,
       };
     });
 
   return (
     <DevolutionDetail
       devolution={devolution}
-      details={details.filter((detail) => detail.orderDevolutionId === devolutionId)}
-      evidences={evidences.filter((evidence) => evidence.orderDevolutionId === devolutionId)}
+      details={details.filter((detail) => detail.order_devolution_id === devolutionId)}
+      evidences={evidences.filter((evidence) => evidence.order_devolution_id === devolutionId)}
       lines={lines}
       catalogs={catalogs}
     />

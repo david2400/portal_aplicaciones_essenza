@@ -8,6 +8,8 @@ import type {
   CreateOrderPayload,
   UpdateOrderPayload,
   DeleteOrderPayload,
+  ChangeOrderStatusDto,
+  OrderReservationDto,
 } from './types';
 
 const orders_base_path = '/api/shop/sales/orders';
@@ -35,6 +37,19 @@ export const orders_repository = {
 
   async update_order(payload: UpdateOrderPayload): Promise<OrderDto> {
     return server_fetch.put<OrderDto>(order_by_id_path(payload.id), payload, { revalidate: false });
+  },
+
+  /** Cambio de estado: pagar descuenta el stock; cancelar lo libera o lo devuelve. */
+  async change_order_status(id: number, payload: ChangeOrderStatusDto): Promise<OrderDto> {
+    return server_fetch.post<OrderDto>(`${order_by_id_path(id)}/status`, payload, { revalidate: false });
+  },
+
+  async list_order_reservations(id: number): Promise<OrderReservationDto[]> {
+    const response = await server_fetch.get<unknown>(`${order_by_id_path(id)}/reservations`, {
+      revalidate: false,
+      tags: [orders_tags.item(id)],
+    });
+    return to_list<OrderReservationDto>(response);
   },
 
   async delete_order(payload: DeleteOrderPayload): Promise<void> {

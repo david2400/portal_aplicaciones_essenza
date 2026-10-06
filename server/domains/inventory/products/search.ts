@@ -23,10 +23,11 @@ const to_id_list = (value?: string) => (value ? [Number(value)].filter((id) => N
 function to_filter(query: GridQuery): ProductFilter {
   return {
     search: query.q || undefined,
-    brandIds: to_id_list(query.filters.brandId),
-    categoryIds: to_id_list(query.filters.categoryId),
-    subcategoryIds: to_id_list(query.filters.subcategoryId),
+    brand_ids: to_id_list(query.filters.brandId),
+    category_ids: to_id_list(query.filters.categoryId),
+    subcategory_ids: to_id_list(query.filters.subcategoryId),
     available: query.filters.available ? query.filters.available === 'true' : undefined,
+    statuses: query.filters.status ? [query.filters.status] : undefined,
   };
 }
 
@@ -59,10 +60,11 @@ async function search(query: GridQuery): Promise<PageResult<ProductDto>> {
     return paginate_in_memory(all, query, {
       search_fields: (item) => [item.name, item.description],
       filter_fields: {
-        brandId: (item) => item.brandId,
-        categoryId: (item) => item.categoryId,
-        subcategoryId: (item) => item.subcategoryId,
+        brandId: (item) => item.brand_id,
+        categoryId: (item) => item.category_id,
+        subcategoryId: (item) => item.subcategory_id,
         available: (item) => String(Boolean(item.available)),
+        status: (item) => item.status ?? (item.available ? 'ACTIVE' : 'INACTIVE'),
       },
     });
   }

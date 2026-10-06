@@ -197,3 +197,18 @@ export const parametros_tags = {
   geo_states: (country_id: number | string) => `parametros:geo:states:${country_id}` as const,
   geo_cities: (state_id: number | string) => `parametros:geo:cities:${state_id}` as const,
 } as const;
+
+export const attributes_tags = {
+  list: () => 'attributes:list' as const,
+  item: (id: number | string) => `attributes:item:${id}` as const,
+} as const;
+
+export const product_templates_tags = {
+  list: () => 'product-templates:list' as const,
+  item: (id: number | string) => `product-templates:item:${id}` as const,
+} as const;
+
+export const product_attributes_tags = {
+  all: () => 'product-attributes:all' as const,
+  item: (product_id: number | string) => `product-attributes:item:${product_id}` as const,
+} as const;

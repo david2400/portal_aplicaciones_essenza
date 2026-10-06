@@ -66,7 +66,7 @@ export function to_search_params(query: GridQuery, overrides: Partial<{ page: nu
 
 /**
  * Normaliza la respuesta paginada del backend. Acepta el `PageResponse`
- * propio ({content, page, size, totalElements, totalPages}), el `Page` de
+ * propio ({content, page, size, total_elements, total_pages}), el `Page` de
  * Spring ({content, number, …}) y su variante `VIA_DTO` ({content, page:{…}}).
  */
 export function to_page_result<T>(response: unknown, fallback_size: number): PageResult<T> {
@@ -75,8 +75,8 @@ export function to_page_result<T>(response: unknown, fallback_size: number): Pag
   const meta = typeof body.page === 'object' && body.page !== null ? body.page : body;
   const size = Number(meta.size ?? fallback_size) || fallback_size;
   const page = Number(typeof body.page === 'number' ? body.page : (meta.number ?? 0)) || 0;
-  const total = Number(meta.totalElements ?? items.length) || 0;
-  const total_pages = Number(meta.totalPages ?? Math.ceil(total / size)) || 0;
+  const total = Number(meta.total_elements ?? items.length) || 0;
+  const total_pages = Number(meta.total_pages ?? Math.ceil(total / size)) || 0;
   return { items, page, size, total, totalPages: total_pages };
 }
 
@@ -158,10 +158,13 @@ export async function collect_all_pages<T>(
   }
 }
 
-/** Extrae `fieldErrors` del cuerpo de error uniforme del backend. */
+/**
+ * Extrae `field_errors` del cuerpo de error uniforme del backend. Los nombres
+ * de campo llegan en snake_case, igual que los campos de los formularios.
+ */
 export function field_errors_from(error: unknown): Record<string, string> | undefined {
   if (!(error instanceof ServerApiError)) return undefined;
-  const list = (error.details as { fieldErrors?: Array<{ field: string; message: string }> } | undefined)?.fieldErrors;
+  const list = (error.details as { field_errors?: Array<{ field: string; message: string }> } | undefined)?.field_errors;
   if (!Array.isArray(list) || list.length === 0) return undefined;
   return Object.fromEntries(list.map((item) => [item.field, item.message]));
 }

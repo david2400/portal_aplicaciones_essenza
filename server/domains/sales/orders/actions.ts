@@ -6,8 +6,8 @@ import { orders_repository } from './repository';
 import { orders_resource } from './search';
 import type { OrderDto } from './types';
 import type { BulkResult, GridQuery } from '@/shared/models/pagination';
-import type { CreateOrderPayload, UpdateOrderPayload, DeleteOrderPayload } from './types';
-import { orders_tags } from '@/server/lib/cache-tags';
+import type { CreateOrderPayload, UpdateOrderPayload, DeleteOrderPayload, ChangeOrderStatusDto } from './types';
+import { inventory_movements_tags, orders_tags, product_orders_tags, products_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -59,6 +59,20 @@ export async function delete_order_action(payload: DeleteOrderPayload): Promise<
   try {
     await orders_repository.delete_order(payload);
     revalidate_orders(payload.id);
+    return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+/** Cambia el estado. Pagar o cancelar mueve stock: se refrescan kardex y productos. */
+export async function change_order_status_action(id: number, payload: ChangeOrderStatusDto): Promise<ActionResult> {
+  try {
+    await orders_repository.change_order_status(id, payload);
+    revalidate_orders(id);
+    revalidateTag(product_orders_tags.list());
+    revalidateTag(inventory_movements_tags.list());
+    revalidateTag(products_tags.list());
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);

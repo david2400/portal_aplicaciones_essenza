@@ -25,26 +25,26 @@ import {
 const EMPTY_VALUES = {
   name: "",
   code: "",
-  contactEmail: "",
-  contactPhone: "",
+  contact_email: "",
+  contact_phone: "",
   website: "",
-  baseRate: 0,
-  ratePerKm: 0,
-  maxDeliveryDays: 1,
-  isActive: "true",
+  base_rate: 0,
+  rate_per_km: 0,
+  max_delivery_days: 1,
+  is_active: "true",
 };
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
 const toFormValues = (values: ICarrier) => ({
   name: values.name ?? "",
   code: values.code ?? "",
-  contactEmail: values.contactEmail ?? "",
-  contactPhone: values.contactPhone ?? "",
+  contact_email: values.contact_email ?? "",
+  contact_phone: values.contact_phone ?? "",
   website: values.website ?? "",
-  baseRate: values.baseRate ?? 0,
-  ratePerKm: values.ratePerKm ?? 0,
-  maxDeliveryDays: values.maxDeliveryDays ?? 0,
-  isActive: String(Boolean(values.isActive)),
+  base_rate: values.base_rate ?? 0,
+  rate_per_km: values.rate_per_km ?? 0,
+  max_delivery_days: values.max_delivery_days ?? 0,
+  is_active: String(Boolean(values.is_active)),
 });
 
 const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {

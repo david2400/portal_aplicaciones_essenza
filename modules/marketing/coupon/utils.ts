@@ -27,9 +27,9 @@ export const formatDate = (value?: string | null) => {
 };
 
 export const couponStatus = (coupon: ICoupon, now = new Date()): CouponStatus => {
-  if (!coupon.isActive) return "inactive";
-  if (coupon.usageLimit != null && (coupon.usageCount ?? 0) >= coupon.usageLimit) return "exhausted";
-  if (coupon.validFrom && new Date(coupon.validFrom) > now) return "scheduled";
-  if (coupon.validUntil && new Date(coupon.validUntil) < now) return "expired";
+  if (!coupon.is_active) return "inactive";
+  if (coupon.usage_limit != null && (coupon.usage_count ?? 0) >= coupon.usage_limit) return "exhausted";
+  if (coupon.valid_from && new Date(coupon.valid_from) > now) return "scheduled";
+  if (coupon.valid_until && new Date(coupon.valid_until) < now) return "expired";
   return "active";
 };

@@ -32,7 +32,7 @@ export const validationTaxonomy = ({ withCategory = false }: { withCategory?: bo
 
   return withCategory
     ? base.extend({
-        categoryId: z.coerce
+        category_id: z.coerce
           .number({ invalid_type_error: intl("requiredField") })
           .int()
           .positive({ message: intl("requiredField") }),

@@ -45,24 +45,24 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
     () => new Map(carriers.map((carrier) => [carrier.id ?? -1, carrier.name ?? `#${carrier.id}`])),
     [carriers],
   );
-  const carrierName = (row: IShippingCost) => carrierNames.get(row.carrierId ?? -1) ?? "—";
+  const carrierName = (row: IShippingCost) => carrierNames.get(row.carrier_id ?? -1) ?? "—";
 
   const data = useMemo(() => [...initialData].sort((a, b) => (b.id ?? 0) - (a.id ?? 0)), [initialData]);
-  const costs = initialData.map((item) => item.calculatedCost ?? 0);
+  const costs = initialData.map((item) => item.calculated_cost ?? 0);
   const average = costs.length ? costs.reduce((acc, value) => acc + value, 0) / costs.length : undefined;
-  const activeCarriers = carriers.filter((carrier) => carrier.isActive !== false).length;
+  const activeCarriers = carriers.filter((carrier) => carrier.is_active !== false).length;
 
   const handleCalculate = async (values: ShippingCostFormValues) => {
     const response = await calculateShippingCostServerAction({
-      carrier_id: values.carrierId,
-      origin_address: values.originAddress,
-      destination_address: values.destinationAddress,
+      carrier_id: values.carrier_id,
+      origin_address: values.origin_address,
+      destination_address: values.destination_address,
       weight: values.weight,
       volume: values.volume,
     });
     if (response.success) {
       setLastResult(response.data ?? null);
-      notify.success(t("resultTitle"), formatMoney(response.data?.calculatedCost));
+      notify.success(t("resultTitle"), formatMoney(response.data?.calculated_cost));
       router.refresh();
     } else {
       notify.error(tCommon("errorTitle"), response.error || tCommon("unexpectedError"));
@@ -72,23 +72,23 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
   const columns = useMemo<GridColumn<IShippingCost>[]>(
     () => [
       {
-        id: "carrierId",
+        id: "carrier_id",
         accessorFn: (row) => carrierName(row),
         header: t("fields.carrierId"),
         meta: { label: t("fields.carrierId"), hideable: false, exportValue: (row) => carrierName(row) },
         cell: ({ row }) => <span className='font-semibold text-foreground'>{carrierName(row.original)}</span>,
       },
       {
-        id: "originAddress",
-        accessorFn: (row) => row.originAddress ?? "",
+        id: "origin_address",
+        accessorFn: (row) => row.origin_address ?? "",
         header: t("fields.originAddress"),
-        meta: { label: t("fields.originAddress"), exportValue: (row) => row.originAddress },
+        meta: { label: t("fields.originAddress"), exportValue: (row) => row.origin_address },
       },
       {
-        id: "destinationAddress",
-        accessorFn: (row) => row.destinationAddress ?? "",
+        id: "destination_address",
+        accessorFn: (row) => row.destination_address ?? "",
         header: t("fields.destinationAddress"),
-        meta: { label: t("fields.destinationAddress"), exportValue: (row) => row.destinationAddress },
+        meta: { label: t("fields.destinationAddress"), exportValue: (row) => row.destination_address },
       },
       {
         id: "distance",
@@ -106,11 +106,11 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
       },
       {
         id: "calculatedCost",
-        accessorFn: (row) => row.calculatedCost ?? 0,
+        accessorFn: (row) => row.calculated_cost ?? 0,
         header: t("fields.calculatedCost"),
-        meta: { label: t("fields.calculatedCost"), align: "right", exportValue: (row) => row.calculatedCost },
+        meta: { label: t("fields.calculatedCost"), align: "right", exportValue: (row) => row.calculated_cost },
         cell: ({ row }) => (
-          <span className='font-semibold tabular-nums text-foreground'>{formatMoney(row.original.calculatedCost)}</span>
+          <span className='font-semibold tabular-nums text-foreground'>{formatMoney(row.original.calculated_cost)}</span>
         ),
       },
       {
@@ -119,11 +119,11 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
         enableSorting: false,
         meta: {
           label: t("fields.isEstimated"),
-          exportValue: (row) => (row.isEstimated ? t("estimated") : t("final")),
+          exportValue: (row) => (row.is_estimated ? t("estimated") : t("final")),
         },
         cell: ({ row }) => (
-          <Badge variant={row.original.isEstimated ? "outline" : "default"}>
-            {row.original.isEstimated ? t("estimated") : t("final")}
+          <Badge variant={row.original.is_estimated ? "outline" : "default"}>
+            {row.original.is_estimated ? t("estimated") : t("final")}
           </Badge>
         ),
       },
@@ -134,12 +134,12 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
 
   const filters: GridFilter<IShippingCost>[] = [
     {
-      id: "carrierId",
+      id: "carrier_id",
       label: t("fields.carrierId"),
       options: carriers
         .filter((carrier) => carrier.id != null)
         .map((carrier) => ({ value: String(carrier.id), label: carrier.name ?? `#${carrier.id}` })),
-      accessor: (row) => row.carrierId,
+      accessor: (row) => row.carrier_id,
     },
     {
       id: "isEstimated",
@@ -148,7 +148,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
         { value: "true", label: t("estimated") },
         { value: "false", label: t("final") },
       ],
-      accessor: (row) => String(Boolean(row.isEstimated)),
+      accessor: (row) => String(Boolean(row.is_estimated)),
     },
   ];
 
@@ -173,7 +173,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
       ]}
       rowLabel={(row) => `#${row.id}`}
       searchPlaceholder={t("searchPlaceholder")}
-      searchText={(row) => `${carrierName(row)} ${row.originAddress ?? ""} ${row.destinationAddress ?? ""}`}
+      searchText={(row) => `${carrierName(row)} ${row.origin_address ?? ""} ${row.destination_address ?? ""}`}
       onDelete={(id) => deleteShippingCostServerAction(id)}>
       <div className='grid gap-4 lg:grid-cols-3'>
         <div className='rounded-xl border border-border/70 bg-background/60 p-5 lg:col-span-2'>
@@ -185,7 +185,7 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
             </p>
           ) : (
             <FormShippingCost
-              initialValues={{ carrierId: "", originAddress: "", destinationAddress: "", weight: "", volume: "" }}
+              initialValues={{ carrier_id: "", origin_address: "", destination_address: "", weight: "", volume: "" }}
               validationSchema={validationSchema}
               onSubmit={handleCalculate}
               carriers={carriers}
@@ -199,12 +199,12 @@ export const ShippingCostManager = ({ initialData, carriers }: IShippingCostMana
           {lastResult ? (
             <dl className='space-y-2 text-sm'>
               <dt className='text-muted-foreground'>{t("resultTitle")}</dt>
-              <dd className='text-3xl font-semibold text-foreground'>{formatMoney(lastResult.calculatedCost)}</dd>
+              <dd className='text-3xl font-semibold text-foreground'>{formatMoney(lastResult.calculated_cost)}</dd>
               <dd className='text-muted-foreground'>
                 {carrierName(lastResult)} · {formatNumber(lastResult.distance, " km")}
               </dd>
-              {lastResult.calculationMethod ? (
-                <dd className='text-xs text-muted-foreground'>{lastResult.calculationMethod}</dd>
+              {lastResult.calculation_method ? (
+                <dd className='text-xs text-muted-foreground'>{lastResult.calculation_method}</dd>
               ) : null}
             </dl>
           ) : (

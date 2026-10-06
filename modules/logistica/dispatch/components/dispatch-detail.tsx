@@ -69,7 +69,7 @@ export const DispatchDetail = ({
   );
 
   const pendingLines = useMemo(() => {
-    const included = new Set(lines.map((line) => line.productOrderId));
+    const included = new Set(lines.map((line) => line.product_order_id));
     return orderLines.filter((line) => line.id != null && !included.has(line.id));
   }, [lines, orderLines]);
 
@@ -99,7 +99,7 @@ export const DispatchDetail = ({
         placeholder: tCommon("selectPlaceholder"),
         options: pendingLines.map((line) => ({
           value: String(line.id),
-          label: `${line.productName} × ${line.quantity}`,
+          label: `${line.product_name} × ${line.quantity}`,
         })),
       },
     });
@@ -127,13 +127,13 @@ export const DispatchDetail = ({
 
   const lineColumns: GridColumn<IDispatchLine>[] = [
     {
-      accessorKey: "productOrderId",
+      accessorKey: "product_order_id",
       header: tLines("fields.product"),
       meta: { label: tLines("fields.product"), hideable: false },
       cell: ({ row }) => (
         <span className='font-semibold text-foreground'>
-          {orderLineMap.get(row.original.productOrderId ?? -1)?.productName ??
-            `#${row.original.productOrderId}`}
+          {orderLineMap.get(row.original.product_order_id ?? -1)?.product_name ??
+            `#${row.original.product_order_id}`}
         </span>
       ),
     },
@@ -143,7 +143,7 @@ export const DispatchDetail = ({
       meta: { label: tLines("fields.quantity"), align: "right" },
       cell: ({ row }) => (
         <span className='tabular-nums'>
-          {orderLineMap.get(row.original.productOrderId ?? -1)?.quantity ?? "—"}
+          {orderLineMap.get(row.original.product_order_id ?? -1)?.quantity ?? "—"}
         </span>
       ),
     },
@@ -156,30 +156,30 @@ export const DispatchDetail = ({
       tone: "danger",
       disabled: line.id == null,
       onSelect: () => {
-        const name = orderLineMap.get(line.productOrderId ?? -1)?.productName ?? `#${line.id}`;
+        const name = orderLineMap.get(line.product_order_id ?? -1)?.product_name ?? `#${line.id}`;
         void confirmDelete(name, () => deleteDispatchLineServerAction(line.id as number));
       },
     },
   ];
 
-  const days = daysFromToday(dispatch.estimatedDeliveryDate);
+  const days = daysFromToday(dispatch.estimated_delivery_date);
 
   const summary = [
     {
       label: t("fields.orderId"),
       value:
-        dispatch.orderId != null ? (
+        dispatch.order_id != null ? (
           <Link
-            href={`/ventas/orders/${dispatch.orderId}`}
+            href={`/ventas/orders/${dispatch.order_id}`}
             className='text-primary underline-offset-4 hover:underline'>
-            #{dispatch.orderId}
+            #{dispatch.order_id}
           </Link>
         ) : (
           "—"
         ),
     },
-    { label: t("fields.estimatedDeliveryDate"), value: formatDate(dispatch.estimatedDeliveryDate) },
-    { label: t("fields.realDeliveryDate"), value: formatDate(dispatch.realDeliveryDate) },
+    { label: t("fields.estimatedDeliveryDate"), value: formatDate(dispatch.estimated_delivery_date) },
+    { label: t("fields.realDeliveryDate"), value: formatDate(dispatch.real_delivery_date) },
     {
       label: t("countdown"),
       value: days == null ? "—" : days >= 0 ? t("dueIn", { days }) : t("overdue", { days: -days }),
@@ -197,7 +197,7 @@ export const DispatchDetail = ({
             {t("backToList")}
           </Link>
           <h2 className='text-xl font-semibold tracking-tight text-foreground'>
-            {t("dispatchLabel", { guide: dispatch.guideNumber || `#${dispatch.id}` })}
+            {t("dispatchLabel", { guide: dispatch.guide_number || `#${dispatch.id}` })}
           </h2>
         </div>
         <Buttons variant='outline' onClick={() => setEditing(true)} className='rounded-full'>
@@ -219,13 +219,13 @@ export const DispatchDetail = ({
               <div>
                 <dt className='text-muted-foreground'>{t("originLegend")}</dt>
                 <dd className='font-medium text-foreground'>
-                  {dispatch.cityOrigin ?? "—"}, {dispatch.departmentOrigin ?? "—"}
+                  {dispatch.city_origin ?? "—"}, {dispatch.department_origin ?? "—"}
                 </dd>
               </div>
               <div>
                 <dt className='text-muted-foreground'>{t("destinationLegend")}</dt>
                 <dd className='font-medium text-foreground'>
-                  {dispatch.cityDestination ?? "—"}, {dispatch.departmentDestination ?? "—"}
+                  {dispatch.city_destination ?? "—"}, {dispatch.department_destination ?? "—"}
                 </dd>
               </div>
               <div className='sm:col-span-2'>
@@ -261,7 +261,7 @@ export const DispatchDetail = ({
                       <span className='font-medium text-foreground'>
                         {tTracking("eventLabel", { id: tracking.id ?? "—" })}
                       </span>{" "}
-                      <span className='text-muted-foreground'>· {formatDateTime(tracking.createdAt)}</span>
+                      <span className='text-muted-foreground'>· {formatDateTime(tracking.created_at)}</span>
                     </span>
                     <Buttons
                       size='sm'
@@ -320,7 +320,7 @@ export const DispatchDetail = ({
               columns={lineColumns}
               getRowId={(line) => String(line.id)}
               searchText={(line) =>
-                orderLineMap.get(line.productOrderId ?? -1)?.productName ?? ""
+                orderLineMap.get(line.product_order_id ?? -1)?.product_name ?? ""
               }
               rowActions={lineRowActions}
               emptyState={{
