@@ -84,6 +84,7 @@ export const FormAttribute = ({
           controller={{ control, name: "unit_id" }}
           label={t("fields.unitId")}
           data={unitOptions}
+          searchable
           placeholder={tCommon("selectPlaceholder")}
           triggerClassName='!w-full'
           className='col-span-12 md:col-span-6'

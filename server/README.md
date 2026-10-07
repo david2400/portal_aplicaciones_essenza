@@ -71,3 +71,21 @@ export function UpdateDispatchDetailForm({ id }: { id: number }) {
   return <form action={handleSubmit}>...</form>;
 }
 ```
+
+## Rutas del API (Fase 6)
+
+- Catálogo: `/catalog/products` (+ `/{id}/skus`, `/{id}/images`), `/catalog/variants`, `/catalog/product_combos`.
+- Inventario: `/inventory/stock/levels`, `/inventory/stock/movements`, `/inventory/stock/reservations`.
+- Las rutas antiguas (`/inventory/products`, `/inventory/product_children`, `/inventory/product_combos`,
+  `/inventory/inventory_movements`, `GET /inventory/stock`) siguen respondiendo con la cabecera `Deprecation: true`
+  hasta la Fase 7; el panel ya no las usa. Las carpetas del BFF (`domains/inventory/products`…) conservan su nombre.
+
+## Selectores con búsqueda (`domains/lookups`)
+
+- Endpoints ligeros: `/catalog/skus/lookup`, `/catalog/products/lookup`, `/catalog/{brands,categories,subcategories}/lookup`,
+  `/inventory/suppliers/lookup`. Parámetros: `q`, `ids` (separados por coma, para pintar el valor elegido) y `limit` (≤ 50).
+- Client Components: usar los campos de `components/async-combobox` (`SkuLookupField`, `ProductLookupField`,
+  `BrandLookupField`…), que llaman a las server actions `lookup_*_action`. No cargar listas completas para un select.
+- Server Components: `lookup_skus({ ids })` / `lookup_products({ ids })` para resolver nombres de lo que se muestra.
+- Indicadores del catálogo (listado de productos, inicio): `get_product_stats()` → `GET /catalog/products/stats`.
+- `GET /catalog/products` admite como máximo `size=200`; ninguna pantalla debe cargar el catálogo entero.

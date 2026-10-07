@@ -13,7 +13,6 @@ import type {
   IOrder,
   IOrderCreateRequest,
   IOrderItem,
-  IOrderSku,
 } from "../models/order.interface";
 import {
   createOrderServerAction,
@@ -89,9 +88,8 @@ type ItemFormValues = { sku_id: number; quantity: number; discount: number };
 export const OrderItemForm = ({
   orderId,
   item,
-  skus,
   handleClose,
-}: IFormAddProps & { orderId: number; item?: IOrderItem | null; skus: IOrderSku[] }) => {
+}: IFormAddProps & { orderId: number; item?: IOrderItem | null }) => {
   const t = useTranslations("Administre.common");
   const feedback = useFeedback(handleClose);
   const validationSchema = validationOrderItem();
@@ -116,7 +114,6 @@ export const OrderItemForm = ({
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
-      skus={skus}
       frozen={item ?? null}
     />
   );

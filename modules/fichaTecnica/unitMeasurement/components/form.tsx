@@ -5,97 +5,64 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
-import type {
-  IFormAddProps,
-  IFormUpdateProps,
-} from "@repo/ui/form/models/form.interface";
+import type { IUnit } from "@/shared/units/units";
 import { FormUnitMeasurement } from "../scenes/formUnitMeasurement";
-import { validationUnitMeasurement } from "../schemas/unitMeasurement.schema";
-import type {
-  IUnitMeasurement,
-  IUnitMeasurementCreateRequest,
-  IUnitMeasurementUpdateRequest,
-} from "../models/unitMeasurement.interface";
-import {
-  createUnitMeasurementServerAction,
-  updateUnitMeasurementServerAction,
-} from "@/app/[locale]/fichaTecnica/unit-measurements/actions";
+import { validationUnitMeasurement, type UnitFormValues } from "../schemas/unitMeasurement.schema";
+import type { IUnitMeasurement } from "../models/unitMeasurement.interface";
+import { createUnitServerAction, updateUnitServerAction } from "@/app/[locale]/fichaTecnica/unit-measurements/actions";
 
-/** Valores iniciales del formulario de creación. */
-const EMPTY_VALUES = {
-  name: "",
-};
-
-/** Convierte el DTO de la API en los valores que espera el formulario. */
-const toFormValues = (values: IUnitMeasurement) => ({
-  name: values.name ?? "",
+const toFormValues = (unit?: IUnitMeasurement | null): UnitFormValues => ({
+  name: unit?.name ?? "",
+  symbol: unit?.symbol ?? "",
+  code: unit?.code ?? "",
+  dimension: (unit?.dimension ?? "VOLUME") as UnitFormValues["dimension"],
+  factor: unit?.factor,
+  base: Boolean(unit?.base),
+  decimals: unit?.decimals ?? 2,
+  active: unit?.active ?? true,
 });
 
-const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
+/** Alta / edición de unidad: avisa, cierra el modal y refresca. */
+export const UnitForm = ({
+  unit,
+  units,
+  handleClose,
+}: {
+  unit: IUnitMeasurement | null;
+  units: IUnit[];
+  handleClose: () => void;
+}) => {
   const router = useRouter();
-  const t = useTranslations("Administre.common");
+  const tCommon = useTranslations("Administre.common");
 
-  return {
-    success: (title: string) => {
-      notify.success(title);
-      handleClose?.(true);
+  const handleSubmit = async (values: UnitFormValues) => {
+    const payload = {
+      name: values.name,
+      symbol: values.symbol,
+      code: values.code || undefined,
+      dimension: values.dimension,
+      factor: values.dimension === "OTHER" || values.base ? undefined : values.factor,
+      base: values.base,
+      decimals: values.decimals,
+      active: values.active,
+    };
+    const result = unit?.id != null ? await updateUnitServerAction({ ...payload, id: unit.id }) : await createUnitServerAction(payload);
+    if (result.success) {
+      notify.success(unit?.id != null ? tCommon("updatedSuccess") : tCommon("createdSuccess"), values.name);
+      handleClose();
       router.refresh();
-    },
-    failure: (message?: string) => notify.error(t("errorTitle"), message || t("unexpectedError")),
-  };
-};
-
-export const RegisterUnitMeasurement = ({
-  handleClose,
-}: IFormAddProps) => {
-  const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
-
-  const handleSubmit = async (values: IUnitMeasurementCreateRequest) => {
-    const result = await createUnitMeasurementServerAction(values);
-    if (result.success) {
-      feedback.success(t("createdSuccess"));
     } else {
-      feedback.failure(result.error);
+      notify.error(tCommon("errorTitle"), result.error || tCommon("unexpectedError"));
     }
   };
 
   return (
     <FormUnitMeasurement
-      initialValues={EMPTY_VALUES}
-      onSubmit={handleSubmit}
+      initialValues={toFormValues(unit)}
       validationSchema={validationUnitMeasurement()}
-    />
-  );
-};
-
-export const UpdateUnitMeasurement = ({
-  initialValues,
-  handleClose,
-}: IFormUpdateProps<IUnitMeasurement>) => {
-  const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
-  const validationSchema = validationUnitMeasurement();
-  const id = initialValues?.id;
-
-  if (id == null || !initialValues) {
-    return null;
-  }
-
-  const handleSubmit = async (values: Omit<IUnitMeasurementUpdateRequest, "id">) => {
-    const result = await updateUnitMeasurementServerAction({ ...values, id } as IUnitMeasurementUpdateRequest);
-    if (result.success) {
-      feedback.success(t("updatedSuccess"));
-    } else {
-      feedback.failure(result.error);
-    }
-  };
-
-  return (
-    <FormUnitMeasurement
-      initialValues={toFormValues(initialValues)}
       onSubmit={handleSubmit}
-      validationSchema={validationSchema}
+      units={units}
+      current={unit}
     />
   );
 };

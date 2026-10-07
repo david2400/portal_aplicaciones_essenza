@@ -12,7 +12,7 @@ import type {
   UpdateProductChildPayload,
   DeleteProductChildPayload,
 } from './types';
-import { product_children_tags } from '@/server/lib/cache-tags';
+import { product_children_tags, products_tags, stock_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -29,8 +29,11 @@ function handle_error(error: unknown): ActionResult<never> {
   return { success: false, error: message };
 }
 
+/** Cambian los SKUs, el stock o los componentes del producto: también su ficha y listados. */
 function revalidate_product_child_tags(id?: number) {
   revalidateTag(product_children_tags.list());
+  revalidateTag(products_tags.list());
+  revalidateTag(stock_tags.all());
   if (typeof id === 'number') {
     revalidateTag(product_children_tags.item(id));
   }
@@ -78,7 +81,7 @@ export async function delete_product_child_action(
 export async function bulk_delete_product_children_action(ids: number[]): Promise<ActionResult<BulkResult>> {
   try {
     const resource = create_search_resource<ProductChildDto>({
-      base_path: '/api/shop/inventory/product_children',
+      base_path: '/api/shop/catalog/variants',
       list_tag: product_children_tags.list(),
       list_all: () => list_product_children(),
       delete_one: (id) => product_children_repository.delete_product_child({ id }),

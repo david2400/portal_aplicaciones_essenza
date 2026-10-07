@@ -1,15 +1,9 @@
 /** @format */
 
-import type {
-  UnitMeasurementDto,
-  CreateUnitMeasurementDto,
-  UpdateUnitMeasurementDto,
-} from "@/server/domains/product_details/unit-measurements/types";
+import type { SaveUnitDto, UnitDto } from "@/server/domains/product_details/unit-measurements/types";
 
-/**
- * Tipos del módulo. Se reutilizan los DTO generados desde `endpoint.json`
- * (import de solo tipos: no arrastra código de servidor al cliente).
- */
-export type IUnitMeasurement = UnitMeasurementDto;
-export type IUnitMeasurementCreateRequest = CreateUnitMeasurementDto;
-export type IUnitMeasurementUpdateRequest = UpdateUnitMeasurementDto;
+/** Unidad de medida con magnitud y factor respecto a la base de su magnitud. */
+export type IUnitMeasurement = UnitDto;
+export type IUnitSaveRequest = SaveUnitDto;
+
+export { UNIT_DIMENSIONS, type UnitDimension } from "@/shared/units/units";

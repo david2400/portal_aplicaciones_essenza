@@ -3,7 +3,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { list_product_recommendations } from "@/server/domains/recommendations/products/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
 import { RecommendationManager } from "@/modules/contenido/recommendation";
 
 export async function generateMetadata({
@@ -19,17 +18,10 @@ export async function generateMetadata({
 }
 
 const RecommendationsPage = async () => {
-  const [initialData, products] = await Promise.all([
-    list_product_recommendations(),
-    list_products({ size: 500 }),
-  ]);
+  // El producto se elige con el buscador asíncrono del formulario.
+  const initialData = await list_product_recommendations();
 
-  return (
-    <RecommendationManager
-      initialData={initialData}
-      products={products.map(({ id, name, unit_price, image_url }) => ({ id, name, unit_price, image_url }))}
-    />
-  );
+  return <RecommendationManager initialData={initialData} />;
 };
 
 export default RecommendationsPage;

@@ -37,4 +37,6 @@ export * from './domains/sales/product-orders';
 export * from './domains/sales/payment-types';
 export * from './domains/sales/orders';
 export * from './domains/inventory/inventory-movements';
+export * from './domains/inventory/stock';
+export * from './domains/lookups';
 export * from './domains/analytics/sales-analytics';

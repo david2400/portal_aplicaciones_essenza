@@ -159,6 +159,11 @@ export const inventory_movements_tags = {
   entries: () => 'inventory-movements:entries' as const,
 } as const;
 
+/** Existencias y reservas: cualquier movimiento, pago o cambio de línea de orden las invalida. */
+export const stock_tags = {
+  all: () => 'stock:all' as const,
+} as const;
+
 export const sales_analytics_tags = {
   trends: () => 'sales-analytics:trends' as const,
   report: () => 'sales-analytics:report' as const,

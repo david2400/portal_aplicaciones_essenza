@@ -1381,120 +1381,6 @@
         }
       }
     },
-    "/api/shop/product_details/unit_measurements/{id}": {
-      "get": {
-        "tags": [
-          "Unit Measurement"
-        ],
-        "summary": "Get unit measurement by ID",
-        "description": "Returns a unit measurement by its ID or 404 if not found",
-        "operationId": "getById_10",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unit measurement ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Unit measurement found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnitMeasurementDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Unit measurement not found"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Unit Measurement"
-        ],
-        "summary": "Update unit measurement",
-        "description": "Updates an existing unit measurement by ID",
-        "operationId": "update_12",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unit measurement ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Unit measurement data to update",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUnitMeasurementDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Unit measurement updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnitMeasurementDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Unit measurement not found"
-          },
-          "400": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Unit Measurement"
-        ],
-        "summary": "Delete unit measurement",
-        "description": "Deletes a unit measurement by ID",
-        "operationId": "delete_12",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unit measurement ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Unit measurement deleted"
-          },
-          "404": {
-            "description": "Unit measurement not found"
-          }
-        }
-      }
-    },
     "/api/shop/product_details/type_products/{id}": {
       "get": {
         "tags": [
@@ -1502,7 +1388,7 @@
         ],
         "summary": "Get type product by ID",
         "description": "Returns a type product by its ID or 404 if not found",
-        "operationId": "getById_11",
+        "operationId": "getById_10",
         "parameters": [
           {
             "name": "id",
@@ -1538,7 +1424,7 @@
         ],
         "summary": "Update type product",
         "description": "Updates an existing type product by ID",
-        "operationId": "update_13",
+        "operationId": "update_12",
         "parameters": [
           {
             "name": "id",
@@ -1588,7 +1474,7 @@
         ],
         "summary": "Delete type product",
         "description": "Deletes a type product by ID",
-        "operationId": "delete_13",
+        "operationId": "delete_12",
         "parameters": [
           {
             "name": "id",
@@ -1649,7 +1535,7 @@
           "Type Product Features"
         ],
         "summary": "Actualizar la característica asignada a un tipo de producto",
-        "operationId": "update_14",
+        "operationId": "update_13",
         "parameters": [
           {
             "name": "typeProductId",
@@ -1690,7 +1576,7 @@
           "Type Product Features"
         ],
         "summary": "Eliminar la relación para un tipo de producto",
-        "operationId": "delete_14",
+        "operationId": "delete_13",
         "parameters": [
           {
             "name": "typeProductId",
@@ -1717,7 +1603,7 @@
         ],
         "summary": "Get product feature by IDs",
         "description": "Returns a product-feature link by productId and featureId or 404 if not found",
-        "operationId": "getById_12",
+        "operationId": "getById_11",
         "parameters": [
           {
             "name": "productId",
@@ -1763,7 +1649,7 @@
         ],
         "summary": "Update product feature",
         "description": "Updates a product-feature link by productId and featureId",
-        "operationId": "update_15",
+        "operationId": "update_14",
         "parameters": [
           {
             "name": "productId",
@@ -1823,7 +1709,7 @@
         ],
         "summary": "Delete product feature",
         "description": "Deletes a product-feature link by productId and featureId",
-        "operationId": "delete_15",
+        "operationId": "delete_14",
         "parameters": [
           {
             "name": "productId",
@@ -1864,7 +1750,7 @@
         ],
         "summary": "Get feature by ID",
         "description": "Returns a feature by its ID or 404 if not found",
-        "operationId": "getById_13",
+        "operationId": "getById_12",
         "parameters": [
           {
             "name": "id",
@@ -1900,7 +1786,7 @@
         ],
         "summary": "Update feature",
         "description": "Updates an existing feature by ID",
-        "operationId": "update_16",
+        "operationId": "update_15",
         "parameters": [
           {
             "name": "id",
@@ -1950,7 +1836,7 @@
         ],
         "summary": "Delete feature",
         "description": "Deletes a feature by ID",
-        "operationId": "delete_16",
+        "operationId": "delete_15",
         "parameters": [
           {
             "name": "id",
@@ -1979,7 +1865,7 @@
         "tags": [
           "warehouse-controller"
         ],
-        "operationId": "getById_14",
+        "operationId": "getById_13",
         "parameters": [
           {
             "name": "id",
@@ -2008,7 +1894,7 @@
         "tags": [
           "warehouse-controller"
         ],
-        "operationId": "update_17",
+        "operationId": "update_16",
         "parameters": [
           {
             "name": "id",
@@ -2047,7 +1933,7 @@
         "tags": [
           "warehouse-controller"
         ],
-        "operationId": "delete_17",
+        "operationId": "delete_16",
         "parameters": [
           {
             "name": "id",
@@ -2073,7 +1959,7 @@
         ],
         "summary": "Get supplier by ID",
         "description": "Returns a supplier by its ID or 404 if not found",
-        "operationId": "getById_15",
+        "operationId": "getById_14",
         "parameters": [
           {
             "name": "id",
@@ -2108,7 +1994,7 @@
         ],
         "summary": "Update supplier",
         "description": "Updates an existing supplier by ID",
-        "operationId": "update_18",
+        "operationId": "update_17",
         "parameters": [
           {
             "name": "id",
@@ -2157,7 +2043,7 @@
         ],
         "summary": "Delete supplier",
         "description": "Deletes a supplier by ID",
-        "operationId": "delete_18",
+        "operationId": "delete_17",
         "parameters": [
           {
             "name": "id",
@@ -2180,348 +2066,6 @@
         }
       }
     },
-    "/api/shop/inventory/products/{id}": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Get product by ID",
-        "description": "Returns a product by its ID or 404 if not found",
-        "operationId": "getById_16",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Product found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product not found"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Update product",
-        "description": "Updates an existing product by ID",
-        "operationId": "update_19",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Product data to update",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Product updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product not found"
-          },
-          "400": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Delete product",
-        "description": "Deletes a product by ID",
-        "operationId": "delete_19",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Product deleted"
-          },
-          "404": {
-            "description": "Product not found"
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/product_combos/{id}": {
-      "get": {
-        "tags": [
-          "product-combo-controller"
-        ],
-        "summary": "Get product combo by ID",
-        "description": "Returns a product combo by its ID or 404 if not found",
-        "operationId": "getById_17",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product combo ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Product combo found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductComboDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product combo not found"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "product-combo-controller"
-        ],
-        "summary": "Update product combo",
-        "description": "Updates an existing product combo by ID",
-        "operationId": "update_20",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product combo ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Product combo data to update",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductComboDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Product combo updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductComboDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product combo not found"
-          },
-          "400": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "product-combo-controller"
-        ],
-        "summary": "Delete product combo",
-        "description": "Deletes a product combo by ID",
-        "operationId": "delete_20",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product combo ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Product combo deleted"
-          },
-          "404": {
-            "description": "Product combo not found"
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/product_children/{id}": {
-      "get": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "Get product child by ID",
-        "description": "Returns a product child by its ID or 404 if not found",
-        "operationId": "getById_18",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product child ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Product child found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductChildDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product child not found"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "Update product child",
-        "description": "Updates an existing product child by ID",
-        "operationId": "update_21",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product child ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Product child data to update",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductChildDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Product child updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductChildDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Product child not found"
-          },
-          "400": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "Delete product child",
-        "description": "Deletes a product child by ID",
-        "operationId": "delete_21",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Product child ID",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Product child deleted"
-          },
-          "404": {
-            "description": "Product child not found"
-          }
-        }
-      }
-    },
     "/api/shop/dispatch/dispatch_products/{id}": {
       "get": {
         "tags": [
@@ -2529,7 +2073,7 @@
         ],
         "summary": "Get dispatch product by ID",
         "description": "Returns a dispatch product by its ID or 404 if not found",
-        "operationId": "getById_19",
+        "operationId": "getById_15",
         "parameters": [
           {
             "name": "id",
@@ -2564,7 +2108,7 @@
         ],
         "summary": "Update dispatch product",
         "description": "Updates an existing dispatch product by ID",
-        "operationId": "update_22",
+        "operationId": "update_18",
         "parameters": [
           {
             "name": "id",
@@ -2613,7 +2157,7 @@
         ],
         "summary": "Delete dispatch product",
         "description": "Deletes a dispatch product by ID",
-        "operationId": "delete_22",
+        "operationId": "delete_18",
         "parameters": [
           {
             "name": "id",
@@ -2643,7 +2187,7 @@
         ],
         "summary": "Get return method by ID",
         "description": "Returns a return method by its ID or 404 if not found",
-        "operationId": "getById_20",
+        "operationId": "getById_16",
         "parameters": [
           {
             "name": "id",
@@ -2678,7 +2222,7 @@
         ],
         "summary": "Update return method",
         "description": "Updates an existing return method by ID",
-        "operationId": "update_23",
+        "operationId": "update_19",
         "parameters": [
           {
             "name": "id",
@@ -2727,7 +2271,7 @@
         ],
         "summary": "Delete return method",
         "description": "Deletes a return method by ID",
-        "operationId": "delete_23",
+        "operationId": "delete_19",
         "parameters": [
           {
             "name": "id",
@@ -2757,7 +2301,7 @@
         ],
         "summary": "Get refund method by ID",
         "description": "Returns a refund method by its ID or 404 if not found",
-        "operationId": "getById_21",
+        "operationId": "getById_17",
         "parameters": [
           {
             "name": "id",
@@ -2792,7 +2336,7 @@
         ],
         "summary": "Update refund method",
         "description": "Updates an existing refund method by ID",
-        "operationId": "update_24",
+        "operationId": "update_20",
         "parameters": [
           {
             "name": "id",
@@ -2841,7 +2385,7 @@
         ],
         "summary": "Delete refund method",
         "description": "Deletes a refund method by ID",
-        "operationId": "delete_24",
+        "operationId": "delete_20",
         "parameters": [
           {
             "name": "id",
@@ -2871,7 +2415,7 @@
         ],
         "summary": "Get order devolution by ID",
         "description": "Returns an order devolution by its ID or 404 if not found",
-        "operationId": "getById_22",
+        "operationId": "getById_18",
         "parameters": [
           {
             "name": "id",
@@ -2906,7 +2450,7 @@
         ],
         "summary": "Update order devolution",
         "description": "Updates an existing order devolution by ID",
-        "operationId": "update_25",
+        "operationId": "update_21",
         "parameters": [
           {
             "name": "id",
@@ -2955,7 +2499,7 @@
         ],
         "summary": "Delete order devolution",
         "description": "Deletes an order devolution by ID",
-        "operationId": "delete_25",
+        "operationId": "delete_21",
         "parameters": [
           {
             "name": "id",
@@ -2985,7 +2529,7 @@
         ],
         "summary": "Get order devolution evidence by ID",
         "description": "Returns an order devolution evidence by its ID or 404 if not found",
-        "operationId": "getById_23",
+        "operationId": "getById_19",
         "parameters": [
           {
             "name": "id",
@@ -3020,7 +2564,7 @@
         ],
         "summary": "Update order devolution evidence",
         "description": "Updates an existing order devolution evidence by ID",
-        "operationId": "update_26",
+        "operationId": "update_22",
         "parameters": [
           {
             "name": "id",
@@ -3069,7 +2613,7 @@
         ],
         "summary": "Delete order devolution evidence",
         "description": "Deletes an order devolution evidence by ID",
-        "operationId": "delete_26",
+        "operationId": "delete_22",
         "parameters": [
           {
             "name": "id",
@@ -3099,7 +2643,7 @@
         ],
         "summary": "Get order devolution detail by ID",
         "description": "Returns an order devolution detail by its ID or 404 if not found",
-        "operationId": "getById_24",
+        "operationId": "getById_20",
         "parameters": [
           {
             "name": "id",
@@ -3134,7 +2678,7 @@
         ],
         "summary": "Update order devolution detail",
         "description": "Updates an existing order devolution detail by ID",
-        "operationId": "update_27",
+        "operationId": "update_23",
         "parameters": [
           {
             "name": "id",
@@ -3183,7 +2727,7 @@
         ],
         "summary": "Delete order devolution detail",
         "description": "Deletes an order devolution detail by ID",
-        "operationId": "delete_27",
+        "operationId": "delete_23",
         "parameters": [
           {
             "name": "id",
@@ -3213,7 +2757,7 @@
         ],
         "summary": "Get motive devolution by ID",
         "description": "Returns a motive devolution by its ID or 404 if not found",
-        "operationId": "getById_25",
+        "operationId": "getById_21",
         "parameters": [
           {
             "name": "id",
@@ -3248,7 +2792,7 @@
         ],
         "summary": "Update motive devolution",
         "description": "Updates an existing motive devolution by ID",
-        "operationId": "update_28",
+        "operationId": "update_24",
         "parameters": [
           {
             "name": "id",
@@ -3297,7 +2841,7 @@
         ],
         "summary": "Delete motive devolution",
         "description": "Deletes a motive devolution by ID",
-        "operationId": "delete_28",
+        "operationId": "delete_24",
         "parameters": [
           {
             "name": "id",
@@ -3326,7 +2870,7 @@
           "CMS Pages"
         ],
         "summary": "Get page by id",
-        "operationId": "getById_26",
+        "operationId": "getById_22",
         "parameters": [
           {
             "name": "id",
@@ -3356,7 +2900,7 @@
           "CMS Pages"
         ],
         "summary": "Update CMS page",
-        "operationId": "update_29",
+        "operationId": "update_25",
         "parameters": [
           {
             "name": "id",
@@ -3396,7 +2940,217 @@
           "CMS Pages"
         ],
         "summary": "Delete page",
-        "operationId": "delete_29",
+        "operationId": "delete_25",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/variants/{id}": {
+      "get": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "Get product child by ID",
+        "description": "Returns a product child by its ID or 404 if not found",
+        "operationId": "getById_23",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product child ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product child found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductChildDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product child not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "Update product child",
+        "description": "Updates an existing product child by ID",
+        "operationId": "update_26",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product child ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Product child data to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductChildDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product child updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductChildDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product child not found"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "Delete product child",
+        "description": "Deletes a product child by ID",
+        "operationId": "delete_26",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product child ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product child deleted"
+          },
+          "404": {
+            "description": "Product child not found"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/units/{id}": {
+      "get": {
+        "tags": [
+          "Units of measure"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Editar unidad",
+        "description": "No cambia la magnitud de una unidad en uso. base=true la convierte en base",
+        "operationId": "update_27",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUnitDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Eliminar unidad",
+        "description": "409 si está en uso o si es la base y quedan otras en su magnitud",
+        "operationId": "delete_27",
         "parameters": [
           {
             "name": "id",
@@ -3421,7 +3175,7 @@
           "Subcategories"
         ],
         "summary": "Get subcategory by ID",
-        "operationId": "getById_27",
+        "operationId": "getById_24",
         "parameters": [
           {
             "name": "id",
@@ -3453,7 +3207,7 @@
         ],
         "summary": "Update subcategory",
         "description": "Actualiza el registro. El id se toma de la URL.",
-        "operationId": "update_30",
+        "operationId": "update_28",
         "parameters": [
           {
             "name": "id",
@@ -3504,7 +3258,7 @@
         ],
         "summary": "Delete subcategory",
         "description": "Eliminación lógica.",
-        "operationId": "delete_30",
+        "operationId": "delete_28",
         "parameters": [
           {
             "name": "id",
@@ -3537,7 +3291,7 @@
         ],
         "summary": "Get product attributes",
         "description": "Plantilla, atributos disponibles, valores, ejes por variante y lo que falta para publicar.",
-        "operationId": "get",
+        "operationId": "get_1",
         "parameters": [
           {
             "name": "productId",
@@ -3604,6 +3358,200 @@
         }
       }
     },
+    "/api/shop/catalog/products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get product by ID",
+        "description": "Returns a product by its ID or 404 if not found",
+        "operationId": "getById_25",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Update product",
+        "description": "Updates an existing product by ID",
+        "operationId": "update_29",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Product data to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Delete product",
+        "description": "Deletes a product by ID",
+        "operationId": "delete_29",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product deleted"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/products/{id}/images": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Imágenes del producto",
+        "description": "Galería general (sku_id nulo, en orden) seguida de las imágenes de variantes",
+        "operationId": "images",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductImageDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Reemplazar la galería del producto",
+        "description": "La primera imagen pasa a ser la principal (image_url). Las imágenes de variantes no se tocan.",
+        "operationId": "replaceImages",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplaceProductImagesDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductImageDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/product_templates/{id}": {
       "get": {
         "tags": [
@@ -3641,7 +3589,7 @@
         ],
         "summary": "Update product template",
         "description": "Reemplaza la lista de atributos.",
-        "operationId": "update_31",
+        "operationId": "update_30",
         "parameters": [
           {
             "name": "id",
@@ -3682,7 +3630,7 @@
         ],
         "summary": "Delete product template",
         "description": "409 si algún producto la usa.",
-        "operationId": "delete_31",
+        "operationId": "delete_30",
         "parameters": [
           {
             "name": "id",
@@ -3701,13 +3649,127 @@
         }
       }
     },
+    "/api/shop/catalog/product_combos/{id}": {
+      "get": {
+        "tags": [
+          "product-combo-controller"
+        ],
+        "summary": "Get product combo by ID",
+        "description": "Returns a product combo by its ID or 404 if not found",
+        "operationId": "getById_26",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product combo ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product combo found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductComboDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product combo not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "product-combo-controller"
+        ],
+        "summary": "Update product combo",
+        "description": "Updates an existing product combo by ID",
+        "operationId": "update_31",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product combo ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Product combo data to update",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductComboDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Product combo updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductComboDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product combo not found"
+          },
+          "400": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "product-combo-controller"
+        ],
+        "summary": "Delete product combo",
+        "description": "Deletes a product combo by ID",
+        "operationId": "delete_31",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product combo ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product combo deleted"
+          },
+          "404": {
+            "description": "Product combo not found"
+          }
+        }
+      }
+    },
     "/api/shop/catalog/categories/{id}": {
       "get": {
         "tags": [
           "Categories"
         ],
         "summary": "Get category by ID",
-        "operationId": "getById_28",
+        "operationId": "getById_27",
         "parameters": [
           {
             "name": "id",
@@ -3822,7 +3884,7 @@
           "Brands"
         ],
         "summary": "Get brand by ID",
-        "operationId": "getById_29",
+        "operationId": "getById_28",
         "parameters": [
           {
             "name": "id",
@@ -5426,61 +5488,6 @@
         }
       }
     },
-    "/api/shop/product_details/unit_measurements": {
-      "get": {
-        "tags": [
-          "Unit Measurement"
-        ],
-        "summary": "List unit measurements",
-        "description": "Returns all unit measurements",
-        "operationId": "getAll_8",
-        "responses": {
-          "200": {
-            "description": "List of unit measurements",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Unit Measurement"
-        ],
-        "summary": "Create unit measurement",
-        "description": "Creates a new unit measurement and returns it with its generated ID",
-        "operationId": "create_12",
-        "requestBody": {
-          "description": "Unit measurement to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUnitMeasurementDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Unit measurement created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnitMeasurementDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
     "/api/shop/product_details/type_products": {
       "get": {
         "tags": [
@@ -5488,7 +5495,7 @@
         ],
         "summary": "List type products",
         "description": "Returns all type products",
-        "operationId": "getAll_9",
+        "operationId": "getAll_8",
         "responses": {
           "200": {
             "description": "List of type products",
@@ -5505,7 +5512,7 @@
         ],
         "summary": "Create type product",
         "description": "Creates a new type product and returns it with its generated ID",
-        "operationId": "create_13",
+        "operationId": "create_12",
         "requestBody": {
           "description": "Type product to create",
           "content": {
@@ -5567,7 +5574,7 @@
           "Type Product Features"
         ],
         "summary": "Crear una nueva relación entre tipo de producto y característica",
-        "operationId": "create_14",
+        "operationId": "create_13",
         "requestBody": {
           "content": {
             "application/json": {
@@ -5600,7 +5607,7 @@
         ],
         "summary": "List product features",
         "description": "Returns all product-feature links",
-        "operationId": "getAll_10",
+        "operationId": "getAll_9",
         "responses": {
           "200": {
             "description": "List of product features",
@@ -5617,7 +5624,7 @@
         ],
         "summary": "Create product feature",
         "description": "Creates a new product-feature link and returns it",
-        "operationId": "create_15",
+        "operationId": "create_14",
         "requestBody": {
           "description": "Product feature to create",
           "content": {
@@ -5657,7 +5664,7 @@
         ],
         "summary": "List features",
         "description": "Returns all features",
-        "operationId": "getAll_11",
+        "operationId": "getAll_10",
         "responses": {
           "200": {
             "description": "List of features",
@@ -5674,7 +5681,7 @@
         ],
         "summary": "Create feature",
         "description": "Creates a new feature and returns it with its generated ID",
-        "operationId": "create_16",
+        "operationId": "create_15",
         "requestBody": {
           "description": "Feature to create",
           "content": {
@@ -5740,7 +5747,7 @@
         "tags": [
           "warehouse-controller"
         ],
-        "operationId": "create_17",
+        "operationId": "create_16",
         "requestBody": {
           "content": {
             "application/json": {
@@ -5802,7 +5809,7 @@
         ],
         "summary": "List suppliers",
         "description": "Returns all suppliers",
-        "operationId": "getAll_12",
+        "operationId": "getAll_11",
         "responses": {
           "200": {
             "description": "List of suppliers",
@@ -5818,7 +5825,7 @@
         ],
         "summary": "Create supplier",
         "description": "Creates a new supplier and returns it with its generated ID",
-        "operationId": "create_18",
+        "operationId": "create_17",
         "requestBody": {
           "description": "Supplier to create",
           "content": {
@@ -5850,289 +5857,7 @@
         }
       }
     },
-    "/api/shop/inventory/products": {
-      "get": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "List products",
-        "description": "Returns products paginated; use page, size and sort=field,asc;other,desc",
-        "operationId": "getAll_13",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of products",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Create product",
-        "description": "Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID",
-        "operationId": "create_19",
-        "requestBody": {
-          "description": "Product to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Product created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/products/search": {
-      "post": {
-        "tags": [
-          "Products"
-        ],
-        "summary": "Search products",
-        "description": "Search products with a filter body and pagination params page, size, sort",
-        "operationId": "search",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Product filter",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductFilter"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "List of products",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/product_combos": {
-      "get": {
-        "tags": [
-          "product-combo-controller"
-        ],
-        "summary": "List product combos",
-        "description": "Returns all product combos",
-        "operationId": "getAll_14",
-        "responses": {
-          "200": {
-            "description": "List of product combos",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "product-combo-controller"
-        ],
-        "summary": "Create product combo",
-        "description": "Creates a new product combo and returns it with its generated ID",
-        "operationId": "create_20",
-        "requestBody": {
-          "description": "Product combo to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductComboDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Product combo created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductComboDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/product_children": {
-      "get": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "List product children",
-        "description": "Returns all product children",
-        "operationId": "getAll_15",
-        "responses": {
-          "200": {
-            "description": "List of product children",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "Create product child",
-        "description": "Creates a new product child and returns it with its generated ID",
-        "operationId": "create_21",
-        "requestBody": {
-          "description": "Product child to create",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductChildDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Product child created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductChildDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "500": {
-            "description": "Server error"
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/product_children/bulk-delete": {
-      "post": {
-        "tags": [
-          "product-child-controller"
-        ],
-        "summary": "Bulk delete product children",
-        "description": "Deletes several product children; each id is processed independently",
-        "operationId": "bulkDelete_2",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BulkIdsRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/BulkOperationResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/inventory_movements/transfer": {
+    "/api/shop/inventory/stock/movements/transfer": {
       "post": {
         "tags": [
           "inventory-movement-controller"
@@ -6162,7 +5887,7 @@
         }
       }
     },
-    "/api/shop/inventory/inventory_movements/exit": {
+    "/api/shop/inventory/stock/movements/exit": {
       "post": {
         "tags": [
           "inventory-movement-controller"
@@ -6192,7 +5917,7 @@
         }
       }
     },
-    "/api/shop/inventory/inventory_movements/entry": {
+    "/api/shop/inventory/stock/movements/entry": {
       "post": {
         "tags": [
           "inventory-movement-controller"
@@ -6229,7 +5954,7 @@
         ],
         "summary": "List dispatch products",
         "description": "Returns all dispatch products",
-        "operationId": "getAll_16",
+        "operationId": "getAll_12",
         "responses": {
           "200": {
             "description": "List of dispatch products",
@@ -6245,7 +5970,7 @@
         ],
         "summary": "Create dispatch product",
         "description": "Creates a new dispatch product and returns it with its generated ID",
-        "operationId": "create_22",
+        "operationId": "create_18",
         "requestBody": {
           "description": "Dispatch product to create",
           "content": {
@@ -6284,7 +6009,7 @@
         ],
         "summary": "Bulk delete",
         "description": "Elimina varios registros; los fallos se informan en 'failed'.",
-        "operationId": "bulkDelete_3",
+        "operationId": "bulkDelete_2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6316,7 +6041,7 @@
         ],
         "summary": "List return methods",
         "description": "Returns all return methods",
-        "operationId": "getAll_17",
+        "operationId": "getAll_13",
         "responses": {
           "200": {
             "description": "List of return methods",
@@ -6332,7 +6057,7 @@
         ],
         "summary": "Create return method",
         "description": "Creates a new return method and returns it with its generated ID",
-        "operationId": "create_23",
+        "operationId": "create_19",
         "requestBody": {
           "description": "Return method to create",
           "content": {
@@ -6371,7 +6096,7 @@
         ],
         "summary": "List refund methods",
         "description": "Returns all refund methods",
-        "operationId": "getAll_18",
+        "operationId": "getAll_14",
         "responses": {
           "200": {
             "description": "List of refund methods",
@@ -6387,7 +6112,7 @@
         ],
         "summary": "Create refund method",
         "description": "Creates a new refund method and returns it with its generated ID",
-        "operationId": "create_24",
+        "operationId": "create_20",
         "requestBody": {
           "description": "Refund method to create",
           "content": {
@@ -6426,7 +6151,7 @@
         ],
         "summary": "List order devolutions",
         "description": "Returns all order devolutions",
-        "operationId": "getAll_19",
+        "operationId": "getAll_15",
         "responses": {
           "200": {
             "description": "List of order devolutions",
@@ -6442,7 +6167,7 @@
         ],
         "summary": "Create order devolution",
         "description": "Creates a new order devolution and returns it with its generated ID",
-        "operationId": "create_25",
+        "operationId": "create_21",
         "requestBody": {
           "description": "Order devolution to create",
           "content": {
@@ -6481,7 +6206,7 @@
         ],
         "summary": "Bulk delete",
         "description": "Elimina varios registros; los fallos se informan en 'failed'.",
-        "operationId": "bulkDelete_4",
+        "operationId": "bulkDelete_3",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6513,7 +6238,7 @@
         ],
         "summary": "List order devolution evidences",
         "description": "Returns all order devolution evidences",
-        "operationId": "getAll_20",
+        "operationId": "getAll_16",
         "responses": {
           "200": {
             "description": "List of order devolution evidences",
@@ -6529,7 +6254,7 @@
         ],
         "summary": "Create order devolution evidence",
         "description": "Creates a new order devolution evidence and returns it with its generated ID",
-        "operationId": "create_26",
+        "operationId": "create_22",
         "requestBody": {
           "description": "Order devolution evidence to create",
           "content": {
@@ -6568,7 +6293,7 @@
         ],
         "summary": "List order devolution details",
         "description": "Returns all order devolution details",
-        "operationId": "getAll_21",
+        "operationId": "getAll_17",
         "responses": {
           "200": {
             "description": "List of order devolution details",
@@ -6584,7 +6309,7 @@
         ],
         "summary": "Create order devolution detail",
         "description": "Creates a new order devolution detail and returns it with its generated ID",
-        "operationId": "create_27",
+        "operationId": "create_23",
         "requestBody": {
           "description": "Order devolution detail to create",
           "content": {
@@ -6623,7 +6348,7 @@
         ],
         "summary": "List motive devolutions",
         "description": "Returns all motive devolutions",
-        "operationId": "getAll_22",
+        "operationId": "getAll_18",
         "responses": {
           "200": {
             "description": "List of motive devolutions",
@@ -6639,7 +6364,7 @@
         ],
         "summary": "Create motive devolution",
         "description": "Creates a new motive devolution and returns it with its generated ID",
-        "operationId": "create_28",
+        "operationId": "create_24",
         "requestBody": {
           "description": "Motive devolution to create",
           "content": {
@@ -6677,7 +6402,7 @@
           "CMS Pages"
         ],
         "summary": "List pages",
-        "operationId": "getAll_23",
+        "operationId": "getAll_19",
         "responses": {
           "200": {
             "description": "OK",
@@ -6699,7 +6424,7 @@
           "CMS Pages"
         ],
         "summary": "Create CMS page",
-        "operationId": "create_29",
+        "operationId": "create_25",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6724,6 +6449,178 @@
         }
       }
     },
+    "/api/shop/catalog/variants": {
+      "get": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "List variants",
+        "description": "Returns all variants, or only those of product_id",
+        "operationId": "getAll_20",
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of product children",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "Create product child",
+        "description": "Creates a new product child and returns it with its generated ID",
+        "operationId": "create_26",
+        "requestBody": {
+          "description": "Product child to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductChildDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Product child created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductChildDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/variants/bulk-delete": {
+      "post": {
+        "tags": [
+          "product-child-controller"
+        ],
+        "summary": "Bulk delete product children",
+        "description": "Deletes several product children; each id is processed independently",
+        "operationId": "bulkDelete_4",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkIdsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkOperationResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/units": {
+      "get": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Listar unidades",
+        "description": "Por magnitud y factor. dimension filtra; include_inactive incluye las desactivadas",
+        "operationId": "list_3",
+        "parameters": [
+          {
+            "name": "dimension",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include_inactive",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Crear unidad",
+        "description": "La primera unidad de una magnitud es su base. base=true la convierte en base y reescala las demás",
+        "operationId": "create_27",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveUnitDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/subcategories": {
       "get": {
         "tags": [
@@ -6731,7 +6628,7 @@
         ],
         "summary": "List all subcategories",
         "description": "Lista completa sin paginar (para selects). Para tablas usar /search.",
-        "operationId": "getAll_24",
+        "operationId": "getAll_21",
         "responses": {
           "200": {
             "description": "OK",
@@ -6754,7 +6651,7 @@
         ],
         "summary": "Create subcategory",
         "description": "Crea el registro. El slug es opcional (se genera desde el nombre).",
-        "operationId": "create_30",
+        "operationId": "create_28",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6817,6 +6714,146 @@
         }
       }
     },
+    "/api/shop/catalog/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "List products",
+        "description": "Returns products paginated; use page, size and sort=field,asc;other,desc",
+        "operationId": "getAll_22",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Create product",
+        "description": "Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID",
+        "operationId": "create_29",
+        "requestBody": {
+          "description": "Product to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Product created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/products/search": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Search products",
+        "description": "Search products with a filter body and pagination params page, size, sort",
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Product filter",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductFilter"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/product_templates": {
       "get": {
         "tags": [
@@ -6846,7 +6883,7 @@
         ],
         "summary": "Create product template",
         "description": "Solo los atributos OPTION pueden ser eje de variante. 409 si el nombre ya existe.",
-        "operationId": "create_31",
+        "operationId": "create_30",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6871,6 +6908,72 @@
         }
       }
     },
+    "/api/shop/catalog/product_combos": {
+      "get": {
+        "tags": [
+          "product-combo-controller"
+        ],
+        "summary": "List combo items",
+        "description": "Returns all combo items, or only those of combo_id (the combo product)",
+        "operationId": "getAll_23",
+        "parameters": [
+          {
+            "name": "combo_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of product combos",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "product-combo-controller"
+        ],
+        "summary": "Create product combo",
+        "description": "Creates a new product combo and returns it with its generated ID",
+        "operationId": "create_31",
+        "requestBody": {
+          "description": "Product combo to create",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductComboDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Product combo created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductComboDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "/api/shop/catalog/categories": {
       "get": {
         "tags": [
@@ -6878,7 +6981,7 @@
         ],
         "summary": "List all categories",
         "description": "Lista completa sin paginar (para selects). Para tablas usar /search.",
-        "operationId": "getAll_25",
+        "operationId": "getAll_24",
         "responses": {
           "200": {
             "description": "OK",
@@ -6971,7 +7074,7 @@
         ],
         "summary": "List all brands",
         "description": "Lista completa sin paginar (para selects). Para tablas usar /search.",
-        "operationId": "getAll_26",
+        "operationId": "getAll_25",
         "responses": {
           "200": {
             "description": "OK",
@@ -7420,14 +7523,167 @@
         }
       }
     },
-    "/api/shop/inventory/stock": {
+    "/api/shop/inventory/suppliers/lookup": {
       "get": {
         "tags": [
-          "stock-controller"
+          "Inventory lookups"
+        ],
+        "summary": "Buscar proveedores",
+        "description": "Por nombre o correo; hint = correo",
+        "operationId": "suppliers",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LookupOption"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/inventory/stock/reservations": {
+      "get": {
+        "tags": [
+          "Stock"
+        ],
+        "summary": "Reservas de stock",
+        "description": "Filtros opcionales: order_id, sku_id, product_id, status (ACTIVE, COMMITTED, RELEASED, EXPIRED, RETURNED). limit 1–200 (50).",
+        "operationId": "reservations_1",
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "sku_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StockReservationDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/inventory/stock/movements": {
+      "get": {
+        "tags": [
+          "inventory-movement-controller"
+        ],
+        "operationId": "list_4",
+        "parameters": [
+          {
+            "name": "pageable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageInventoryMovementDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/inventory/stock/levels": {
+      "get": {
+        "tags": [
+          "Stock"
         ],
         "summary": "Stock por SKU y bodega",
         "description": "Filtros opcionales: sku_id, product_id, warehouse_id",
-        "operationId": "find",
+        "operationId": "levels",
         "parameters": [
           {
             "name": "sku_id",
@@ -7467,36 +7723,6 @@
                   "items": {
                     "$ref": "#/components/schemas/StockItemDto"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/shop/inventory/inventory_movements": {
-      "get": {
-        "tags": [
-          "inventory-movement-controller"
-        ],
-        "operationId": "list_3",
-        "parameters": [
-          {
-            "name": "pageable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Pageable"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageInventoryMovementDto"
                 }
               }
             }
@@ -7737,6 +7963,114 @@
         }
       }
     },
+    "/api/shop/catalog/units/lookup": {
+      "get": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Buscar unidades",
+        "description": "q (código, símbolo o nombre), ids, limit (≤ 50), dimensions=MASS,VOLUME",
+        "operationId": "lookup",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "dimensions",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/units/convert": {
+      "get": {
+        "tags": [
+          "Units of measure"
+        ],
+        "summary": "Convertir",
+        "description": "value de from a to (código o id). Solo entre unidades de la misma magnitud",
+        "operationId": "convert",
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitConversionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/subcategories/search": {
       "get": {
         "tags": [
@@ -7806,6 +8140,279 @@
         }
       }
     },
+    "/api/shop/catalog/subcategories/lookup": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Buscar subcategorías",
+        "description": "category_id limita a una categoría; hint = categoría",
+        "operationId": "subcategories",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LookupOption"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/skus/lookup": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Buscar SKUs",
+        "description": "Por código, código de barras, producto o variante, con precio y stock",
+        "operationId": "skus",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "product_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "sellable_only",
+            "in": "query",
+            "description": "Solo SKUs activos de productos publicados",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SkuLookupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/products/{id}/skus": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "SKUs del producto",
+        "description": "Unidades vendibles del producto con precio y stock físico",
+        "operationId": "skus_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SKUs",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductSkuDto"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/products/stats": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Indicadores del catálogo",
+        "description": "Total, publicados, sin stock, stock bajo (≤ low_stock_threshold, 5) y valor del inventario a costo; low_stock_limit (8, máx. 50) productos con menos stock",
+        "operationId": "productStats",
+        "parameters": [
+          {
+            "name": "low_stock_threshold",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "low_stock_limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductStatsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/products/lookup": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Buscar productos",
+        "description": "Por nombre o slug; statuses=ACTIVE,DRAFT filtra por estado",
+        "operationId": "products",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductLookupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/categories/search": {
       "get": {
         "tags": [
@@ -7865,6 +8472,57 @@
         }
       }
     },
+    "/api/shop/catalog/categories/lookup": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Buscar categorías",
+        "operationId": "categories",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LookupOption"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/catalog/brands/search": {
       "get": {
         "tags": [
@@ -7917,6 +8575,57 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PageResponseBrandDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shop/catalog/brands/lookup": {
+      "get": {
+        "tags": [
+          "Catalog lookups"
+        ],
+        "summary": "Buscar marcas",
+        "operationId": "brands",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LookupOption"
+                  }
                 }
               }
             }
@@ -9366,71 +10075,6 @@
           }
         }
       },
-      "UpdateUnitMeasurementDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "UnitMeasurementDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
       "UpdateTypeProductDto": {
         "properties": {
           "name": {
@@ -9803,507 +10447,6 @@
         "required": [
           "name"
         ]
-      },
-      "ProductBundleItemDto": {
-        "properties": {
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "contribution_percentage": {
-            "type": "number",
-            "minimum": 0.0
-          }
-        },
-        "required": [
-          "product_id",
-          "quantity"
-        ]
-      },
-      "ProductVariantDto": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "sellable": {
-            "type": "boolean"
-          }
-        }
-      },
-      "UpdateProductDto": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "description": {
-            "type": "string",
-            "minLength": 1
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "real_price": {
-            "type": "number"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "length": {
-            "type": "number",
-            "format": "double"
-          },
-          "width": {
-            "type": "number",
-            "format": "double"
-          },
-          "height": {
-            "type": "number",
-            "format": "double"
-          },
-          "weight": {
-            "type": "number",
-            "format": "double"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "status": {
-            "type": "string",
-            "pattern": "DRAFT|ACTIVE|INACTIVE|ARCHIVED"
-          },
-          "slug": {
-            "type": "string",
-            "maxLength": 180,
-            "minLength": 0
-          },
-          "brand_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "category_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "subcategory_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "supplier_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "is_combo": {
-            "type": "boolean"
-          },
-          "variants": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductVariantDto"
-            }
-          },
-          "bundle_items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductBundleItemDto"
-            }
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "combo_with_bundle_items": {
-            "type": "boolean"
-          },
-          "bundle_items_only_for_combos": {
-            "type": "boolean"
-          },
-          "variants_only_for_non_combos": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "brand_id",
-          "category_id",
-          "description",
-          "height",
-          "length",
-          "name",
-          "real_price",
-          "stock",
-          "subcategory_id",
-          "supplier_id",
-          "unit_price",
-          "weight",
-          "width"
-        ]
-      },
-      "ProductDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "real_price": {
-            "type": "number"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "length": {
-            "type": "number",
-            "format": "double"
-          },
-          "width": {
-            "type": "number",
-            "format": "double"
-          },
-          "height": {
-            "type": "number",
-            "format": "double"
-          },
-          "weight": {
-            "type": "number",
-            "format": "double"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "brand_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "category_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "subcategory_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "supplier_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "is_combo": {
-            "type": "boolean"
-          },
-          "sellable": {
-            "type": "boolean"
-          },
-          "status": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "product_type": {
-            "type": "string"
-          },
-          "skus": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductSkuDto"
-            }
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductImageDto"
-            }
-          },
-          "variants": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductVariantDto"
-            }
-          },
-          "bundle_items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductBundleItemDto"
-            }
-          }
-        }
-      },
-      "ProductImageDto": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "url": {
-            "type": "string"
-          },
-          "position": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "alt_text": {
-            "type": "string"
-          },
-          "sku_id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "ProductSkuDto": {
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number"
-          },
-          "cost_price": {
-            "type": "number"
-          },
-          "compare_at_price": {
-            "type": "number"
-          },
-          "barcode": {
-            "type": "string"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "is_default": {
-            "type": "boolean"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "variant_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "UpdateProductComboDto": {
-        "properties": {
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "combo_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "required": [
-          "combo_id",
-          "id",
-          "product_id",
-          "quantity"
-        ]
-      },
-      "ProductComboDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "combo_id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "UpdateProductChildDto": {
-        "properties": {
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "description": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "product_id",
-          "stock",
-          "unit_price"
-        ]
-      },
-      "ProductChildDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          }
-        }
       },
       "UpdateDispatchProductDto": {
         "properties": {
@@ -11079,6 +11222,207 @@
           }
         }
       },
+      "UpdateProductChildDto": {
+        "properties": {
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "net_content": {
+            "type": "number",
+            "minimum": 0
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "product_id",
+          "stock",
+          "unit_price"
+        ]
+      },
+      "ProductChildDto": {
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "usr_crea": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usr_mod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "net_content": {
+            "type": "number"
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "available": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SaveUnitDto": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 0
+          },
+          "symbol": {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 0
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "LENGTH",
+              "MASS",
+              "VOLUME",
+              "AREA",
+              "COUNT",
+              "OTHER"
+            ]
+          },
+          "factor": {
+            "type": "number",
+            "minimum": 0
+          },
+          "base": {
+            "type": "boolean"
+          },
+          "decimals": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 6,
+            "minimum": 0
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UnitDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "LENGTH",
+              "MASS",
+              "VOLUME",
+              "AREA",
+              "COUNT",
+              "OTHER"
+            ]
+          },
+          "factor": {
+            "type": "number"
+          },
+          "base": {
+            "type": "boolean"
+          },
+          "base_symbol": {
+            "type": "string"
+          },
+          "decimals": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "usage_count": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "UpdateSubcategoryDto": {
         "properties": {
           "name": {
@@ -11406,6 +11750,400 @@
           "attribute_id"
         ]
       },
+      "ProductBundleItemDto": {
+        "properties": {
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contribution_percentage": {
+            "type": "number",
+            "minimum": 0.0
+          }
+        },
+        "required": [
+          "product_id",
+          "quantity"
+        ]
+      },
+      "ProductVariantDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "sellable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateProductDto": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "real_price": {
+            "type": "number"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "net_content": {
+            "type": "number",
+            "minimum": 0
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "pattern": "DRAFT|ACTIVE|INACTIVE|ARCHIVED"
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 0
+          },
+          "brand_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subcategory_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "supplier_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_combo": {
+            "type": "boolean"
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductVariantDto"
+            }
+          },
+          "bundle_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductBundleItemDto"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "combo_with_bundle_items": {
+            "type": "boolean"
+          },
+          "bundle_items_only_for_combos": {
+            "type": "boolean"
+          },
+          "variants_only_for_non_combos": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "brand_id",
+          "category_id",
+          "description",
+          "height",
+          "length",
+          "name",
+          "real_price",
+          "stock",
+          "subcategory_id",
+          "supplier_id",
+          "unit_price",
+          "weight",
+          "width"
+        ]
+      },
+      "ProductDto": {
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "usr_crea": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usr_mod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "real_price": {
+            "type": "number"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "net_content": {
+            "type": "number"
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "brand_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subcategory_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "supplier_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_combo": {
+            "type": "boolean"
+          },
+          "sellable": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "product_type": {
+            "type": "string"
+          },
+          "skus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductSkuDto"
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImageDto"
+            }
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductVariantDto"
+            }
+          },
+          "bundle_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductBundleItemDto"
+            }
+          }
+        }
+      },
+      "ProductImageDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alt_text": {
+            "type": "string"
+          },
+          "sku_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProductSkuDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "cost_price": {
+            "type": "number"
+          },
+          "compare_at_price": {
+            "type": "number"
+          },
+          "barcode": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "is_default": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "variant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProductImageInputDto": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 0
+          },
+          "alt_text": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "ReplaceProductImagesDto": {
+        "properties": {
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductImageInputDto"
+            },
+            "maxItems": 30,
+            "minItems": 0
+          }
+        },
+        "required": [
+          "images"
+        ]
+      },
       "SaveProductTemplateDto": {
         "properties": {
           "name": {
@@ -11428,6 +12166,71 @@
         "required": [
           "name"
         ]
+      },
+      "UpdateProductComboDto": {
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "combo_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "combo_id",
+          "id",
+          "product_id",
+          "quantity"
+        ]
+      },
+      "ProductComboDto": {
+        "properties": {
+          "deleted": {
+            "type": "boolean"
+          },
+          "usr_crea": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usr_mod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "combo_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
       },
       "UpdateCategoryDto": {
         "properties": {
@@ -12492,36 +13295,6 @@
           "rate_per_km"
         ]
       },
-      "CreateUnitMeasurementDto": {
-        "properties": {
-          "deleted": {
-            "type": "boolean"
-          },
-          "usr_crea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "usr_mod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
       "CreateTypeProductDto": {
         "properties": {
           "name": {
@@ -12649,214 +13422,6 @@
           "email",
           "name",
           "phone"
-        ]
-      },
-      "CreateProductDto": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "description": {
-            "type": "string",
-            "minLength": 1
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "real_price": {
-            "type": "number"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "length": {
-            "type": "number",
-            "format": "double"
-          },
-          "width": {
-            "type": "number",
-            "format": "double"
-          },
-          "height": {
-            "type": "number",
-            "format": "double"
-          },
-          "weight": {
-            "type": "number",
-            "format": "double"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "status": {
-            "type": "string",
-            "pattern": "DRAFT|ACTIVE|INACTIVE|ARCHIVED"
-          },
-          "slug": {
-            "type": "string",
-            "maxLength": 180,
-            "minLength": 0
-          },
-          "brand_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "category_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "subcategory_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "supplier_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "is_combo": {
-            "type": "boolean"
-          },
-          "variants": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductVariantDto"
-            }
-          },
-          "bundle_items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductBundleItemDto"
-            }
-          },
-          "combo_with_bundle_items": {
-            "type": "boolean"
-          },
-          "bundle_items_only_for_combos": {
-            "type": "boolean"
-          },
-          "variants_only_for_non_combos": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "brand_id",
-          "category_id",
-          "description",
-          "height",
-          "length",
-          "name",
-          "real_price",
-          "stock",
-          "subcategory_id",
-          "supplier_id",
-          "unit_price",
-          "weight",
-          "width"
-        ]
-      },
-      "ProductFilter": {
-        "properties": {
-          "brand_ids": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          "category_ids": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          "subcategory_ids": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          "min_price": {
-            "type": "number",
-            "format": "double"
-          },
-          "max_price": {
-            "type": "number",
-            "format": "double"
-          },
-          "available": {
-            "type": "boolean"
-          },
-          "search": {
-            "type": "string"
-          },
-          "statuses": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "CreateProductComboDto": {
-        "properties": {
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "combo_id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "required": [
-          "combo_id",
-          "product_id",
-          "quantity"
-        ]
-      },
-      "CreateProductChildDto": {
-        "properties": {
-          "product_id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "description": {
-            "type": "string"
-          },
-          "stock": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unit_price": {
-            "type": "number"
-          },
-          "image_url": {
-            "type": "string"
-          },
-          "available": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "name",
-          "product_id",
-          "stock",
-          "unit_price"
         ]
       },
       "InventoryMovementDto": {
@@ -13227,6 +13792,48 @@
           "title"
         ]
       },
+      "CreateProductChildDto": {
+        "properties": {
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "net_content": {
+            "type": "number",
+            "minimum": 0
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "available": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "product_id",
+          "stock",
+          "unit_price"
+        ]
+      },
       "CreateSubcategoryDto": {
         "properties": {
           "name": {
@@ -13253,6 +13860,188 @@
         "required": [
           "category_id",
           "name"
+        ]
+      },
+      "CreateProductDto": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "real_price": {
+            "type": "number"
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "length": {
+            "type": "number",
+            "format": "double"
+          },
+          "width": {
+            "type": "number",
+            "format": "double"
+          },
+          "height": {
+            "type": "number",
+            "format": "double"
+          },
+          "weight": {
+            "type": "number",
+            "format": "double"
+          },
+          "net_content": {
+            "type": "number",
+            "minimum": 0
+          },
+          "net_content_unit_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "image_url": {
+            "type": "string"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string",
+            "pattern": "DRAFT|ACTIVE|INACTIVE|ARCHIVED"
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 0
+          },
+          "brand_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subcategory_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "supplier_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "is_combo": {
+            "type": "boolean"
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductVariantDto"
+            }
+          },
+          "bundle_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductBundleItemDto"
+            }
+          },
+          "combo_with_bundle_items": {
+            "type": "boolean"
+          },
+          "bundle_items_only_for_combos": {
+            "type": "boolean"
+          },
+          "variants_only_for_non_combos": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "brand_id",
+          "category_id",
+          "description",
+          "height",
+          "length",
+          "name",
+          "real_price",
+          "stock",
+          "subcategory_id",
+          "supplier_id",
+          "unit_price",
+          "weight",
+          "width"
+        ]
+      },
+      "ProductFilter": {
+        "properties": {
+          "brand_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "category_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "subcategory_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "min_price": {
+            "type": "number",
+            "format": "double"
+          },
+          "max_price": {
+            "type": "number",
+            "format": "double"
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "search": {
+            "type": "string"
+          },
+          "statuses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateProductComboDto": {
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "combo_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "combo_id",
+          "product_id",
+          "quantity"
         ]
       },
       "CreateCategoryDto": {
@@ -13660,9 +14449,31 @@
           }
         }
       },
-      "StockItemDto": {
+      "LookupOption": {
         "properties": {
           "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "label": {
+            "type": "string"
+          },
+          "hint": {
+            "type": "string"
+          }
+        }
+      },
+      "StockReservationDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "order_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "line_id": {
             "type": "integer",
             "format": "int64"
           },
@@ -13678,24 +14489,23 @@
             "type": "integer",
             "format": "int64"
           },
-          "on_hand": {
+          "quantity": {
             "type": "integer",
             "format": "int32"
           },
-          "reserved": {
-            "type": "integer",
-            "format": "int32"
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "COMMITTED",
+              "RELEASED",
+              "EXPIRED",
+              "RETURNED"
+            ]
           },
-          "available": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "min_threshold": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "below_threshold": {
-            "type": "boolean"
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -13740,6 +14550,45 @@
             "type": "boolean"
           },
           "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StockItemDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sku_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "warehouse_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "on_hand": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reserved": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_threshold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "below_threshold": {
             "type": "boolean"
           }
         }
@@ -13802,6 +14651,28 @@
           }
         }
       },
+      "UnitConversionDto": {
+        "properties": {
+          "value": {
+            "type": "number"
+          },
+          "from": {
+            "type": "string"
+          },
+          "from_symbol": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "to_symbol": {
+            "type": "string"
+          },
+          "result": {
+            "type": "number"
+          }
+        }
+      },
       "PageResponseSubcategoryDto": {
         "properties": {
           "content": {
@@ -13827,6 +14698,143 @@
             "format": "int32"
           },
           "sort": {
+            "type": "string"
+          }
+        }
+      },
+      "SkuLookupDto": {
+        "properties": {
+          "sku_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "variant_name": {
+            "type": "string"
+          },
+          "product_type": {
+            "type": "string",
+            "enum": [
+              "SIMPLE",
+              "VARIANT",
+              "COMBO"
+            ]
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "sellable": {
+            "type": "boolean"
+          },
+          "on_hand": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "available": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "image_url": {
+            "type": "string"
+          }
+        }
+      },
+      "LowStockItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "stock": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProductStatsDto": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "active": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "out_of_stock": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "low_stock": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "low_stock_threshold": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inventory_value": {
+            "type": "number"
+          },
+          "low_stock_items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LowStockItem"
+            }
+          }
+        }
+      },
+      "ProductLookupDto": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "INACTIVE",
+              "ARCHIVED"
+            ]
+          },
+          "product_type": {
+            "type": "string",
+            "enum": [
+              "SIMPLE",
+              "VARIANT",
+              "COMBO"
+            ]
+          },
+          "unit_price": {
+            "type": "number"
+          },
+          "image_url": {
             "type": "string"
           }
         }

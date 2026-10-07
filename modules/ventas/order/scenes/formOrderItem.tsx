@@ -2,16 +2,17 @@
 
 "use client";
 
-import { useMemo } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { FormField } from "@repo/ui/form/scenes/form-field";
-import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
-import type { IOrderItem, IOrderSku } from "../models/order.interface";
+import { SkuLookupField, type ComboOption } from "@/components/async-combobox";
+import type { SkuLookupDto } from "@/server/domains/lookups/types";
+import type { IOrderItem } from "../models/order.interface";
 import { formatMoney } from "../constants";
 
 /** Vista previa de importes (el cálculo definitivo lo hace el backend). */
@@ -25,9 +26,8 @@ export const FormOrderItem = ({
   initialValues,
   validationSchema,
   onSubmit,
-  skus,
   frozen = null,
-}: IFormProps<any> & { skus: IOrderSku[]; frozen?: IOrderItem | null }) => {
+}: IFormProps<any> & { frozen?: IOrderItem | null }) => {
   const t = useTranslations("Administre.order.items");
   const tCommon = useTranslations("Administre.common");
   type ItemInputs = z.infer<typeof validationSchema>;
@@ -46,39 +46,42 @@ export const FormOrderItem = ({
     name: ["sku_id", "quantity", "discount"],
   }) as [string, number, number];
 
-  const skuOptions = useMemo(() => {
-    const options = skus.map((sku) => ({
-      id: String(sku.id),
-      value: String(sku.id),
-      label: `${sku.label} · ${formatMoney(sku.unit_price)}`,
-    }));
-    // La línea guardada puede ser de un SKU que ya no está a la venta: se mantiene visible.
-    if (frozen?.sku_id != null && !skus.some((sku) => sku.id === frozen.sku_id)) {
-      options.unshift({
-        id: String(frozen.sku_id),
-        value: String(frozen.sku_id),
-        label: `${frozen.product_name ?? `#${frozen.product_id}`} · ${frozen.sku_code ?? ""} · ${formatMoney(frozen.unit_price)}`,
-      });
-    }
-    return options;
-  }, [skus, frozen]);
+  // SKU elegido en el buscador (precio vigente y disponible).
+  const [picked, setPicked] = useState<SkuLookupDto | null>(null);
+
+  // La línea guardada se muestra con su nombre y precio congelados, aunque el SKU ya no esté a la venta.
+  const frozenOption: ComboOption<SkuLookupDto> | null =
+    frozen?.sku_id != null
+      ? {
+          value: String(frozen.sku_id),
+          label: frozen.product_name ?? `#${frozen.product_id}`,
+          hint: [frozen.sku_code, formatMoney(frozen.unit_price)].filter(Boolean).join(" · "),
+        }
+      : null;
 
   // Si no cambia el SKU, se conserva el precio congelado de la línea.
   const keepsFrozenPrice = frozen?.sku_id != null && String(frozen.sku_id) === String(skuId);
-  const unitPrice = keepsFrozenPrice ? frozen?.unit_price : skus.find((sku) => String(sku.id) === String(skuId))?.unit_price;
+  const unitPrice = keepsFrozenPrice
+    ? frozen?.unit_price
+    : picked && String(picked.sku_id) === String(skuId)
+      ? picked.unit_price
+      : undefined;
   const { subtotal, total } = computeItemAmounts(unitPrice, quantity, discount);
+  const available = picked && String(picked.sku_id) === String(skuId) ? picked.available : undefined;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
-        <FormSelectField
-          controller={{ control, name: "sku_id" }}
+        <SkuLookupField
+          control={control}
+          name='sku_id'
+          sellableOnly
           label={t("fields.skuId")}
           description={keepsFrozenPrice ? t("frozenPrice") : t("priceFromSku")}
-          data={skuOptions}
           placeholder={tCommon("selectPlaceholder")}
-          searchable
-          triggerClassName='!w-full'
+          initialOption={frozenOption}
+          clearable={false}
+          onSelect={(option) => setPicked(option?.data ?? null)}
           className='col-span-12'
         />
 
@@ -88,6 +91,7 @@ export const FormOrderItem = ({
           step='1'
           min={1}
           label={t("fields.quantity")}
+          description={available != null ? t("availableHint", { count: available }) : undefined}
           className='col-span-12 sm:col-span-6'
         />
 

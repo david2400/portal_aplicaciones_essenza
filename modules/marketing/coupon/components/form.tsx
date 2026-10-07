@@ -75,9 +75,8 @@ const toFormValues = (coupon?: ICoupon | null) => {
 export const CouponForm = ({
   coupon,
   categories,
-  products,
   handleClose,
-}: IFormAddProps & { coupon?: ICoupon | null; categories: INamedItem[]; products: INamedItem[] }) => {
+}: IFormAddProps & { coupon?: ICoupon | null; categories: INamedItem[] }) => {
   const router = useRouter();
   const tCommon = useTranslations("Administre.common");
   const validationSchema = validationCoupon();
@@ -104,7 +103,6 @@ export const CouponForm = ({
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
       categories={categories}
-      products={products}
     />
   );
 };

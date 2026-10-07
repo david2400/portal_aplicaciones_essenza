@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { list_coupons } from "@/server/domains/promotions/coupons/queries";
 import { list_categories } from "@/server/domains/catalog/categories/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
 import { CouponManager } from "@/modules/marketing/coupon";
 
 export async function generateMetadata({
@@ -19,17 +18,13 @@ export async function generateMetadata({
 }
 
 const CouponsPage = async () => {
-  const [initialData, categories, products] = await Promise.all([
-    list_coupons(),
-    list_categories(),
-    list_products({ size: 500 }),
-  ]);
+  // Los productos de las reglas se eligen con el buscador asíncrono del formulario.
+  const [initialData, categories] = await Promise.all([list_coupons(), list_categories()]);
 
   return (
     <CouponManager
       initialData={initialData}
       categories={categories.map(({ id, name }) => ({ id, name }))}
-      products={products.map(({ id, name }) => ({ id, name }))}
     />
   );
 };

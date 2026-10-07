@@ -1,50 +1,42 @@
 import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
-import { to_list } from '@/server/lib/list-response';
 import { unit_measurements_tags } from '@/server/lib/cache-tags';
-import type {
-  UnitMeasurementDto,
-  CreateUnitMeasurementDto,
-  UpdateUnitMeasurementPayload,
-} from './types';
+import type { ListUnitsParams, SaveUnitDto, UnitConversionDto, UnitDto, UpdateUnitPayload } from './types';
 
-const unit_measurements_base_path = '/api/shop/product_details/unit_measurements';
-const unit_measurement_by_id_path = (id: number) => `${unit_measurements_base_path}/${id}`;
+/** Catálogo de unidades (antes `/product_details/unit_measurements`, hoy alias). */
+const units_base_path = '/api/shop/catalog/units';
+const unit_by_id_path = (id: number) => `${units_base_path}/${id}`;
 
-export const unit_measurements_repository = {
-  async list_unit_measurements(): Promise<UnitMeasurementDto[]> {
-    const response = await server_fetch.get<unknown>(unit_measurements_base_path, {
+export const units_repository = {
+  async list_units(params: ListUnitsParams = {}): Promise<UnitDto[]> {
+    return server_fetch.get<UnitDto[]>(units_base_path, {
+      params,
       revalidate: 60,
       tags: [unit_measurements_tags.list()],
     });
-    return to_list<UnitMeasurementDto>(response);
   },
 
-  async get_unit_measurement_by_id(id: number): Promise<UnitMeasurementDto> {
-    return server_fetch.get<UnitMeasurementDto>(unit_measurement_by_id_path(id), {
+  async get_unit(id: number): Promise<UnitDto> {
+    return server_fetch.get<UnitDto>(unit_by_id_path(id), {
       revalidate: 60,
       tags: [unit_measurements_tags.item(id)],
     });
   },
 
-  async create_unit_measurement(payload: CreateUnitMeasurementDto): Promise<UnitMeasurementDto> {
-    return server_fetch.post<UnitMeasurementDto>(unit_measurements_base_path, payload, {
-      revalidate: false,
-    });
+  async create_unit(payload: SaveUnitDto): Promise<UnitDto> {
+    return server_fetch.post<UnitDto>(units_base_path, payload, { revalidate: false });
   },
 
-  async update_unit_measurement(
-    payload: UpdateUnitMeasurementPayload,
-  ): Promise<UnitMeasurementDto> {
-    return server_fetch.put<UnitMeasurementDto>(unit_measurement_by_id_path(payload.id), payload, {
-      revalidate: false,
-    });
+  async update_unit({ id, ...body }: UpdateUnitPayload): Promise<UnitDto> {
+    return server_fetch.put<UnitDto>(unit_by_id_path(id), body, { revalidate: false });
   },
 
-  async delete_unit_measurement(id: number): Promise<void> {
-    return server_fetch.delete<void>(unit_measurement_by_id_path(id), {
-      revalidate: false,
-    });
+  async delete_unit(id: number): Promise<void> {
+    return server_fetch.delete<void>(unit_by_id_path(id), { revalidate: false });
+  },
+
+  async convert(params: { value: number; from: string; to: string }): Promise<UnitConversionDto> {
+    return server_fetch.get<UnitConversionDto>(`${units_base_path}/convert`, { params, revalidate: false });
   },
 } as const;

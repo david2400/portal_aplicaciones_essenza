@@ -22,7 +22,7 @@ import { Link } from "@/shared/i18n/routing";
 import { OrderItemForm, UpdateOrder } from "./form";
 import { OrderStatusBadge } from "./order-status-badge";
 import { ORDER_STATES, formatMoney, isOrderState, type OrderState } from "../constants";
-import type { INamedItem, IOrder, IOrderItem, IOrderReservation, IOrderSku } from "../models/order.interface";
+import type { INamedItem, IOrder, IOrderItem, IOrderReservation } from "../models/order.interface";
 import {
   changeOrderStatusServerAction,
   deleteOrderItemServerAction,
@@ -31,7 +31,6 @@ import {
 interface IOrderDetailProps {
   order: IOrder;
   items: IOrderItem[];
-  skus: IOrderSku[];
   reservations: IOrderReservation[];
   warehouses: INamedItem[];
 }
@@ -48,7 +47,7 @@ const RESERVATION_VARIANT: Record<string, "default" | "secondary" | "destructive
  * Detalle de una orden: líneas por SKU con precio congelado, reservas de stock y
  * cambios de estado (pagar descuenta el stock; cancelar lo libera o lo devuelve).
  */
-export const OrderDetail = ({ order, items, skus, reservations, warehouses }: IOrderDetailProps) => {
+export const OrderDetail = ({ order, items, reservations, warehouses }: IOrderDetailProps) => {
   const router = useRouter();
   const t = useTranslations("Administre.order");
   const tItems = useTranslations("Administre.order.items");
@@ -307,7 +306,6 @@ export const OrderDetail = ({ order, items, skus, reservations, warehouses }: IO
           <OrderItemForm
             orderId={order.id}
             item={itemModal.item}
-            skus={skus}
             handleClose={() => setItemModal({ open: false, item: null })}
           />
         ) : null}

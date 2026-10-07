@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { list_product_reviews } from "@/server/domains/reviews/product-reviews/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
+import { lookup_products } from "@/server/domains/lookups/queries";
 import { ReviewModeration } from "@/modules/marketing/review";
 
 export async function generateMetadata({
@@ -18,7 +18,10 @@ export async function generateMetadata({
 }
 
 const ReviewsPage = async () => {
-  const [initialData, products] = await Promise.all([list_product_reviews(), list_products({ size: 500 })]);
+  const initialData = await list_product_reviews();
+  // Nombres solo de los productos reseñados (búsqueda por ids).
+  const ids = [...new Set(initialData.map((review) => review.product_id).filter((id): id is number => id != null))];
+  const products = ids.length > 0 ? await lookup_products({ ids }) : [];
 
   return <ReviewModeration initialData={initialData} products={products.map(({ id, name }) => ({ id, name }))} />;
 };

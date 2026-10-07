@@ -10,10 +10,7 @@ export type MovementType = (typeof MOVEMENT_TYPES)[number];
 
 export type INamedItem = { id?: number; name?: string };
 
-/** SKU de una variante (para elegir qué variante se mueve). */
-export type ISkuOption = { id?: number; name?: string; code?: string };
-
-/** Producto con sus variantes vendibles (vacío si no tiene variantes). */
-export type IProductWithSkus = INamedItem & { skus?: ISkuOption[] };
+/** Nombre de un SKU del kardex ("Producto · variante") y su código, resuelto por id en el servidor. */
+export type ISkuName = { sku_id?: number; product_id?: number; code?: string; name?: string };
 
 export const REFERENCE_TYPES = ["MANUAL", "PRODUCT_EDIT", "VARIANT_EDIT", "MIGRATION", "ORDER", "ORDER_CANCEL"] as const;

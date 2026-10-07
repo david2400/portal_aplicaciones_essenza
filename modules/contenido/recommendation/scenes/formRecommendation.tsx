@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,16 +11,23 @@ import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
+import { ProductLookupField } from "@/components/async-combobox";
 import type { IRecommendationProduct } from "../models/recommendation.interface";
-import { RECOMMENDATION_CONTEXTS, RECOMMENDATION_TYPES, formatMoney } from "../constants";
+import { RECOMMENDATION_CONTEXTS, RECOMMENDATION_TYPES } from "../constants";
 
 export const FormRecommendation = ({
   initialValues,
   validationSchema,
   onSubmit,
-  products,
   lockIdentity = false,
-}: IFormProps<any> & { products: IRecommendationProduct[]; lockIdentity?: boolean }) => {
+  initialProduct = null,
+  onPickProduct,
+}: IFormProps<any> & {
+  lockIdentity?: boolean;
+  /** Producto ya guardado (para mostrar su nombre sin buscarlo). */
+  initialProduct?: IRecommendationProduct | null;
+  onPickProduct?: (product: IRecommendationProduct | null) => void;
+}) => {
   const t = useTranslations("Administre.recommendation");
   const tCommon = useTranslations("Administre.common");
   type RecommendationInputs = z.infer<typeof validationSchema>;
@@ -34,18 +40,6 @@ export const FormRecommendation = ({
     resolver: zodResolver(validationSchema),
     defaultValues: initialValues,
   });
-
-  const productOptions = useMemo(
-    () =>
-      products
-        .filter((product) => product.id != null)
-        .map((product) => ({
-          id: String(product.id),
-          value: String(product.id),
-          label: `${product.name ?? `#${product.id}`} · ${formatMoney(product.unit_price)}`,
-        })),
-    [products],
-  );
 
   const typeOptions = RECOMMENDATION_TYPES.map((value) => ({ id: value, value, label: t(`types.${value}`) }));
   const contextOptions = RECOMMENDATION_CONTEXTS.map((value) => ({
@@ -70,14 +64,25 @@ export const FormRecommendation = ({
           label={t("fields.customerId")}
           className='col-span-12 md:col-span-4'
         />
-        <FormSelectField
-          controller={{ control, name: "product_id" }}
+        <ProductLookupField
+          control={control}
+          name='product_id'
           label={t("fields.productId")}
-          data={productOptions}
           placeholder={tCommon("selectPlaceholder")}
-          searchable
           disabled={lockIdentity}
-          triggerClassName='!w-full'
+          clearable={false}
+          initialOption={
+            initialProduct?.id != null
+              ? { value: String(initialProduct.id), label: initialProduct.name ?? `#${initialProduct.id}` }
+              : null
+          }
+          onSelect={(option) =>
+            onPickProduct?.(
+              option?.data
+                ? { id: option.data.id, name: option.data.name, unit_price: option.data.unit_price, image_url: option.data.image_url }
+                : null,
+            )
+          }
           className='col-span-12 md:col-span-8'
         />
         {lockIdentity ? (

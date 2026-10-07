@@ -9,7 +9,7 @@ import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
 import { FormInventoryMovement } from "../scenes/formInventoryMovement";
 import { validationInventoryMovement } from "../schemas/inventory-movement.schema";
-import type { IInventoryMovement, ISkuOption, MovementType } from "../models/inventory-movement.interface";
+import type { IInventoryMovement, MovementType } from "../models/inventory-movement.interface";
 import { registerMovementServerAction } from "@/app/[locale]/inventory/inventory-movements/actions";
 
 type MovementFormValues = {
@@ -24,13 +24,9 @@ type MovementFormValues = {
 
 export const RegisterInventoryMovement = ({
   handleClose,
-  products,
   warehouses,
-  skusByProduct,
 }: IFormAddProps & {
-  products: ISelectOption[];
   warehouses: ISelectOption[];
-  skusByProduct?: Record<string, ISkuOption[]>;
 }) => {
   const router = useRouter();
   const t = useTranslations("Administre.inventoryMovement");
@@ -71,9 +67,7 @@ export const RegisterInventoryMovement = ({
       }}
       onSubmit={handleSubmit}
       validationSchema={validationInventoryMovement()}
-      products={products}
       warehouses={warehouses}
-      skusByProduct={skusByProduct}
     />
   );
 };

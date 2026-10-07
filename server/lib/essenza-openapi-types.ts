@@ -322,34 +322,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/shop/product_details/unit_measurements/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get unit measurement by ID
-         * @description Returns a unit measurement by its ID or 404 if not found
-         */
-        get: operations["getById_10"];
-        /**
-         * Update unit measurement
-         * @description Updates an existing unit measurement by ID
-         */
-        put: operations["update_12"];
-        post?: never;
-        /**
-         * Delete unit measurement
-         * @description Deletes a unit measurement by ID
-         */
-        delete: operations["delete_12"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/shop/product_details/type_products/{id}": {
         parameters: {
             query?: never;
@@ -362,20 +334,20 @@ export interface paths {
          * @deprecated
          * @description Returns a type product by its ID or 404 if not found
          */
-        get: operations["getById_11"];
+        get: operations["getById_10"];
         /**
          * Update type product
          * @deprecated
          * @description Updates an existing type product by ID
          */
-        put: operations["update_13"];
+        put: operations["update_12"];
         post?: never;
         /**
          * Delete type product
          * @deprecated
          * @description Deletes a type product by ID
          */
-        delete: operations["delete_13"];
+        delete: operations["delete_12"];
         options?: never;
         head?: never;
         patch?: never;
@@ -397,13 +369,13 @@ export interface paths {
          * Actualizar la característica asignada a un tipo de producto
          * @deprecated
          */
-        put: operations["update_14"];
+        put: operations["update_13"];
         post?: never;
         /**
          * Eliminar la relación para un tipo de producto
          * @deprecated
          */
-        delete: operations["delete_14"];
+        delete: operations["delete_13"];
         options?: never;
         head?: never;
         patch?: never;
@@ -421,20 +393,20 @@ export interface paths {
          * @deprecated
          * @description Returns a product-feature link by productId and featureId or 404 if not found
          */
-        get: operations["getById_12"];
+        get: operations["getById_11"];
         /**
          * Update product feature
          * @deprecated
          * @description Updates a product-feature link by productId and featureId
          */
-        put: operations["update_15"];
+        put: operations["update_14"];
         post?: never;
         /**
          * Delete product feature
          * @deprecated
          * @description Deletes a product-feature link by productId and featureId
          */
-        delete: operations["delete_15"];
+        delete: operations["delete_14"];
         options?: never;
         head?: never;
         patch?: never;
@@ -452,20 +424,20 @@ export interface paths {
          * @deprecated
          * @description Returns a feature by its ID or 404 if not found
          */
-        get: operations["getById_13"];
+        get: operations["getById_12"];
         /**
          * Update feature
          * @deprecated
          * @description Updates an existing feature by ID
          */
-        put: operations["update_16"];
+        put: operations["update_15"];
         post?: never;
         /**
          * Delete feature
          * @deprecated
          * @description Deletes a feature by ID
          */
-        delete: operations["delete_16"];
+        delete: operations["delete_15"];
         options?: never;
         head?: never;
         patch?: never;
@@ -478,10 +450,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["getById_14"];
-        put: operations["update_17"];
+        get: operations["getById_13"];
+        put: operations["update_16"];
         post?: never;
-        delete: operations["delete_17"];
+        delete: operations["delete_16"];
         options?: never;
         head?: never;
         patch?: never;
@@ -498,102 +470,18 @@ export interface paths {
          * Get supplier by ID
          * @description Returns a supplier by its ID or 404 if not found
          */
-        get: operations["getById_15"];
+        get: operations["getById_14"];
         /**
          * Update supplier
          * @description Updates an existing supplier by ID
          */
-        put: operations["update_18"];
+        put: operations["update_17"];
         post?: never;
         /**
          * Delete supplier
          * @description Deletes a supplier by ID
          */
-        delete: operations["delete_18"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/products/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get product by ID
-         * @description Returns a product by its ID or 404 if not found
-         */
-        get: operations["getById_16"];
-        /**
-         * Update product
-         * @description Updates an existing product by ID
-         */
-        put: operations["update_19"];
-        post?: never;
-        /**
-         * Delete product
-         * @description Deletes a product by ID
-         */
-        delete: operations["delete_19"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/product_combos/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get product combo by ID
-         * @description Returns a product combo by its ID or 404 if not found
-         */
-        get: operations["getById_17"];
-        /**
-         * Update product combo
-         * @description Updates an existing product combo by ID
-         */
-        put: operations["update_20"];
-        post?: never;
-        /**
-         * Delete product combo
-         * @description Deletes a product combo by ID
-         */
-        delete: operations["delete_20"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/product_children/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Get product child by ID
-         * @description Returns a product child by its ID or 404 if not found
-         */
-        get: operations["getById_18"];
-        /**
-         * Update product child
-         * @description Updates an existing product child by ID
-         */
-        put: operations["update_21"];
-        post?: never;
-        /**
-         * Delete product child
-         * @description Deletes a product child by ID
-         */
-        delete: operations["delete_21"];
+        delete: operations["delete_17"];
         options?: never;
         head?: never;
         patch?: never;
@@ -610,18 +498,18 @@ export interface paths {
          * Get dispatch product by ID
          * @description Returns a dispatch product by its ID or 404 if not found
          */
-        get: operations["getById_19"];
+        get: operations["getById_15"];
         /**
          * Update dispatch product
          * @description Updates an existing dispatch product by ID
          */
-        put: operations["update_22"];
+        put: operations["update_18"];
         post?: never;
         /**
          * Delete dispatch product
          * @description Deletes a dispatch product by ID
          */
-        delete: operations["delete_22"];
+        delete: operations["delete_18"];
         options?: never;
         head?: never;
         patch?: never;
@@ -638,18 +526,18 @@ export interface paths {
          * Get return method by ID
          * @description Returns a return method by its ID or 404 if not found
          */
-        get: operations["getById_20"];
+        get: operations["getById_16"];
         /**
          * Update return method
          * @description Updates an existing return method by ID
          */
-        put: operations["update_23"];
+        put: operations["update_19"];
         post?: never;
         /**
          * Delete return method
          * @description Deletes a return method by ID
          */
-        delete: operations["delete_23"];
+        delete: operations["delete_19"];
         options?: never;
         head?: never;
         patch?: never;
@@ -666,18 +554,18 @@ export interface paths {
          * Get refund method by ID
          * @description Returns a refund method by its ID or 404 if not found
          */
-        get: operations["getById_21"];
+        get: operations["getById_17"];
         /**
          * Update refund method
          * @description Updates an existing refund method by ID
          */
-        put: operations["update_24"];
+        put: operations["update_20"];
         post?: never;
         /**
          * Delete refund method
          * @description Deletes a refund method by ID
          */
-        delete: operations["delete_24"];
+        delete: operations["delete_20"];
         options?: never;
         head?: never;
         patch?: never;
@@ -694,18 +582,18 @@ export interface paths {
          * Get order devolution by ID
          * @description Returns an order devolution by its ID or 404 if not found
          */
-        get: operations["getById_22"];
+        get: operations["getById_18"];
         /**
          * Update order devolution
          * @description Updates an existing order devolution by ID
          */
-        put: operations["update_25"];
+        put: operations["update_21"];
         post?: never;
         /**
          * Delete order devolution
          * @description Deletes an order devolution by ID
          */
-        delete: operations["delete_25"];
+        delete: operations["delete_21"];
         options?: never;
         head?: never;
         patch?: never;
@@ -722,18 +610,18 @@ export interface paths {
          * Get order devolution evidence by ID
          * @description Returns an order devolution evidence by its ID or 404 if not found
          */
-        get: operations["getById_23"];
+        get: operations["getById_19"];
         /**
          * Update order devolution evidence
          * @description Updates an existing order devolution evidence by ID
          */
-        put: operations["update_26"];
+        put: operations["update_22"];
         post?: never;
         /**
          * Delete order devolution evidence
          * @description Deletes an order devolution evidence by ID
          */
-        delete: operations["delete_26"];
+        delete: operations["delete_22"];
         options?: never;
         head?: never;
         patch?: never;
@@ -750,18 +638,18 @@ export interface paths {
          * Get order devolution detail by ID
          * @description Returns an order devolution detail by its ID or 404 if not found
          */
-        get: operations["getById_24"];
+        get: operations["getById_20"];
         /**
          * Update order devolution detail
          * @description Updates an existing order devolution detail by ID
          */
-        put: operations["update_27"];
+        put: operations["update_23"];
         post?: never;
         /**
          * Delete order devolution detail
          * @description Deletes an order devolution detail by ID
          */
-        delete: operations["delete_27"];
+        delete: operations["delete_23"];
         options?: never;
         head?: never;
         patch?: never;
@@ -778,18 +666,18 @@ export interface paths {
          * Get motive devolution by ID
          * @description Returns a motive devolution by its ID or 404 if not found
          */
-        get: operations["getById_25"];
+        get: operations["getById_21"];
         /**
          * Update motive devolution
          * @description Updates an existing motive devolution by ID
          */
-        put: operations["update_28"];
+        put: operations["update_24"];
         post?: never;
         /**
          * Delete motive devolution
          * @description Deletes a motive devolution by ID
          */
-        delete: operations["delete_28"];
+        delete: operations["delete_24"];
         options?: never;
         head?: never;
         patch?: never;
@@ -803,12 +691,64 @@ export interface paths {
             cookie?: never;
         };
         /** Get page by id */
-        get: operations["getById_26"];
+        get: operations["getById_22"];
         /** Update CMS page */
-        put: operations["update_29"];
+        put: operations["update_25"];
         post?: never;
         /** Delete page */
-        delete: operations["delete_29"];
+        delete: operations["delete_25"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/variants/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get product child by ID
+         * @description Returns a product child by its ID or 404 if not found
+         */
+        get: operations["getById_23"];
+        /**
+         * Update product child
+         * @description Updates an existing product child by ID
+         */
+        put: operations["update_26"];
+        post?: never;
+        /**
+         * Delete product child
+         * @description Deletes a product child by ID
+         */
+        delete: operations["delete_26"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/units/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get"];
+        /**
+         * Editar unidad
+         * @description No cambia la magnitud de una unidad en uso. base=true la convierte en base
+         */
+        put: operations["update_27"];
+        post?: never;
+        /**
+         * Eliminar unidad
+         * @description 409 si está en uso o si es la base y quedan otras en su magnitud
+         */
+        delete: operations["delete_27"];
         options?: never;
         head?: never;
         patch?: never;
@@ -822,18 +762,18 @@ export interface paths {
             cookie?: never;
         };
         /** Get subcategory by ID */
-        get: operations["getById_27"];
+        get: operations["getById_24"];
         /**
          * Update subcategory
          * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_30"];
+        put: operations["update_28"];
         post?: never;
         /**
          * Delete subcategory
          * @description Eliminación lógica.
          */
-        delete: operations["delete_30"];
+        delete: operations["delete_28"];
         options?: never;
         head?: never;
         patch?: never;
@@ -850,12 +790,64 @@ export interface paths {
          * Get product attributes
          * @description Plantilla, atributos disponibles, valores, ejes por variante y lo que falta para publicar.
          */
-        get: operations["get"];
+        get: operations["get_1"];
         /**
          * Save product attributes
          * @description Reemplaza plantilla, ficha y ejes de variante. Si el producto está publicado (ACTIVE) exige los obligatorios y todos los ejes en cada variante. 400 si una regla no se cumple.
          */
         put: operations["save"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get product by ID
+         * @description Returns a product by its ID or 404 if not found
+         */
+        get: operations["getById_25"];
+        /**
+         * Update product
+         * @description Updates an existing product by ID
+         */
+        put: operations["update_29"];
+        post?: never;
+        /**
+         * Delete product
+         * @description Deletes a product by ID
+         */
+        delete: operations["delete_29"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{id}/images": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Imágenes del producto
+         * @description Galería general (sku_id nulo, en orden) seguida de las imágenes de variantes
+         */
+        get: operations["images"];
+        /**
+         * Reemplazar la galería del producto
+         * @description La primera imagen pasa a ser la principal (image_url). Las imágenes de variantes no se tocan.
+         */
+        put: operations["replaceImages"];
         post?: never;
         delete?: never;
         options?: never;
@@ -876,11 +868,39 @@ export interface paths {
          * Update product template
          * @description Reemplaza la lista de atributos.
          */
-        put: operations["update_31"];
+        put: operations["update_30"];
         post?: never;
         /**
          * Delete product template
          * @description 409 si algún producto la usa.
+         */
+        delete: operations["delete_30"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/product_combos/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get product combo by ID
+         * @description Returns a product combo by its ID or 404 if not found
+         */
+        get: operations["getById_26"];
+        /**
+         * Update product combo
+         * @description Updates an existing product combo by ID
+         */
+        put: operations["update_31"];
+        post?: never;
+        /**
+         * Delete product combo
+         * @description Deletes a product combo by ID
          */
         delete: operations["delete_31"];
         options?: never;
@@ -896,7 +916,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get category by ID */
-        get: operations["getById_28"];
+        get: operations["getById_27"];
         /**
          * Update category
          * @description Actualiza el registro. El id se toma de la URL.
@@ -921,7 +941,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get brand by ID */
-        get: operations["getById_29"];
+        get: operations["getById_28"];
         /**
          * Update brand
          * @description Actualiza el registro. El id se toma de la URL.
@@ -1446,30 +1466,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/shop/product_details/unit_measurements": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List unit measurements
-         * @description Returns all unit measurements
-         */
-        get: operations["getAll_8"];
-        put?: never;
-        /**
-         * Create unit measurement
-         * @description Creates a new unit measurement and returns it with its generated ID
-         */
-        post: operations["create_12"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/shop/product_details/type_products": {
         parameters: {
             query?: never;
@@ -1482,14 +1478,14 @@ export interface paths {
          * @deprecated
          * @description Returns all type products
          */
-        get: operations["getAll_9"];
+        get: operations["getAll_8"];
         put?: never;
         /**
          * Create type product
          * @deprecated
          * @description Creates a new type product and returns it with its generated ID
          */
-        post: operations["create_13"];
+        post: operations["create_12"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1513,7 +1509,7 @@ export interface paths {
          * Crear una nueva relación entre tipo de producto y característica
          * @deprecated
          */
-        post: operations["create_14"];
+        post: operations["create_13"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1532,14 +1528,14 @@ export interface paths {
          * @deprecated
          * @description Returns all product-feature links
          */
-        get: operations["getAll_10"];
+        get: operations["getAll_9"];
         put?: never;
         /**
          * Create product feature
          * @deprecated
          * @description Creates a new product-feature link and returns it
          */
-        post: operations["create_15"];
+        post: operations["create_14"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1558,14 +1554,14 @@ export interface paths {
          * @deprecated
          * @description Returns all features
          */
-        get: operations["getAll_11"];
+        get: operations["getAll_10"];
         put?: never;
         /**
          * Create feature
          * @deprecated
          * @description Creates a new feature and returns it with its generated ID
          */
-        post: operations["create_16"];
+        post: operations["create_15"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1581,7 +1577,7 @@ export interface paths {
         };
         get: operations["list_2"];
         put?: never;
-        post: operations["create_17"];
+        post: operations["create_16"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1615,132 +1611,20 @@ export interface paths {
          * List suppliers
          * @description Returns all suppliers
          */
-        get: operations["getAll_12"];
+        get: operations["getAll_11"];
         put?: never;
         /**
          * Create supplier
          * @description Creates a new supplier and returns it with its generated ID
          */
-        post: operations["create_18"];
+        post: operations["create_17"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/shop/inventory/products": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List products
-         * @description Returns products paginated; use page, size and sort=field,asc;other,desc
-         */
-        get: operations["getAll_13"];
-        put?: never;
-        /**
-         * Create product
-         * @description Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID
-         */
-        post: operations["create_19"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/products/search": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Search products
-         * @description Search products with a filter body and pagination params page, size, sort
-         */
-        post: operations["search"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/product_combos": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List product combos
-         * @description Returns all product combos
-         */
-        get: operations["getAll_14"];
-        put?: never;
-        /**
-         * Create product combo
-         * @description Creates a new product combo and returns it with its generated ID
-         */
-        post: operations["create_20"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/product_children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * List product children
-         * @description Returns all product children
-         */
-        get: operations["getAll_15"];
-        put?: never;
-        /**
-         * Create product child
-         * @description Creates a new product child and returns it with its generated ID
-         */
-        post: operations["create_21"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/product_children/bulk-delete": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Bulk delete product children
-         * @description Deletes several product children; each id is processed independently
-         */
-        post: operations["bulkDelete_2"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/inventory_movements/transfer": {
+    "/api/shop/inventory/stock/movements/transfer": {
         parameters: {
             query?: never;
             header?: never;
@@ -1756,7 +1640,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/shop/inventory/inventory_movements/exit": {
+    "/api/shop/inventory/stock/movements/exit": {
         parameters: {
             query?: never;
             header?: never;
@@ -1772,7 +1656,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/shop/inventory/inventory_movements/entry": {
+    "/api/shop/inventory/stock/movements/entry": {
         parameters: {
             query?: never;
             header?: never;
@@ -1799,13 +1683,13 @@ export interface paths {
          * List dispatch products
          * @description Returns all dispatch products
          */
-        get: operations["getAll_16"];
+        get: operations["getAll_12"];
         put?: never;
         /**
          * Create dispatch product
          * @description Creates a new dispatch product and returns it with its generated ID
          */
-        post: operations["create_22"];
+        post: operations["create_18"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1825,7 +1709,7 @@ export interface paths {
          * Bulk delete
          * @description Elimina varios registros; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_3"];
+        post: operations["bulkDelete_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1843,13 +1727,13 @@ export interface paths {
          * List return methods
          * @description Returns all return methods
          */
-        get: operations["getAll_17"];
+        get: operations["getAll_13"];
         put?: never;
         /**
          * Create return method
          * @description Creates a new return method and returns it with its generated ID
          */
-        post: operations["create_23"];
+        post: operations["create_19"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1867,13 +1751,13 @@ export interface paths {
          * List refund methods
          * @description Returns all refund methods
          */
-        get: operations["getAll_18"];
+        get: operations["getAll_14"];
         put?: never;
         /**
          * Create refund method
          * @description Creates a new refund method and returns it with its generated ID
          */
-        post: operations["create_24"];
+        post: operations["create_20"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1891,13 +1775,13 @@ export interface paths {
          * List order devolutions
          * @description Returns all order devolutions
          */
-        get: operations["getAll_19"];
+        get: operations["getAll_15"];
         put?: never;
         /**
          * Create order devolution
          * @description Creates a new order devolution and returns it with its generated ID
          */
-        post: operations["create_25"];
+        post: operations["create_21"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1917,7 +1801,7 @@ export interface paths {
          * Bulk delete
          * @description Elimina varios registros; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_4"];
+        post: operations["bulkDelete_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1935,13 +1819,13 @@ export interface paths {
          * List order devolution evidences
          * @description Returns all order devolution evidences
          */
-        get: operations["getAll_20"];
+        get: operations["getAll_16"];
         put?: never;
         /**
          * Create order devolution evidence
          * @description Creates a new order devolution evidence and returns it with its generated ID
          */
-        post: operations["create_26"];
+        post: operations["create_22"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1959,13 +1843,13 @@ export interface paths {
          * List order devolution details
          * @description Returns all order devolution details
          */
-        get: operations["getAll_21"];
+        get: operations["getAll_17"];
         put?: never;
         /**
          * Create order devolution detail
          * @description Creates a new order devolution detail and returns it with its generated ID
          */
-        post: operations["create_27"];
+        post: operations["create_23"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1983,13 +1867,13 @@ export interface paths {
          * List motive devolutions
          * @description Returns all motive devolutions
          */
-        get: operations["getAll_22"];
+        get: operations["getAll_18"];
         put?: never;
         /**
          * Create motive devolution
          * @description Creates a new motive devolution and returns it with its generated ID
          */
-        post: operations["create_28"];
+        post: operations["create_24"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2004,10 +1888,78 @@ export interface paths {
             cookie?: never;
         };
         /** List pages */
-        get: operations["getAll_23"];
+        get: operations["getAll_19"];
         put?: never;
         /** Create CMS page */
-        post: operations["create_29"];
+        post: operations["create_25"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/variants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List variants
+         * @description Returns all variants, or only those of product_id
+         */
+        get: operations["getAll_20"];
+        put?: never;
+        /**
+         * Create product child
+         * @description Creates a new product child and returns it with its generated ID
+         */
+        post: operations["create_26"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/variants/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete product children
+         * @description Deletes several product children; each id is processed independently
+         */
+        post: operations["bulkDelete_4"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/units": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Listar unidades
+         * @description Por magnitud y factor. dimension filtra; include_inactive incluye las desactivadas
+         */
+        get: operations["list_3"];
+        put?: never;
+        /**
+         * Crear unidad
+         * @description La primera unidad de una magnitud es su base. base=true la convierte en base y reescala las demás
+         */
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2025,13 +1977,13 @@ export interface paths {
          * List all subcategories
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_24"];
+        get: operations["getAll_21"];
         put?: never;
         /**
          * Create subcategory
          * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_30"];
+        post: operations["create_28"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2058,6 +2010,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/catalog/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List products
+         * @description Returns products paginated; use page, size and sort=field,asc;other,desc
+         */
+        get: operations["getAll_22"];
+        put?: never;
+        /**
+         * Create product
+         * @description Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID
+         */
+        post: operations["create_29"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Search products
+         * @description Search products with a filter body and pagination params page, size, sort
+         */
+        post: operations["search"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/catalog/product_templates": {
         parameters: {
             query?: never;
@@ -2071,6 +2067,30 @@ export interface paths {
         /**
          * Create product template
          * @description Solo los atributos OPTION pueden ser eje de variante. 409 si el nombre ya existe.
+         */
+        post: operations["create_30"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/product_combos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List combo items
+         * @description Returns all combo items, or only those of combo_id (the combo product)
+         */
+        get: operations["getAll_23"];
+        put?: never;
+        /**
+         * Create product combo
+         * @description Creates a new product combo and returns it with its generated ID
          */
         post: operations["create_31"];
         delete?: never;
@@ -2090,7 +2110,7 @@ export interface paths {
          * List all categories
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_25"];
+        get: operations["getAll_24"];
         put?: never;
         /**
          * Create category
@@ -2134,7 +2154,7 @@ export interface paths {
          * List all brands
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_26"];
+        get: operations["getAll_25"];
         put?: never;
         /**
          * Create brand
@@ -2313,7 +2333,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/shop/inventory/stock": {
+    "/api/shop/inventory/suppliers/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Buscar proveedores
+         * @description Por nombre o correo; hint = correo
+         */
+        get: operations["suppliers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/stock/reservations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reservas de stock
+         * @description Filtros opcionales: order_id, sku_id, product_id, status (ACTIVE, COMMITTED, RELEASED, EXPIRED, RETURNED). limit 1–200 (50).
+         */
+        get: operations["reservations_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/stock/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/stock/levels": {
         parameters: {
             query?: never;
             header?: never;
@@ -2324,23 +2400,7 @@ export interface paths {
          * Stock por SKU y bodega
          * @description Filtros opcionales: sku_id, product_id, warehouse_id
          */
-        get: operations["find"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/shop/inventory/inventory_movements": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["list_3"];
+        get: operations["levels"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2409,6 +2469,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/catalog/units/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Buscar unidades
+         * @description q (código, símbolo o nombre), ids, limit (≤ 50), dimensions=MASS,VOLUME
+         */
+        get: operations["lookup"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/units/convert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Convertir
+         * @description value de from a to (código o id). Solo entre unidades de la misma magnitud
+         */
+        get: operations["convert"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/catalog/subcategories/search": {
         parameters: {
             query?: never;
@@ -2421,6 +2521,106 @@ export interface paths {
          * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
          */
         get: operations["search_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/subcategories/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Buscar subcategorías
+         * @description category_id limita a una categoría; hint = categoría
+         */
+        get: operations["subcategories"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/skus/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Buscar SKUs
+         * @description Por código, código de barras, producto o variante, con precio y stock
+         */
+        get: operations["skus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{id}/skus": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * SKUs del producto
+         * @description Unidades vendibles del producto con precio y stock físico
+         */
+        get: operations["skus_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Indicadores del catálogo
+         * @description Total, publicados, sin stock, stock bajo (≤ low_stock_threshold, 5) y valor del inventario a costo; low_stock_limit (8, máx. 50) productos con menos stock
+         */
+        get: operations["productStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Buscar productos
+         * @description Por nombre o slug; statuses=ACTIVE,DRAFT filtra por estado
+         */
+        get: operations["products"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2449,6 +2649,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/catalog/categories/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Buscar categorías */
+        get: operations["categories"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/catalog/brands/search": {
         parameters: {
             query?: never;
@@ -2461,6 +2678,23 @@ export interface paths {
          * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
          */
         get: operations["search_6"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/brands/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Buscar marcas */
+        get: operations["brands"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3035,34 +3269,6 @@ export interface components {
             max_delivery_days?: number;
             is_active?: boolean;
         };
-        UpdateUnitMeasurementDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            name: string;
-            /** Format: int64 */
-            id: number;
-        };
-        UnitMeasurementDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-        };
         UpdateTypeProductDto: {
             name: string;
             /** Format: int64 */
@@ -3207,198 +3413,6 @@ export interface components {
             address?: string;
             /** Format: email */
             email?: string;
-        };
-        ProductBundleItemDto: {
-            /** Format: int64 */
-            product_id: number;
-            /** Format: int32 */
-            quantity: number;
-            contribution_percentage?: number;
-        };
-        ProductVariantDto: {
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
-            /** Format: int32 */
-            stock?: number;
-            unit_price?: number;
-            image_url?: string;
-            available?: boolean;
-            sellable?: boolean;
-        };
-        UpdateProductDto: {
-            name: string;
-            description: string;
-            /** Format: int32 */
-            stock: number;
-            real_price: number;
-            unit_price: number;
-            /** Format: double */
-            length: number;
-            /** Format: double */
-            width: number;
-            /** Format: double */
-            height: number;
-            /** Format: double */
-            weight: number;
-            image_url?: string;
-            available?: boolean;
-            status?: string;
-            slug?: string;
-            /** Format: int64 */
-            brand_id: number;
-            /** Format: int64 */
-            category_id: number;
-            /** Format: int64 */
-            subcategory_id: number;
-            /** Format: int64 */
-            supplier_id: number;
-            is_combo?: boolean;
-            variants?: components["schemas"]["ProductVariantDto"][];
-            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
-            /** Format: int64 */
-            id?: number;
-            combo_with_bundle_items?: boolean;
-            bundle_items_only_for_combos?: boolean;
-            variants_only_for_non_combos?: boolean;
-        };
-        ProductDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            /** Format: int64 */
-            id?: number;
-            name?: string;
-            description?: string;
-            /** Format: int32 */
-            stock?: number;
-            real_price?: number;
-            unit_price?: number;
-            /** Format: double */
-            length?: number;
-            /** Format: double */
-            width?: number;
-            /** Format: double */
-            height?: number;
-            /** Format: double */
-            weight?: number;
-            image_url?: string;
-            available?: boolean;
-            /** Format: int64 */
-            brand_id?: number;
-            /** Format: int64 */
-            category_id?: number;
-            /** Format: int64 */
-            subcategory_id?: number;
-            /** Format: int64 */
-            supplier_id?: number;
-            is_combo?: boolean;
-            sellable?: boolean;
-            status?: string;
-            slug?: string;
-            product_type?: string;
-            skus?: components["schemas"]["ProductSkuDto"][];
-            images?: components["schemas"]["ProductImageDto"][];
-            variants?: components["schemas"]["ProductVariantDto"][];
-            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
-        };
-        ProductImageDto: {
-            /** Format: int64 */
-            id?: number;
-            url?: string;
-            /** Format: int32 */
-            position?: number;
-            alt_text?: string;
-            /** Format: int64 */
-            sku_id?: number;
-        };
-        ProductSkuDto: {
-            /** Format: int64 */
-            id?: number;
-            code?: string;
-            name?: string;
-            price?: number;
-            cost_price?: number;
-            compare_at_price?: number;
-            barcode?: string;
-            image_url?: string;
-            is_default?: boolean;
-            active?: boolean;
-            /** Format: int64 */
-            variant_id?: number;
-            /** Format: int32 */
-            stock?: number;
-        };
-        UpdateProductComboDto: {
-            /** Format: int32 */
-            quantity: number;
-            /** Format: int64 */
-            product_id: number;
-            /** Format: int64 */
-            combo_id: number;
-            /** Format: int64 */
-            id: number;
-        };
-        ProductComboDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            /** Format: int64 */
-            id?: number;
-            /** Format: int32 */
-            quantity?: number;
-            /** Format: int64 */
-            product_id?: number;
-            /** Format: int64 */
-            combo_id?: number;
-        };
-        UpdateProductChildDto: {
-            /** Format: int64 */
-            product_id: number;
-            name: string;
-            description?: string;
-            /** Format: int32 */
-            stock: number;
-            unit_price: number;
-            image_url?: string;
-            available?: boolean;
-            /** Format: int64 */
-            id: number;
-        };
-        ProductChildDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            /** Format: int64 */
-            id?: number;
-            /** Format: int64 */
-            product_id?: number;
-            name?: string;
-            description?: string;
-            /** Format: int32 */
-            stock?: number;
-            unit_price?: number;
-            image_url?: string;
-            available?: boolean;
         };
         UpdateDispatchProductDto: {
             guide_number: string;
@@ -3698,6 +3712,76 @@ export interface components {
             page_type?: string;
             custom_fields?: string;
         };
+        UpdateProductChildDto: {
+            /** Format: int64 */
+            product_id: number;
+            name: string;
+            description?: string;
+            /** Format: int32 */
+            stock: number;
+            unit_price: number;
+            image_url?: string;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            available?: boolean;
+            /** Format: int64 */
+            id: number;
+        };
+        ProductChildDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            name?: string;
+            description?: string;
+            /** Format: int32 */
+            stock?: number;
+            unit_price?: number;
+            image_url?: string;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            available?: boolean;
+        };
+        SaveUnitDto: {
+            code?: string;
+            symbol?: string;
+            name: string;
+            /** @enum {string} */
+            dimension?: "LENGTH" | "MASS" | "VOLUME" | "AREA" | "COUNT" | "OTHER";
+            factor?: number;
+            base?: boolean;
+            /** Format: int32 */
+            decimals?: number;
+            active?: boolean;
+        };
+        UnitDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            symbol?: string;
+            name?: string;
+            /** @enum {string} */
+            dimension?: "LENGTH" | "MASS" | "VOLUME" | "AREA" | "COUNT" | "OTHER";
+            factor?: number;
+            base?: boolean;
+            base_symbol?: string;
+            /** Format: int32 */
+            decimals?: number;
+            active?: boolean;
+            /** Format: int64 */
+            usage_count?: number;
+        };
         UpdateSubcategoryDto: {
             name: string;
             description?: string;
@@ -3817,10 +3901,180 @@ export interface components {
             position?: number;
             attribute?: components["schemas"]["AttributeDto"];
         };
+        ProductBundleItemDto: {
+            /** Format: int64 */
+            product_id: number;
+            /** Format: int32 */
+            quantity: number;
+            contribution_percentage?: number;
+        };
+        ProductVariantDto: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            /** Format: int32 */
+            stock?: number;
+            unit_price?: number;
+            image_url?: string;
+            available?: boolean;
+            sellable?: boolean;
+        };
+        UpdateProductDto: {
+            name: string;
+            description: string;
+            /** Format: int32 */
+            stock: number;
+            real_price: number;
+            unit_price: number;
+            /** Format: double */
+            length: number;
+            /** Format: double */
+            width: number;
+            /** Format: double */
+            height: number;
+            /** Format: double */
+            weight: number;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            image_url?: string;
+            available?: boolean;
+            status?: string;
+            slug?: string;
+            /** Format: int64 */
+            brand_id: number;
+            /** Format: int64 */
+            category_id: number;
+            /** Format: int64 */
+            subcategory_id: number;
+            /** Format: int64 */
+            supplier_id: number;
+            is_combo?: boolean;
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
+            /** Format: int64 */
+            id?: number;
+            combo_with_bundle_items?: boolean;
+            bundle_items_only_for_combos?: boolean;
+            variants_only_for_non_combos?: boolean;
+        };
+        ProductDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            description?: string;
+            /** Format: int32 */
+            stock?: number;
+            real_price?: number;
+            unit_price?: number;
+            /** Format: double */
+            length?: number;
+            /** Format: double */
+            width?: number;
+            /** Format: double */
+            height?: number;
+            /** Format: double */
+            weight?: number;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            image_url?: string;
+            available?: boolean;
+            /** Format: int64 */
+            brand_id?: number;
+            /** Format: int64 */
+            category_id?: number;
+            /** Format: int64 */
+            subcategory_id?: number;
+            /** Format: int64 */
+            supplier_id?: number;
+            is_combo?: boolean;
+            sellable?: boolean;
+            status?: string;
+            slug?: string;
+            product_type?: string;
+            skus?: components["schemas"]["ProductSkuDto"][];
+            images?: components["schemas"]["ProductImageDto"][];
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
+        };
+        ProductImageDto: {
+            /** Format: int64 */
+            id?: number;
+            url?: string;
+            /** Format: int32 */
+            position?: number;
+            alt_text?: string;
+            /** Format: int64 */
+            sku_id?: number;
+        };
+        ProductSkuDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            price?: number;
+            cost_price?: number;
+            compare_at_price?: number;
+            barcode?: string;
+            image_url?: string;
+            is_default?: boolean;
+            active?: boolean;
+            /** Format: int64 */
+            variant_id?: number;
+            /** Format: int32 */
+            stock?: number;
+        };
+        ProductImageInputDto: {
+            url: string;
+            alt_text?: string;
+        };
+        ReplaceProductImagesDto: {
+            images: components["schemas"]["ProductImageInputDto"][];
+        };
         SaveProductTemplateDto: {
             name: string;
             description?: string;
             attributes?: components["schemas"]["TemplateAttributeDto"][];
+        };
+        UpdateProductComboDto: {
+            /** Format: int32 */
+            quantity: number;
+            /** Format: int64 */
+            product_id: number;
+            /** Format: int64 */
+            combo_id: number;
+            /** Format: int64 */
+            id: number;
+        };
+        ProductComboDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int32 */
+            quantity?: number;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            combo_id?: number;
         };
         UpdateCategoryDto: {
             name: string;
@@ -4173,18 +4427,6 @@ export interface components {
             max_delivery_days: number;
             is_active: boolean;
         };
-        CreateUnitMeasurementDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            name: string;
-        };
         CreateTypeProductDto: {
             name: string;
         };
@@ -4225,71 +4467,6 @@ export interface components {
             address: string;
             /** Format: email */
             email: string;
-        };
-        CreateProductDto: {
-            name: string;
-            description: string;
-            /** Format: int32 */
-            stock: number;
-            real_price: number;
-            unit_price: number;
-            /** Format: double */
-            length: number;
-            /** Format: double */
-            width: number;
-            /** Format: double */
-            height: number;
-            /** Format: double */
-            weight: number;
-            image_url?: string;
-            available?: boolean;
-            status?: string;
-            slug?: string;
-            /** Format: int64 */
-            brand_id: number;
-            /** Format: int64 */
-            category_id: number;
-            /** Format: int64 */
-            subcategory_id: number;
-            /** Format: int64 */
-            supplier_id: number;
-            is_combo?: boolean;
-            variants?: components["schemas"]["ProductVariantDto"][];
-            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
-            combo_with_bundle_items?: boolean;
-            bundle_items_only_for_combos?: boolean;
-            variants_only_for_non_combos?: boolean;
-        };
-        ProductFilter: {
-            brand_ids?: number[];
-            category_ids?: number[];
-            subcategory_ids?: number[];
-            /** Format: double */
-            min_price?: number;
-            /** Format: double */
-            max_price?: number;
-            available?: boolean;
-            search?: string;
-            statuses?: string[];
-        };
-        CreateProductComboDto: {
-            /** Format: int32 */
-            quantity: number;
-            /** Format: int64 */
-            product_id: number;
-            /** Format: int64 */
-            combo_id: number;
-        };
-        CreateProductChildDto: {
-            /** Format: int64 */
-            product_id: number;
-            name: string;
-            description?: string;
-            /** Format: int32 */
-            stock: number;
-            unit_price: number;
-            image_url?: string;
-            available?: boolean;
         };
         InventoryMovementDto: {
             /** Format: int64 */
@@ -4410,12 +4587,83 @@ export interface components {
             page_type?: string;
             custom_fields?: string;
         };
+        CreateProductChildDto: {
+            /** Format: int64 */
+            product_id: number;
+            name: string;
+            description?: string;
+            /** Format: int32 */
+            stock: number;
+            unit_price: number;
+            image_url?: string;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            available?: boolean;
+        };
         CreateSubcategoryDto: {
             name: string;
             description?: string;
             slug?: string;
             /** Format: int64 */
             category_id: number;
+        };
+        CreateProductDto: {
+            name: string;
+            description: string;
+            /** Format: int32 */
+            stock: number;
+            real_price: number;
+            unit_price: number;
+            /** Format: double */
+            length: number;
+            /** Format: double */
+            width: number;
+            /** Format: double */
+            height: number;
+            /** Format: double */
+            weight: number;
+            net_content?: number;
+            /** Format: int64 */
+            net_content_unit_id?: number;
+            image_url?: string;
+            available?: boolean;
+            status?: string;
+            slug?: string;
+            /** Format: int64 */
+            brand_id: number;
+            /** Format: int64 */
+            category_id: number;
+            /** Format: int64 */
+            subcategory_id: number;
+            /** Format: int64 */
+            supplier_id: number;
+            is_combo?: boolean;
+            variants?: components["schemas"]["ProductVariantDto"][];
+            bundle_items?: components["schemas"]["ProductBundleItemDto"][];
+            combo_with_bundle_items?: boolean;
+            bundle_items_only_for_combos?: boolean;
+            variants_only_for_non_combos?: boolean;
+        };
+        ProductFilter: {
+            brand_ids?: number[];
+            category_ids?: number[];
+            subcategory_ids?: number[];
+            /** Format: double */
+            min_price?: number;
+            /** Format: double */
+            max_price?: number;
+            available?: boolean;
+            search?: string;
+            statuses?: string[];
+        };
+        CreateProductComboDto: {
+            /** Format: int32 */
+            quantity: number;
+            /** Format: int64 */
+            product_id: number;
+            /** Format: int64 */
+            combo_id: number;
         };
         CreateCategoryDto: {
             name: string;
@@ -4554,9 +4802,19 @@ export interface components {
             empty?: boolean;
             unsorted?: boolean;
         };
-        StockItemDto: {
+        LookupOption: {
             /** Format: int64 */
             id?: number;
+            label?: string;
+            hint?: string;
+        };
+        StockReservationDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            order_id?: number;
+            /** Format: int64 */
+            line_id?: number;
             /** Format: int64 */
             sku_id?: number;
             /** Format: int64 */
@@ -4564,14 +4822,11 @@ export interface components {
             /** Format: int64 */
             warehouse_id?: number;
             /** Format: int32 */
-            on_hand?: number;
-            /** Format: int32 */
-            reserved?: number;
-            /** Format: int32 */
-            available?: number;
-            /** Format: int32 */
-            min_threshold?: number;
-            below_threshold?: boolean;
+            quantity?: number;
+            /** @enum {string} */
+            status?: "ACTIVE" | "COMMITTED" | "RELEASED" | "EXPIRED" | "RETURNED";
+            /** Format: date-time */
+            expires_at?: string;
         };
         PageInventoryMovementDto: {
             /** Format: int64 */
@@ -4590,6 +4845,25 @@ export interface components {
             first?: boolean;
             last?: boolean;
             empty?: boolean;
+        };
+        StockItemDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            warehouse_id?: number;
+            /** Format: int32 */
+            on_hand?: number;
+            /** Format: int32 */
+            reserved?: number;
+            /** Format: int32 */
+            available?: number;
+            /** Format: int32 */
+            min_threshold?: number;
+            below_threshold?: boolean;
         };
         PageResponseDispatchProductDto: {
             content?: components["schemas"]["DispatchProductDto"][];
@@ -4615,6 +4889,14 @@ export interface components {
             total_pages?: number;
             sort?: string;
         };
+        UnitConversionDto: {
+            value?: number;
+            from?: string;
+            from_symbol?: string;
+            to?: string;
+            to_symbol?: string;
+            result?: number;
+        };
         PageResponseSubcategoryDto: {
             content?: components["schemas"]["SubcategoryDto"][];
             /** Format: int32 */
@@ -4626,6 +4908,59 @@ export interface components {
             /** Format: int32 */
             total_pages?: number;
             sort?: string;
+        };
+        SkuLookupDto: {
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            code?: string;
+            name?: string;
+            product_name?: string;
+            variant_name?: string;
+            /** @enum {string} */
+            product_type?: "SIMPLE" | "VARIANT" | "COMBO";
+            unit_price?: number;
+            active?: boolean;
+            sellable?: boolean;
+            /** Format: int32 */
+            on_hand?: number;
+            /** Format: int32 */
+            available?: number;
+            image_url?: string;
+        };
+        LowStockItem: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            /** Format: int32 */
+            stock?: number;
+        };
+        ProductStatsDto: {
+            /** Format: int64 */
+            total?: number;
+            /** Format: int64 */
+            active?: number;
+            /** Format: int64 */
+            out_of_stock?: number;
+            /** Format: int64 */
+            low_stock?: number;
+            /** Format: int32 */
+            low_stock_threshold?: number;
+            inventory_value?: number;
+            low_stock_items?: components["schemas"]["LowStockItem"][];
+        };
+        ProductLookupDto: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            slug?: string;
+            /** @enum {string} */
+            status?: "DRAFT" | "ACTIVE" | "INACTIVE" | "ARCHIVED";
+            /** @enum {string} */
+            product_type?: "SIMPLE" | "VARIANT" | "COMBO";
+            unit_price?: number;
+            image_url?: string;
         };
         PageResponseCategoryDto: {
             content?: components["schemas"]["CategoryDto"][];
@@ -5860,106 +6195,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /** @description Unit measurement ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Unit measurement found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnitMeasurementDto"];
-                };
-            };
-            /** @description Unit measurement not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_12: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Unit measurement ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Unit measurement data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateUnitMeasurementDto"];
-            };
-        };
-        responses: {
-            /** @description Unit measurement updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnitMeasurementDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unit measurement not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_12: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Unit measurement ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Unit measurement deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unit measurement not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_11: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
                 /** @description Type product ID */
                 id: number;
             };
@@ -5985,7 +6220,7 @@ export interface operations {
             };
         };
     };
-    update_13: {
+    update_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6027,7 +6262,7 @@ export interface operations {
             };
         };
     };
-    delete_13: {
+    delete_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6077,7 +6312,7 @@ export interface operations {
             };
         };
     };
-    update_14: {
+    update_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6103,7 +6338,7 @@ export interface operations {
             };
         };
     };
-    delete_14: {
+    delete_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6123,7 +6358,7 @@ export interface operations {
             };
         };
     };
-    getById_12: {
+    getById_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -6155,7 +6390,7 @@ export interface operations {
             };
         };
     };
-    update_15: {
+    update_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -6199,7 +6434,7 @@ export interface operations {
             };
         };
     };
-    delete_15: {
+    delete_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -6229,7 +6464,7 @@ export interface operations {
             };
         };
     };
-    getById_13: {
+    getById_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6259,7 +6494,7 @@ export interface operations {
             };
         };
     };
-    update_16: {
+    update_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -6301,7 +6536,7 @@ export interface operations {
             };
         };
     };
-    delete_16: {
+    delete_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -6329,7 +6564,7 @@ export interface operations {
             };
         };
     };
-    getById_14: {
+    getById_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6351,7 +6586,7 @@ export interface operations {
             };
         };
     };
-    update_17: {
+    update_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -6377,7 +6612,7 @@ export interface operations {
             };
         };
     };
-    delete_17: {
+    delete_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -6397,7 +6632,7 @@ export interface operations {
             };
         };
     };
-    getById_15: {
+    getById_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -6427,7 +6662,7 @@ export interface operations {
             };
         };
     };
-    update_18: {
+    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -6469,7 +6704,7 @@ export interface operations {
             };
         };
     };
-    delete_18: {
+    delete_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -6497,307 +6732,7 @@ export interface operations {
             };
         };
     };
-    getById_16: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductDto"];
-                };
-            };
-            /** @description Product not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Product data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateProductDto"];
-            };
-        };
-        responses: {
-            /** @description Product updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_17: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product combo ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product combo found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductComboDto"];
-                };
-            };
-            /** @description Product combo not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_20: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product combo ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Product combo data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateProductComboDto"];
-            };
-        };
-        responses: {
-            /** @description Product combo updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductComboDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product combo not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_20: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product combo ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product combo deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product combo not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_18: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product child ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product child found */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductChildDto"];
-                };
-            };
-            /** @description Product child not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    update_21: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product child ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        /** @description Product child data to update */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateProductChildDto"];
-            };
-        };
-        responses: {
-            /** @description Product child updated */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductChildDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product child not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    delete_21: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Product child ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Product child deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Product child not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_19: {
+    getById_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -6827,7 +6762,7 @@ export interface operations {
             };
         };
     };
-    update_22: {
+    update_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -6869,7 +6804,7 @@ export interface operations {
             };
         };
     };
-    delete_22: {
+    delete_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -6897,7 +6832,7 @@ export interface operations {
             };
         };
     };
-    getById_20: {
+    getById_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -6927,7 +6862,7 @@ export interface operations {
             };
         };
     };
-    update_23: {
+    update_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -6969,7 +6904,7 @@ export interface operations {
             };
         };
     };
-    delete_23: {
+    delete_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -6997,7 +6932,7 @@ export interface operations {
             };
         };
     };
-    getById_21: {
+    getById_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -7027,7 +6962,7 @@ export interface operations {
             };
         };
     };
-    update_24: {
+    update_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -7069,7 +7004,7 @@ export interface operations {
             };
         };
     };
-    delete_24: {
+    delete_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -7097,7 +7032,7 @@ export interface operations {
             };
         };
     };
-    getById_22: {
+    getById_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -7127,7 +7062,7 @@ export interface operations {
             };
         };
     };
-    update_25: {
+    update_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -7169,7 +7104,7 @@ export interface operations {
             };
         };
     };
-    delete_25: {
+    delete_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -7197,7 +7132,7 @@ export interface operations {
             };
         };
     };
-    getById_23: {
+    getById_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -7227,7 +7162,7 @@ export interface operations {
             };
         };
     };
-    update_26: {
+    update_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7269,7 +7204,7 @@ export interface operations {
             };
         };
     };
-    delete_26: {
+    delete_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7297,7 +7232,7 @@ export interface operations {
             };
         };
     };
-    getById_24: {
+    getById_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -7327,7 +7262,7 @@ export interface operations {
             };
         };
     };
-    update_27: {
+    update_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -7369,7 +7304,7 @@ export interface operations {
             };
         };
     };
-    delete_27: {
+    delete_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -7397,7 +7332,7 @@ export interface operations {
             };
         };
     };
-    getById_25: {
+    getById_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -7427,7 +7362,7 @@ export interface operations {
             };
         };
     };
-    update_28: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7469,7 +7404,7 @@ export interface operations {
             };
         };
     };
-    delete_28: {
+    delete_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7497,7 +7432,7 @@ export interface operations {
             };
         };
     };
-    getById_26: {
+    getById_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7519,7 +7454,7 @@ export interface operations {
             };
         };
     };
-    update_29: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -7545,7 +7480,7 @@ export interface operations {
             };
         };
     };
-    delete_29: {
+    delete_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -7565,7 +7500,175 @@ export interface operations {
             };
         };
     };
-    getById_27: {
+    getById_23: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product child ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product child found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductChildDto"];
+                };
+            };
+            /** @description Product child not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_26: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product child ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Product child data to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductChildDto"];
+            };
+        };
+        responses: {
+            /** @description Product child updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductChildDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product child not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_26: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product child ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product child deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product child not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UnitDto"];
+                };
+            };
+        };
+    };
+    update_27: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveUnitDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UnitDto"];
+                };
+            };
+        };
+    };
+    delete_27: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7588,7 +7691,7 @@ export interface operations {
             };
         };
     };
-    update_30: {
+    update_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -7636,7 +7739,7 @@ export interface operations {
             };
         };
     };
-    delete_30: {
+    delete_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -7671,7 +7774,7 @@ export interface operations {
             };
         };
     };
-    get: {
+    get_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -7719,6 +7822,154 @@ export interface operations {
             };
         };
     };
+    getById_25: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDto"];
+                };
+            };
+            /** @description Product not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_29: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Product data to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Product updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_29: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    images: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductImageDto"][];
+                };
+            };
+        };
+    };
+    replaceImages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplaceProductImagesDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductImageDto"][];
+                };
+            };
+        };
+    };
     findById_3: {
         parameters: {
             query?: never;
@@ -7741,7 +7992,7 @@ export interface operations {
             };
         };
     };
-    update_31: {
+    update_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -7767,7 +8018,7 @@ export interface operations {
             };
         };
     };
-    delete_31: {
+    delete_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -7787,7 +8038,107 @@ export interface operations {
             };
         };
     };
-    getById_28: {
+    getById_26: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product combo ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product combo found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductComboDto"];
+                };
+            };
+            /** @description Product combo not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    update_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product combo ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Product combo data to update */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductComboDto"];
+            };
+        };
+        responses: {
+            /** @description Product combo updated */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductComboDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product combo not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    delete_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Product combo ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Product combo deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Product combo not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -7893,7 +8244,7 @@ export interface operations {
             };
         };
     };
-    getById_29: {
+    getById_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -9212,65 +9563,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of unit measurements */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_12: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Unit measurement to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateUnitMeasurementDto"];
-            };
-        };
-        responses: {
-            /** @description Unit measurement created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UnitMeasurementDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_9: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
             /** @description List of type products */
             200: {
                 headers: {
@@ -9282,7 +9574,7 @@ export interface operations {
             };
         };
     };
-    create_13: {
+    create_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -9341,7 +9633,7 @@ export interface operations {
             };
         };
     };
-    create_14: {
+    create_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -9365,7 +9657,7 @@ export interface operations {
             };
         };
     };
-    getAll_10: {
+    getAll_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -9385,7 +9677,7 @@ export interface operations {
             };
         };
     };
-    create_15: {
+    create_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -9424,7 +9716,7 @@ export interface operations {
             };
         };
     };
-    getAll_11: {
+    getAll_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -9444,7 +9736,7 @@ export interface operations {
             };
         };
     };
-    create_16: {
+    create_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -9505,7 +9797,7 @@ export interface operations {
             };
         };
     };
-    create_17: {
+    create_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -9553,7 +9845,7 @@ export interface operations {
             };
         };
     };
-    getAll_12: {
+    getAll_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -9573,7 +9865,7 @@ export interface operations {
             };
         };
     };
-    create_18: {
+    create_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -9609,240 +9901,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    getAll_13: {
-        parameters: {
-            query?: {
-                page?: number;
-                size?: number;
-                sort?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of products */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Product to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProductDto"];
-            };
-        };
-        responses: {
-            /** @description Product created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    search: {
-        parameters: {
-            query?: {
-                page?: number;
-                size?: number;
-                sort?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Product filter */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["ProductFilter"];
-            };
-        };
-        responses: {
-            /** @description List of products */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    getAll_14: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of product combos */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_20: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Product combo to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProductComboDto"];
-            };
-        };
-        responses: {
-            /** @description Product combo created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductComboDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_15: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of product children */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_21: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Product child to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProductChildDto"];
-            };
-        };
-        responses: {
-            /** @description Product child created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ProductChildDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    bulkDelete_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkIdsRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BulkOperationResult"];
-                };
             };
         };
     };
@@ -9918,7 +9976,7 @@ export interface operations {
             };
         };
     };
-    getAll_16: {
+    getAll_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -9938,7 +9996,7 @@ export interface operations {
             };
         };
     };
-    create_22: {
+    create_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -9959,6 +10017,207 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DispatchProductDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    bulkDelete_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    getAll_13: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of return methods */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Return method to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReturnMethodDto"];
+            };
+        };
+        responses: {
+            /** @description Return method created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReturnMethodDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAll_14: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of refund methods */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_20: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Refund method to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRefundMethodDto"];
+            };
+        };
+        responses: {
+            /** @description Refund method created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RefundMethodDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAll_15: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of order devolutions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_21: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Order devolution to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrderDevolutionDto"];
+            };
+        };
+        responses: {
+            /** @description Order devolution created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDevolutionDto"];
                 };
             };
             /** @description Invalid input */
@@ -10001,6 +10260,65 @@ export interface operations {
             };
         };
     };
+    getAll_16: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of order devolution evidences */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_22: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Order devolution evidence to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateEvidenceDto"];
+            };
+        };
+        responses: {
+            /** @description Order devolution evidence created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EvidenceDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getAll_17: {
         parameters: {
             query?: never;
@@ -10010,7 +10328,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of return methods */
+            /** @description List of order devolution details */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -10028,20 +10346,20 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        /** @description Return method to create */
+        /** @description Order devolution detail to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateReturnMethodDto"];
+                "application/json": components["schemas"]["CreateOrderDevolutionDetailDto"];
             };
         };
         responses: {
-            /** @description Return method created */
+            /** @description Order devolution detail created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["ReturnMethodDto"];
+                    "application/json": components["schemas"]["OrderDevolutionDetailDto"];
                 };
             };
             /** @description Invalid input */
@@ -10069,7 +10387,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of refund methods */
+            /** @description List of motive devolutions */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -10087,20 +10405,20 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        /** @description Refund method to create */
+        /** @description Motive devolution to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateRefundMethodDto"];
+                "application/json": components["schemas"]["CreateMotiveDevolutionDto"];
             };
         };
         responses: {
-            /** @description Refund method created */
+            /** @description Motive devolution created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["RefundMethodDto"];
+                    "application/json": components["schemas"]["MotiveDevolutionDto"];
                 };
             };
             /** @description Invalid input */
@@ -10128,13 +10446,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of order devolutions */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["PageDto"][];
                 };
             };
         };
@@ -10146,20 +10464,66 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        /** @description Order devolution to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateOrderDevolutionDto"];
+                "application/json": components["schemas"]["CreatePageDto"];
             };
         };
         responses: {
-            /** @description Order devolution created */
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageDto"];
+                };
+            };
+        };
+    };
+    getAll_20: {
+        parameters: {
+            query?: {
+                product_id?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of product children */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_26: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Product child to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProductChildDto"];
+            };
+        };
+        responses: {
+            /** @description Product child created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OrderDevolutionDto"];
+                    "application/json": components["schemas"]["ProductChildDto"];
                 };
             };
             /** @description Invalid input */
@@ -10202,81 +10566,25 @@ export interface operations {
             };
         };
     };
-    getAll_20: {
+    list_3: {
         parameters: {
-            query?: never;
+            query?: {
+                dimension?: string;
+                include_inactive?: boolean;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description List of order devolution evidences */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_26: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Order devolution evidence to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateEvidenceDto"];
-            };
-        };
-        responses: {
-            /** @description Order devolution evidence created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["EvidenceDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_21: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of order devolution details */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["UnitDto"][];
                 };
             };
         };
@@ -10288,127 +10596,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        /** @description Order devolution detail to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateOrderDevolutionDetailDto"];
-            };
-        };
-        responses: {
-            /** @description Order devolution detail created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OrderDevolutionDetailDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_22: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of motive devolutions */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_28: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Motive devolution to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateMotiveDevolutionDto"];
-            };
-        };
-        responses: {
-            /** @description Motive devolution created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["MotiveDevolutionDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_23: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PageDto"][];
-                };
-            };
-        };
-    };
-    create_29: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreatePageDto"];
+                "application/json": components["schemas"]["SaveUnitDto"];
             };
         };
         responses: {
@@ -10418,12 +10608,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageDto"];
+                    "*/*": components["schemas"]["UnitDto"];
                 };
             };
         };
     };
-    getAll_24: {
+    getAll_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -10443,7 +10633,7 @@ export interface operations {
             };
         };
     };
-    create_30: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -10505,6 +10695,98 @@ export interface operations {
             };
         };
     };
+    getAll_22: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of products */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_29: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Product to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProductDto"];
+            };
+        };
+        responses: {
+            /** @description Product created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    search: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Product filter */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProductFilter"];
+            };
+        };
+        responses: {
+            /** @description List of products */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     findAll_3: {
         parameters: {
             query?: never;
@@ -10525,7 +10807,7 @@ export interface operations {
             };
         };
     };
-    create_31: {
+    create_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -10549,7 +10831,68 @@ export interface operations {
             };
         };
     };
-    getAll_25: {
+    getAll_23: {
+        parameters: {
+            query?: {
+                combo_id?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of product combos */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_31: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Product combo to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProductComboDto"];
+            };
+        };
+        responses: {
+            /** @description Product combo created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProductComboDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAll_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -10631,7 +10974,7 @@ export interface operations {
             };
         };
     };
-    getAll_26: {
+    getAll_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -10948,7 +11291,79 @@ export interface operations {
             };
         };
     };
-    find: {
+    suppliers: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LookupOption"][];
+                };
+            };
+        };
+    };
+    reservations_1: {
+        parameters: {
+            query?: {
+                order_id?: number;
+                sku_id?: number;
+                product_id?: number;
+                status?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StockReservationDto"][];
+                };
+            };
+        };
+    };
+    list_4: {
+        parameters: {
+            query: {
+                pageable: components["schemas"]["Pageable"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageInventoryMovementDto"];
+                };
+            };
+        };
+    };
+    levels: {
         parameters: {
             query?: {
                 sku_id?: number;
@@ -10968,28 +11383,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["StockItemDto"][];
-                };
-            };
-        };
-    };
-    list_3: {
-        parameters: {
-            query: {
-                pageable: components["schemas"]["Pageable"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["PageInventoryMovementDto"];
                 };
             };
         };
@@ -11087,6 +11480,55 @@ export interface operations {
             };
         };
     };
+    lookup: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+                dimensions?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UnitDto"][];
+                };
+            };
+        };
+    };
+    convert: {
+        parameters: {
+            query: {
+                value: number;
+                from: string;
+                to: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UnitConversionDto"];
+                };
+            };
+        };
+    };
     search_4: {
         parameters: {
             query?: {
@@ -11111,6 +11553,135 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseSubcategoryDto"];
+                };
+            };
+        };
+    };
+    subcategories: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+                category_id?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LookupOption"][];
+                };
+            };
+        };
+    };
+    skus: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+                product_id?: number;
+                /** @description Solo SKUs activos de productos publicados */
+                sellable_only?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SkuLookupDto"][];
+                };
+            };
+        };
+    };
+    skus_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SKUs */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductSkuDto"][];
+                };
+            };
+            /** @description Product not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    productStats: {
+        parameters: {
+            query?: {
+                low_stock_threshold?: number;
+                low_stock_limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductStatsDto"];
+                };
+            };
+        };
+    };
+    products: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+                statuses?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ProductLookupDto"][];
                 };
             };
         };
@@ -11141,6 +11712,30 @@ export interface operations {
             };
         };
     };
+    categories: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LookupOption"][];
+                };
+            };
+        };
+    };
     search_6: {
         parameters: {
             query?: {
@@ -11163,6 +11758,30 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseBrandDto"];
+                };
+            };
+        };
+    };
+    brands: {
+        parameters: {
+            query?: {
+                q?: string;
+                ids?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["LookupOption"][];
                 };
             };
         };

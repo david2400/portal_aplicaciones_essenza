@@ -30,7 +30,8 @@ interface IProductAttributesEditorProps {
   productId: number;
   templates: IProductTemplateDefinition[];
   attributes: IAttributeDefinition[];
-  handleClose: () => void;
+  /** En un modal: se cierra al guardar completa. En el editor por pestañas se omite. */
+  handleClose?: () => void;
 }
 
 type SheetItem = { definition: IAttributeDefinition; required: boolean };
@@ -183,7 +184,7 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
       hydrate(result.data);
       notify.success(tCommon("updatedSuccess"));
       router.refresh();
-      if ((result.data.missing ?? []).length === 0) handleClose();
+      if ((result.data.missing ?? []).length === 0) handleClose?.();
     } else if (!result.success) {
       notify.error(tCommon("errorTitle"), result.error || tCommon("unexpectedError"));
     }
@@ -357,9 +358,11 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
       ) : null}
 
       <div className='flex justify-end gap-2'>
-        <Buttons type='button' variant='outline' className='rounded-full' onClick={handleClose}>
-          {tCommon("cancel")}
-        </Buttons>
+        {handleClose ? (
+          <Buttons type='button' variant='outline' className='rounded-full' onClick={handleClose}>
+            {tCommon("cancel")}
+          </Buttons>
+        ) : null}
         <Buttons type='button' loading={saving} className='rounded-full' onClick={save}>
           {tCommon("save")}
         </Buttons>

@@ -68,8 +68,6 @@ const NAV_ITEMS: NavItem[] = [
     icon: <BiCategory className='h-4 w-4' />,
     options: [
       { label: "Productos", href: "/catalogo/products" },
-      { label: "Variantes", href: "/catalogo/variants" },
-      { label: "Combos", href: "/catalogo/combo" },
       { label: "Marcas", href: "/catalogo/brand" },
       { label: "Categorías", href: "/catalogo/category" },
       { label: "Subcategorías", href: "/catalogo/subcategory" },

@@ -8,7 +8,8 @@ export const validationProduct = () => {
   const intl = useTranslations("Form");
   const t = useTranslations("Administre.product");
 
-  return z.object({
+  return z
+    .object({
     name: z.string().trim().min(1, { message: intl("requiredField") }),
     supplier_id: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive({ message: intl("requiredField") }),
     brand_id: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive({ message: intl("requiredField") }),
@@ -31,5 +32,19 @@ export const validationProduct = () => {
       .optional(),
     is_combo: z.union([z.boolean(), z.enum(["true", "false"])]).transform((value) => value === true || value === "true"),
     description: z.string().trim().min(1, { message: intl("requiredField") }),
-  });
+    net_content: z.preprocess(
+      (value) => (value === "" || value == null ? undefined : value),
+      z.coerce.number().positive({ message: t("netContentPositive") }).optional(),
+    ),
+    net_content_unit_id: z.union([z.string(), z.number()]).optional(),
+  })
+    .superRefine((values, ctx) => {
+      const hasUnit = values.net_content_unit_id != null && values.net_content_unit_id !== "" && values.net_content_unit_id !== "none";
+      if (values.net_content != null && !hasUnit) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["net_content_unit_id"], message: t("netContentUnitRequired") });
+      }
+      if (values.net_content == null && hasUnit) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["net_content"], message: t("netContentValueRequired") });
+      }
+    });
 };

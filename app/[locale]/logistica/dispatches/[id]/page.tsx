@@ -11,7 +11,7 @@ import {
 import { list_carriers } from "@/server/domains/shipping_logistics/product_distribution/carriers/queries";
 import { list_orders } from "@/server/domains/sales/orders/queries";
 import { list_product_orders } from "@/server/domains/sales/product-orders/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
+import { lookup_products } from "@/server/domains/lookups/queries";
 import { ServerApiError } from "@/server/lib/types";
 import { DispatchDetail } from "@/modules/logistica/dispatch";
 
@@ -21,6 +21,20 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { locale, id } = await params;
   const t = await getTranslations({ locale, namespace: "Administre.dispatch" });
   return { title: t("dispatchLabel", { guide: `#${id}` }) };
+}
+
+/**
+ * Nombre de cada línea: el snapshot de la línea (F5) o, en líneas antiguas sin él,
+ * el producto resuelto por id (solo esos ids, no el catálogo entero).
+ */
+async function line_names(items: Array<{ product_id?: number; product_name?: string }>) {
+  const missing = [
+    ...new Set(items.filter((item) => !item.product_name && item.product_id != null).map((item) => item.product_id as number)),
+  ];
+  const found = missing.length > 0 ? await lookup_products({ ids: missing }) : [];
+  const names = new Map(found.map((product) => [product.id, product.name]));
+  return (item: { product_id?: number; product_name?: string }) =>
+    item.product_name ?? names.get(item.product_id) ?? `#${item.product_id}`;
 }
 
 const DispatchDetailPage = async ({ params }: { params: Params }) => {
@@ -33,27 +47,26 @@ const DispatchDetailPage = async ({ params }: { params: Params }) => {
     throw error;
   });
 
-  const [lines, trackings, carriers, orders, productOrders, products] = await Promise.all([
+  const [lines, trackings, carriers, orders, productOrders] = await Promise.all([
     list_dispatch_details(),
     list_trackings(),
     list_carriers(),
     list_orders(),
     list_product_orders(),
-    list_products({ size: 500 }),
   ]);
 
-  const productNames = new Map(products.map((product) => [product.id, product.name]));
+  const orderItems = productOrders.filter((item) => item.order_id === dispatch.order_id);
+  const nameOf = await line_names(orderItems);
 
   return (
     <DispatchDetail
       dispatch={dispatch}
       lines={lines.filter((line) => line.dispatch_product_id === dispatchId)}
       trackings={trackings.filter((tracking) => tracking.dispatch_product_id === dispatchId)}
-      orderLines={productOrders
-        .filter((item) => item.order_id === dispatch.order_id)
+      orderLines={orderItems
         .map((item) => ({
           id: item.id,
-          product_name: productNames.get(item.product_id) ?? `#${item.product_id}`,
+          product_name: nameOf(item),
           quantity: item.quantity ?? 0,
         }))}
       carriers={carriers

@@ -20,8 +20,9 @@ export const validationInventoryMovement = () => {
   return z
     .object({
       type: z.enum(MOVEMENT_TYPES, { errorMap: () => required }),
+      // El SKU (producto simple o variante) se elige en el buscador; el producto sale del SKU.
+      sku_id: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive(required),
       product_id: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().positive(required),
-      sku_id: optionalId,
       from_warehouse_id: optionalId,
       to_warehouse_id: optionalId,
       quantity: z.coerce.number({ invalid_type_error: intl("requiredField") }).int().min(1, required),

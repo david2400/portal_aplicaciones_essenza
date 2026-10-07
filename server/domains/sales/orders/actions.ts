@@ -7,7 +7,7 @@ import { orders_resource } from './search';
 import type { OrderDto } from './types';
 import type { BulkResult, GridQuery } from '@/shared/models/pagination';
 import type { CreateOrderPayload, UpdateOrderPayload, DeleteOrderPayload, ChangeOrderStatusDto } from './types';
-import { inventory_movements_tags, orders_tags, product_orders_tags, products_tags } from '@/server/lib/cache-tags';
+import { inventory_movements_tags, orders_tags, product_orders_tags, products_tags, stock_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -73,6 +73,7 @@ export async function change_order_status_action(id: number, payload: ChangeOrde
     revalidateTag(product_orders_tags.list());
     revalidateTag(inventory_movements_tags.list());
     revalidateTag(products_tags.list());
+    revalidateTag(stock_tags.all());
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);

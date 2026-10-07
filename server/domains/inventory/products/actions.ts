@@ -11,6 +11,8 @@ import type {
   UpdateProductPayload,
   DeleteProductPayload,
   ProductSearchParams,
+  ProductImageDto,
+  ReplaceProductImagesPayload,
 } from './types';
 import { products_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
@@ -57,6 +59,18 @@ export async function update_product_action(
     const result = await products_repository.update_product(payload);
     revalidate_product_tags(result.id ?? payload.id);
     return { success: true, data: undefined };
+  } catch (error) {
+    return handle_error(error);
+  }
+}
+
+export async function replace_product_images_action(
+  payload: ReplaceProductImagesPayload,
+): Promise<ActionResult<ProductImageDto[]>> {
+  try {
+    const images = await products_repository.replace_product_images(payload);
+    revalidate_product_tags(payload.id);
+    return { success: true, data: images };
   } catch (error) {
     return handle_error(error);
   }

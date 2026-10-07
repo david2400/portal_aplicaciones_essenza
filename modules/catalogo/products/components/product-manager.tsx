@@ -2,10 +2,9 @@
 
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Modal } from "@repo/ui/modals/scenes/dialog/modal";
 import { Buttons } from "@repo/ui/buttons/scenes";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import {
@@ -34,9 +33,7 @@ import { PageHeader } from "@/components/page-header";
 import { StatCards } from "@/components/stat-cards";
 import { confirm, notify } from "@/components/notifications";
 import type { BulkResult, PageResult } from "@/shared/models/pagination";
-import { RegisterProduct, UpdateProduct } from "./form";
-import { ProductAttributesEditor } from "./product-attributes-editor";
-import type { IAttributeDefinition, IProductTemplateDefinition } from "../models/product-attributes.interface";
+import { Link } from "@/shared/i18n/routing";
 import type { IProduct } from "../models/product.interface";
 import { LOW_STOCK_THRESHOLD, type ProductStats } from "../stats";
 import {
@@ -69,9 +66,6 @@ interface IProductManagerProps {
   brands: NamedItem[];
   categories: NamedItem[];
   subcategories: Array<NamedItem & { category_id?: number }>;
-  suppliers: NamedItem[];
-  templates: IProductTemplateDefinition[];
-  attributes: IAttributeDefinition[];
 }
 
 export const ProductManager = ({
@@ -80,9 +74,6 @@ export const ProductManager = ({
   brands,
   categories,
   subcategories,
-  suppliers,
-  templates,
-  attributes,
 }: IProductManagerProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -90,24 +81,19 @@ export const ProductManager = ({
   const tp = useTranslations("Administre.productGrid");
   const tCommon = useTranslations("Administre.common");
 
-  const [modal, setModal] = useState<{ open: boolean; item: IProduct | null }>({ open: false, item: null });
-  const closeModal = () => setModal({ open: false, item: null });
-  const [specs, setSpecs] = useState<IProduct | null>(null);
   const tSpecs = useTranslations("Administre.productAttributes");
+  /** Editor por pestañas (Fase 6). */
+  const editorHref = (row: IProduct, tab?: string) => `/catalogo/products/${row.id}${tab ? `?tab=${tab}` : ""}`;
 
   const lookups = useMemo(
     () => ({ brands: toLookup(brands), categories: toLookup(categories), subcategories: toLookup(subcategories) }),
     [brands, categories, subcategories],
   );
 
+  // Opciones de los filtros de la tabla (el formulario usa buscadores asíncronos).
   const formOptions = useMemo(
-    () => ({
-      brands: toOptions(brands),
-      categories: toOptions(categories),
-      subcategories: toOptions(subcategories),
-      suppliers: toOptions(suppliers),
-    }),
-    [brands, categories, subcategories, suppliers],
+    () => ({ brands: toOptions(brands), categories: toOptions(categories) }),
+    [brands, categories],
   );
 
   const label = (row: IProduct) => row.name ?? `#${row.id}`;
@@ -170,8 +156,8 @@ export const ProductManager = ({
   ];
 
   const rowActions = (row: IProduct): RowAction[] => [
-    { label: tCommon("edit"), icon: HiOutlinePencilSquare, onSelect: () => setModal({ open: true, item: row }) },
-    { label: tSpecs("action"), icon: HiOutlineClipboardDocumentList, onSelect: () => setSpecs(row) },
+    { label: tCommon("edit"), icon: HiOutlinePencilSquare, onSelect: () => router.push(editorHref(row)) },
+    { label: tSpecs("action"), icon: HiOutlineClipboardDocumentList, onSelect: () => router.push(editorHref(row, "specs")) },
     {
       label: row.available ? tp("markUnavailable") : tp("markAvailable"),
       icon: row.available ? HiOutlineEyeSlash : HiOutlineEye,
@@ -202,12 +188,11 @@ export const ProductManager = ({
               </span>
             )}
             <div className='min-w-0'>
-              <button
-                type='button'
-                onClick={() => setModal({ open: true, item: row.original })}
-                className='truncate text-left font-semibold text-foreground underline-offset-4 hover:underline'>
+              <Link
+                href={editorHref(row.original)}
+                className='block truncate text-left font-semibold text-foreground underline-offset-4 hover:underline'>
                 {row.original.name}
-              </button>
+              </Link>
               <p className='text-xs text-muted-foreground'>
                 #{row.original.id}
                 {row.original.slug ? ` · /${row.original.slug}` : ""}
@@ -355,7 +340,7 @@ export const ProductManager = ({
   );
 
   const createButton = (
-    <Buttons onClick={() => setModal({ open: true, item: null })} className='rounded-full'>
+    <Buttons onClick={() => router.push("/catalogo/products/new")} className='rounded-full'>
       <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
       {t("create")}
     </Buttons>
@@ -416,36 +401,6 @@ export const ProductManager = ({
       />
       </div>
 
-      <Modal
-        size='xl'
-        title={modal.item ? t("editTitle") : t("createTitle")}
-        open={modal.open}
-        onOpenChange={(open) => !open && closeModal()}
-        hideDefaultFooter={true}>
-        {modal.open ? (
-          modal.item ? (
-            <UpdateProduct initialValues={modal.item} handleClose={closeModal} options={formOptions} />
-          ) : (
-            <RegisterProduct handleClose={closeModal} options={formOptions} />
-          )
-        ) : null}
-      </Modal>
-
-      <Modal
-        size='xl'
-        title={specs ? tSpecs("title", { name: specs.name ?? `#${specs.id}` }) : ""}
-        open={specs != null}
-        onOpenChange={(open) => !open && setSpecs(null)}
-        hideDefaultFooter={true}>
-        {specs?.id != null ? (
-          <ProductAttributesEditor
-            productId={specs.id}
-            templates={templates}
-            attributes={attributes}
-            handleClose={() => setSpecs(null)}
-          />
-        ) : null}
-      </Modal>
     </section>
   );
 };

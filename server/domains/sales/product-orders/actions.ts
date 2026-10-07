@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache';
 
 import { product_orders_repository } from './repository';
 import type { CreateProductOrderPayload, UpdateProductOrderPayload, DeleteProductOrderPayload } from './types';
-import { orders_tags, product_orders_tags } from '@/server/lib/cache-tags';
+import { orders_tags, product_orders_tags, stock_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -28,6 +28,7 @@ function revalidate_product_orders(id?: number, order_id?: number) {
     revalidateTag(product_orders_tags.item(id));
   }
   revalidateTag(orders_tags.list());
+  revalidateTag(stock_tags.all());
   if (order_id != null) {
     revalidateTag(orders_tags.item(order_id));
   }

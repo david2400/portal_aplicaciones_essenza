@@ -1,6 +1,6 @@
 /** @format */
 
-import type { IProduct } from "./models/product.interface";
+import type { ProductStatsDto } from "@/server/domains/inventory/products/types";
 
 /** Umbral de "stock bajo" para alertas visuales. */
 export const LOW_STOCK_THRESHOLD = 5;
@@ -14,11 +14,11 @@ export interface ProductStats {
   inventoryValue: number;
 }
 
-/** KPIs del catálogo (se calculan en el servidor sobre la lista completa). */
-export const buildProductStats = (items: IProduct[]): ProductStats => ({
-  total: items.length,
-  available: items.filter((item) => item.available).length,
-  outOfStock: items.filter((item) => (item.stock ?? 0) <= 0).length,
-  lowStock: items.filter((item) => (item.stock ?? 0) > 0 && (item.stock ?? 0) <= LOW_STOCK_THRESHOLD).length,
-  inventoryValue: items.reduce((acc, item) => acc + (item.stock ?? 0) * (item.real_price ?? 0), 0),
+/** KPIs del catálogo, calculados por el backend (`GET /catalog/products/stats`). */
+export const toProductStats = (stats: ProductStatsDto): ProductStats => ({
+  total: stats.total ?? 0,
+  available: stats.active ?? 0,
+  outOfStock: stats.out_of_stock ?? 0,
+  lowStock: stats.low_stock ?? 0,
+  inventoryValue: stats.inventory_value ?? 0,
 });

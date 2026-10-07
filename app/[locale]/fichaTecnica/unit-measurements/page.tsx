@@ -2,7 +2,7 @@
 
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { list_unit_measurements } from "@/server/domains/product_details/unit-measurements/queries";
+import { list_units } from "@/server/domains/product_details/unit-measurements/queries";
 import { UnitMeasurementManager } from "@/modules/fichaTecnica/unitMeasurement";
 
 export async function generateMetadata({
@@ -21,7 +21,8 @@ export async function generateMetadata({
 }
 
 const UnitMeasurementPage = async () => {
-  const initialData = await list_unit_measurements();
+  // Incluye las inactivas: la pantalla permite reactivarlas.
+  const initialData = await list_units({ include_inactive: true });
 
   return <UnitMeasurementManager initialData={initialData} />;
 };

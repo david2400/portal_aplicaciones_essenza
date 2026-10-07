@@ -5,14 +5,11 @@ import { getTranslations } from "next-intl/server";
 import { list_brands } from "@/server/domains/catalog/brands/queries";
 import { list_categories } from "@/server/domains/catalog/categories/queries";
 import { list_subcategories } from "@/server/domains/catalog/subcategories/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
+import { get_product_stats } from "@/server/domains/inventory/products/queries";
 import { search_products } from "@/server/domains/inventory/products/search";
-import { list_suppliers } from "@/server/domains/inventory/suppliers/queries";
-import { list_attributes } from "@/server/domains/catalog/attributes/queries";
-import { list_product_templates } from "@/server/domains/catalog/product-templates/queries";
 import { parse_grid_query } from "@/server/lib/pagination";
 import { ProductManager } from "@/modules/catalogo/products";
-import { buildProductStats } from "@/modules/catalogo/products/stats";
+import { LOW_STOCK_THRESHOLD, toProductStats } from "@/modules/catalogo/products/stats";
 import { PRODUCT_GRID } from "./grid";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -36,27 +33,23 @@ const named = (items: Array<{ id?: number; name?: string }>) => items.map(({ id,
 
 const ProductPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const query = parse_grid_query(await searchParams, PRODUCT_GRID);
-  const [page, all, brands, categories, subcategories, suppliers, templates, attributes] = await Promise.all([
+  // Marcas/categorías/subcategorías alimentan los filtros y nombres de la tabla; el
+  // formulario de alta y el editor usan buscadores asíncronos.
+  const [page, stats, brands, categories, subcategories] = await Promise.all([
     search_products(query),
-    list_products({ size: 500 }),
+    get_product_stats({ low_stock_threshold: LOW_STOCK_THRESHOLD, low_stock_limit: 0 }),
     list_brands(),
     list_categories(),
     list_subcategories(),
-    list_suppliers(),
-    list_product_templates(),
-    list_attributes(),
   ]);
 
   return (
     <ProductManager
       page={page}
-      stats={buildProductStats(all)}
+      stats={toProductStats(stats)}
       brands={named(brands)}
       categories={named(categories)}
       subcategories={subcategories.map(({ id, name, category_id }) => ({ id, name, category_id }))}
-      suppliers={named(suppliers)}
-      templates={templates}
-      attributes={attributes}
     />
   );
 };

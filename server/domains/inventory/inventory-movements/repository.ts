@@ -5,10 +5,10 @@ import { to_list } from '@/server/lib/list-response';
 import { inventory_movements_tags } from '@/server/lib/cache-tags';
 import type { InventoryMovementDto } from './types';
 
-const inventory_movements_transfer_path = '/api/shop/inventory/inventory_movements/transfer';
-const inventory_movements_exit_path = '/api/shop/inventory/inventory_movements/exit';
-const inventory_movements_entry_path = '/api/shop/inventory/inventory_movements/entry';
-const inventory_movements_base_path = '/api/shop/inventory/inventory_movements';
+const inventory_movements_transfer_path = '/api/shop/inventory/stock/movements/transfer';
+const inventory_movements_exit_path = '/api/shop/inventory/stock/movements/exit';
+const inventory_movements_entry_path = '/api/shop/inventory/stock/movements/entry';
+const inventory_movements_base_path = '/api/shop/inventory/stock/movements';
 
 export const inventory_movements_repository = {
   async list_inventory_movements(params?: { page?: number; size?: number }): Promise<InventoryMovementDto[]> {

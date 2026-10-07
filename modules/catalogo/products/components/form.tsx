@@ -5,11 +5,8 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
-import type {
-  IFormAddProps,
-  IFormUpdateProps,
-} from "@repo/ui/form/models/form.interface";
-import { FormProduct, type ProductFormOptions } from "../scenes/formProduct";
+import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
+import { FormProduct } from "../scenes/formProduct";
 import { validationProduct } from "../schemas/product.schema";
 import type {
   IProduct,
@@ -17,6 +14,7 @@ import type {
   IProductUpdateRequest,
 } from "../models/product.interface";
 import { statusOf } from "../models/product.interface";
+import type { IUnit } from "@/shared/units/units";
 import {
   createProductServerAction,
   updateProductServerAction,
@@ -26,11 +24,21 @@ import {
  * El estado editorial manda; `available` se envía derivado para clientes y
  * pantallas que aún lo leen. Slug vacío => lo genera el backend.
  */
-const toPayload = <T extends { status?: string; slug?: string }>(values: T) => ({
-  ...values,
-  available: values.status === "ACTIVE",
-  slug: values.slug ? values.slug : undefined,
-});
+const toPayload = <T extends { status?: string; slug?: string; net_content?: unknown; net_content_unit_id?: unknown }>(
+  values: T,
+) => {
+  const unit = values.net_content_unit_id;
+  const hasUnit = unit != null && unit !== "" && unit !== "none";
+  const hasValue = values.net_content != null && values.net_content !== "";
+  return {
+    ...values,
+    available: values.status === "ACTIVE",
+    slug: values.slug ? values.slug : undefined,
+    // Contenido neto: valor y unidad juntos; vacío = sin contenido (lo quita al editar).
+    net_content: hasUnit && hasValue ? Number(values.net_content) : undefined,
+    net_content_unit_id: hasUnit && hasValue ? Number(unit) : undefined,
+  };
+};
 
 /** Valores iniciales del formulario de creación. */
 const EMPTY_VALUES = {
@@ -47,10 +55,12 @@ const EMPTY_VALUES = {
   height: 0,
   weight: 0,
   image_url: "",
-  status: "ACTIVE",
+  status: "DRAFT",
   slug: "",
   is_combo: "false",
   description: "",
+  net_content: "",
+  net_content_unit_id: "none",
 };
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
@@ -72,35 +82,29 @@ const toFormValues = (values: IProduct) => ({
   slug: values.slug ?? "",
   is_combo: String(Boolean(values.is_combo)),
   description: values.description ?? "",
+  net_content: values.net_content ?? "",
+  net_content_unit_id: values.net_content_unit_id != null ? String(values.net_content_unit_id) : "none",
 });
-
-const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
-  const router = useRouter();
-  const t = useTranslations("Administre.common");
-
-  return {
-    success: (title: string, name?: string) => {
-      notify.success(title, name);
-      handleClose?.(true);
-      router.refresh();
-    },
-    failure: (message?: string) => notify.error(t("errorTitle"), message || t("unexpectedError")),
-  };
-};
 
 export const RegisterProduct = ({
   handleClose,
-  options,
-}: IFormAddProps & { options?: ProductFormOptions }) => {
+  onCreated,
+  units,
+}: IFormAddProps & { onCreated?: (id: number) => void; units?: IUnit[] }) => {
   const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
+  const tEditor = useTranslations("Administre.productEditor");
+  const router = useRouter();
 
   const handleSubmit = async (values: IProductCreateRequest) => {
     const result = await createProductServerAction(toPayload(values));
     if (result.success) {
-      feedback.success(t("createdSuccess"), values.name);
+      notify.success(t("createdSuccess"), values.name);
+      handleClose?.(true);
+      // Tras crear, se continúa en el editor (variantes, ficha técnica, imágenes…).
+      if (result.data?.id != null) onCreated?.(result.data.id);
+      else router.refresh();
     } else {
-      feedback.failure(result.error);
+      notify.error(t("errorTitle"), result.error || t("unexpectedError"));
     }
   };
 
@@ -109,40 +113,42 @@ export const RegisterProduct = ({
       initialValues={EMPTY_VALUES}
       onSubmit={handleSubmit}
       validationSchema={validationProduct()}
-      options={options}
+      submitLabel={tEditor("createAndContinue")}
+      units={units}
+      cancelHref='/catalogo/products'
     />
   );
 };
 
-export const UpdateProduct = ({
-  initialValues,
-  handleClose,
-  options,
-}: IFormUpdateProps<IProduct> & { options?: ProductFormOptions }) => {
+/** Pestaña "General" del editor: guarda y refresca la página (sin modal). */
+export const UpdateProduct = ({ product, units }: { product: IProduct; units?: IUnit[] }) => {
   const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
+  const router = useRouter();
   const validationSchema = validationProduct();
-  const id = initialValues?.id;
+  const id = product.id;
 
-  if (id == null || !initialValues) {
+  if (id == null) {
     return null;
   }
 
   const handleSubmit = async (values: Omit<IProductUpdateRequest, "id">) => {
     const result = await updateProductServerAction({ ...toPayload(values), id } as IProductUpdateRequest);
     if (result.success) {
-      feedback.success(t("updatedSuccess"), values.name);
+      notify.success(t("updatedSuccess"), values.name);
+      router.refresh();
     } else {
-      feedback.failure(result.error);
+      notify.error(t("errorTitle"), result.error || t("unexpectedError"));
     }
   };
 
   return (
     <FormProduct
-      initialValues={toFormValues(initialValues)}
+      initialValues={toFormValues(product)}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
-      options={options}
+      cancelHref='/catalogo/products'
+      stockLocked={product.product_type === "VARIANT"}
+      units={units}
     />
   );
 };

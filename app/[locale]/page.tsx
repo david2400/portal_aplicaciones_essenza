@@ -11,7 +11,7 @@ import {
   get_sales_funnel,
 } from "@/server/domains/analytics/sales-analytics/queries";
 import { list_orders } from "@/server/domains/sales/orders/queries";
-import { list_products } from "@/server/domains/inventory/products/queries";
+import { get_product_stats } from "@/server/domains/inventory/products/queries";
 
 const LOW_STOCK_THRESHOLD = 5;
 
@@ -51,11 +51,11 @@ export default async function DashboardPage({
     get_sales_trends({ ...query, period: rangeDays > 30 ? "WEEKLY" : "DAILY" }),
     get_sales_funnel(query),
     list_orders(),
-    list_products({ size: 500 }),
+    get_product_stats({ low_stock_threshold: LOW_STOCK_THRESHOLD, low_stock_limit: 8 }),
   ]);
 
   const orderList = settled(orders);
-  const productList = settled(products);
+  const productStats = settled(products);
 
   const data: IDashboardData = {
     rangeDays,
@@ -64,13 +64,8 @@ export default async function DashboardPage({
     trends: settled(trends),
     funnel: settled(funnel),
     pendingOrders: orderList ? orderList.filter((order) => order.state === "PENDING").length : null,
-    lowStock: productList
-      ? productList
-          .filter((product) => (product.stock ?? 0) <= LOW_STOCK_THRESHOLD)
-          .sort((a, b) => (a.stock ?? 0) - (b.stock ?? 0))
-          .slice(0, 8)
-          .map(({ id, name, stock }) => ({ id, name, stock }))
-      : null,
+    // El backend devuelve ya ordenados los productos con menos stock (≤ umbral).
+    lowStock: productStats ? (productStats.low_stock_items ?? []).map(({ id, name, stock }) => ({ id, name, stock })) : null,
   };
 
   return <Dashboard data={data} />;

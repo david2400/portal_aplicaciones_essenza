@@ -16,18 +16,17 @@ import type { GridColumn, GridFilter } from "@/components/data-grid";
 import { BreakdownList } from "@/components/breakdown-list";
 import { RecommendationForm } from "./form";
 import { RECOMMENDATION_CONTEXTS, RECOMMENDATION_TYPES, formatMoney, formatPercent } from "../constants";
-import type { IRecommendation, IRecommendationProduct } from "../models/recommendation.interface";
+import type { IRecommendation } from "../models/recommendation.interface";
 import { deleteRecommendationServerAction } from "@/app/[locale]/contenido/recommendations/actions";
 
 interface IRecommendationManagerProps {
   initialData: IRecommendation[];
-  products: IRecommendationProduct[];
 }
 
 const rate = (part: number, total: number) => (total > 0 ? part / total : 0);
 
 /** Recomendaciones: embudo (clic → compra), desglose por tipo y contexto, filtros y lote. */
-export const RecommendationManager = ({ initialData, products }: IRecommendationManagerProps) => {
+export const RecommendationManager = ({ initialData }: IRecommendationManagerProps) => {
   const t = useTranslations("Administre.recommendation");
   const tTypes = useTranslations("Administre.recommendation.types");
   const tContexts = useTranslations("Administre.recommendation.contexts");
@@ -211,7 +210,7 @@ export const RecommendationManager = ({ initialData, products }: IRecommendation
       rowLabel={(row) => productLabel(row)}
       searchPlaceholder={t("searchPlaceholder")}
       searchText={(row) => `${productLabel(row)} ${row.customer_id ?? ""}`}
-      renderForm={(item, close) => <RecommendationForm item={item} products={products} handleClose={close} />}
+      renderForm={(item, close) => <RecommendationForm item={item} handleClose={close} />}
       onDelete={(id) => deleteRecommendationServerAction(id)}>
       <div className='grid gap-4 lg:grid-cols-2'>
         <BreakdownList title={t("byType")} items={byType} emptyLabel={t("emptyBreakdown")} />

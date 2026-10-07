@@ -12,20 +12,16 @@ import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
 import type { ISelectOption } from "@repo/ui/form/models";
-import { MOVEMENT_TYPES, type ISkuOption } from "../models/inventory-movement.interface";
+import { SkuLookupField } from "@/components/async-combobox";
+import { MOVEMENT_TYPES } from "../models/inventory-movement.interface";
 
 export const FormInventoryMovement = ({
   initialValues,
   validationSchema,
   onSubmit,
-  products,
   warehouses,
-  skusByProduct = {},
 }: IFormProps<any> & {
-  products: ISelectOption[];
   warehouses: ISelectOption[];
-  /** Variantes por producto (id de producto → SKUs); vacío si no tiene variantes. */
-  skusByProduct?: Record<string, ISkuOption[]>;
 }) => {
   const t = useTranslations("Administre.inventoryMovement");
   const tCommon = useTranslations("Administre.common");
@@ -34,6 +30,7 @@ export const FormInventoryMovement = ({
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = useForm<MovementInputs>({
     resolver: zodResolver(validationSchema),
@@ -41,10 +38,6 @@ export const FormInventoryMovement = ({
   });
 
   const type = useWatch({ control, name: "type" }) as string;
-  const productId = useWatch({ control, name: "product_id" }) as string | number | undefined;
-  const skuOptions: ISelectOption[] = (skusByProduct[String(productId ?? "")] ?? [])
-    .filter((sku) => sku.id != null)
-    .map((sku) => ({ id: String(sku.id), value: String(sku.id), label: sku.code ? `${sku.name} · ${sku.code}` : (sku.name ?? `#${sku.id}`) }));
   const showFrom = type === "EXIT" || type === "TRANSFER";
   const showTo = type === "ENTRY" || type === "TRANSFER";
 
@@ -74,27 +67,19 @@ export const FormInventoryMovement = ({
           className='col-span-12 md:col-span-6'
         />
 
-        <FormSelectField
-          controller={{ control, name: "product_id" }}
-          label={t("fields.productId")}
-          data={products}
+        <SkuLookupField
+          control={control}
+          name='sku_id'
+          label={t("fields.skuId")}
+          description={t("skuHint")}
           placeholder={tCommon("selectPlaceholder")}
-          searchable
-          triggerClassName='!w-full'
+          onSelect={(option) =>
+            setValue("product_id", option?.data?.product_id != null ? String(option.data.product_id) : "", {
+              shouldValidate: false,
+            })
+          }
           className='col-span-12'
         />
-
-        {skuOptions.length > 0 ? (
-          <FormSelectField
-            controller={{ control, name: "sku_id" }}
-            label={t("fields.skuId")}
-            description={t("skuHint")}
-            data={skuOptions}
-            placeholder={tCommon("selectPlaceholder")}
-            triggerClassName='!w-full'
-            className='col-span-12'
-          />
-        ) : null}
 
         {showFrom ? (
           <FormSelectField

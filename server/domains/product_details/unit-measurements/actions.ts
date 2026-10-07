@@ -2,12 +2,10 @@
 
 import { revalidateTag } from 'next/cache';
 
-import { unit_measurements_repository } from './repository';
-import type { CreateUnitMeasurementDto, UpdateUnitMeasurementPayload } from './types';
-import { unit_measurements_tags } from '@/server/lib/cache-tags';
+import { units_repository } from './repository';
+import type { SaveUnitDto, UnitDto, UpdateUnitPayload } from './types';
+import { products_tags, unit_measurements_tags, attributes_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
-
-// ─── Result helpers ──────────────────────────────────────────────────────────
 
 type ActionResult<T = void> =
   | { success: true; data: T }
@@ -21,43 +19,38 @@ function handle_error(error: unknown): ActionResult<never> {
   return { success: false, error: message };
 }
 
-// ─── CRUD ────────────────────────────────────────────────────────────────────
+/** Cambiar una unidad afecta a su lista, a los atributos que la muestran y a los productos. */
+function revalidate_units(id?: number) {
+  revalidateTag(unit_measurements_tags.list());
+  if (id != null) revalidateTag(unit_measurements_tags.item(id));
+  revalidateTag(attributes_tags.list());
+  revalidateTag(products_tags.list());
+}
 
-export async function create_unit_measurement_action(
-  payload: CreateUnitMeasurementDto,
-): Promise<ActionResult<{ id: number }>> {
+export async function create_unit_action(payload: SaveUnitDto): Promise<ActionResult<UnitDto>> {
   try {
-    const result = await unit_measurements_repository.create_unit_measurement(payload);
-    const id = result.id;
-    if (typeof id !== 'number') {
-      return { success: false, error: 'unit_measurement_id_not_returned' };
-    }
-    revalidateTag(unit_measurements_tags.list());
-    revalidateTag(unit_measurements_tags.item(id));
-    return { success: true, data: { id } };
+    const unit = await units_repository.create_unit(payload);
+    revalidate_units(unit.id);
+    return { success: true, data: unit };
   } catch (error) {
     return handle_error(error);
   }
 }
 
-export async function update_unit_measurement_action(
-  payload: UpdateUnitMeasurementPayload,
-): Promise<ActionResult> {
+export async function update_unit_action(payload: UpdateUnitPayload): Promise<ActionResult<UnitDto>> {
   try {
-    await unit_measurements_repository.update_unit_measurement(payload);
-    revalidateTag(unit_measurements_tags.list());
-    revalidateTag(unit_measurements_tags.item(payload.id));
-    return { success: true, data: undefined };
+    const unit = await units_repository.update_unit(payload);
+    revalidate_units(payload.id);
+    return { success: true, data: unit };
   } catch (error) {
     return handle_error(error);
   }
 }
 
-export async function delete_unit_measurement_action(id: number): Promise<ActionResult> {
+export async function delete_unit_action(id: number): Promise<ActionResult> {
   try {
-    await unit_measurements_repository.delete_unit_measurement(id);
-    revalidateTag(unit_measurements_tags.list());
-    revalidateTag(unit_measurements_tags.item(id));
+    await units_repository.delete_unit(id);
+    revalidate_units(id);
     return { success: true, data: undefined };
   } catch (error) {
     return handle_error(error);

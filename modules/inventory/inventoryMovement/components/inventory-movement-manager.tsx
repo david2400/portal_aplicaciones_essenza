@@ -18,14 +18,17 @@ import {
   MOVEMENT_TYPES,
   type IInventoryMovement,
   type INamedItem,
-  type IProductWithSkus,
+  type ISkuName,
   REFERENCE_TYPES,
   type MovementType,
 } from "../models/inventory-movement.interface";
 
 interface IInventoryMovementManagerProps {
   initialData: IInventoryMovement[];
-  products: IProductWithSkus[];
+  /** SKUs que aparecen en el kardex (nombre y código). */
+  skus: ISkuName[];
+  /** Productos de movimientos antiguos sin SKU. */
+  products: INamedItem[];
   warehouses: INamedItem[];
 }
 
@@ -46,21 +49,13 @@ const toOptions = (items: INamedItem[]) =>
     .map((item) => ({ id: String(item.id), value: String(item.id), label: item.name ?? `#${item.id}` }));
 
 /** Kardex de movimientos (entradas, salidas, traslados): registro inmutable con filtros y exportación. */
-export const InventoryMovementManager = ({ initialData, products, warehouses }: IInventoryMovementManagerProps) => {
+export const InventoryMovementManager = ({ initialData, skus, products, warehouses }: IInventoryMovementManagerProps) => {
   const t = useTranslations("Administre.inventoryMovement");
   const tCrud = useTranslations("Crud");
 
   const productNames = useMemo(() => toLookup(products), [products]);
   const warehouseNames = useMemo(() => toLookup(warehouses), [warehouses]);
-  const productOptions = useMemo(() => toOptions(products), [products]);
-  const skusByProduct = useMemo(
-    () => Object.fromEntries(products.map((product) => [String(product.id), product.skus ?? []])),
-    [products],
-  );
-  const skuCodes = useMemo(
-    () => new Map(products.flatMap((product) => product.skus ?? []).map((sku) => [sku.id ?? -1, sku.code ?? sku.name ?? ""])),
-    [products],
-  );
+  const skuNames = useMemo(() => new Map(skus.map((sku) => [sku.sku_id ?? -1, sku])), [skus]);
   const warehouseOptions = useMemo(() => toOptions(warehouses), [warehouses]);
 
   const rows = useMemo<MovementRow[]>(
@@ -72,8 +67,11 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
     initialData.filter((movement) => movement.type === type).reduce((acc, movement) => acc + (movement.quantity ?? 0), 0);
 
   const warehouseLabel = (id?: number) => (id == null ? "—" : (warehouseNames.get(id) ?? `#${id}`));
-  const productLabel = (row: MovementRow) => productNames.get(row.product_id ?? -1) ?? `#${row.product_id}`;
-  const skuLabel = (row: MovementRow) => (row.sku_id == null ? "" : (skuCodes.get(row.sku_id) ?? ""));
+  const productLabel = (row: MovementRow) =>
+    (row.sku_id != null ? skuNames.get(row.sku_id)?.name : undefined) ??
+    productNames.get(row.product_id ?? -1) ??
+    `#${row.product_id}`;
+  const skuLabel = (row: MovementRow) => (row.sku_id == null ? "" : (skuNames.get(row.sku_id)?.code ?? ""));
   const sourceLabel = (row: MovementRow) =>
     row.reference_type && (REFERENCE_TYPES as readonly string[]).includes(row.reference_type)
       ? t(`sources.${row.reference_type as (typeof REFERENCE_TYPES)[number]}`)
@@ -153,7 +151,7 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [productNames, warehouseNames, skuCodes, t],
+    [productNames, warehouseNames, skuNames, t],
   );
 
   const warehouseFilterOptions = warehouses
@@ -204,9 +202,7 @@ export const InventoryMovementManager = ({ initialData, products, warehouses }: 
       renderForm={(_item, close) => (
         <RegisterInventoryMovement
           handleClose={close}
-          products={productOptions}
           warehouses={warehouseOptions}
-          skusByProduct={skusByProduct}
         />
       )}
     />

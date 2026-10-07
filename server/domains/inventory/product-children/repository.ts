@@ -9,13 +9,21 @@ import type {
   DeleteProductChildPayload,
 } from './types';
 
-const product_children_base_path = '/api/shop/inventory/product_children';
+const product_children_base_path = '/api/shop/catalog/variants';
 const product_child_by_id_path = (id: number) => `${product_children_base_path}/${id}`;
 
 export const product_children_repository = {
   async list_product_children(): Promise<ProductChildDto[]> {
     return server_fetch.get<ProductChildDto[]>(product_children_base_path, {
       revalidate: 60,
+      tags: [product_children_tags.list()],
+    });
+  },
+
+  async list_variants_of_product(product_id: number): Promise<ProductChildDto[]> {
+    return server_fetch.get<ProductChildDto[]>(product_children_base_path, {
+      params: { product_id },
+      revalidate: 30,
       tags: [product_children_tags.list()],
     });
   },

@@ -15,7 +15,7 @@ import {
 import { create_search_resource } from '@/server/lib/search-resource';
 import { sortToParam, type BulkResult, type GridQuery, type PageResult } from '@/shared/models/pagination';
 
-const products_base_path = '/api/shop/inventory/products';
+const products_base_path = '/api/shop/catalog/products';
 
 const to_id_list = (value?: string) => (value ? [Number(value)].filter((id) => Number.isInteger(id) && id > 0) : undefined);
 
@@ -35,14 +35,14 @@ function to_filter(query: GridQuery): ProductFilter {
 const products_bulk = create_search_resource<ProductDto>({
   base_path: products_base_path,
   list_tag: products_tags.list(),
-  list_all: () => products_repository.list_products({ size: 500 }),
+  list_all: () => products_repository.list_products({ size: 200 }),
   delete_one: (id) => products_repository.delete_product({ id }),
   search_fields: (item) => [item.name, item.description],
 });
 
 /**
  * Búsqueda paginada de productos con el endpoint existente
- * `POST /inventory/products/search` (filtro en el cuerpo, página en la URL).
+ * `POST /catalog/products/search` (filtro en el cuerpo, página en la URL).
  */
 async function search(query: GridQuery): Promise<PageResult<ProductDto>> {
   const params = new URLSearchParams({ page: String(query.page), size: String(query.size) });
@@ -56,7 +56,7 @@ async function search(query: GridQuery): Promise<PageResult<ProductDto>> {
     return to_page_result<ProductDto>(response, query.size);
   } catch (error) {
     if (!is_missing_endpoint(error)) throw error;
-    const all = await products_repository.list_products({ size: 500 });
+    const all = await products_repository.list_products({ size: 200 });
     return paginate_in_memory(all, query, {
       search_fields: (item) => [item.name, item.description],
       filter_fields: {

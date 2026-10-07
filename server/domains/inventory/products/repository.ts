@@ -2,7 +2,7 @@ import 'server-only';
 
 import { server_fetch } from '@/server/lib/server-fetch';
 import { to_list } from '@/server/lib/list-response';
-import { products_tags } from '@/server/lib/cache-tags';
+import { products_tags, stock_tags } from '@/server/lib/cache-tags';
 import type {
   ProductDto,
   CreateProductDto,
@@ -10,9 +10,14 @@ import type {
   DeleteProductPayload,
   ListProductsParams,
   ProductSearchParams,
+  ProductSkuDto,
+  ProductImageDto,
+  ProductStatsDto,
+  ProductStatsParams,
+  ReplaceProductImagesPayload,
 } from './types';
 
-const products_base_path = '/api/shop/inventory/products';
+const products_base_path = '/api/shop/catalog/products';
 const product_by_id_path = (id: number) => `${products_base_path}/${id}`;
 const product_search_path = `${products_base_path}/search`;
 
@@ -58,7 +63,7 @@ export const products_repository = {
   async get_product_by_id(id: number): Promise<ProductDto> {
     return server_fetch.get<ProductDto>(product_by_id_path(id), {
       revalidate: 60,
-      tags: [products_tags.item(id)],
+      tags: [products_tags.item(id), stock_tags.all()],
     });
   },
 
@@ -71,6 +76,36 @@ export const products_repository = {
   async update_product(payload: UpdateProductPayload): Promise<ProductDto> {
     const { id, ...body } = payload;
     return server_fetch.put<ProductDto>(product_by_id_path(id), body, {
+      revalidate: false,
+    });
+  },
+
+  /** Indicadores agregados del catálogo (sin cargar productos). */
+  async get_product_stats(params: ProductStatsParams = {}): Promise<ProductStatsDto> {
+    return server_fetch.get<ProductStatsDto>(`${products_base_path}/stats`, {
+      params,
+      revalidate: 60,
+      tags: [products_tags.list(), stock_tags.all()],
+    });
+  },
+
+  async list_product_skus(id: number): Promise<ProductSkuDto[]> {
+    return server_fetch.get<ProductSkuDto[]>(`${product_by_id_path(id)}/skus`, {
+      revalidate: 30,
+      tags: [products_tags.item(id), stock_tags.all()],
+    });
+  },
+
+  async list_product_images(id: number): Promise<ProductImageDto[]> {
+    return server_fetch.get<ProductImageDto[]>(`${product_by_id_path(id)}/images`, {
+      revalidate: 30,
+      tags: [products_tags.item(id)],
+    });
+  },
+
+  async replace_product_images(payload: ReplaceProductImagesPayload): Promise<ProductImageDto[]> {
+    const { id, ...body } = payload;
+    return server_fetch.put<ProductImageDto[]>(`${product_by_id_path(id)}/images`, body, {
       revalidate: false,
     });
   },

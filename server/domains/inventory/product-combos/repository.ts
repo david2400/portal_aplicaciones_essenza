@@ -10,13 +10,22 @@ import type {
   DeleteProductComboPayload,
 } from './types';
 
-const product_combos_base_path = '/api/shop/inventory/product_combos';
+const product_combos_base_path = '/api/shop/catalog/product_combos';
 const product_combo_by_id_path = (id: number) => `${product_combos_base_path}/${id}`;
 
 export const product_combos_repository = {
   async list_product_combos(): Promise<ProductComboDto[]> {
     const response = await server_fetch.get<unknown>(product_combos_base_path, {
       revalidate: 60,
+      tags: [product_combos_tags.list()],
+    });
+    return to_list<ProductComboDto>(response);
+  },
+
+  async list_items_of_combo(combo_id: number): Promise<ProductComboDto[]> {
+    const response = await server_fetch.get<unknown>(product_combos_base_path, {
+      params: { combo_id },
+      revalidate: 30,
       tags: [product_combos_tags.list()],
     });
     return to_list<ProductComboDto>(response);

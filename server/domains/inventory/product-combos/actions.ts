@@ -8,7 +8,7 @@ import type {
   UpdateProductComboPayload,
   DeleteProductComboPayload,
 } from './types';
-import { product_combos_tags } from '@/server/lib/cache-tags';
+import { product_combos_tags, products_tags, stock_tags } from '@/server/lib/cache-tags';
 import { ServerApiError } from '@/server/lib/types';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -25,8 +25,11 @@ function handle_error(error: unknown): ActionResult<never> {
   return { success: false, error: message };
 }
 
+/** Cambian los SKUs, el stock o los componentes del producto: también su ficha y listados. */
 function revalidate_product_combo_tags(id?: number) {
   revalidateTag(product_combos_tags.list());
+  revalidateTag(products_tags.list());
+  revalidateTag(stock_tags.all());
   if (typeof id === 'number') {
     revalidateTag(product_combos_tags.item(id));
   }

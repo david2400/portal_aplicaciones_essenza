@@ -2,12 +2,10 @@ import 'server-only';
 
 import { cache } from 'react';
 
-import { unit_measurements_repository } from './repository';
+import { units_repository } from './repository';
+import type { ListUnitsParams } from './types';
 
-export const list_unit_measurements = cache(async () => {
-  return unit_measurements_repository.list_unit_measurements();
-});
+/** Unidades activas (o todas con include_inactive), ordenadas por magnitud y factor. */
+export const list_units = cache(async (params: ListUnitsParams = {}) => units_repository.list_units(params));
 
-export const get_unit_measurement_by_id = cache(async ({ id }: { id: number }) => {
-  return unit_measurements_repository.get_unit_measurement_by_id(id);
-});
+export const get_unit = cache(async ({ id }: { id: number }) => units_repository.get_unit(id));

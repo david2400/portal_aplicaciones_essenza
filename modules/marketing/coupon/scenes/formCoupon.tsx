@@ -13,6 +13,7 @@ import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { FormCheckboxField } from "@repo/ui/form/scenes/form-checkbox";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
+import { ProductMultiLookupField } from "@/components/async-combobox";
 import { DISCOUNT_TYPES, type INamedItem } from "../models/coupon.interface";
 
 import { fieldKey } from "@/shared/i18n/field-key";
@@ -33,8 +34,7 @@ export const FormCoupon = ({
   validationSchema,
   onSubmit,
   categories,
-  products,
-}: IFormProps<any> & { categories: INamedItem[]; products: INamedItem[] }) => {
+}: IFormProps<any> & { categories: INamedItem[] }) => {
   const t = useTranslations("Administre.coupon");
   const tCommon = useTranslations("Administre.common");
   type CouponInputs = z.infer<typeof validationSchema>;
@@ -47,7 +47,6 @@ export const FormCoupon = ({
 
   const discountType = useWatch({ control, name: "discount_type" }) as string;
   const categoryItems = useMemo(() => toItems(categories), [categories]);
-  const productItems = useMemo(() => toItems(products), [products]);
 
   const typeOptions = DISCOUNT_TYPES.map((type) => ({ id: type, value: type, label: t(`types.${type}`) }));
   const booleanOptions = [
@@ -153,17 +152,20 @@ export const FormCoupon = ({
 
         <Fieldset legend={t("sections.rules")}>
           <p className='col-span-12 text-sm text-muted-foreground'>{t("rulesHint")}</p>
-          {(
-            [
-              ["applicable_categories", categoryItems],
-              ["excluded_categories", categoryItems],
-              ["applicable_products", productItems],
-              ["excluded_products", productItems],
-            ] as const
-          ).map(([name, items]) => (
+          {(["applicable_categories", "excluded_categories"] as const).map((name) => (
             <div key={name} className='col-span-12 max-h-48 overflow-y-auto rounded-lg border border-border p-3 md:col-span-6'>
-              <FormCheckboxField controller={{ control, name }} label={t(fieldKey(name) as never)} items={[...items]} />
+              <FormCheckboxField controller={{ control, name }} label={t(fieldKey(name) as never)} items={[...categoryItems]} />
             </div>
+          ))}
+          {/* Productos: buscador asíncrono (el catálogo puede ser grande). */}
+          {(["applicable_products", "excluded_products"] as const).map((name) => (
+            <ProductMultiLookupField
+              key={name}
+              control={control}
+              name={name}
+              label={t(fieldKey(name) as never)}
+              className='col-span-12 md:col-span-6'
+            />
           ))}
         </Fieldset>
       </div>

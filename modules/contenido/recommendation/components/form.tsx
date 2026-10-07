@@ -2,6 +2,7 @@
 
 "use client";
 
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
@@ -37,13 +38,14 @@ const toFormValues = (item?: IRecommendation | null) => ({
  */
 export const RecommendationForm = ({
   item,
-  products,
   handleClose,
-}: IFormAddProps & { item?: IRecommendation | null; products: IRecommendationProduct[] }) => {
+}: IFormAddProps & { item?: IRecommendation | null }) => {
   const router = useRouter();
   const t = useTranslations("Administre.common");
   const validationSchema = validationRecommendation();
   const id = item?.id;
+  // Producto elegido en el buscador (sus datos se copian en la recomendación).
+  const picked = useRef<IRecommendationProduct | null>(null);
 
   const done = (result: Result, title: string) => {
     if (result.success) {
@@ -56,7 +58,7 @@ export const RecommendationForm = ({
   };
 
   const handleSubmit = async (values: RecommendationFormValues) => {
-    const product = products.find((p) => p.id === values.product_id);
+    const product = picked.current?.id === values.product_id ? picked.current : null;
     const payload = {
       ...values,
       reason: values.reason?.trim() ?? "",
@@ -76,8 +78,11 @@ export const RecommendationForm = ({
       initialValues={toFormValues(item)}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
-      products={products}
       lockIdentity={id != null}
+      initialProduct={item?.product_id != null ? { id: item.product_id, name: item.product_name } : null}
+      onPickProduct={(product) => {
+        picked.current = product;
+      }}
     />
   );
 };

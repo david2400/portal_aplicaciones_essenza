@@ -24,7 +24,6 @@ import { deleteCouponServerAction } from "@/app/[locale]/marketing/coupons/actio
 interface ICouponManagerProps {
   initialData: ICoupon[];
   categories: INamedItem[];
-  products: INamedItem[];
 }
 
 const STATUS_VARIANT: Record<CouponStatus, "default" | "secondary" | "destructive" | "outline"> = {
@@ -38,7 +37,7 @@ const STATUS_VARIANT: Record<CouponStatus, "default" | "secondary" | "destructiv
 const STATUSES: CouponStatus[] = ["active", "scheduled", "expired", "exhausted", "inactive"];
 
 /** Cupones: vigencia, consumo, simulador de descuento y acciones en lote. */
-export const CouponManager = ({ initialData, categories, products }: ICouponManagerProps) => {
+export const CouponManager = ({ initialData, categories }: ICouponManagerProps) => {
   const t = useTranslations("Administre.coupon");
   const tCommon = useTranslations("Administre.common");
   const tCrud = useTranslations("Crud");
@@ -185,7 +184,7 @@ export const CouponManager = ({ initialData, categories, products }: ICouponMana
       ]}
       extraBulkActions={[{ label: t("copyCodes"), icon: HiOutlineClipboardDocument, onAction: copyCodes }]}
       renderForm={(item, close) => (
-        <CouponForm coupon={item} categories={categories} products={products} handleClose={close} />
+        <CouponForm coupon={item} categories={categories} handleClose={close} />
       )}
       onDelete={(id) => deleteCouponServerAction(id)}>
       <CouponSimulator />
