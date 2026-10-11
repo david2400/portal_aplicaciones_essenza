@@ -3,7 +3,7 @@ import 'server-only';
 import { server_fetch } from '@/server/lib/server-fetch';
 import { to_list } from '@/server/lib/list-response';
 import { attributes_tags } from '@/server/lib/cache-tags';
-import type { AttributeDto, SaveAttributeDto, UpdateAttributePayload } from './types';
+import type { AttributeDto, AttributeUsageDto, SaveAttributeDto, UpdateAttributePayload } from './types';
 
 const attributes_base_path = '/api/shop/catalog/attributes';
 const attribute_by_id_path = (id: number) => `${attributes_base_path}/${id}`;
@@ -22,6 +22,11 @@ export const attributes_repository = {
       revalidate: 60,
       tags: [attributes_tags.item(id)],
     });
+  },
+
+  /** Plantillas, productos y variantes que usan el atributo (siempre fresco). */
+  async get_attribute_usage(id: number): Promise<AttributeUsageDto> {
+    return server_fetch.get<AttributeUsageDto>(`${attribute_by_id_path(id)}/usage`, { revalidate: 0 });
   },
 
   async create_attribute(payload: SaveAttributeDto): Promise<AttributeDto> {

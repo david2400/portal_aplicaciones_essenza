@@ -3,24 +3,35 @@
 "use client";
 
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Badge } from "@repo/ui/badges/scenes/badge";
-import { HiOutlineAdjustmentsHorizontal, HiOutlineListBullet, HiOutlineSwatch } from "react-icons/hi2";
+import { Buttons } from "@repo/ui/buttons/scenes/index";
+import {
+  HiOutlineAdjustmentsHorizontal,
+  HiOutlineListBullet,
+  HiOutlinePencilSquare,
+  HiOutlinePlusCircle,
+  HiOutlineSwatch,
+} from "react-icons/hi2";
+import { Link } from "@/shared/i18n/routing";
 import { CrudManager } from "@/components/crud-manager";
 import type { GridColumn, GridFilter } from "@/components/data-grid";
-import { AttributeForm } from "./form";
-import { ATTRIBUTE_DATA_TYPES, type AttributeDataType, type IAttribute, type INamedItem } from "../models/attribute.interface";
+import { ATTRIBUTES_HREF } from "./form";
+import { ATTRIBUTE_DATA_TYPES, type AttributeDataType, type IAttribute } from "../models/attribute.interface";
 import { deleteAttributeServerAction } from "@/app/[locale]/fichaTecnica/attributes/actions";
 
 interface IAttributeManagerProps {
   initialData: IAttribute[];
-  units: INamedItem[];
 }
 
 /** Atributos del catálogo: tipo de dato, unidad y opciones (ejes de variante). */
-export const AttributeManager = ({ initialData, units }: IAttributeManagerProps) => {
+export const AttributeManager = ({ initialData }: IAttributeManagerProps) => {
+  const router = useRouter();
   const t = useTranslations("Administre.attribute");
   const tCrud = useTranslations("Crud");
+  const tCommon = useTranslations("Administre.common");
+  const editHref = (row: IAttribute) => `${ATTRIBUTES_HREF}/${row.id}`;
 
   const typeLabel = (row: IAttribute) =>
     ATTRIBUTE_DATA_TYPES.includes(row.data_type as AttributeDataType)
@@ -36,7 +47,9 @@ export const AttributeManager = ({ initialData, units }: IAttributeManagerProps)
         meta: { label: t("fields.name"), hideable: false, exportValue: (row) => row.name },
         cell: ({ row }) => (
           <div className='min-w-0'>
-            <span className='font-semibold text-foreground'>{row.original.name ?? "—"}</span>
+            <Link href={editHref(row.original)} className='font-semibold text-foreground underline-offset-4 hover:underline'>
+              {row.original.name ?? "—"}
+            </Link>
             <p className='font-mono text-xs text-muted-foreground'>{row.original.code}</p>
           </div>
         ),
@@ -127,7 +140,15 @@ export const AttributeManager = ({ initialData, units }: IAttributeManagerProps)
       searchText={(row) =>
         `${row.name ?? ""} ${row.code ?? ""} ${(row.options ?? []).map((option) => option.value).join(" ")}`
       }
-      renderForm={(item, close) => <AttributeForm item={item} units={units} handleClose={close} />}
+      headerActions={
+        <Buttons onClick={() => router.push(`${ATTRIBUTES_HREF}/new`)} className='rounded-full'>
+          <HiOutlinePlusCircle className='h-4 w-4' aria-hidden='true' />
+          {t("create")}
+        </Buttons>
+      }
+      extraRowActions={(row) => [
+        { label: tCommon("edit"), icon: HiOutlinePencilSquare, onSelect: () => router.push(editHref(row)) },
+      ]}
       onDelete={(id) => deleteAttributeServerAction(id)}
     />
   );

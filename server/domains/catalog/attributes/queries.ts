@@ -11,3 +11,7 @@ export const list_attributes = cache(async () => {
 export const get_attribute_by_id = cache(async ({ id }: { id: number }) => {
   return attributes_repository.get_attribute_by_id(id);
 });
+
+export const get_attribute_usage = cache(async ({ id }: { id: number }) => {
+  return attributes_repository.get_attribute_usage(id);
+});

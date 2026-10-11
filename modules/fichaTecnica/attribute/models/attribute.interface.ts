@@ -1,10 +1,12 @@
 /** @format */
 
-import type { AttributeDto, SaveAttributeDto } from "@/server/domains/catalog/attributes/types";
+import type { AttributeDto, AttributeUsageDto, SaveAttributeDto } from "@/server/domains/catalog/attributes/types";
 
 /** Atributo del catálogo (ficha técnica o eje de variante). */
 export type IAttribute = AttributeDto;
 export type IAttributeSaveRequest = SaveAttributeDto;
+/** Dónde se usa un atributo: plantillas, productos/variantes con valor y uso por opción. */
+export type IAttributeUsage = AttributeUsageDto;
 
 export const ATTRIBUTE_DATA_TYPES = ["TEXT", "NUMBER", "BOOLEAN", "OPTION"] as const;
 export type AttributeDataType = (typeof ATTRIBUTE_DATA_TYPES)[number];

@@ -8633,6 +8633,39 @@
         }
       }
     },
+    "/api/shop/catalog/attributes/{id}/usage": {
+      "get": {
+        "tags": [
+          "Attributes"
+        ],
+        "summary": "Uso del atributo",
+        "description": "Plantillas que lo incluyen, productos y variantes con valor, y uso de cada opción",
+        "operationId": "usage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeUsageDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/shop/analytics/sales/trends": {
       "get": {
         "tags": [
@@ -14894,6 +14927,76 @@
           },
           "sort": {
             "type": "string"
+          }
+        }
+      },
+      "AttributeUsageDto": {
+        "properties": {
+          "templates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TemplateRef"
+            }
+          },
+          "product_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "variant_count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductRef"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionUsage"
+            }
+          }
+        }
+      },
+      "OptionUsage": {
+        "properties": {
+          "option_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ProductRef": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "TemplateRef": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "variant_axis": {
+            "type": "boolean"
           }
         }
       },

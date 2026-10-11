@@ -10,7 +10,7 @@ export const validationAttribute = () => {
   const t = useTranslations("Administre.attribute.validation");
   const required = { message: intl("requiredField") };
   const optionalId = z.preprocess(
-    (value) => (value === "" || value == null ? undefined : value),
+    (value) => (value === "" || value === "none" || value == null ? undefined : value),
     z.coerce.number().int().positive().optional(),
   );
 
@@ -46,3 +46,6 @@ export const validationAttribute = () => {
 };
 
 export type AttributeFormValues = z.infer<ReturnType<typeof validationAttribute>>;
+
+/** Valores del formulario antes de validar: la unidad viaja como texto ("none" = sin unidad). */
+export type AttributeFormInput = Omit<AttributeFormValues, "unit_id"> & { unit_id?: string | number };

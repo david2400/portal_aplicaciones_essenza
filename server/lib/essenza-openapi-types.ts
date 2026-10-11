@@ -2703,6 +2703,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/catalog/attributes/{id}/usage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Uso del atributo
+         * @description Plantillas que lo incluyen, productos y variantes con valor, y uso de cada opción
+         */
+        get: operations["usage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/analytics/sales/trends": {
         parameters: {
             query?: never;
@@ -4985,6 +5005,33 @@ export interface components {
             /** Format: int32 */
             total_pages?: number;
             sort?: string;
+        };
+        AttributeUsageDto: {
+            templates?: components["schemas"]["TemplateRef"][];
+            /** Format: int64 */
+            product_count?: number;
+            /** Format: int64 */
+            variant_count?: number;
+            products?: components["schemas"]["ProductRef"][];
+            options?: components["schemas"]["OptionUsage"][];
+        };
+        OptionUsage: {
+            /** Format: int64 */
+            option_id?: number;
+            /** Format: int64 */
+            count?: number;
+        };
+        ProductRef: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+        };
+        TemplateRef: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            required?: boolean;
+            variant_axis?: boolean;
         };
         SalesAnalyticsDto: {
             /** Format: date */
@@ -11782,6 +11829,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["LookupOption"][];
+                };
+            };
+        };
+    };
+    usage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AttributeUsageDto"];
                 };
             };
         };
