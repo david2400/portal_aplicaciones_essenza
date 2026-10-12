@@ -17,6 +17,12 @@ export const attributes_repository = {
     return to_list<AttributeDto>(response);
   },
 
+  /** Catálogo sin caché: para selectores que deben ver un atributo recién creado. */
+  async list_attributes_fresh(): Promise<AttributeDto[]> {
+    const response = await server_fetch.get<unknown>(attributes_base_path, { revalidate: 0 });
+    return to_list<AttributeDto>(response);
+  },
+
   async get_attribute_by_id(id: number): Promise<AttributeDto> {
     return server_fetch.get<AttributeDto>(attribute_by_id_path(id), {
       revalidate: 60,

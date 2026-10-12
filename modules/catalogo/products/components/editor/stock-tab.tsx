@@ -7,17 +7,18 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import {
   HiOutlineArchiveBox,
+  HiOutlineArrowsRightLeft,
+  HiOutlineBuildingStorefront,
   HiOutlineCheckCircle,
   HiOutlineClock,
   HiOutlineExclamationTriangle,
-  HiOutlineInformationCircle,
 } from "react-icons/hi2";
 import { DataGrid, type GridColumn } from "@/components/data-grid";
-import { StatCards } from "@/components/stat-cards";
 import { formatApiDate, formatNumber } from "@/lib/format";
 import { Link } from "@/shared/i18n/routing";
 import type { IProduct } from "../../models/product.interface";
 import type { INamedItem, IStockLevel, IStockReservation } from "../../models/product-editor.interface";
+import { EmptyBlock, KpiStrip, SectionCard } from "../form-parts";
 
 type LevelRow = IStockLevel & { skuLabel: string; skuCode?: string; warehouse: string };
 
@@ -125,86 +126,104 @@ export const StockTab = ({
     [t],
   );
 
+  const warehousesWithStock = new Set(levels.filter((level) => (level.on_hand ?? 0) > 0).map((level) => level.warehouse_id)).size;
+
   return (
-    <div className='space-y-6'>
-      <StatCards
+    <div className='grid gap-6'>
+      <KpiStrip
         items={[
           { label: t("onHand"), value: formatNumber(totals.onHand), icon: HiOutlineArchiveBox },
-          { label: t("reserved"), value: formatNumber(totals.reserved), icon: HiOutlineClock, tone: totals.reserved > 0 ? "warning" : undefined },
+          {
+            label: t("reserved"),
+            value: formatNumber(totals.reserved),
+            icon: HiOutlineClock,
+            tone: totals.reserved > 0 ? "warn" : undefined,
+          },
           {
             label: t("availableUnits"),
             value: formatNumber(totals.available),
             icon: HiOutlineCheckCircle,
-            tone: totals.available > 0 ? "success" : "danger",
+            tone: totals.available > 0 ? "good" : "bad",
             hint: totals.low > 0 ? t("lowStockRows", { count: totals.low }) : undefined,
+          },
+          {
+            label: t("stockWarehouses"),
+            value: formatNumber(warehousesWithStock),
+            icon: HiOutlineBuildingStorefront,
+            hint: t("stockWarehousesHint", { total: warehouses.length }),
           },
         ]}
       />
 
-      <div className='flex gap-2 rounded-xl border border-border bg-muted/30 p-3 text-sm' role='note'>
-        <HiOutlineInformationCircle className='mt-0.5 h-4 w-4 shrink-0 text-muted-foreground' aria-hidden='true' />
-        <p>
-          {t("stockHint")}{" "}
-          <Link href='/inventory/inventory-movements' className='font-medium text-primary underline-offset-4 hover:underline'>
+      <SectionCard
+        id='stock-levels'
+        icon={HiOutlineArchiveBox}
+        title={t("stockLevels")}
+        hint={t("stockHint")}
+        contentClassName='p-4'
+        actions={
+          <Link
+            href='/inventory/inventory-movements'
+            className='inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm font-medium text-foreground hover:bg-muted'>
+            <HiOutlineArrowsRightLeft className='h-4 w-4' aria-hidden='true' />
             {t("goToKardex")}
           </Link>
-        </p>
-      </div>
+        }>
+        <DataGrid<LevelRow>
+          mode='client'
+          embedded
+          id='product-stock'
+          caption={t("tabs.stock")}
+          data={rows}
+          columns={columns}
+          getRowId={(row) => String(row.id ?? `${row.sku_id}-${row.warehouse_id}`)}
+          searchText={(row) => `${row.skuLabel} ${row.skuCode ?? ""} ${row.warehouse}`}
+          emptyState={{ title: t("noStockTitle"), description: t("noStockDescription") }}
+        />
+      </SectionCard>
 
-      <DataGrid<LevelRow>
-        mode='client'
-        embedded
-        id='product-stock'
-        caption={t("tabs.stock")}
-        data={rows}
-        columns={columns}
-        getRowId={(row) => String(row.id ?? `${row.sku_id}-${row.warehouse_id}`)}
-        searchText={(row) => `${row.skuLabel} ${row.skuCode ?? ""} ${row.warehouse}`}
-        emptyState={{ title: t("noStockTitle"), description: t("noStockDescription") }}
-      />
-
-      <section className='space-y-3'>
-        <div>
-          <h3 className='text-base font-semibold text-foreground'>{t("activeReservations")}</h3>
-          <p className='text-sm text-muted-foreground'>{t("activeReservationsHint")}</p>
-        </div>
+      <SectionCard
+        id='stock-reservations'
+        icon={HiOutlineClock}
+        title={t("activeReservations")}
+        hint={t("activeReservationsHint")}
+        contentClassName={reservations.length === 0 ? "grid grid-cols-12 gap-4 px-5 py-5" : "overflow-x-auto"}
+        actions={reservations.length > 0 ? <Badge variant='secondary'>{reservations.length}</Badge> : undefined}>
         {reservations.length === 0 ? (
-          <p className='text-sm text-muted-foreground'>{t("noReservations")}</p>
+          <EmptyBlock icon={HiOutlineCheckCircle} title={t("noReservations")} description={t("noReservationsHint")} />
         ) : (
-          <div className='overflow-x-auto rounded-xl border border-border'>
-            <table className='w-full text-sm'>
-              <thead className='bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground'>
-                <tr>
-                  <th className='px-3 py-2'>{t("order")}</th>
-                  <th className='px-3 py-2'>{t("sku")}</th>
-                  <th className='px-3 py-2'>{t("warehouse")}</th>
-                  <th className='px-3 py-2 text-right'>{t("quantity")}</th>
-                  <th className='px-3 py-2'>{t("status")}</th>
-                  <th className='px-3 py-2'>{t("expiresAt")}</th>
+          <table className='w-full text-sm'>
+            <thead className='bg-muted/40 text-left text-xs uppercase tracking-wide text-muted-foreground'>
+              <tr>
+                <th scope='col' className='px-5 py-2.5 font-medium'>{t("order")}</th>
+                <th scope='col' className='px-3 py-2.5 font-medium'>{t("sku")}</th>
+                <th scope='col' className='px-3 py-2.5 font-medium'>{t("warehouse")}</th>
+                <th scope='col' className='px-3 py-2.5 text-right font-medium'>{t("quantity")}</th>
+                <th scope='col' className='px-3 py-2.5 font-medium'>{t("status")}</th>
+                <th scope='col' className='px-5 py-2.5 font-medium'>{t("expiresAt")}</th>
+              </tr>
+            </thead>
+            <tbody className='divide-y divide-border'>
+              {reservations.map((reservation) => (
+                <tr key={reservation.id} className='hover:bg-muted/30'>
+                  <td className='px-5 py-2.5'>
+                    <Link href={`/ventas/orders/${reservation.order_id}`} className='font-medium text-primary underline-offset-4 hover:underline'>
+                      #{reservation.order_id}
+                    </Link>
+                  </td>
+                  <td className='px-3 py-2.5'>{skuLabel(reservation.sku_id)}</td>
+                  <td className='px-3 py-2.5'>{warehouseById.get(reservation.warehouse_id ?? -1) ?? `#${reservation.warehouse_id}`}</td>
+                  <td className='px-3 py-2.5 text-right tabular-nums'>{formatNumber(reservation.quantity)}</td>
+                  <td className='px-3 py-2.5'>
+                    <Badge variant='secondary'>{reservation.status ? tReservation(reservation.status) : "—"}</Badge>
+                  </td>
+                  <td className='px-5 py-2.5 text-muted-foreground'>{formatApiDate(reservation.expires_at)}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {reservations.map((reservation) => (
-                  <tr key={reservation.id} className='border-t border-border'>
-                    <td className='px-3 py-2'>
-                      <Link href={`/ventas/orders/${reservation.order_id}`} className='font-medium text-primary underline-offset-4 hover:underline'>
-                        #{reservation.order_id}
-                      </Link>
-                    </td>
-                    <td className='px-3 py-2'>{skuLabel(reservation.sku_id)}</td>
-                    <td className='px-3 py-2'>{warehouseById.get(reservation.warehouse_id ?? -1) ?? `#${reservation.warehouse_id}`}</td>
-                    <td className='px-3 py-2 text-right tabular-nums'>{formatNumber(reservation.quantity)}</td>
-                    <td className='px-3 py-2'>
-                      <Badge variant='secondary'>{reservation.status ? tReservation(reservation.status) : "—"}</Badge>
-                    </td>
-                    <td className='px-3 py-2 text-muted-foreground'>{formatApiDate(reservation.expires_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         )}
-      </section>
+      </SectionCard>
     </div>
   );
 };

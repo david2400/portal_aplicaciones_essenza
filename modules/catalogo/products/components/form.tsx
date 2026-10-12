@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
-import { FormProduct } from "../scenes/formProduct";
+import { useRef } from "react";
+import { FormProduct, type ProductKind } from "../scenes/formProduct";
 import { validationProduct } from "../schemas/product.schema";
 import type {
   IProduct,
@@ -90,10 +91,11 @@ export const RegisterProduct = ({
   handleClose,
   onCreated,
   units,
-}: IFormAddProps & { onCreated?: (id: number) => void; units?: IUnit[] }) => {
+}: IFormAddProps & { onCreated?: (id: number, kind: ProductKind) => void; units?: IUnit[] }) => {
   const t = useTranslations("Administre.common");
   const tEditor = useTranslations("Administre.productEditor");
   const router = useRouter();
+  const kind = useRef<ProductKind>("SIMPLE");
 
   const handleSubmit = async (values: IProductCreateRequest) => {
     const result = await createProductServerAction(toPayload(values));
@@ -101,7 +103,7 @@ export const RegisterProduct = ({
       notify.success(t("createdSuccess"), values.name);
       handleClose?.(true);
       // Tras crear, se continúa en el editor (variantes, ficha técnica, imágenes…).
-      if (result.data?.id != null) onCreated?.(result.data.id);
+      if (result.data?.id != null) onCreated?.(result.data.id, kind.current);
       else router.refresh();
     } else {
       notify.error(t("errorTitle"), result.error || t("unexpectedError"));
@@ -116,6 +118,10 @@ export const RegisterProduct = ({
       submitLabel={tEditor("createAndContinue")}
       units={units}
       cancelHref='/catalogo/products'
+      mode='create'
+      onKindChange={(next) => {
+        kind.current = next;
+      }}
     />
   );
 };
@@ -149,6 +155,8 @@ export const UpdateProduct = ({ product, units }: { product: IProduct; units?: I
       cancelHref='/catalogo/products'
       stockLocked={product.product_type === "VARIANT"}
       units={units}
+      mode='edit'
+      productType={product.product_type}
     />
   );
 };

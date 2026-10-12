@@ -3,7 +3,7 @@
 import { revalidateTag } from 'next/cache';
 
 import { attributes_repository } from './repository';
-import type { SaveAttributeDto, UpdateAttributePayload } from './types';
+import type { AttributeDto, SaveAttributeDto, UpdateAttributePayload } from './types';
 import { attributes_tags, product_attributes_tags } from '@/server/lib/cache-tags';
 import { field_errors_from } from '@/server/lib/pagination';
 import { ServerApiError } from '@/server/lib/types';
@@ -25,6 +25,15 @@ function revalidate(id?: number) {
   if (id != null) revalidateTag(attributes_tags.item(id));
   // La ficha técnica de los productos muestra atributos y plantillas.
   revalidateTag(product_attributes_tags.all());
+}
+
+/** Catálogo de atributos actualizado (sin caché), p. ej. para añadirlos a la ficha técnica. */
+export async function list_attributes_fresh_action(): Promise<ActionResult<AttributeDto[]>> {
+  try {
+    return { success: true, data: await attributes_repository.list_attributes_fresh() };
+  } catch (error) {
+    return handle_error(error);
+  }
 }
 
 export async function create_attribute_action(payload: SaveAttributeDto): Promise<ActionResult<{ id: number }>> {

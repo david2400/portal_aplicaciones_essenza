@@ -31,6 +31,8 @@ import {
   get_product_attributes_action,
   save_product_attributes_action,
 } from '@/server/domains/catalog/product-attributes/actions';
+import { list_attributes_fresh_action } from '@/server/domains/catalog/attributes/actions';
+import type { AttributeDto } from '@/server/domains/catalog/attributes/types';
 import type {
   ProductAttributesDto,
   SaveProductAttributesDto,
@@ -110,6 +112,12 @@ export async function saveProductAttributesServerAction(
 ): Promise<ActionResult<ProductAttributesDto>> {
   const result = await save_product_attributes_action(productId, payload);
   return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo guardar la ficha técnica');
+}
+
+/** Atributos del catálogo al momento (incluye los creados después de abrir el editor). */
+export async function listAttributesServerAction(): Promise<ActionResult<AttributeDto[]>> {
+  const result = await list_attributes_fresh_action();
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudieron cargar los atributos');
 }
 
 // ─── Editor de producto (Fase 6): galería, variantes y componentes del combo ─

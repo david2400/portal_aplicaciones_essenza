@@ -3858,7 +3858,7 @@ export interface components {
             /** Format: int64 */
             option_id: number;
         };
-        /** @description Atributos disponibles: los de la plantilla o, sin plantilla, todos */
+        /** @description Con plantilla: sus atributos y los adicionales con valor. Sin plantilla: todos */
         AttributeDto: {
             /** Format: int64 */
             id?: number;
@@ -3889,7 +3889,7 @@ export interface components {
             /** Format: int64 */
             template_id?: number;
             template?: components["schemas"]["ProductTemplateDto"];
-            /** @description Atributos disponibles: los de la plantilla o, sin plantilla, todos */
+            /** @description Con plantilla: sus atributos y los adicionales con valor. Sin plantilla: todos */
             attributes?: components["schemas"]["AttributeDto"][];
             values?: components["schemas"]["AttributeValueDto"][];
             variants?: components["schemas"]["VariantAttributesDto"][];

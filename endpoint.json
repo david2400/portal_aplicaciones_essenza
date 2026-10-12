@@ -11619,7 +11619,7 @@
         ]
       },
       "AttributeDto": {
-        "description": "Atributos disponibles: los de la plantilla o, sin plantilla, todos",
+        "description": "Con plantilla: sus atributos y los adicionales con valor. Sin plantilla: todos",
         "properties": {
           "id": {
             "type": "integer",
@@ -11701,7 +11701,7 @@
           },
           "attributes": {
             "type": "array",
-            "description": "Atributos disponibles: los de la plantilla o, sin plantilla, todos",
+            "description": "Con plantilla: sus atributos y los adicionales con valor. Sin plantilla: todos",
             "items": {
               "$ref": "#/components/schemas/AttributeDto"
             }

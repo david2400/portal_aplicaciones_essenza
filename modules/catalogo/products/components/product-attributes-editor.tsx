@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Badge } from "@repo/ui/badges/scenes/badge";
@@ -10,7 +10,19 @@ import { Buttons } from "@repo/ui/buttons/scenes";
 import { Input } from "@repo/ui/inputs/scenes/input";
 import { Label } from "@repo/ui/label/scenes/label";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
-import { HiOutlineCheckCircle, HiOutlineExclamationTriangle } from "react-icons/hi2";
+import {
+  HiOutlineArrowTopRightOnSquare,
+  HiOutlineCheckCircle,
+  HiOutlineDocumentDuplicate,
+  HiOutlineExclamationTriangle,
+  HiOutlineListBullet,
+  HiOutlineSwatch,
+  HiOutlinePlus,
+  HiOutlineXMark,
+} from "react-icons/hi2";
+import { AsyncCombobox, type ComboOption } from "@/components/async-combobox";
+import { Link } from "@/shared/i18n/routing";
+import { ActionBar, KpiStrip, SectionCard } from "./form-parts";
 import { notify } from "@/components/notifications";
 import {
   EMPTY_DRAFT,
@@ -23,6 +35,7 @@ import {
 } from "../models/product-attributes.interface";
 import {
   getProductAttributesServerAction,
+  listAttributesServerAction,
   saveProductAttributesServerAction,
 } from "@/app/[locale]/catalogo/products/actions";
 
@@ -34,7 +47,30 @@ interface IProductAttributesEditorProps {
   handleClose?: () => void;
 }
 
-type SheetItem = { definition: IAttributeDefinition; required: boolean };
+/** Fila de la ficha: atributo, si es obligatorio y si viene de la plantilla o es adicional. */
+type SheetItem = { definition: IAttributeDefinition; required: boolean; fromTemplate: boolean };
+
+type TemplateItem = NonNullable<IProductTemplateDefinition["attributes"]>[number];
+
+const hasValue = (draft: AttributeDraft | undefined, dataType?: string) => {
+  if (!draft) return false;
+  switch (dataType) {
+    case "NUMBER":
+      return draft.number.trim() !== "";
+    case "BOOLEAN":
+      return draft.bool !== "";
+    case "OPTION":
+      return draft.option !== "";
+    default:
+      return draft.text.trim() !== "";
+  }
+};
+
+const normalize = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
 const draftFrom = (value: IProductAttributes["values"] extends (infer V)[] | undefined ? V : never): AttributeDraft => ({
   text: value.value_text ?? "",
@@ -45,8 +81,10 @@ const draftFrom = (value: IProductAttributes["values"] extends (infer V)[] | und
 
 /**
  * Ficha técnica del producto: plantilla, valores por atributo y opciones de los
- * ejes (color, talla…) en cada variante. Si el producto está publicado, el
- * backend exige obligatorios y ejes completos.
+ * ejes (color, talla…) en cada variante. Los obligatorios de la plantilla están
+ * siempre en la ficha; los opcionales se añaden uno a uno (o todos) y, además, se
+ * puede sumar cualquier atributo ya creado como adicional. Si el producto está
+ * publicado, el backend exige obligatorios y ejes completos.
  */
 export const ProductAttributesEditor = ({ productId, templates, attributes, handleClose }: IProductAttributesEditorProps) => {
   const t = useTranslations("Administre.productAttributes");
@@ -59,12 +97,54 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
   const [saving, setSaving] = useState(false);
   const [templateId, setTemplateId] = useState<string>(NONE);
   const [drafts, setDrafts] = useState<Record<number, AttributeDraft>>({});
+  /** Atributos que el usuario tiene en la ficha (además de los obligatorios), en orden. */
+  const [rowIds, setRowIds] = useState<number[]>([]);
+  /**
+   * Catálogo de atributos: arranca con el de la página y se vuelve a pedir al servidor al
+   * abrir el buscador o al volver a esta pestaña, para ver atributos recién creados.
+   */
+  const [catalog, setCatalog] = useState<IAttributeDefinition[]>(attributes);
+  const catalogRequest = useRef<Promise<IAttributeDefinition[]> | null>(null);
+  const refreshCatalog = useCallback(() => {
+    if (!catalogRequest.current) {
+      catalogRequest.current = listAttributesServerAction()
+        .then((result) => {
+          if (!result.success || !result.data) return null;
+          setCatalog(result.data);
+          return result.data;
+        })
+        .catch(() => null)
+        .then((fresh) => {
+          catalogRequest.current = null;
+          return fresh ?? [];
+        });
+    }
+    return catalogRequest.current;
+  }, []);
+
+  useEffect(() => {
+    setCatalog(attributes);
+  }, [attributes]);
+
+  // Al volver de crear un atributo en otra pestaña, el catálogo se actualiza solo.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void refreshCatalog();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
+    };
+  }, [refreshCatalog]);
   const [variantOptions, setVariantOptions] = useState<Record<number, Record<number, string>>>({});
 
   const hydrate = (result: IProductAttributes) => {
     setData(result);
     setTemplateId(result.template_id != null ? String(result.template_id) : NONE);
     setDrafts(Object.fromEntries((result.values ?? []).map((value) => [value.attribute_id, draftFrom(value)])));
+    setRowIds((result.values ?? []).map((value) => value.attribute_id));
     setVariantOptions(
       Object.fromEntries(
         (result.variants ?? []).map((variant) => [
@@ -88,33 +168,95 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
-  const attributesById = useMemo(
-    () => new Map(attributes.filter((item) => item.id != null).map((item) => [item.id as number, item])),
-    [attributes],
-  );
+  /** Catálogo completo de atributos (más los que trae la ficha, por si alguno no viene en la lista). */
+  const attributesById = useMemo(() => {
+    const map = new Map<number, IAttributeDefinition>();
+    for (const item of [...(data?.attributes ?? []), ...catalog]) {
+      if (item.id != null) map.set(item.id, item);
+    }
+    return map;
+  }, [catalog, data?.attributes]);
   const template = templates.find((item) => String(item.id) === templateId) ?? null;
 
-  /** Atributos de la ficha (sin ejes) y ejes de variante según la plantilla elegida. */
-  const { sheet, axes } = useMemo(() => {
-    if (!template) {
-      return {
-        sheet: attributes.map((definition) => ({ definition, required: false }) as SheetItem),
-        axes: [] as IAttributeDefinition[],
-      };
+  /**
+   * Ficha: obligatorios de la plantilla + los que el usuario añadió (opcionales de la
+   * plantilla y adicionales). Ejes de variante aparte. Sugerencias = opcionales aún no añadidos.
+   */
+  const { sheet, axes, suggestions, axisIds } = useMemo(() => {
+    const items: TemplateItem[] = template?.attributes ?? [];
+    const resolve = (attributeId: number) =>
+      items.find((item) => item.attribute_id === attributeId)?.attribute ?? attributesById.get(attributeId);
+    const axisItems = items.filter((item) => item.variant_axis);
+    const axisSet = new Set(axisItems.map((item) => item.attribute_id));
+    const sheetItems = items.filter((item) => !item.variant_axis);
+    const chosen = new Set(rowIds);
+
+    const rows: SheetItem[] = [];
+    const seen = new Set<number>();
+    // Primero los de la plantilla (en su orden): obligatorios siempre, opcionales si se añadieron.
+    for (const item of sheetItems) {
+      const definition = resolve(item.attribute_id);
+      if (!definition || !(item.required || chosen.has(item.attribute_id))) continue;
+      rows.push({ definition, required: Boolean(item.required), fromTemplate: true });
+      seen.add(item.attribute_id);
     }
-    const items = template.attributes ?? [];
-    const resolve = (attributeId: number) => items.find((item) => item.attribute_id === attributeId)?.attribute ?? attributesById.get(attributeId);
+    // Luego los adicionales, en el orden en que se añadieron.
+    for (const attributeId of rowIds) {
+      if (seen.has(attributeId) || axisSet.has(attributeId)) continue;
+      const definition = attributesById.get(attributeId);
+      if (!definition) continue;
+      rows.push({ definition, required: false, fromTemplate: false });
+      seen.add(attributeId);
+    }
     return {
-      sheet: items
-        .filter((item) => !item.variant_axis)
-        .map((item) => ({ definition: resolve(item.attribute_id), required: Boolean(item.required) }))
-        .filter((item): item is SheetItem => item.definition != null),
-      axes: items
-        .filter((item) => item.variant_axis)
+      sheet: rows,
+      axes: axisItems.map((item) => resolve(item.attribute_id)).filter((item): item is IAttributeDefinition => item != null),
+      suggestions: sheetItems
+        .filter((item) => !seen.has(item.attribute_id))
         .map((item) => resolve(item.attribute_id))
         .filter((item): item is IAttributeDefinition => item != null),
+      axisIds: axisSet,
     };
-  }, [template, attributes, attributesById]);
+  }, [template, rowIds, attributesById]);
+
+  const addRows = (ids: number[]) =>
+    setRowIds((current) => [...current, ...ids.filter((id) => !current.includes(id))]);
+  const removeRow = (attributeId: number) => setRowIds((current) => current.filter((id) => id !== attributeId));
+
+  /**
+   * Búsqueda para añadir adicionales (sin los que ya están ni los ejes). Es estable (lee
+   * refs) para que el combobox no repita la búsqueda en cada render: al abrirlo, sin texto,
+   * pide el catálogo actualizado al servidor; al escribir, filtra lo ya cargado.
+   */
+  const searchState = useRef({ catalog, sheetIds: new Set<number>(), axisIds, typeLabel: (type: string) => type });
+  searchState.current = {
+    catalog,
+    sheetIds: new Set(sheet.map((item) => item.definition.id as number)),
+    axisIds,
+    typeLabel: (type: string) => tAttr(`types.${type as "TEXT"}`),
+  };
+  const searchAttributes = useCallback(
+    async (query: string): Promise<ComboOption<IAttributeDefinition>[]> => {
+      const needle = normalize(query.trim());
+      let source = searchState.current.catalog;
+      if (!needle) {
+        const fresh = await refreshCatalog();
+        if (fresh.length > 0) source = fresh;
+      }
+      const { sheetIds, axisIds: axes, typeLabel } = searchState.current;
+      return source
+        .filter((item) => item.id != null && !sheetIds.has(item.id) && !axes.has(item.id))
+        .filter((item) => !needle || normalize(`${item.name ?? ""} ${item.code ?? ""}`).includes(needle))
+        .slice(0, 30)
+        .map((item) => ({
+          value: String(item.id),
+          label: item.name ?? item.code ?? `#${item.id}`,
+          hint: [typeLabel(item.data_type ?? "TEXT"), item.unit_name].filter(Boolean).join(" · "),
+          data: item,
+        }));
+    },
+    [refreshCatalog],
+  );
 
   /** Combinaciones repetidas entre variantes con todos los ejes elegidos. */
   const duplicatedSkus = useMemo(() => {
@@ -144,6 +286,17 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
       ...current,
       [skuId]: { ...current[skuId], [attributeId]: optionId === NONE ? "" : optionId },
     }));
+
+  // Al cambiar de plantilla, los valores ya escritos se conservan (como adicionales si no están en la nueva).
+  const changeTemplate = (value: string) => {
+    setTemplateId(value);
+    setRowIds((current) => {
+      const filled = Object.keys(drafts)
+        .map(Number)
+        .filter((id) => hasValue(drafts[id], attributesById.get(id)?.data_type));
+      return [...current, ...filled.filter((id) => !current.includes(id))];
+    });
+  };
 
   const buildPayload = (): IProductAttributesSaveRequest => ({
     template_id: template?.id,
@@ -194,7 +347,14 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
     return <p className='text-sm text-destructive'>{loadError}</p>;
   }
   if (!data) {
-    return <p className='text-sm text-muted-foreground'>{t("loading")}</p>;
+    return (
+      <div className='grid gap-4' aria-busy='true'>
+        <p className='sr-only'>{t("loading")}</p>
+        {[0, 1, 2].map((key) => (
+          <div key={key} className='h-32 animate-pulse rounded-2xl border border-border bg-muted/40' />
+        ))}
+      </div>
+    );
   }
 
   const published = data.product_status === "ACTIVE";
@@ -210,23 +370,57 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
     ...(definition.options ?? []).map((option) => ({ id: String(option.id), value: String(option.id), label: option.value })),
   ];
 
+  const filledCount = sheet.filter(({ definition }) => hasValue(drafts[definition.id as number], definition.data_type)).length;
+  const requiredCount = sheet.filter((item) => item.required).length;
+  const requiredFilled = sheet.filter((item) => item.required && hasValue(drafts[item.definition.id as number], item.definition.data_type)).length;
+  const variantsTotal = (data.variants ?? []).length;
+  const variantsComplete =
+    axes.length === 0
+      ? 0
+      : (data.variants ?? []).filter((variant) => axes.every((axis) => (variantOptions[variant.sku_id]?.[axis.id as number] ?? "") !== "")).length;
+
   return (
-    <div className='space-y-6'>
-      <div className='flex flex-wrap items-start justify-between gap-3'>
+    <div className='grid gap-6'>
+      <KpiStrip
+        items={[
+          { label: t("kpiAttributes"), value: String(sheet.length), icon: HiOutlineListBullet },
+          {
+            label: t("kpiFilled"),
+            value: `${filledCount}/${sheet.length}`,
+            icon: HiOutlineCheckCircle,
+            tone: sheet.length > 0 && filledCount === sheet.length ? "good" : undefined,
+          },
+          {
+            label: t("kpiRequired"),
+            value: requiredCount === 0 ? "—" : `${requiredFilled}/${requiredCount}`,
+            icon: HiOutlineExclamationTriangle,
+            tone: requiredCount === 0 ? undefined : requiredFilled === requiredCount ? "good" : "warn",
+          },
+          {
+            label: t("kpiVariants"),
+            value: axes.length === 0 ? "—" : `${variantsComplete}/${variantsTotal}`,
+            icon: HiOutlineSwatch,
+            tone: axes.length === 0 ? undefined : variantsComplete === variantsTotal ? "good" : "warn",
+          },
+        ]}
+      />
+
+      <SectionCard
+        id='specs-template'
+        icon={HiOutlineDocumentDuplicate}
+        title={t("template")}
+        hint={template ? t("templateHint") : t("noTemplateHint")}
+        actions={<Badge variant={published ? "default" : "outline"}>{published ? t("published") : t("notPublished")}</Badge>}>
         <FormSelectField
-          label={t("template")}
-          description={template ? t("templateHint") : t("noTemplateHint")}
+          aria-label={t("template")}
           data={templateOptions}
           value={templateId}
-          onValueChange={(value) => setTemplateId(value)}
+          onValueChange={changeTemplate}
+          searchable
           triggerClassName='!w-full'
-          className='min-w-64 flex-1'
+          className='col-span-12 md:col-span-6'
         />
-        <Badge variant={published ? "default" : "outline"} className='mt-6'>
-          {published ? t("published") : t("notPublished")}
-        </Badge>
-      </div>
-
+        <div className='col-span-12 md:col-span-6'>
       {missing.length > 0 ? (
         <div className='flex gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm' role='status'>
           <HiOutlineExclamationTriangle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden='true' />
@@ -236,75 +430,185 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
           </div>
         </div>
       ) : template ? (
-        <p className='flex items-center gap-2 text-sm text-muted-foreground'>
+        <p className='flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-800 dark:text-emerald-300'>
           <HiOutlineCheckCircle className='h-4 w-4' aria-hidden='true' />
           {t("complete")}
         </p>
       ) : null}
-
-      <section className='space-y-3'>
-        <h3 className='text-sm font-semibold text-foreground'>{t("sheet")}</h3>
-        {sheet.length === 0 ? <p className='text-sm text-muted-foreground'>{t("emptySheet")}</p> : null}
-        <div className='grid grid-cols-12 gap-4'>
-          {sheet.map(({ definition, required }) => {
-            const id = definition.id as number;
-            const draft = drafts[id] ?? EMPTY_DRAFT;
-            const label = `${definition.name ?? definition.code}${required ? " *" : ""}`;
-            const inputId = `attr-${id}`;
-            if (definition.data_type === "OPTION" || definition.data_type === "BOOLEAN") {
-              const data =
-                definition.data_type === "OPTION"
-                  ? optionsOf(definition, t("noValue"))
-                  : [
-                      { id: NONE, value: NONE, label: t("noValue") },
-                      { id: "true", value: "true", label: tCommon("yes") },
-                      { id: "false", value: "false", label: tCommon("no") },
-                    ];
-              const current = definition.data_type === "OPTION" ? draft.option : draft.bool;
-              return (
-                <FormSelectField
-                  key={id}
-                  label={label}
-                  data={data}
-                  value={current === "" ? NONE : current}
-                  onValueChange={(value) =>
-                    definition.data_type === "OPTION"
-                      ? setDraft(id, { option: value === NONE ? "" : value })
-                      : setDraft(id, { bool: value === NONE ? "" : (value as "true" | "false") })
-                  }
-                  triggerClassName='!w-full'
-                  className='col-span-12 md:col-span-6'
-                />
-              );
-            }
-            return (
-              <div key={id} className='col-span-12 space-y-2 md:col-span-6'>
-                <Label htmlFor={inputId}>{label}</Label>
-                <div className='flex items-center gap-2'>
-                  <Input
-                    id={inputId}
-                    type={definition.data_type === "NUMBER" ? "number" : "text"}
-                    step={definition.data_type === "NUMBER" ? "any" : undefined}
-                    maxLength={definition.data_type === "TEXT" ? 500 : undefined}
-                    value={definition.data_type === "NUMBER" ? draft.number : draft.text}
-                    onChange={(event) =>
-                      definition.data_type === "NUMBER"
-                        ? setDraft(id, { number: event.target.value })
-                        : setDraft(id, { text: event.target.value })
-                    }
-                  />
-                  {definition.unit_name ? <span className='text-sm text-muted-foreground'>{definition.unit_name}</span> : null}
-                </div>
-                <p className='text-xs text-muted-foreground'>{tAttr(`types.${(definition.data_type ?? "TEXT") as "TEXT"}`)}</p>
-              </div>
-            );
-          })}
         </div>
-      </section>
+      </SectionCard>
+
+      <SectionCard
+        id='specs-sheet'
+        icon={HiOutlineListBullet}
+        title={t("sheet")}
+        hint={t("sheetHint")}
+        actions={<span className='text-xs text-muted-foreground'>{t("sheetCount", { count: sheet.length })}</span>}
+        contentClassName='grid gap-4 px-5 py-5'>
+
+        {suggestions.length > 0 ? (
+          <div className='rounded-xl border border-dashed border-border bg-muted/20 p-3'>
+            <div className='mb-2 flex flex-wrap items-center justify-between gap-2'>
+              <p className='text-sm font-medium text-foreground'>{t("suggestions", { count: suggestions.length })}</p>
+              <Buttons
+                type='button'
+                variant='ghost'
+                size='sm'
+                className='rounded-full'
+                onClick={() => addRows(suggestions.map((item) => item.id as number))}>
+                {t("addAll")}
+              </Buttons>
+            </div>
+            <div className='flex flex-wrap gap-2'>
+              {suggestions.map((item) => (
+                <button
+                  key={item.id}
+                  type='button'
+                  onClick={() => addRows([item.id as number])}
+                  className='inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1 text-sm text-foreground transition-colors hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'>
+                  <HiOutlinePlus className='h-3.5 w-3.5' aria-hidden='true' />
+                  {item.name ?? item.code}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        {sheet.length === 0 ? (
+          <p className='rounded-xl border border-border p-4 text-sm text-muted-foreground'>
+            {template ? t("emptySheet") : t("emptySheetFree")}
+          </p>
+        ) : (
+          <ul className='grid gap-3'>
+            {sheet.map(({ definition, required, fromTemplate }) => {
+              const id = definition.id as number;
+              const draft = drafts[id] ?? EMPTY_DRAFT;
+              const name = definition.name ?? definition.code ?? `#${id}`;
+              const inputId = `attr-${id}`;
+              const typeLabel = tAttr(`types.${(definition.data_type ?? "TEXT") as "TEXT"}`);
+              const missingRequired = required && !hasValue(draft, definition.data_type);
+
+              let field: ReactNode;
+              if (definition.data_type === "OPTION" || definition.data_type === "BOOLEAN") {
+                const choices =
+                  definition.data_type === "OPTION"
+                    ? optionsOf(definition, t("noValue"))
+                    : [
+                        { id: NONE, value: NONE, label: t("noValue") },
+                        { id: "true", value: "true", label: tCommon("yes") },
+                        { id: "false", value: "false", label: tCommon("no") },
+                      ];
+                const current = definition.data_type === "OPTION" ? draft.option : draft.bool;
+                field = (
+                  <FormSelectField
+                    aria-label={name}
+                    data={choices}
+                    value={current === "" ? NONE : current}
+                    onValueChange={(value) =>
+                      definition.data_type === "OPTION"
+                        ? setDraft(id, { option: value === NONE ? "" : value })
+                        : setDraft(id, { bool: value === NONE ? "" : (value as "true" | "false") })
+                    }
+                    triggerClassName='!w-full'
+                  />
+                );
+              } else {
+                field = (
+                  <div className='flex items-center gap-2'>
+                    <Input
+                      id={inputId}
+                      type={definition.data_type === "NUMBER" ? "number" : "text"}
+                      inputMode={definition.data_type === "NUMBER" ? "decimal" : undefined}
+                      step={definition.data_type === "NUMBER" ? "any" : undefined}
+                      maxLength={definition.data_type === "TEXT" ? 500 : undefined}
+                      placeholder={definition.description ?? undefined}
+                      aria-invalid={missingRequired || undefined}
+                      value={definition.data_type === "NUMBER" ? draft.number : draft.text}
+                      onChange={(event) =>
+                        definition.data_type === "NUMBER"
+                          ? setDraft(id, { number: event.target.value })
+                          : setDraft(id, { text: event.target.value })
+                      }
+                    />
+                    {definition.unit_name ? (
+                      <span className='min-w-8 text-sm font-medium text-muted-foreground'>{definition.unit_name}</span>
+                    ) : null}
+                  </div>
+                );
+              }
+
+              return (
+                <li
+                  key={id}
+                  className='grid gap-3 rounded-xl border border-border bg-card p-3 sm:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto] sm:items-center'>
+                  <div className='min-w-0'>
+                    <Label htmlFor={inputId} className='font-medium text-foreground'>
+                      {name}
+                      {required ? <span className='text-destructive'> *</span> : null}
+                    </Label>
+                    <div className='mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground'>
+                      <span>{typeLabel}</span>
+                      {required ? (
+                        <Badge variant='outline'>{t("required")}</Badge>
+                      ) : fromTemplate ? (
+                        <Badge variant='outline'>{t("fromTemplate")}</Badge>
+                      ) : (
+                        <Badge variant='secondary'>{t("extra")}</Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div className='min-w-0'>{field}</div>
+                  <Buttons
+                    type='button'
+                    variant='ghost'
+                    size='icon'
+                    className='justify-self-end rounded-full'
+                    disabled={required}
+                    title={required ? t("requiredLocked") : t("removeAttribute", { name })}
+                    aria-label={t("removeAttribute", { name })}
+                    onClick={() => removeRow(id)}>
+                    <HiOutlineXMark className='h-4 w-4' aria-hidden='true' />
+                  </Buttons>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+
+        <div className='grid gap-2 rounded-xl border border-border p-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center'>
+          <div>
+            <Label htmlFor='add-attribute'>{t("addAttribute")}</Label>
+            <p className='mb-2 text-xs text-muted-foreground'>{template ? t("addAttributeHint") : t("addAttributeHintFree")}</p>
+            <AsyncCombobox<IAttributeDefinition>
+              id='add-attribute'
+              value={null}
+              search={searchAttributes}
+              debounceMs={0}
+              clearable={false}
+              placeholder={t("addAttributePlaceholder")}
+              searchPlaceholder={t("addAttributeSearch")}
+              onChange={(value) => {
+                if (value) addRows([Number(value)]);
+              }}
+            />
+          </div>
+          <Link
+            href='/fichaTecnica/attributes/new'
+            target='_blank'
+            className='inline-flex items-center gap-1 self-end text-sm font-medium text-primary underline-offset-4 hover:underline'>
+            {t("createAttribute")}
+            <HiOutlineArrowTopRightOnSquare className='h-3.5 w-3.5' aria-hidden='true' />
+          </Link>
+        </div>
+      </SectionCard>
 
       {axes.length > 0 ? (
-        <section className='space-y-3'>
-          <h3 className='text-sm font-semibold text-foreground'>{t("variants")}</h3>
+        <SectionCard
+          id='specs-variants'
+          icon={HiOutlineSwatch}
+          title={t("variants")}
+          hint={t("variantsHint")}
+          contentClassName='grid gap-3 px-5 py-5'>
           {(data.variants ?? []).length === 0 ? (
             <p className='text-sm text-muted-foreground'>{t("noVariants")}</p>
           ) : (
@@ -353,20 +657,28 @@ export const ProductAttributesEditor = ({ productId, templates, attributes, hand
             </div>
           )}
           {duplicatedSkus.size > 0 ? <p className='text-sm text-destructive'>{t("duplicatedCombination")}</p> : null}
-          <p className='text-xs text-muted-foreground'>{t("variantsHint")}</p>
-        </section>
+        </SectionCard>
       ) : null}
 
-      <div className='flex justify-end gap-2'>
+      <ActionBar
+        message={
+          duplicatedSkus.size > 0 ? (
+            <span className='text-destructive'>{t("duplicatedCombination")}</span>
+          ) : missing.length > 0 ? (
+            t("saveHintMissing", { count: missing.length })
+          ) : (
+            t("saveHint")
+          )
+        }>
         {handleClose ? (
           <Buttons type='button' variant='outline' className='rounded-full' onClick={handleClose}>
             {tCommon("cancel")}
           </Buttons>
         ) : null}
-        <Buttons type='button' loading={saving} className='rounded-full' onClick={save}>
+        <Buttons type='button' loading={saving} className='rounded-full px-6' onClick={save}>
           {tCommon("save")}
         </Buttons>
-      </div>
+      </ActionBar>
     </div>
   );
 };

@@ -7,7 +7,18 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Badge } from "@repo/ui/badges/scenes/badge";
 import { TabsContent } from "@repo/ui/tabs/scenes/tabs";
-import { HiOutlineCube } from "react-icons/hi2";
+import {
+  HiOutlineArchiveBox,
+  HiOutlineBanknotes,
+  HiOutlineClipboardDocumentList,
+  HiOutlineCube,
+  HiOutlineDocumentText,
+  HiOutlinePhoto,
+  HiOutlineRectangleStack,
+  HiOutlineSwatch,
+} from "react-icons/hi2";
+import { formatMoney, formatNumber } from "@/lib/format";
+import { KpiStrip } from "../components/form-parts";
 import { statusOf, type IProduct, type ProductStatus } from "../models/product.interface";
 import type { IAttributeDefinition, IProductTemplateDefinition } from "../models/product-attributes.interface";
 import {
@@ -89,14 +100,43 @@ export const ProductEditor = ({
   };
 
   const status = statusOf(product);
+  const available = levels.reduce((sum, level) => sum + (level.available ?? 0), 0);
+  const reservedUnits = levels.reduce((sum, level) => sum + (level.reserved ?? 0), 0);
+  const galleryCount = images.filter((image) => image.sku_id == null).length;
   const tabs: EditorTabItem[] = [
-    { id: "general", label: t("tabs.general") },
-    { id: "variants", label: t("tabs.variants"), count: variants.length || undefined },
-    { id: "specs", label: t("tabs.specs") },
-    { id: "images", label: t("tabs.images"), count: images.filter((image) => image.sku_id == null).length || undefined },
-    { id: "stock", label: t("tabs.stock") },
-    ...(isCombo ? [{ id: "combo" as const, label: t("tabs.combo"), count: comboItems.length || undefined }] : []),
+    { id: "general", label: t("tabs.general"), icon: HiOutlineDocumentText },
+    { id: "variants", label: t("tabs.variants"), icon: HiOutlineSwatch, count: variants.length || undefined },
+    { id: "specs", label: t("tabs.specs"), icon: HiOutlineClipboardDocumentList },
+    {
+      id: "images",
+      label: t("tabs.images"),
+      icon: HiOutlinePhoto,
+      count: galleryCount || undefined,
+      alert: galleryCount === 0 ? "warn" : undefined,
+      alertLabel: galleryCount === 0 ? t("tabAlerts.noImages") : undefined,
+    },
+    {
+      id: "stock",
+      label: t("tabs.stock"),
+      icon: HiOutlineArchiveBox,
+      alert: available <= 0 ? "danger" : levels.some((level) => level.below_threshold) ? "warn" : undefined,
+      alertLabel:
+        available <= 0 ? t("tabAlerts.noStock") : levels.some((level) => level.below_threshold) ? t("tabAlerts.lowStock") : undefined,
+    },
+    ...(isCombo
+      ? [
+          {
+            id: "combo" as const,
+            label: t("tabs.combo"),
+            icon: HiOutlineRectangleStack,
+            count: comboItems.length || undefined,
+            alert: comboItems.length === 0 ? ("warn" as const) : undefined,
+            alertLabel: comboItems.length === 0 ? t("tabAlerts.noComponents") : undefined,
+          },
+        ]
+      : []),
   ];
+
 
   return (
     <ProductEditorLayout
@@ -108,6 +148,27 @@ export const ProductEditor = ({
       actions={<Badge variant={STATUS_VARIANT[status]}>{tProduct(`statuses.${status}`)}</Badge>}
       tabs={tabs}
       tab={tab}
+      plain
+      summary={
+        <KpiStrip
+          items={[
+            { label: tProduct("fields.unitPrice"), value: formatMoney(product.unit_price), icon: HiOutlineBanknotes },
+            {
+              label: t("summaryAvailable"),
+              value: formatNumber(available),
+              icon: HiOutlineArchiveBox,
+              tone: available > 0 ? "good" : "bad",
+              hint: reservedUnits > 0 ? t("summaryReserved", { count: reservedUnits }) : undefined,
+            },
+            {
+              label: t("summaryVariants"),
+              value: variants.length > 0 ? formatNumber(variants.length) : t(`types.${product.product_type ?? "SIMPLE"}`),
+              icon: HiOutlineSwatch,
+            },
+            { label: t("summaryImages"), value: formatNumber(galleryCount), icon: HiOutlinePhoto, tone: galleryCount === 0 ? "warn" : undefined },
+          ]}
+        />
+      }
       onTabChange={changeTab}>
       <TabsContent value='general'>
         <UpdateProduct product={product} units={units} />

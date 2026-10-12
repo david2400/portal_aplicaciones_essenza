@@ -13,13 +13,24 @@ import { Badge } from "@repo/ui/badges/scenes/badge";
 import { FormField } from "@repo/ui/form/scenes/form-field";
 import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
-import { HiOutlineCube, HiOutlineInformationCircle, HiOutlinePencilSquare, HiOutlinePlusCircle, HiOutlineTrash } from "react-icons/hi2";
+import {
+  HiOutlineArchiveBox,
+  HiOutlineBanknotes,
+  HiOutlineCheckCircle,
+  HiOutlineCube,
+  HiOutlinePencilSquare,
+  HiOutlinePhoto,
+  HiOutlinePlusCircle,
+  HiOutlineSwatch,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import { DataGrid, type GridColumn, type RowAction } from "@/components/data-grid";
 import { confirm, notify } from "@/components/notifications";
 import { formatMoney, formatNumber } from "@/lib/format";
 import { formatQuantity, unitById, unitsOf, type IUnit } from "@/shared/units/units";
 import type { IProduct } from "../../models/product.interface";
 import type { IProductSku, IProductVariant } from "../../models/product-editor.interface";
+import { EmptyBlock, KpiStrip, SectionCard } from "../form-parts";
 import { validationVariant, type VariantFormValues } from "../../schemas/product-editor.schema";
 import {
   createVariantServerAction,
@@ -33,11 +44,13 @@ const VariantForm = ({
   productId,
   variant,
   onDone,
+  onCancel,
   units,
 }: {
   productId: number;
   variant: IProductVariant | null;
   onDone: () => void;
+  onCancel: () => void;
   units: IUnit[];
 }) => {
   const tForm = useTranslations("Administre.productChild");
@@ -61,6 +74,7 @@ const VariantForm = ({
     },
   });
   const tEditor = useTranslations("Administre.productEditor.form");
+  const tEditorRoot = useTranslations("Administre.productEditor");
   const contentUnits = unitsOf(units, "VOLUME", "MASS", "COUNT", "LENGTH", "AREA");
   const imageUrl = useWatch({ control, name: "image_url" });
   const showPreview = Boolean(imageUrl && /^https?:\/\//i.test(imageUrl));
@@ -94,62 +108,61 @@ const VariantForm = ({
     { id: "false", value: "false", label: tCommon("no") },
   ];
 
+  const group = (title: string) => (
+    <p className='col-span-12 border-b border-border pb-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground'>{title}</p>
+  );
+
   return (
-    <form onSubmit={handleSubmit(submit)} className='space-y-6'>
+    <form onSubmit={handleSubmit(submit)} className='grid gap-6'>
       <div className='grid grid-cols-12 gap-4'>
+        {group(tEditorRoot("variantGroups.identity"))}
         <FormField
           controller={{ control, name: "name" }}
           label={tForm("fields.name")}
           description={tForm("nameHint")}
-          className='col-span-12'
-        />
-        <FormField
-          controller={{ control, name: "unit_price" }}
-          type='number'
-          step='0.01'
-          min={0}
-          label={tForm("fields.unitPrice")}
-          className='col-span-12 sm:col-span-4'
-        />
-        <FormField
-          controller={{ control, name: "stock" }}
-          type='number'
-          step='1'
-          min={0}
-          label={tForm("fields.stock")}
-          className='col-span-12 sm:col-span-4'
+          required
+          className='col-span-12 md:col-span-8'
         />
         <FormSelectField
           controller={{ control, name: "available" }}
           label={tForm("fields.available")}
           data={booleanOptions}
           triggerClassName='!w-full'
-          className='col-span-12 sm:col-span-4'
+          className='col-span-12 md:col-span-4'
+        />
+
+        {group(tEditorRoot("variantGroups.commercial"))}
+        <FormField
+          controller={{ control, name: "unit_price" }}
+          type='number'
+          inputMode='decimal'
+          step='0.01'
+          min={0}
+          prefix='$'
+          required
+          label={tForm("fields.unitPrice")}
+          className='col-span-12 sm:col-span-6 md:col-span-4'
         />
         <FormField
-          controller={{ control, name: "image_url" }}
-          label={tForm("fields.imageUrl")}
-          placeholder='https://'
-          className='col-span-12 md:col-span-9'
+          controller={{ control, name: "stock" }}
+          type='number'
+          inputMode='numeric'
+          step='1'
+          min={0}
+          suffix={tEditor("unitsSuffix")}
+          label={tForm("fields.stock")}
+          className='col-span-12 sm:col-span-6 md:col-span-4'
         />
-        <div className='col-span-12 flex items-end md:col-span-3'>
-          {showPreview ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={imageUrl} alt={tForm("imagePreview")} className='h-20 w-20 rounded-xl border border-border object-cover' />
-          ) : (
-            <div className='flex h-20 w-20 items-center justify-center rounded-xl border border-dashed border-border text-center text-[10px] text-muted-foreground'>
-              {tForm("noImage")}
-            </div>
-          )}
-        </div>
+        <div className='hidden md:col-span-4 md:block' />
         <FormField
           controller={{ control, name: "net_content" }}
           type='number'
+          inputMode='decimal'
           step='any'
           min={0}
           label={tEditor("netContent")}
           description={tEditor("variantNetContentHint")}
-          className='col-span-7 sm:col-span-6'
+          className='col-span-7 md:col-span-4'
         />
         <FormSelectField
           controller={{ control, name: "net_content_unit_id" }}
@@ -160,13 +173,30 @@ const VariantForm = ({
           ]}
           searchable
           triggerClassName='!w-full'
-          className='col-span-5 sm:col-span-6'
+          className='col-span-5 md:col-span-4'
         />
+
+        {group(tEditorRoot("variantGroups.media"))}
+        <div className='col-span-12 flex gap-4'>
+          {showPreview ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={imageUrl} alt={tForm("imagePreview")} className='h-24 w-24 shrink-0 rounded-xl border border-border object-cover' />
+          ) : (
+            <div className='flex h-24 w-24 shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border text-center text-[10px] text-muted-foreground'>
+              <HiOutlinePhoto className='h-6 w-6' aria-hidden='true' />
+              {tForm("noImage")}
+            </div>
+          )}
+          <FormField controller={{ control, name: "image_url" }} label={tForm("fields.imageUrl")} placeholder='https://' className='min-w-0 flex-1' />
+        </div>
         <FormTextAreaField controller={{ control, name: "description" }} label={tForm("fields.description")} className='col-span-12' />
       </div>
-      <div className='flex justify-end'>
-        <Buttons type='submit' loading={isSubmitting}>
-          {tCommon("save")}
+      <div className='flex justify-end gap-2 border-t border-border pt-4'>
+        <Buttons type='button' variant='outline' className='rounded-full' onClick={onCancel}>
+          {tCommon("cancel")}
+        </Buttons>
+        <Buttons type='submit' loading={isSubmitting} className='rounded-full px-6'>
+          {variant ? tCommon("save") : tForm("create")}
         </Buttons>
       </div>
     </form>
@@ -293,48 +323,79 @@ export const VariantsTab = ({
     </Buttons>
   );
 
+  const activeCount = rows.filter((row) => row.available).length;
+  const totalStock = rows.reduce((sum, row) => sum + (row.sku?.stock ?? row.stock ?? 0), 0);
+  const prices = rows.map((row) => row.unit_price).filter((value): value is number => value != null);
+  const priceRange =
+    prices.length === 0
+      ? "—"
+      : Math.min(...prices) === Math.max(...prices)
+        ? formatMoney(prices[0])
+        : `${formatMoney(Math.min(...prices))} – ${formatMoney(Math.max(...prices))}`;
+
   return (
-    <div className='space-y-4'>
-      <div className='flex flex-wrap items-start justify-between gap-3'>
-        <div className='flex max-w-2xl gap-2 text-sm text-muted-foreground'>
-          <HiOutlineInformationCircle className='mt-0.5 h-4 w-4 shrink-0' aria-hidden='true' />
-          <p>{rows.length > 0 ? t("variantsHint") : t("simpleHint")}</p>
-        </div>
-        {addButton}
-      </div>
+    <div className='grid gap-6'>
+      {rows.length > 0 ? (
+        <KpiStrip
+          items={[
+            { label: t("variantsCount"), value: formatNumber(rows.length), icon: HiOutlineSwatch },
+            {
+              label: t("variantsActive"),
+              value: formatNumber(activeCount),
+              icon: HiOutlineCheckCircle,
+              tone: activeCount === 0 ? "bad" : undefined,
+            },
+            { label: t("variantsStock"), value: formatNumber(totalStock), icon: HiOutlineArchiveBox, tone: totalStock === 0 ? "warn" : undefined },
+            { label: t("variantsPriceRange"), value: priceRange, icon: HiOutlineBanknotes },
+          ]}
+        />
+      ) : null}
 
       {rows.length === 0 && defaultSku ? (
-        <dl className='grid grid-cols-2 gap-4 rounded-xl border border-border bg-muted/30 p-4 text-sm sm:grid-cols-4'>
-          <div>
-            <dt className='text-muted-foreground'>{t("sku")}</dt>
-            <dd className='mt-1 font-mono font-semibold'>{defaultSku.code}</dd>
-          </div>
-          <div>
-            <dt className='text-muted-foreground'>{tVariant("fields.unitPrice")}</dt>
-            <dd className='mt-1 font-semibold'>{formatMoney(defaultSku.price)}</dd>
-          </div>
-          <div>
-            <dt className='text-muted-foreground'>{tVariant("fields.stock")}</dt>
-            <dd className='mt-1 font-semibold'>{formatNumber(defaultSku.stock ?? 0)}</dd>
-          </div>
-          <div>
-            <dt className='text-muted-foreground'>{tVariant("fields.available")}</dt>
-            <dd className='mt-1 font-semibold'>{defaultSku.active ? tCommon("yes") : tCommon("no")}</dd>
-          </div>
-        </dl>
+        <SectionCard id='product-default-sku' icon={HiOutlineCube} title={t("defaultSku")} hint={t("simpleHint")}>
+          <dl className='col-span-12 grid grid-cols-2 gap-4 sm:grid-cols-4'>
+            <div className='rounded-xl bg-muted/30 p-3'>
+              <dt className='text-xs text-muted-foreground'>{t("sku")}</dt>
+              <dd className='mt-1 font-mono text-sm font-semibold'>{defaultSku.code}</dd>
+            </div>
+            <div className='rounded-xl bg-muted/30 p-3'>
+              <dt className='text-xs text-muted-foreground'>{tVariant("fields.unitPrice")}</dt>
+              <dd className='mt-1 text-sm font-semibold tabular-nums'>{formatMoney(defaultSku.price)}</dd>
+            </div>
+            <div className='rounded-xl bg-muted/30 p-3'>
+              <dt className='text-xs text-muted-foreground'>{tVariant("fields.stock")}</dt>
+              <dd className='mt-1 text-sm font-semibold tabular-nums'>{formatNumber(defaultSku.stock ?? 0)}</dd>
+            </div>
+            <div className='rounded-xl bg-muted/30 p-3'>
+              <dt className='text-xs text-muted-foreground'>{tVariant("fields.available")}</dt>
+              <dd className='mt-1'>
+                {defaultSku.active ? <Badge>{tCommon("active")}</Badge> : <Badge variant='outline'>{tCommon("inactive")}</Badge>}
+              </dd>
+            </div>
+          </dl>
+          <EmptyBlock icon={HiOutlineSwatch} title={t("noVariantsYet")} description={t("noVariantsYetHint")} action={addButton} />
+        </SectionCard>
       ) : (
-        <DataGrid<VariantRow>
-          mode='client'
-          embedded
+        <SectionCard
           id='product-variants'
-          caption={tVariant("title")}
-          data={rows}
-          columns={columns}
-          getRowId={(row) => String(row.id)}
-          searchText={(row) => `${row.name ?? ""} ${row.sku?.code ?? ""}`}
-          rowActions={rowActions}
-          emptyState={{ title: tVariant("emptyTitle"), description: tVariant("emptyDescription"), action: addButton }}
-        />
+          icon={HiOutlineSwatch}
+          title={tVariant("title")}
+          hint={t("variantsHint")}
+          actions={addButton}
+          contentClassName='p-4'>
+          <DataGrid<VariantRow>
+            mode='client'
+            embedded
+            id='product-variants'
+            caption={tVariant("title")}
+            data={rows}
+            columns={columns}
+            getRowId={(row) => String(row.id)}
+            searchText={(row) => `${row.name ?? ""} ${row.sku?.code ?? ""}`}
+            rowActions={rowActions}
+            emptyState={{ title: tVariant("emptyTitle"), description: tVariant("emptyDescription"), action: addButton }}
+          />
+        </SectionCard>
       )}
 
       <Modal
@@ -348,6 +409,7 @@ export const VariantsTab = ({
             productId={product.id}
             units={units}
             variant={modal.variant}
+            onCancel={() => setModal({ open: false, variant: null })}
             onDone={() => {
               setModal({ open: false, variant: null });
               router.refresh();
