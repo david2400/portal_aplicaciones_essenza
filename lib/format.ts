@@ -21,9 +21,16 @@ export const parseApiDate = (value?: string | null) => {
   return Number.isNaN(date.getTime()) ? null : date;
 };
 
+/**
+ * Node y el navegador pueden traer versiones distintas de ICU: una separa "p. m." con
+ * espacio normal y la otra con espacio fino o duro. Se normaliza para que el texto del
+ * servidor coincida con el del cliente al hidratar.
+ */
+const plainSpaces = (text: string) => text.replace(/[\u00a0\u202f\u2009]/g, " ");
+
 export const formatApiDate = (value?: string | null) => {
   const date = parseApiDate(value);
-  return date ? dateTime.format(date) : "—";
+  return date ? plainSpaces(dateTime.format(date)) : "—";
 };
 
 /** `LocalDate` (yyyy-MM-dd) sin desfase de zona horaria. */
@@ -31,7 +38,7 @@ export const formatLocalDate = (value?: string | null) => {
   if (!value) return "—";
   const [y, m, d] = value.slice(0, 10).split("-").map(Number);
   if (!y || !m || !d) return value;
-  return dateOnly.format(new Date(Date.UTC(y, m - 1, d, 12)));
+  return plainSpaces(dateOnly.format(new Date(Date.UTC(y, m - 1, d, 12))));
 };
 
 export const createdWithin = (value: string | null | undefined, days: number, now = Date.now()) => {

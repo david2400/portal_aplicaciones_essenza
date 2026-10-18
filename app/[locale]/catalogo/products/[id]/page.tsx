@@ -9,9 +9,11 @@ import { list_items_of_combo } from "@/server/domains/inventory/product-combos/q
 import { list_stock_levels, list_stock_reservations } from "@/server/domains/inventory/stock/queries";
 import { list_all_warehouses } from "@/server/domains/inventory/warehouses/queries";
 import { list_attributes } from "@/server/domains/catalog/attributes/queries";
+import { get_variant_matrix } from "@/server/domains/catalog/variant-matrix/queries";
 import { list_product_templates } from "@/server/domains/catalog/product-templates/queries";
 import { lookup_products } from "@/server/domains/lookups/queries";
 import { list_units } from "@/server/domains/product_details/unit-measurements/queries";
+import { list_tax_rates } from "@/server/domains/billing/tax-rates/queries";
 import { ServerApiError } from "@/server/lib/types";
 import { ProductEditor } from "@/modules/catalogo/products";
 
@@ -38,7 +40,7 @@ const ProductEditorPage = async ({ params }: { params: Params }) => {
     throw error;
   });
 
-  const [variants, images, levels, reservations, warehouses, templates, attributes, comboItems, units] = await Promise.all([
+  const [variants, images, levels, reservations, warehouses, templates, attributes, comboItems, units, taxRates, variantMatrix] = await Promise.all([
     list_variants_of_product({ product_id: productId }),
     list_product_images({ id: productId }),
     list_stock_levels({ product_id: productId }),
@@ -48,6 +50,9 @@ const ProductEditorPage = async ({ params }: { params: Params }) => {
     list_attributes(),
     product.is_combo ? list_items_of_combo({ combo_id: productId }) : Promise.resolve([]),
     list_units(),
+    list_tax_rates(false).catch(() => []),
+    // El asistente es opcional: si la matriz falla, la pestaña sigue con el listado clásico.
+    product.is_combo ? Promise.resolve(null) : get_variant_matrix(productId).catch(() => null),
   ]);
 
   // Nombres de los componentes del combo (solo esos ids, no el catálogo entero).
@@ -67,6 +72,8 @@ const ProductEditorPage = async ({ params }: { params: Params }) => {
       attributes={attributes}
       comboItems={comboItems.map((item) => ({ ...item, product_name: componentNames.get(item.product_id) }))}
       units={units}
+      taxRates={taxRates}
+      variantMatrix={variantMatrix}
     />
   );
 };

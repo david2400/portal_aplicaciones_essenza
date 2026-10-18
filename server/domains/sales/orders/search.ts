@@ -14,9 +14,13 @@ export const orders_resource = create_search_resource<OrderDto>({
   list_tag: orders_tags.list(),
   list_all: () => orders_repository.list_orders(),
   delete_one: (id) => orders_repository.delete_order({ id }),
-  search_fields: (item) => [item.id, item.complementary_order],
+  search_fields: (item) => [item.id, item.order_number, item.customer_name, item.customer_doc_number, item.complementary_order],
   filter_fields: {
     state: (item) => item.state,
+    channel: (item) => item.channel,
+    storeId: (item) => item.store_id,
+    priority: (item) => item.priority,
+    deliveryMethod: (item) => item.delivery_method,
   },
 });
 

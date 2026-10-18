@@ -4,16 +4,23 @@ import { parse_grid_query } from '@/server/lib/pagination';
 import type { BulkResult } from '@/shared/models/pagination';
 import { DEVOLUTION_GRID } from './grid';
 import {
-  create_order_devolution_action,
+  get_returnable_action,
+  request_return_action,
+  return_flow_action,
   update_order_devolution_action,
   delete_order_devolution_action,
   bulk_delete_order_devolutions_action,
   export_order_devolutions_action,
 } from '@/server/domains/devolution/order-devolutions/actions';
-import { get_order_devolution_by_id } from '@/server/domains/devolution/order-devolutions/queries';
 import type {
-  CreateOrderDevolutionDto,
+  ApproveReturnDto,
+  InspectReturnDto,
   OrderDevolutionDto,
+  ReceiveReturnDto,
+  RefundReturnDto,
+  RejectReturnDto,
+  ReturnRequestDto,
+  ReturnableOrderDto,
   UpdateOrderDevolutionPayload,
 } from '@/server/domains/devolution/order-devolutions/types';
 import {
@@ -30,7 +37,6 @@ import {
   delete_order_devolution_evidence_action,
 } from '@/server/domains/devolution/order-devolution-evidences/actions';
 import type { CreateOrderDevolutionEvidenceDto } from '@/server/domains/devolution/order-devolution-evidences/types';
-import { ServerApiError } from '@/server/lib/types';
 
 /**
  * Server actions de la ruta. Devuelven el resultado en lugar de lanzar,
@@ -48,13 +54,23 @@ const fail = (error: string | undefined, fallback: string): ActionResult<never> 
 
 // ─── Devolución ───────────────────────────────────────────────────────────────
 
-export async function createDevolutionServerAction(
-  payload: CreateOrderDevolutionDto,
+/** Solicitud de devolución con sus líneas. */
+export async function requestReturnServerAction(
+  payload: ReturnRequestDto,
 ): Promise<ActionResult<{ id?: number }>> {
-  const result = await create_order_devolution_action({ state: 'P', ...payload });
+  const result = await request_return_action(payload);
   return result.success
     ? { success: true, data: result.data }
     : fail(result.error, 'No se pudo registrar la devolución');
+}
+
+/** Lo que se puede devolver de una orden (excluyendo una devolución al editar sus líneas). */
+export async function getReturnableServerAction(
+  orderId: number,
+  excludeDevolutionId?: number,
+): Promise<ActionResult<ReturnableOrderDto>> {
+  const result = await get_returnable_action(orderId, excludeDevolutionId);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se encontró la orden');
 }
 
 export async function updateDevolutionServerAction(
@@ -69,53 +85,33 @@ export async function deleteDevolutionServerAction(id: number): Promise<ActionRe
   return result.success ? { success: true } : fail(result.error, 'No se pudo eliminar la devolución');
 }
 
-/** Campos que puede modificar un cambio de estado. */
-export type DevolutionTransitionPatch = Pick<
-  OrderDevolutionDto,
-  | 'state'
-  | 'approved_by'
-  | 'approved_at'
-  | 'received_by'
-  | 'received_at'
-  | 'inspection_notes'
-  | 'total_refund_amount'
->;
+// ─── Flujo ───────────────────────────────────────────────────────────────────
 
-/**
- * Cambia el estado de una devolución. El PUT del backend valida el payload
- * completo (`UpdateOrderDevolutionDto extends CreateOrderDevolutionDto`), así
- * que se parte del registro actual en el servidor y se aplica el parche.
- */
-export async function transitionDevolutionServerAction(
-  id: number,
-  patch: DevolutionTransitionPatch,
-): Promise<ActionResult> {
-  let current: OrderDevolutionDto;
-  try {
-    current = await get_order_devolution_by_id({ id });
-  } catch (error) {
-    return fail(error instanceof ServerApiError ? error.message : undefined, 'No se encontró la devolución');
-  }
+const flowFallback = 'No se pudo completar la acción';
 
-  const result = await update_order_devolution_action({
-    id,
-    observation: current.observation ?? '',
-    state: current.state,
-    motive_devolution_id: current.motive_devolution_id ?? 0,
-    order_id: current.order_id ?? 0,
-    return_method_id: current.return_method_id,
-    refund_method_id: current.refund_method_id,
-    total_refund_amount: current.total_refund_amount,
-    approved_by: current.approved_by,
-    approved_at: current.approved_at,
-    received_by: current.received_by,
-    received_at: current.received_at,
-    inspection_notes: current.inspection_notes,
-    external_reference: current.external_reference,
-    ...patch,
-  } as UpdateOrderDevolutionPayload);
+export async function approveReturnServerAction(id: number, body: ApproveReturnDto): Promise<ActionResult<OrderDevolutionDto>> {
+  const result = await return_flow_action(id, 'approve', body);
+  return result.success ? { success: true, data: result.data } : fail(result.error, flowFallback);
+}
 
-  return result.success ? { success: true } : fail(result.error, 'No se pudo cambiar el estado');
+export async function rejectReturnServerAction(id: number, body: RejectReturnDto): Promise<ActionResult<OrderDevolutionDto>> {
+  const result = await return_flow_action(id, 'reject', body);
+  return result.success ? { success: true, data: result.data } : fail(result.error, flowFallback);
+}
+
+export async function receiveReturnServerAction(id: number, body: ReceiveReturnDto): Promise<ActionResult<OrderDevolutionDto>> {
+  const result = await return_flow_action(id, 'receive', body);
+  return result.success ? { success: true, data: result.data } : fail(result.error, flowFallback);
+}
+
+export async function inspectReturnServerAction(id: number, body: InspectReturnDto): Promise<ActionResult<OrderDevolutionDto>> {
+  const result = await return_flow_action(id, 'inspect', body);
+  return result.success ? { success: true, data: result.data } : fail(result.error, flowFallback);
+}
+
+export async function refundReturnServerAction(id: number, body: RefundReturnDto): Promise<ActionResult<OrderDevolutionDto>> {
+  const result = await return_flow_action(id, 'refund', body);
+  return result.success ? { success: true, data: result.data } : fail(result.error, flowFallback);
 }
 
 // ─── Líneas devueltas ────────────────────────────────────────────────────────

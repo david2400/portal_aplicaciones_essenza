@@ -1,5 +1,11 @@
 'use server';
 
+import { create_axis_option_action, save_variant_matrix_action } from '@/server/domains/catalog/variant-matrix/actions';
+import type {
+  SaveVariantMatrixDto,
+  SaveVariantMatrixResultDto,
+  VariantMatrixOption,
+} from '@/server/domains/catalog/variant-matrix/types';
 import {
   bulk_delete_products_action,
   bulk_set_products_availability_action,
@@ -160,3 +166,21 @@ export async function deleteComboItemServerAction(id: number): Promise<ActionRes
   return result.success ? { success: true } : fail(result.error, 'No se pudo quitar el producto del combo');
 }
 
+// ─── Generador de variantes (V15) ────────────────────────────────────────────
+
+export async function saveVariantMatrixServerAction(
+  productId: number,
+  payload: SaveVariantMatrixDto,
+): Promise<ActionResult<SaveVariantMatrixResultDto>> {
+  const result = await save_variant_matrix_action(productId, payload);
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudieron guardar las variantes');
+}
+
+export async function createAxisOptionServerAction(
+  productId: number,
+  attributeId: number,
+  value: string,
+): Promise<ActionResult<VariantMatrixOption>> {
+  const result = await create_axis_option_action(productId, { attribute_id: attributeId, value });
+  return result.success ? { success: true, data: result.data } : fail(result.error, 'No se pudo crear el valor');
+}

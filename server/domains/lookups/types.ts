@@ -9,6 +9,6 @@ export type LookupOptionDto = components['schemas']['LookupOption'];
 /** Parámetros comunes: texto libre, o ids concretos (para pintar el valor ya elegido). */
 export type LookupParams = { q?: string; ids?: number[]; limit?: number };
 
-export type SkuLookupParams = LookupParams & { product_id?: number; sellable_only?: boolean };
+export type SkuLookupParams = LookupParams & { product_id?: number; sellable_only?: boolean; warehouse_id?: number };
 export type ProductLookupParams = LookupParams & { statuses?: string[] };
 export type SubcategoryLookupParams = LookupParams & { category_id?: number };

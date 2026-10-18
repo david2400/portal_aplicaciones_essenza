@@ -23,3 +23,9 @@ export type INamedItem = { id?: number; name?: string };
 
 /** Máximo de imágenes de la galería general (lo valida también el backend). */
 export const MAX_GALLERY_IMAGES = 30;
+
+// ─── Generador de variantes (V15) ────────────────────────────────────────────
+
+export type IVariantMatrix = import("@/server/domains/catalog/variant-matrix/types").VariantMatrixDto;
+export type IVariantMatrixSave = import("@/server/domains/catalog/variant-matrix/types").SaveVariantMatrixDto;
+export type IVariantMatrixOption = import("@/server/domains/catalog/variant-matrix/types").VariantMatrixOption;

@@ -8,6 +8,14 @@ export const list_suppliers = cache(async () => {
   return suppliers_repository.list_suppliers();
 });
 
+export const get_supplier_stats = cache(async () => {
+  return suppliers_repository.get_stats();
+});
+
 export const get_supplier_by_id = cache(async ({ id }: { id: number }) => {
   return suppliers_repository.get_supplier_by_id(id);
+});
+
+export const list_supplier_products = cache(async ({ id }: { id: number }) => {
+  return suppliers_repository.list_products(id);
 });

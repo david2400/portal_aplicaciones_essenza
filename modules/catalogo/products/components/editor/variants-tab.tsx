@@ -29,8 +29,10 @@ import { confirm, notify } from "@/components/notifications";
 import { formatMoney, formatNumber } from "@/lib/format";
 import { formatQuantity, unitById, unitsOf, type IUnit } from "@/shared/units/units";
 import type { IProduct } from "../../models/product.interface";
-import type { IProductSku, IProductVariant } from "../../models/product-editor.interface";
-import { EmptyBlock, KpiStrip, SectionCard } from "../form-parts";
+import { EmptyBlock, KpiStrip, SectionCard, Segmented } from "@/components/form-sections";
+import type { IAttributeDefinition } from "../../models/product-attributes.interface";
+import type { INamedItem, IProductSku, IProductVariant, IVariantMatrix } from "../../models/product-editor.interface";
+import { VariantGenerator } from "./variant-generator/variant-generator";
 import { validationVariant, type VariantFormValues } from "../../schemas/product-editor.schema";
 import {
   createVariantServerAction,
@@ -208,16 +210,23 @@ export const VariantsTab = ({
   product,
   variants,
   units = [],
+  generator,
 }: {
   product: IProduct;
   variants: IProductVariant[];
   units?: IUnit[];
+  /** Datos del asistente de variantes (no aplica a combos). */
+  generator?: { matrix: IVariantMatrix; attributes: IAttributeDefinition[]; warehouses: INamedItem[] };
 }) => {
   const router = useRouter();
   const t = useTranslations("Administre.productEditor");
   const tVariant = useTranslations("Administre.productChild");
   const tCommon = useTranslations("Administre.common");
   const [modal, setModal] = useState<{ open: boolean; variant: IProductVariant | null }>({ open: false, variant: null });
+  const canGenerate = generator != null && product.id != null && !product.is_combo;
+  const [view, setView] = useState<"generator" | "list">(canGenerate && variants.length === 0 ? "generator" : "list");
+  // Remonta el asistente cuando el servidor devuelve otra matriz (tras guardar o refrescar).
+  const matrixKey = useMemo(() => (generator ? JSON.stringify(generator.matrix) : ""), [generator]);
 
   const skus = product.skus ?? [];
   const rows = useMemo<VariantRow[]>(
@@ -333,8 +342,39 @@ export const VariantsTab = ({
         ? formatMoney(prices[0])
         : `${formatMoney(Math.min(...prices))} – ${formatMoney(Math.max(...prices))}`;
 
+  const viewSwitch = canGenerate ? (
+    <div className='flex flex-wrap items-center justify-between gap-3'>
+      <p className='text-sm text-muted-foreground'>{view === "generator" ? t("generator.viewHint") : t("generator.listHint")}</p>
+      <Segmented
+        label={t("generator.viewLabel")}
+        value={view}
+        onChange={setView}
+        options={[
+          { value: "generator", label: t("generator.viewGenerator") },
+          { value: "list", label: t("generator.viewList") },
+        ]}
+      />
+    </div>
+  ) : null;
+
+  if (canGenerate && view === "generator" && generator && product.id != null) {
+    return (
+      <div className='grid gap-6'>
+        {viewSwitch}
+        <VariantGenerator
+          key={matrixKey}
+          productId={product.id}
+          matrix={generator.matrix}
+          attributes={generator.attributes}
+          warehouses={generator.warehouses}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className='grid gap-6'>
+      {viewSwitch}
       {rows.length > 0 ? (
         <KpiStrip
           items={[

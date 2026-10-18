@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,62 +12,47 @@ import { FormTextAreaField } from "@repo/ui/form/scenes/form-area";
 import { FormSelectField } from "@repo/ui/form/scenes/form-select";
 import { Buttons } from "@repo/ui/buttons/scenes/index";
 import type { IFormProps } from "@repo/ui/form/models/form.interface";
-import type { IDevolutionOrderLine } from "../models/devolution.interface";
-import { DETAIL_CONDITIONS, computeRefund, formatMoney } from "../constants";
+import type { IReturnableLine } from "../models/devolution.interface";
+import { formatMoney } from "../constants";
 
+/**
+ * Producto de una devolución pendiente: línea de la orden y cantidad (hasta lo que falta por
+ * devolver). El precio lo congela el backend desde la orden; recepción e inspección van por el flujo.
+ */
 export const FormDevolutionDetail = ({
   initialValues,
   validationSchema,
   onSubmit,
   lines,
-}: IFormProps<any> & { lines: IDevolutionOrderLine[] }) => {
+  editing,
+}: IFormProps<any> & { lines: IReturnableLine[]; editing?: boolean }) => {
   const t = useTranslations("Administre.devolution.details");
+  const tr = useTranslations("Administre.devolution.request");
   const tCommon = useTranslations("Administre.common");
   type DetailInputs = z.infer<typeof validationSchema>;
 
   const {
     control,
     handleSubmit,
-    setValue,
-    formState: { isSubmitting, dirtyFields },
+    formState: { isSubmitting },
   } = useForm<DetailInputs>({
     resolver: zodResolver(validationSchema),
     defaultValues: initialValues,
   });
 
-  const [productOrderId, quantity, unitPrice, restockingFee] = useWatch({
-    control,
-    name: ["product_order_id", "quantity", "unit_price", "restocking_fee"],
-  }) as [string, number, number, number];
-
-  const selected = lines.find((line) => String(line.id) === String(productOrderId));
-
-  // Al elegir otra línea de la orden se propone su precio unitario.
-  useEffect(() => {
-    if (selected && (dirtyFields as Record<string, unknown>).product_order_id) {
-      setValue("unit_price" as never, selected.unit_price as never);
-    }
-  }, [selected, dirtyFields, setValue]);
+  const [productOrderId, quantity] = useWatch({ control, name: ["product_order_id", "quantity"] }) as [string, number];
+  const selected = lines.find((line) => String(line.product_order_id) === String(productOrderId));
 
   const lineOptions = useMemo(
     () =>
       lines
-        .filter((line) => line.id != null)
+        .filter((line) => line.product_order_id != null && ((line.returnable ?? 0) > 0 || editing))
         .map((line) => ({
-          id: String(line.id),
-          value: String(line.id),
-          label: `${line.product_name} · ${t("purchased", { quantity: line.quantity })}`,
+          value: String(line.product_order_id),
+          label: `${line.product_name ?? `#${line.product_order_id}`} · ${tr("availableShort", { count: line.returnable ?? 0 })}`,
         })),
-    [lines, t],
+    [lines, tr, editing],
   );
-
-  const conditionOptions = DETAIL_CONDITIONS.map((condition) => ({
-    id: condition,
-    value: condition,
-    label: t(`conditions.${condition}`),
-  }));
-
-  const refund = computeRefund(quantity, unitPrice, restockingFee);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
@@ -78,16 +63,9 @@ export const FormDevolutionDetail = ({
           data={lineOptions}
           placeholder={tCommon("selectPlaceholder")}
           searchable
+          disabled={editing}
           triggerClassName='!w-full'
           className='col-span-12 md:col-span-8'
-        />
-
-        <FormSelectField
-          controller={{ control, name: "condition" }}
-          label={t("fields.condition")}
-          data={conditionOptions}
-          triggerClassName='!w-full'
-          className='col-span-12 md:col-span-4'
         />
 
         <FormField
@@ -95,36 +73,10 @@ export const FormDevolutionDetail = ({
           type='number'
           step='1'
           min={1}
-          max={selected?.quantity}
+          max={selected?.returnable}
           label={t("fields.quantity")}
-          className='col-span-12 sm:col-span-6 md:col-span-3'
-        />
-
-        <FormField
-          controller={{ control, name: "received_quantity" }}
-          type='number'
-          step='1'
-          min={0}
-          label={t("fields.receivedQuantity")}
-          className='col-span-12 sm:col-span-6 md:col-span-3'
-        />
-
-        <FormField
-          controller={{ control, name: "unit_price" }}
-          type='number'
-          step='0.01'
-          min={0}
-          label={t("fields.unitPrice")}
-          className='col-span-12 sm:col-span-6 md:col-span-3'
-        />
-
-        <FormField
-          controller={{ control, name: "restocking_fee" }}
-          type='number'
-          step='0.01'
-          min={0}
-          label={t("fields.restockingFee")}
-          className='col-span-12 sm:col-span-6 md:col-span-3'
+          description={selected ? tr("availableShort", { count: selected.returnable ?? 0 }) : undefined}
+          className='col-span-12 md:col-span-4'
         />
 
         <FormTextAreaField
@@ -135,8 +87,10 @@ export const FormDevolutionDetail = ({
       </div>
 
       <div className='flex items-center justify-between rounded-xl border border-border bg-muted/30 p-4 text-sm'>
-        <span className='text-muted-foreground'>{t("fields.refundAmount")}</span>
-        <span className='text-lg font-semibold text-foreground'>{formatMoney(refund)}</span>
+        <span className='text-muted-foreground'>{tr("estimated")}</span>
+        <span className='text-lg font-semibold text-foreground'>
+          {formatMoney((Number(quantity) || 0) * (selected?.unit_price ?? 0))}
+        </span>
       </div>
 
       <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>

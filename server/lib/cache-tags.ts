@@ -142,9 +142,15 @@ export const product_orders_tags = {
   item: (id: number | string) => `product-orders:item:${id}` as const,
 } as const;
 
-export const payment_types_tags = {
-  list: () => 'payment-types:list' as const,
-  item: (id: number | string) => `payment-types:item:${id}` as const,
+export const payment_methods_tags = {
+  list: () => 'payment-methods:list' as const,
+  item: (id: number | string) => `payment-methods:item:${id}` as const,
+} as const;
+
+/** Pagos: el cobro de una orden y el listado cambian con cada pago. */
+export const payments_tags = {
+  all: () => 'payments:all' as const,
+  order: (orderId: number | string) => `payments:order:${orderId}` as const,
 } as const;
 
 export const orders_tags = {
@@ -216,4 +222,19 @@ export const product_templates_tags = {
 export const product_attributes_tags = {
   all: () => 'product-attributes:all' as const,
   item: (product_id: number | string) => `product-attributes:item:${product_id}` as const,
+} as const;
+
+export const billing_tags = {
+  tax_rates: () => 'billing:tax-rates' as const,
+  resolutions: () => 'billing:resolutions' as const,
+  settings: () => 'billing:settings' as const,
+  invoices: () => 'billing:invoices' as const,
+  order_invoices: (orderId: number | string) => `billing:invoices:order:${orderId}` as const,
+} as const;
+
+export const cash_tags = {
+  stores: () => 'cash:stores' as const,
+  registers: () => 'cash:registers' as const,
+  sessions: () => 'cash:sessions' as const,
+  session: (id: number | string) => `cash:session:${id}` as const,
 } as const;

@@ -44,7 +44,6 @@ export const FormDevolution = ({
 
   const options = useMemo(
     () => ({
-      orders: toOptions(catalogs.orders),
       motives: toOptions(catalogs.motives),
       returnMethods: toOptions(catalogs.returnMethods),
       refundMethods: toOptions(catalogs.refundMethods),
@@ -55,16 +54,6 @@ export const FormDevolution = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
       <div className='grid grid-cols-12 gap-4'>
-        <FormSelectField
-          controller={{ control, name: "order_id" }}
-          label={t("fields.orderId")}
-          data={options.orders}
-          placeholder={tCommon("selectPlaceholder")}
-          searchable
-          triggerClassName='!w-full'
-          className='col-span-12 md:col-span-6'
-        />
-
         <FormSelectField
           controller={{ control, name: "motive_devolution_id" }}
           label={t("fields.motiveDevolutionId")}

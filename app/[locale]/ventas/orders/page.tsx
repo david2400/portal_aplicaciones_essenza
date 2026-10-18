@@ -2,11 +2,10 @@
 
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { list_orders } from "@/server/domains/sales/orders/queries";
-import { list_product_orders } from "@/server/domains/sales/product-orders/queries";
+import { get_order_summary } from "@/server/domains/sales/orders/queries";
 import { search_orders } from "@/server/domains/sales/orders/search";
+import { list_stores } from "@/server/domains/sales/cash/queries";
 import { parse_grid_query } from "@/server/lib/pagination";
-import { buildOrderStats } from "@/modules/ventas/order/stats";
 import { ORDER_GRID } from "./grid";
 import { OrderManager } from "@/modules/ventas/order";
 
@@ -26,9 +25,14 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 const OrdersPage = async ({ searchParams }: { searchParams: SearchParams }) => {
   const query = parse_grid_query(await searchParams, ORDER_GRID);
-  const [page, all, items] = await Promise.all([search_orders(query), list_orders(), list_product_orders()]);
+  // Los KPIs usan los mismos filtros que la tabla.
+  const [page, summary, stores] = await Promise.all([
+    search_orders(query),
+    get_order_summary({ q: query.q || undefined, ...query.filters }).catch(() => null),
+    list_stores(true).catch(() => []),
+  ]);
 
-  return <OrderManager page={page} stats={buildOrderStats(all)} items={items} />;
+  return <OrderManager page={page} summary={summary} stores={stores.map(({ id, name }) => ({ id, name }))} />;
 };
 
 export default OrdersPage;

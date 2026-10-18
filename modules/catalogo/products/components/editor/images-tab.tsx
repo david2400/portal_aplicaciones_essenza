@@ -17,7 +17,7 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import { ActionBar, EmptyBlock, SectionCard } from "../form-parts";
+import { ActionBar, EmptyBlock, SectionCard } from "@/components/form-sections";
 import { notify } from "@/components/notifications";
 import { MAX_GALLERY_IMAGES, type IProductImage, type IProductVariant } from "../../models/product-editor.interface";
 import { IMAGE_URL } from "../../schemas/product-editor.schema";

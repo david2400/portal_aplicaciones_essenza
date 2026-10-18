@@ -6,20 +6,10 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { notify } from "@/components/notifications";
 import type { IFormAddProps } from "@repo/ui/form/models/form.interface";
-import { FormOrder } from "../scenes/formOrder";
 import { FormOrderItem } from "../scenes/formOrderItem";
-import { validationOrder, validationOrderItem } from "../schemas/order.schema";
-import type {
-  IOrder,
-  IOrderCreateRequest,
-  IOrderItem,
-} from "../models/order.interface";
-import {
-  createOrderServerAction,
-  updateOrderServerAction,
-  createOrderItemServerAction,
-  updateOrderItemServerAction,
-} from "@/app/[locale]/ventas/orders/actions";
+import { validationOrderItem } from "../schemas/order.schema";
+import type { IOrderItem } from "../models/order.interface";
+import { createOrderItemServerAction, updateOrderItemServerAction } from "@/app/[locale]/ventas/orders/actions";
 
 const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
   const router = useRouter();
@@ -36,51 +26,6 @@ const useFeedback = (handleClose?: IFormAddProps["handleClose"]) => {
       }
     },
   };
-};
-
-type OrderFormValues = { complementary_order?: string };
-
-export const RegisterOrder = ({ handleClose }: IFormAddProps) => {
-  const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
-
-  const handleSubmit = async (values: OrderFormValues) => {
-    const result = await createOrderServerAction({ complementary_order: values.complementary_order } as IOrderCreateRequest);
-    await feedback.done(result, t("createdSuccess"));
-  };
-
-  return (
-    <FormOrder
-      initialValues={{ complementary_order: "" }}
-      onSubmit={handleSubmit}
-      validationSchema={validationOrder()}
-    />
-  );
-};
-
-export const UpdateOrder = ({
-  order,
-  handleClose,
-}: IFormAddProps & { order: IOrder | null }) => {
-  const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
-  const validationSchema = validationOrder();
-
-  if (order?.id == null) return null;
-  const id = order.id;
-
-  const handleSubmit = async (values: OrderFormValues) => {
-    const result = await updateOrderServerAction({ id, complementary_order: values.complementary_order });
-    await feedback.done(result, t("updatedSuccess"));
-  };
-
-  return (
-    <FormOrder
-      initialValues={{ complementary_order: order.complementary_order ?? "" }}
-      onSubmit={handleSubmit}
-      validationSchema={validationSchema}
-    />
-  );
 };
 
 type ItemFormValues = { sku_id: number; quantity: number; discount: number };

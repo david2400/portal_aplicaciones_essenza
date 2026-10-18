@@ -17,7 +17,8 @@ import type { GridColumn, GridFilter } from "@/components/data-grid";
 import { formatApiDate, formatMoney, formatNumber } from "@/lib/format";
 import { Link } from "@/shared/i18n/routing";
 import type { PageResult } from "@/shared/models/pagination";
-import { RegisterDevolution, UpdateDevolution } from "./form";
+import { UpdateDevolution } from "./form";
+import { RequestReturnForm } from "./request-return-form";
 import { DevolutionStatusBadge } from "./devolution-status-badge";
 import { DEVOLUTION_STATES } from "../constants";
 import type { IDevolution, IDevolutionCatalogs } from "../models/devolution.interface";
@@ -137,6 +138,7 @@ export const DevolutionManager = ({ page, stats, catalogs }: IDevolutionManagerP
         { label: t("inProgressCount"), value: formatNumber(stats.inProgress), icon: HiOutlineArrowPath },
         { label: t("refundedTotal"), value: formatMoney(stats.refunded), icon: HiOutlineBanknotes },
       ]}
+      modalSize='xl'
       rowLabel={label}
       extraRowActions={(row) => [
         { label: t("view"), icon: HiOutlineEye, onSelect: () => router.push(`/postventa/devolutions/${row.id}`) },
@@ -145,7 +147,7 @@ export const DevolutionManager = ({ page, stats, catalogs }: IDevolutionManagerP
         item ? (
           <UpdateDevolution devolution={item} catalogs={catalogs} handleClose={close} />
         ) : (
-          <RegisterDevolution catalogs={catalogs} handleClose={close} />
+          <RequestReturnForm catalogs={catalogs} handleClose={close} />
         )
       }
       onDelete={(id) => deleteDevolutionServerAction(id)}

@@ -37,7 +37,7 @@ import { notify } from "@/components/notifications";
 import { formatMoney } from "@/lib/format";
 import { Link } from "@/shared/i18n/routing";
 import { cn } from "@/lib/utils";
-import { PRODUCT_STATUSES, type ProductStatus } from "../models/product.interface";
+import { PRODUCT_STATUSES, type ITaxRateOption, type ProductStatus } from "../models/product.interface";
 import {
   convertUnit,
   formatQuantity,
@@ -48,7 +48,7 @@ import {
   unitsOf,
   type IUnit,
 } from "@/shared/units/units";
-import { ChoiceCard, Segmented, SectionCard, SectionNav, type FormSectionItem, type SectionState } from "../components/form-parts";
+import { ChoiceCard, Segmented, SectionCard, SectionNav, type FormSectionItem, type SectionState } from "@/components/form-sections";
 
 const IMAGE_URL = /^https?:\/\/\S+$/i;
 const NAME_MAX = 255;
@@ -114,6 +114,8 @@ export interface FormProductProps extends IFormProps<any> {
   mode?: "create" | "edit";
   productType?: string | null;
   onKindChange?: (kind: ProductKind) => void;
+  /** Tarifas de impuesto activas: el precio de venta las incluye. */
+  taxRates?: ITaxRateOption[];
 }
 
 /**
@@ -133,6 +135,7 @@ export const FormProduct = ({
   mode = "edit",
   productType = null,
   onKindChange,
+  taxRates = [],
 }: FormProductProps) => {
   const t = useTranslations("Administre.product");
   const tForm = useTranslations("Administre.productEditor.form");
@@ -166,7 +169,13 @@ export const FormProduct = ({
     net_content_unit_id: netContentUnitId,
     status = "DRAFT",
     is_combo: isCombo,
+    tax_rate_id: taxRateValue,
   } = watched as Record<string, string | number | boolean | undefined>;
+
+  // ─── Impuesto incluido en el precio ───────────────────────────────────────────
+  const defaultTax = taxRates.find((rate) => rate.is_default);
+  const effectiveTax =
+    taxRateValue && taxRateValue !== "default" ? taxRates.find((rate) => String(rate.id) === String(taxRateValue)) : defaultTax;
 
   // ─── Tipo de producto ─────────────────────────────────────────────────────────
   const initialKind: ProductKind =
@@ -485,6 +494,28 @@ export const FormProduct = ({
               description={tForm("priceHint")}
               className='col-span-12 sm:col-span-6 lg:col-span-4'
             />
+            {taxRates.length > 0 ? (
+              <div className='col-span-12 grid gap-3 rounded-xl border border-border p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] sm:items-center'>
+                <FormSelectField
+                  controller={{ control, name: "tax_rate_id" }}
+                  label={tForm("taxRate")}
+                  data={[
+                    { value: "default", label: tForm("taxDefault", { name: defaultTax?.name ?? "—" }) },
+                    ...taxRates.map((rate) => ({ value: String(rate.id), label: rate.name ?? rate.code ?? `#${rate.id}` })),
+                  ]}
+                  triggerClassName='!w-full'
+                />
+                <p className='text-sm text-muted-foreground'>
+                  {effectiveTax && Number(effectiveTax.rate) > 0 && sale > 0
+                    ? tForm("taxBreakdown", {
+                        rate: Number(effectiveTax.rate),
+                        base: formatMoney(sale / (1 + Number(effectiveTax.rate) / 100)),
+                        tax: formatMoney(sale - sale / (1 + Number(effectiveTax.rate) / 100)),
+                      })
+                    : tForm("taxNone")}
+                </p>
+              </div>
+            ) : null}
             <FormField
               controller={{ control, name: "stock" }}
               type='number'

@@ -20,3 +20,14 @@ export type ProductStatus = (typeof PRODUCT_STATUSES)[number];
 
 export const statusOf = (product: Pick<IProduct, "status" | "available">): ProductStatus =>
   (product.status as ProductStatus | undefined) ?? (product.available ? "ACTIVE" : "INACTIVE");
+
+/** Tarifa de impuesto elegible para el producto (facturación). */
+export type ITaxRateOption = {
+  id?: number;
+  code?: string;
+  name?: string;
+  kind?: string;
+  rate?: number;
+  is_default?: boolean;
+  active?: boolean;
+};

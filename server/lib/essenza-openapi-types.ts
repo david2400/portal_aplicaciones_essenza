@@ -79,6 +79,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/sales/stores/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update
+         * @description 409 al desactivar con cajas abiertas.
+         */
+        put: operations["update_3"];
+        post?: never;
+        /**
+         * Delete
+         * @description 409 si tiene cajas.
+         */
+        delete: operations["delete_3"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/sales/product_orders/{id}": {
         parameters: {
             query?: never;
@@ -95,41 +119,35 @@ export interface paths {
          * Update product order
          * @description Updates an existing product order by ID
          */
-        put: operations["update_3"];
+        put: operations["update_4"];
         post?: never;
         /**
          * Delete product order
          * @description Deletes a product order by ID
          */
-        delete: operations["delete_3"];
+        delete: operations["delete_4"];
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/shop/sales/payment_types/{id}": {
+    "/api/shop/sales/payment_methods/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * Get payment type by ID
-         * @description Returns a payment type by its ID or 404 if not found
-         */
-        get: operations["getById_4"];
-        /**
-         * Update payment type
-         * @description Updates an existing payment type by ID
-         */
-        put: operations["update_4"];
+        /** Get by id */
+        get: operations["get"];
+        /** Update */
+        put: operations["update_5"];
         post?: never;
         /**
-         * Delete payment type
-         * @description Deletes a payment type by ID
+         * Delete
+         * @description 409 si ya tiene pagos: desactívalo en su lugar.
          */
-        delete: operations["delete_4"];
+        delete: operations["delete_5"];
         options?: never;
         head?: never;
         patch?: never;
@@ -146,18 +164,83 @@ export interface paths {
          * Get order by ID
          * @description Returns an order by its ID or 404 if not found
          */
-        get: operations["getById_5"];
+        get: operations["getById_4"];
         /**
          * Update order
          * @description Updates an existing order by ID
          */
-        put: operations["update_5"];
+        put: operations["update_6"];
         post?: never;
         /**
          * Delete order
          * @description Deletes an order by ID
          */
-        delete: operations["delete_5"];
+        delete: operations["delete_6"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/details": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Save details
+         * @description Cliente, entrega, origen, descuento y notas. Descuento, costo de envío y bodega solo con la orden pendiente; la entrega hasta que se despacha.
+         */
+        put: operations["saveDetails"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/numbering": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Numbering
+         * @description Prefijo, dígitos y siguiente número de las órdenes.
+         */
+        get: operations["numbering"];
+        /**
+         * Save numbering
+         * @description Cambia prefijo, dígitos o siguiente número (los números usados se saltan).
+         */
+        put: operations["saveNumbering"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_registers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update */
+        put: operations["update_7"];
+        post?: never;
+        /**
+         * Delete
+         * @description 409 si tiene turnos (desactívala).
+         */
+        delete: operations["delete_7"];
         options?: never;
         head?: never;
         patch?: never;
@@ -179,13 +262,13 @@ export interface paths {
          * Update review
          * @description Updates an existing product review
          */
-        put: operations["update_6"];
+        put: operations["update_8"];
         post?: never;
         /**
          * Delete review
          * @description Deletes a review by ID
          */
-        delete: operations["delete_6"];
+        delete: operations["delete_8"];
         options?: never;
         head?: never;
         patch?: never;
@@ -199,12 +282,12 @@ export interface paths {
             cookie?: never;
         };
         /** Get recommendation by id */
-        get: operations["getById_6"];
+        get: operations["getById_5"];
         /** Update recommendation */
-        put: operations["update_7"];
+        put: operations["update_9"];
         post?: never;
         /** Delete recommendation */
-        delete: operations["delete_7"];
+        delete: operations["delete_9"];
         options?: never;
         head?: never;
         patch?: never;
@@ -226,13 +309,13 @@ export interface paths {
          * Update coupon
          * @description Updates an existing coupon by ID
          */
-        put: operations["update_8"];
+        put: operations["update_10"];
         post?: never;
         /**
          * Delete coupon
          * @description Deletes a coupon by ID
          */
-        delete: operations["delete_8"];
+        delete: operations["delete_10"];
         options?: never;
         head?: never;
         patch?: never;
@@ -249,18 +332,18 @@ export interface paths {
          * Get shipping cost by ID
          * @description Returns a shipping cost by its ID or 404 if not found
          */
-        get: operations["getById_7"];
+        get: operations["getById_6"];
         /**
          * Update shipping cost
          * @description Updates an existing shipping cost by ID
          */
-        put: operations["update_9"];
+        put: operations["update_11"];
         post?: never;
         /**
          * Delete shipping cost
          * @description Deletes a shipping cost by ID
          */
-        delete: operations["delete_9"];
+        delete: operations["delete_11"];
         options?: never;
         head?: never;
         patch?: never;
@@ -277,18 +360,18 @@ export interface paths {
          * Get delivery estimate by ID
          * @description Returns a delivery estimate by its ID or 404 if not found
          */
-        get: operations["getById_8"];
+        get: operations["getById_7"];
         /**
          * Update delivery estimate
          * @description Updates an existing delivery estimate by ID
          */
-        put: operations["update_10"];
+        put: operations["update_12"];
         post?: never;
         /**
          * Delete delivery estimate
          * @description Deletes a delivery estimate by ID
          */
-        delete: operations["delete_10"];
+        delete: operations["delete_12"];
         options?: never;
         head?: never;
         patch?: never;
@@ -305,18 +388,18 @@ export interface paths {
          * Get carrier by ID
          * @description Returns a carrier by its ID or 404 if not found
          */
-        get: operations["getById_9"];
+        get: operations["getById_8"];
         /**
          * Update carrier
          * @description Updates an existing carrier by ID
          */
-        put: operations["update_11"];
+        put: operations["update_13"];
         post?: never;
         /**
          * Delete carrier
          * @description Deletes a carrier by ID
          */
-        delete: operations["delete_11"];
+        delete: operations["delete_13"];
         options?: never;
         head?: never;
         patch?: never;
@@ -334,20 +417,20 @@ export interface paths {
          * @deprecated
          * @description Returns a type product by its ID or 404 if not found
          */
-        get: operations["getById_10"];
+        get: operations["getById_9"];
         /**
          * Update type product
          * @deprecated
          * @description Updates an existing type product by ID
          */
-        put: operations["update_12"];
+        put: operations["update_14"];
         post?: never;
         /**
          * Delete type product
          * @deprecated
          * @description Deletes a type product by ID
          */
-        delete: operations["delete_12"];
+        delete: operations["delete_14"];
         options?: never;
         head?: never;
         patch?: never;
@@ -369,13 +452,13 @@ export interface paths {
          * Actualizar la característica asignada a un tipo de producto
          * @deprecated
          */
-        put: operations["update_13"];
+        put: operations["update_15"];
         post?: never;
         /**
          * Eliminar la relación para un tipo de producto
          * @deprecated
          */
-        delete: operations["delete_13"];
+        delete: operations["delete_15"];
         options?: never;
         head?: never;
         patch?: never;
@@ -393,20 +476,20 @@ export interface paths {
          * @deprecated
          * @description Returns a product-feature link by productId and featureId or 404 if not found
          */
-        get: operations["getById_11"];
+        get: operations["getById_10"];
         /**
          * Update product feature
          * @deprecated
          * @description Updates a product-feature link by productId and featureId
          */
-        put: operations["update_14"];
+        put: operations["update_16"];
         post?: never;
         /**
          * Delete product feature
          * @deprecated
          * @description Deletes a product-feature link by productId and featureId
          */
-        delete: operations["delete_14"];
+        delete: operations["delete_16"];
         options?: never;
         head?: never;
         patch?: never;
@@ -424,20 +507,20 @@ export interface paths {
          * @deprecated
          * @description Returns a feature by its ID or 404 if not found
          */
-        get: operations["getById_12"];
+        get: operations["getById_11"];
         /**
          * Update feature
          * @deprecated
          * @description Updates an existing feature by ID
          */
-        put: operations["update_15"];
+        put: operations["update_17"];
         post?: never;
         /**
          * Delete feature
          * @deprecated
          * @description Deletes a feature by ID
          */
-        delete: operations["delete_15"];
+        delete: operations["delete_17"];
         options?: never;
         head?: never;
         patch?: never;
@@ -450,10 +533,60 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["getById_13"];
-        put: operations["update_16"];
+        /**
+         * Get
+         * @description Bodega con resumen de existencias, ocupación, ubicaciones y tiendas.
+         */
+        get: operations["get_1"];
+        /**
+         * Update
+         * @description Conserva la marca de principal; desactivar sigue las reglas de /status.
+         */
+        put: operations["update_18"];
         post?: never;
-        delete: operations["delete_16"];
+        /**
+         * Delete
+         * @description Borrado lógico; 409 si es la principal, tiene stock o la usan tiendas o cajas.
+         */
+        delete: operations["delete_18"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/stock/{skuId}/min": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Min threshold
+         * @description Stock mínimo del SKU en la bodega (crea el registro si no existe).
+         */
+        put: operations["updateMin"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/locations/{locationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update location */
+        put: operations["updateLocation"];
+        post?: never;
+        /** Remove location */
+        delete: operations["deleteLocation"];
         options?: never;
         head?: never;
         patch?: never;
@@ -467,21 +600,39 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get supplier by ID
-         * @description Returns a supplier by its ID or 404 if not found
+         * Get
+         * @description Ficha completa con contactos y conteo de productos.
          */
-        get: operations["getById_14"];
+        get: operations["get_2"];
         /**
-         * Update supplier
-         * @description Updates an existing supplier by ID
+         * Update
+         * @description Reemplaza la ficha y sus contactos. Sin status se conserva el actual.
          */
-        put: operations["update_17"];
+        put: operations["update_19"];
         post?: never;
         /**
-         * Delete supplier
-         * @description Deletes a supplier by ID
+         * Delete
+         * @description 409 si es proveedor principal de productos del catálogo.
          */
-        delete: operations["delete_17"];
+        delete: operations["delete_19"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/{id}/products/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update product */
+        put: operations["updateProduct"];
+        post?: never;
+        /** Remove product */
+        delete: operations["deleteProduct"];
         options?: never;
         head?: never;
         patch?: never;
@@ -498,18 +649,18 @@ export interface paths {
          * Get dispatch product by ID
          * @description Returns a dispatch product by its ID or 404 if not found
          */
-        get: operations["getById_15"];
+        get: operations["getById_12"];
         /**
          * Update dispatch product
          * @description Updates an existing dispatch product by ID
          */
-        put: operations["update_18"];
+        put: operations["update_20"];
         post?: never;
         /**
          * Delete dispatch product
          * @description Deletes a dispatch product by ID
          */
-        delete: operations["delete_18"];
+        delete: operations["delete_20"];
         options?: never;
         head?: never;
         patch?: never;
@@ -526,18 +677,18 @@ export interface paths {
          * Get return method by ID
          * @description Returns a return method by its ID or 404 if not found
          */
-        get: operations["getById_16"];
+        get: operations["getById_13"];
         /**
          * Update return method
          * @description Updates an existing return method by ID
          */
-        put: operations["update_19"];
+        put: operations["update_21"];
         post?: never;
         /**
          * Delete return method
          * @description Deletes a return method by ID
          */
-        delete: operations["delete_19"];
+        delete: operations["delete_21"];
         options?: never;
         head?: never;
         patch?: never;
@@ -554,18 +705,18 @@ export interface paths {
          * Get refund method by ID
          * @description Returns a refund method by its ID or 404 if not found
          */
-        get: operations["getById_17"];
+        get: operations["getById_14"];
         /**
          * Update refund method
          * @description Updates an existing refund method by ID
          */
-        put: operations["update_20"];
+        put: operations["update_22"];
         post?: never;
         /**
          * Delete refund method
          * @description Deletes a refund method by ID
          */
-        delete: operations["delete_20"];
+        delete: operations["delete_22"];
         options?: never;
         head?: never;
         patch?: never;
@@ -582,18 +733,18 @@ export interface paths {
          * Get order devolution by ID
          * @description Returns an order devolution by its ID or 404 if not found
          */
-        get: operations["getById_18"];
+        get: operations["getById_15"];
         /**
          * Update order devolution
          * @description Updates an existing order devolution by ID
          */
-        put: operations["update_21"];
+        put: operations["update_23"];
         post?: never;
         /**
          * Delete order devolution
          * @description Deletes an order devolution by ID
          */
-        delete: operations["delete_21"];
+        delete: operations["delete_23"];
         options?: never;
         head?: never;
         patch?: never;
@@ -610,18 +761,18 @@ export interface paths {
          * Get order devolution evidence by ID
          * @description Returns an order devolution evidence by its ID or 404 if not found
          */
-        get: operations["getById_19"];
+        get: operations["getById_16"];
         /**
          * Update order devolution evidence
          * @description Updates an existing order devolution evidence by ID
          */
-        put: operations["update_22"];
+        put: operations["update_24"];
         post?: never;
         /**
          * Delete order devolution evidence
          * @description Deletes an order devolution evidence by ID
          */
-        delete: operations["delete_22"];
+        delete: operations["delete_24"];
         options?: never;
         head?: never;
         patch?: never;
@@ -638,18 +789,18 @@ export interface paths {
          * Get order devolution detail by ID
          * @description Returns an order devolution detail by its ID or 404 if not found
          */
-        get: operations["getById_20"];
+        get: operations["getById_17"];
         /**
          * Update order devolution detail
          * @description Updates an existing order devolution detail by ID
          */
-        put: operations["update_23"];
+        put: operations["update_25"];
         post?: never;
         /**
          * Delete order devolution detail
          * @description Deletes an order devolution detail by ID
          */
-        delete: operations["delete_23"];
+        delete: operations["delete_25"];
         options?: never;
         head?: never;
         patch?: never;
@@ -666,18 +817,18 @@ export interface paths {
          * Get motive devolution by ID
          * @description Returns a motive devolution by its ID or 404 if not found
          */
-        get: operations["getById_21"];
+        get: operations["getById_18"];
         /**
          * Update motive devolution
          * @description Updates an existing motive devolution by ID
          */
-        put: operations["update_24"];
+        put: operations["update_26"];
         post?: never;
         /**
          * Delete motive devolution
          * @description Deletes a motive devolution by ID
          */
-        delete: operations["delete_24"];
+        delete: operations["delete_26"];
         options?: never;
         head?: never;
         patch?: never;
@@ -691,12 +842,12 @@ export interface paths {
             cookie?: never;
         };
         /** Get page by id */
-        get: operations["getById_22"];
+        get: operations["getById_19"];
         /** Update CMS page */
-        put: operations["update_25"];
+        put: operations["update_27"];
         post?: never;
         /** Delete page */
-        delete: operations["delete_25"];
+        delete: operations["delete_27"];
         options?: never;
         head?: never;
         patch?: never;
@@ -713,18 +864,18 @@ export interface paths {
          * Get product child by ID
          * @description Returns a product child by its ID or 404 if not found
          */
-        get: operations["getById_23"];
+        get: operations["getById_20"];
         /**
          * Update product child
          * @description Updates an existing product child by ID
          */
-        put: operations["update_26"];
+        put: operations["update_28"];
         post?: never;
         /**
          * Delete product child
          * @description Deletes a product child by ID
          */
-        delete: operations["delete_26"];
+        delete: operations["delete_28"];
         options?: never;
         head?: never;
         patch?: never;
@@ -737,18 +888,18 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get"];
+        get: operations["get_3"];
         /**
          * Editar unidad
          * @description No cambia la magnitud de una unidad en uso. base=true la convierte en base
          */
-        put: operations["update_27"];
+        put: operations["update_29"];
         post?: never;
         /**
          * Eliminar unidad
          * @description 409 si está en uso o si es la base y quedan otras en su magnitud
          */
-        delete: operations["delete_27"];
+        delete: operations["delete_29"];
         options?: never;
         head?: never;
         patch?: never;
@@ -762,18 +913,42 @@ export interface paths {
             cookie?: never;
         };
         /** Get subcategory by ID */
-        get: operations["getById_24"];
+        get: operations["getById_21"];
         /**
          * Update subcategory
          * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_28"];
+        put: operations["update_30"];
         post?: never;
         /**
          * Delete subcategory
          * @description Eliminación lógica.
          */
-        delete: operations["delete_28"];
+        delete: operations["delete_30"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{productId}/variant-matrix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get matrix
+         * @description Ejes (guardados o de la plantilla) con sus valores, atributos disponibles y variantes.
+         */
+        get: operations["get_4"];
+        /**
+         * Save matrix
+         * @description Reemplaza el conjunto de variantes: crea, actualiza y quita (desactiva si tuvo stock, reservas o ventas; si no, borra). 400 si una regla no se cumple; 409 si un SKU o código de barras ya existe.
+         */
+        put: operations["save"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -790,12 +965,12 @@ export interface paths {
          * Get product attributes
          * @description Plantilla, atributos disponibles, valores, ejes por variante y lo que falta para publicar.
          */
-        get: operations["get_1"];
+        get: operations["get_5"];
         /**
          * Save product attributes
          * @description Reemplaza plantilla, ficha y ejes de variante. Si el producto está publicado (ACTIVE) exige los obligatorios y todos los ejes en cada variante. 400 si una regla no se cumple.
          */
-        put: operations["save"];
+        put: operations["save_1"];
         post?: never;
         delete?: never;
         options?: never;
@@ -814,18 +989,18 @@ export interface paths {
          * Get product by ID
          * @description Returns a product by its ID or 404 if not found
          */
-        get: operations["getById_25"];
+        get: operations["getById_22"];
         /**
          * Update product
          * @description Updates an existing product by ID
          */
-        put: operations["update_29"];
+        put: operations["update_31"];
         post?: never;
         /**
          * Delete product
          * @description Deletes a product by ID
          */
-        delete: operations["delete_29"];
+        delete: operations["delete_31"];
         options?: never;
         head?: never;
         patch?: never;
@@ -868,13 +1043,13 @@ export interface paths {
          * Update product template
          * @description Reemplaza la lista de atributos.
          */
-        put: operations["update_30"];
+        put: operations["update_32"];
         post?: never;
         /**
          * Delete product template
          * @description 409 si algún producto la usa.
          */
-        delete: operations["delete_30"];
+        delete: operations["delete_32"];
         options?: never;
         head?: never;
         patch?: never;
@@ -891,18 +1066,18 @@ export interface paths {
          * Get product combo by ID
          * @description Returns a product combo by its ID or 404 if not found
          */
-        get: operations["getById_26"];
+        get: operations["getById_23"];
         /**
          * Update product combo
          * @description Updates an existing product combo by ID
          */
-        put: operations["update_31"];
+        put: operations["update_33"];
         post?: never;
         /**
          * Delete product combo
          * @description Deletes a product combo by ID
          */
-        delete: operations["delete_31"];
+        delete: operations["delete_33"];
         options?: never;
         head?: never;
         patch?: never;
@@ -916,18 +1091,18 @@ export interface paths {
             cookie?: never;
         };
         /** Get category by ID */
-        get: operations["getById_27"];
+        get: operations["getById_24"];
         /**
          * Update category
          * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_32"];
+        put: operations["update_34"];
         post?: never;
         /**
          * Delete category
          * @description Eliminación lógica.
          */
-        delete: operations["delete_32"];
+        delete: operations["delete_34"];
         options?: never;
         head?: never;
         patch?: never;
@@ -941,18 +1116,18 @@ export interface paths {
             cookie?: never;
         };
         /** Get brand by ID */
-        get: operations["getById_28"];
+        get: operations["getById_25"];
         /**
          * Update brand
          * @description Actualiza el registro. El id se toma de la URL.
          */
-        put: operations["update_33"];
+        put: operations["update_35"];
         post?: never;
         /**
          * Delete brand
          * @description Eliminación lógica.
          */
-        delete: operations["delete_33"];
+        delete: operations["delete_35"];
         options?: never;
         head?: never;
         patch?: never;
@@ -971,13 +1146,87 @@ export interface paths {
          * Update attribute
          * @description Reemplaza el atributo. 409 si se cambia el tipo de un atributo en uso o se quita una opción en uso.
          */
-        put: operations["update_34"];
+        put: operations["update_36"];
         post?: never;
         /**
          * Delete attribute
          * @description 409 si se usa en plantillas o productos.
          */
-        delete: operations["delete_34"];
+        delete: operations["delete_36"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/tax_rates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get by id */
+        get: operations["get_6"];
+        /**
+         * Update
+         * @description Cambiar el porcentaje solo afecta ventas nuevas.
+         */
+        put: operations["update_37"];
+        post?: never;
+        /**
+         * Delete
+         * @description 409 si es la por defecto o está en uso.
+         */
+        delete: operations["delete_37"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get
+         * @description Incluye qué falta para poder facturar (missing) y si el proveedor está listo.
+         */
+        get: operations["get_7"];
+        /**
+         * Update
+         * @description Reemplaza los datos; software_pin vacío conserva el actual.
+         */
+        put: operations["update_38"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/resolutions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get by id */
+        get: operations["get_8"];
+        /**
+         * Update
+         * @description Con documentos emitidos no cambian tipo, prefijo ni número inicial.
+         */
+        put: operations["update_39"];
+        post?: never;
+        /**
+         * Delete
+         * @description 409 si ya tiene documentos.
+         */
+        delete: operations["delete_38"];
         options?: never;
         head?: never;
         patch?: never;
@@ -993,10 +1242,10 @@ export interface paths {
         /** Get record by id */
         get: operations["findById_5"];
         /** Update sales analytics record */
-        put: operations["update_35"];
+        put: operations["update_40"];
         post?: never;
         /** Delete sales analytics record */
-        delete: operations["delete_35"];
+        delete: operations["delete_39"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1018,13 +1267,13 @@ export interface paths {
          * Update personalization profile
          * @description Updates an existing profile by id
          */
-        put: operations["update_36"];
+        put: operations["update_41"];
         post?: never;
         /**
          * Delete personalization profile
          * @description Deletes a profile by id
          */
-        delete: operations["delete_36"];
+        delete: operations["delete_40"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1096,6 +1345,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/sales/stores": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List
+         * @description Puntos de venta con número de cajas y cajas abiertas.
+         */
+        get: operations["list_1"];
+        put?: never;
+        /** Create */
+        post: operations["create_3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/sales/product_orders": {
         parameters: {
             query?: never;
@@ -1113,14 +1383,34 @@ export interface paths {
          * Create product order
          * @description Creates a new product order and returns it with its generated ID
          */
-        post: operations["create_3"];
+        post: operations["create_4"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/shop/sales/payment_types": {
+    "/api/shop/sales/pos/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * POS checkout
+         * @description Venta de mostrador: orden, líneas y pagos del turno en una transacción.
+         */
+        post: operations["checkout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments": {
         parameters: {
             query?: never;
             header?: never;
@@ -1128,16 +1418,177 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List payment types
-         * @description Returns all payment types
+         * Search
+         * @description Pagos paginados. Filtros: q (referencia, orden, correo), status (uno o varios separados por coma), methodId, channel, provider, orderId, from/to (yyyy-MM-dd, hora de Colombia); sort=campo,asc|desc
          */
-        get: operations["getAll_3"];
+        get: operations["search"];
         put?: never;
         /**
-         * Create payment type
-         * @description Creates a new payment type and returns it with its generated ID
+         * Register
+         * @description Pago cobrado en tienda o confirmado a mano (efectivo con cambio, datáfono, transferencia…).
          */
-        post: operations["create_4"];
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Void
+         * @description Anula un pago (reason obligatorio).
+         */
+        post: operations["voidPayment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sync
+         * @description Consulta el estado en la pasarela (si no llegó el webhook).
+         */
+        post: operations["sync"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/refund": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refund
+         * @description Reembolso parcial (amount) o total. Mercado Pago lo ejecuta por API; los demás se registran.
+         */
+        post: operations["refund"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decline
+         * @description Rechaza un pago pendiente.
+         */
+        post: operations["decline"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Confirm
+         * @description Aprueba a mano un pago pendiente.
+         */
+        post: operations["confirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/webhooks/{provider}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Webhook
+         * @description Notificación de la pasarela (wompi, mercado_pago, sandbox). 401 si la firma no es válida.
+         */
+        post: operations["receive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/checkout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Checkout
+         * @description Inicia un pago en línea con la pasarela del medio y devuelve el link de pago.
+         */
+        post: operations["checkout_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payment_methods": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List
+         * @description Medios ordenados por posición. includeInactive=true para el panel; channel=PHYSICAL|VIRTUAL.
+         */
+        get: operations["list_2"];
+        put?: never;
+        /** Create */
+        post: operations["create_5"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1155,13 +1606,13 @@ export interface paths {
          * List orders
          * @description Returns all orders
          */
-        get: operations["getAll_4"];
+        get: operations["getAll_3"];
         put?: never;
         /**
          * Create order
          * @description Creates a new order and returns it with its generated ID
          */
-        post: operations["create_5"];
+        post: operations["create_6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1188,6 +1639,166 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/sales/orders/{id}/ship": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ship
+         * @description Despacho con transportadora y guía (solo envíos; exige todo preparado).
+         */
+        post: operations["ship"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ready
+         * @description Lista para despachar o retirar (exige todo preparado).
+         */
+        post: operations["ready"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/picking": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pick
+         * @description Unidades preparadas por línea; la primera pasa la orden de PAID a PROCESSING.
+         */
+        post: operations["pick"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/pick-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pick all
+         * @description Marca todas las líneas como preparadas.
+         */
+        post: operations["pickAll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/notes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Add note
+         * @description Nota interna en la línea de tiempo.
+         */
+        post: operations["addNote"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/deliver": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Deliver
+         * @description Entregada: envío despachado o retiro en tienda listo.
+         */
+        post: operations["deliver"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/full": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create full
+         * @description Orden con cliente, entrega, origen, descuento y productos en un paso (reserva el stock).
+         */
+        post: operations["createFull"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/bulk-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk status
+         * @description Cambia el estado de varias órdenes; los fallos se informan en 'failed'.
+         */
+        post: operations["bulkStatus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/sales/orders/bulk-delete": {
         parameters: {
             query?: never;
@@ -1202,6 +1813,91 @@ export interface paths {
          * @description Elimina varios registros; los fallos se informan en 'failed'.
          */
         post: operations["bulkDelete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search sessions
+         * @description Filtros: cashRegisterId, status (OPEN | CLOSED), from/to (fecha de apertura).
+         */
+        get: operations["search_1"];
+        put?: never;
+        /**
+         * Open
+         * @description Abre un turno con base en efectivo (uno por caja).
+         */
+        post: operations["open"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_sessions/{id}/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Cash movement
+         * @description Entrada (IN) o salida (OUT) de efectivo con motivo.
+         */
+        post: operations["movement"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_sessions/{id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Close
+         * @description Cierra con arqueo: efectivo contado y conteo de los demás medios.
+         */
+        post: operations["close"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_registers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List
+         * @description Cajas con su turno abierto y el efectivo esperado.
+         */
+        get: operations["list_3"];
+        put?: never;
+        /** Create */
+        post: operations["create_7"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1225,7 +1921,7 @@ export interface paths {
          * Create review
          * @description Creates a new product review
          */
-        post: operations["create_6"];
+        post: operations["create_8"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1280,10 +1976,10 @@ export interface paths {
             cookie?: never;
         };
         /** List recommendations */
-        get: operations["list_1"];
+        get: operations["list_4"];
         put?: never;
         /** Create recommendation */
-        post: operations["create_7"];
+        post: operations["create_9"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1307,7 +2003,7 @@ export interface paths {
          * Create coupon
          * @description Creates a new coupon and returns it with its generated ID
          */
-        post: operations["create_8"];
+        post: operations["create_10"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1365,13 +2061,13 @@ export interface paths {
          * List shipping costs
          * @description Returns all shipping costs
          */
-        get: operations["getAll_5"];
+        get: operations["getAll_4"];
         put?: never;
         /**
          * Create shipping cost
          * @description Creates a new shipping cost calculation and returns it with its generated ID
          */
-        post: operations["create_9"];
+        post: operations["create_11"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1409,13 +2105,13 @@ export interface paths {
          * List delivery estimates
          * @description Returns all delivery estimates
          */
-        get: operations["getAll_6"];
+        get: operations["getAll_5"];
         put?: never;
         /**
          * Create delivery estimate
          * @description Creates a new delivery estimate and returns it with its generated ID
          */
-        post: operations["create_10"];
+        post: operations["create_12"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1453,13 +2149,13 @@ export interface paths {
          * List carriers
          * @description Returns all carriers
          */
-        get: operations["getAll_7"];
+        get: operations["getAll_6"];
         put?: never;
         /**
          * Create carrier
          * @description Creates a new carrier and returns it with its generated ID
          */
-        post: operations["create_11"];
+        post: operations["create_13"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1478,14 +2174,14 @@ export interface paths {
          * @deprecated
          * @description Returns all type products
          */
-        get: operations["getAll_8"];
+        get: operations["getAll_7"];
         put?: never;
         /**
          * Create type product
          * @deprecated
          * @description Creates a new type product and returns it with its generated ID
          */
-        post: operations["create_12"];
+        post: operations["create_14"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1509,7 +2205,7 @@ export interface paths {
          * Crear una nueva relación entre tipo de producto y característica
          * @deprecated
          */
-        post: operations["create_13"];
+        post: operations["create_15"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1528,14 +2224,14 @@ export interface paths {
          * @deprecated
          * @description Returns all product-feature links
          */
-        get: operations["getAll_9"];
+        get: operations["getAll_8"];
         put?: never;
         /**
          * Create product feature
          * @deprecated
          * @description Creates a new product-feature link and returns it
          */
-        post: operations["create_14"];
+        post: operations["create_16"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1554,14 +2250,14 @@ export interface paths {
          * @deprecated
          * @description Returns all features
          */
-        get: operations["getAll_10"];
+        get: operations["getAll_9"];
         put?: never;
         /**
          * Create feature
          * @deprecated
          * @description Creates a new feature and returns it with its generated ID
          */
-        post: operations["create_15"];
+        post: operations["create_17"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1575,9 +2271,78 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_2"];
+        /**
+         * List
+         * @description Página de bodegas (compatibilidad: page, size, sort). Para tablas usar /search.
+         */
+        get: operations["list_5"];
         put?: never;
-        post: operations["create_16"];
+        /**
+         * Create
+         * @description Código vacío = BOD_<n>; 409 si el código existe. La primera bodega queda como principal.
+         */
+        post: operations["create_18"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Activate / deactivate
+         * @description 409 al desactivar la principal, con reservas o con tiendas activas.
+         */
+        post: operations["status"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/main": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Set main
+         * @description Marca la bodega como principal (activa, tipo almacén o tienda) y desmarca la anterior.
+         */
+        post: operations["main"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/locations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Locations */
+        get: operations["locations"];
+        put?: never;
+        /**
+         * Add location
+         * @description 409 si el código ya existe en la bodega.
+         */
+        post: operations["addLocation"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1593,6 +2358,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /** Bulk delete */
         post: operations["bulkDelete_1"];
         delete?: never;
         options?: never;
@@ -1608,16 +2374,80 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List suppliers
-         * @description Returns all suppliers
+         * List all
+         * @description Todos los proveedores sin contactos (selects y exportación). Para tablas usar /search.
          */
-        get: operations["getAll_11"];
+        get: operations["list_6"];
         put?: never;
         /**
-         * Create supplier
-         * @description Creates a new supplier and returns it with its generated ID
+         * Create
+         * @description Documento obligatorio; código y documento únicos (409). Código vacío = PROV_<n>.
          */
-        post: operations["create_17"];
+        post: operations["create_19"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Change status
+         * @description Activar, bloquear (motivo obligatorio) o desactivar.
+         */
+        post: operations["changeStatus_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/{id}/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Products
+         * @description SKU que surte el proveedor con costo, margen y entrega.
+         */
+        get: operations["products"];
+        put?: never;
+        /**
+         * Add product
+         * @description 409 si ya surte el SKU. preferred desmarca a los demás proveedores del SKU.
+         */
+        post: operations["addProduct"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Bulk delete
+         * @description Cada id por separado; los que no se pueden borrar se informan con su motivo.
+         */
+        post: operations["bulkDelete_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1683,13 +2513,13 @@ export interface paths {
          * List dispatch products
          * @description Returns all dispatch products
          */
-        get: operations["getAll_12"];
+        get: operations["getAll_10"];
         put?: never;
         /**
          * Create dispatch product
          * @description Creates a new dispatch product and returns it with its generated ID
          */
-        post: operations["create_18"];
+        post: operations["create_20"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1709,7 +2539,7 @@ export interface paths {
          * Bulk delete
          * @description Elimina varios registros; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_2"];
+        post: operations["bulkDelete_3"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1727,13 +2557,13 @@ export interface paths {
          * List return methods
          * @description Returns all return methods
          */
-        get: operations["getAll_13"];
+        get: operations["getAll_11"];
         put?: never;
         /**
          * Create return method
          * @description Creates a new return method and returns it with its generated ID
          */
-        post: operations["create_19"];
+        post: operations["create_21"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1751,13 +2581,13 @@ export interface paths {
          * List refund methods
          * @description Returns all refund methods
          */
-        get: operations["getAll_14"];
+        get: operations["getAll_12"];
         put?: never;
         /**
          * Create refund method
          * @description Creates a new refund method and returns it with its generated ID
          */
-        post: operations["create_20"];
+        post: operations["create_22"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1775,13 +2605,127 @@ export interface paths {
          * List order devolutions
          * @description Returns all order devolutions
          */
-        get: operations["getAll_15"];
+        get: operations["getAll_13"];
         put?: never;
         /**
          * Create order devolution
          * @description Creates a new order devolution and returns it with its generated ID
          */
-        post: operations["create_21"];
+        post: operations["create_23"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/{id}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Rechazar devolución (P/A/R → X) */
+        post: operations["reject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/{id}/refund": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reembolsar (I → F)
+         * @description Reembolsa sobre los pagos de la orden y emite la nota crédito parcial si la orden tiene factura.
+         */
+        post: operations["refund_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/{id}/receive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Registrar recepción (A → R)
+         * @description Unidades recibidas por línea; las omitidas se reciben completas.
+         */
+        post: operations["receive_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/{id}/inspect": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Inspeccionar (R → I)
+         * @description Estado, reingreso y cargo por línea; reingresa al stock y calcula el valor acreditado.
+         */
+        post: operations["inspect"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/{id}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Aprobar devolución (P → A) */
+        post: operations["approve"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/order_devolutions/request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Solicitar devolución
+         * @description Crea la devolución pendiente con sus líneas (precio de la orden).
+         */
+        post: operations["request"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1801,7 +2745,7 @@ export interface paths {
          * Bulk delete
          * @description Elimina varios registros; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_3"];
+        post: operations["bulkDelete_4"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1819,13 +2763,13 @@ export interface paths {
          * List order devolution evidences
          * @description Returns all order devolution evidences
          */
-        get: operations["getAll_16"];
+        get: operations["getAll_14"];
         put?: never;
         /**
          * Create order devolution evidence
          * @description Creates a new order devolution evidence and returns it with its generated ID
          */
-        post: operations["create_22"];
+        post: operations["create_24"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1843,13 +2787,13 @@ export interface paths {
          * List order devolution details
          * @description Returns all order devolution details
          */
-        get: operations["getAll_17"];
+        get: operations["getAll_15"];
         put?: never;
         /**
          * Create order devolution detail
          * @description Creates a new order devolution detail and returns it with its generated ID
          */
-        post: operations["create_23"];
+        post: operations["create_25"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1867,13 +2811,13 @@ export interface paths {
          * List motive devolutions
          * @description Returns all motive devolutions
          */
-        get: operations["getAll_18"];
+        get: operations["getAll_16"];
         put?: never;
         /**
          * Create motive devolution
          * @description Creates a new motive devolution and returns it with its generated ID
          */
-        post: operations["create_24"];
+        post: operations["create_26"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1888,10 +2832,10 @@ export interface paths {
             cookie?: never;
         };
         /** List pages */
-        get: operations["getAll_19"];
+        get: operations["getAll_17"];
         put?: never;
         /** Create CMS page */
-        post: operations["create_25"];
+        post: operations["create_27"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1909,13 +2853,13 @@ export interface paths {
          * List variants
          * @description Returns all variants, or only those of product_id
          */
-        get: operations["getAll_20"];
+        get: operations["getAll_18"];
         put?: never;
         /**
          * Create product child
          * @description Creates a new product child and returns it with its generated ID
          */
-        post: operations["create_26"];
+        post: operations["create_28"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1935,7 +2879,7 @@ export interface paths {
          * Bulk delete product children
          * @description Deletes several product children; each id is processed independently
          */
-        post: operations["bulkDelete_4"];
+        post: operations["bulkDelete_5"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1953,13 +2897,13 @@ export interface paths {
          * Listar unidades
          * @description Por magnitud y factor. dimension filtra; include_inactive incluye las desactivadas
          */
-        get: operations["list_3"];
+        get: operations["list_7"];
         put?: never;
         /**
          * Crear unidad
          * @description La primera unidad de una magnitud es su base. base=true la convierte en base y reescala las demás
          */
-        post: operations["create_27"];
+        post: operations["create_29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1977,13 +2921,13 @@ export interface paths {
          * List all subcategories
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_21"];
+        get: operations["getAll_19"];
         put?: never;
         /**
          * Create subcategory
          * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_28"];
+        post: operations["create_30"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2003,7 +2947,7 @@ export interface paths {
          * Bulk delete subcategories
          * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_5"];
+        post: operations["bulkDelete_6"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2021,13 +2965,33 @@ export interface paths {
          * List products
          * @description Returns products paginated; use page, size and sort=field,asc;other,desc
          */
-        get: operations["getAll_22"];
+        get: operations["getAll_20"];
         put?: never;
         /**
          * Create product
          * @description Creates a new product aggregate (basic info, variants and/or bundle items) and returns it with its generated ID
          */
-        post: operations["create_29"];
+        post: operations["create_31"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/catalog/products/{productId}/variant-matrix/options": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Create axis value
+         * @description Agrega un valor al atributo (o devuelve el existente con el mismo texto).
+         */
+        post: operations["createOption"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2047,7 +3011,7 @@ export interface paths {
          * Search products
          * @description Search products with a filter body and pagination params page, size, sort
          */
-        post: operations["search"];
+        post: operations["search_2"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2068,7 +3032,7 @@ export interface paths {
          * Create product template
          * @description Solo los atributos OPTION pueden ser eje de variante. 409 si el nombre ya existe.
          */
-        post: operations["create_30"];
+        post: operations["create_32"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2086,13 +3050,13 @@ export interface paths {
          * List combo items
          * @description Returns all combo items, or only those of combo_id (the combo product)
          */
-        get: operations["getAll_23"];
+        get: operations["getAll_21"];
         put?: never;
         /**
          * Create product combo
          * @description Creates a new product combo and returns it with its generated ID
          */
-        post: operations["create_31"];
+        post: operations["create_33"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2110,13 +3074,13 @@ export interface paths {
          * List all categories
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_24"];
+        get: operations["getAll_22"];
         put?: never;
         /**
          * Create category
          * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_32"];
+        post: operations["create_34"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2136,7 +3100,7 @@ export interface paths {
          * Bulk delete categories
          * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_6"];
+        post: operations["bulkDelete_7"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2154,13 +3118,13 @@ export interface paths {
          * List all brands
          * @description Lista completa sin paginar (para selects). Para tablas usar /search.
          */
-        get: operations["getAll_25"];
+        get: operations["getAll_23"];
         put?: never;
         /**
          * Create brand
          * @description Crea el registro. El slug es opcional (se genera desde el nombre).
          */
-        post: operations["create_33"];
+        post: operations["create_35"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2180,7 +3144,7 @@ export interface paths {
          * Bulk delete brands
          * @description Elimina varios registros. Cada id se procesa por separado; los fallos se informan en 'failed'.
          */
-        post: operations["bulkDelete_7"];
+        post: operations["bulkDelete_8"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2204,7 +3168,113 @@ export interface paths {
          * Create attribute
          * @description 409 si el código ya existe.
          */
-        post: operations["create_34"];
+        post: operations["create_36"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/tax_rates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List
+         * @description Tarifas con su uso; includeInactive=false para solo las activas.
+         */
+        get: operations["list_8"];
+        put?: never;
+        /** Create */
+        post: operations["create_37"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/resolutions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List
+         * @description kind = INVOICE | CREDIT_NOTE (vacío = todas). Incluye avisos de vencimiento y agotamiento.
+         */
+        get: operations["list_9"];
+        put?: never;
+        /** Create */
+        post: operations["create_38"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description Filtros: q (número, comprador, documento, CUFE, orden), kind (INVOICE | CREDIT_NOTE), status (uno o varios separados por coma), orderId, from/to (yyyy-MM-dd, hora de Colombia).
+         */
+        get: operations["search_3"];
+        put?: never;
+        /**
+         * Issue
+         * @description Factura una orden pagada (comprador vacío = consumidor final).
+         */
+        post: operations["issue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/invoices/{id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Retry
+         * @description Reenvía un documento pendiente o rechazado (conserva el número).
+         */
+        post: operations["retry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/invoices/{id}/credit_note": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Credit note
+         * @description Nota crédito total que anula la factura.
+         */
+        post: operations["creditNote"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2222,7 +3292,7 @@ export interface paths {
         get: operations["findAll_5"];
         put?: never;
         /** Create sales analytics record */
-        post: operations["create_35"];
+        post: operations["create_39"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2246,7 +3316,7 @@ export interface paths {
          * Create personalization profile
          * @description Creates a personalization profile entry
          */
-        post: operations["create_36"];
+        post: operations["create_40"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2265,6 +3335,103 @@ export interface paths {
          * @description Devuelve información de costos y fechas estimadas de entrega
          */
         get: operations["getShippingEstimate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get by id */
+        get: operations["get_9"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/{id}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Events
+         * @description Bitácora del pago (registro, confirmaciones, webhooks, reembolsos).
+         */
+        get: operations["events"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payments/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Summary
+         * @description Totales por medio y estado con los mismos filtros del listado.
+         */
+        get: operations["summary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/payment_methods/providers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gateways
+         * @description Pasarelas disponibles, si tienen credenciales y la URL del webhook a registrar.
+         */
+        get: operations["providers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/{id}/timeline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Timeline
+         * @description Eventos de la orden, del más antiguo al más reciente.
+         */
+        get: operations["timeline"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2293,6 +3460,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/shop/sales/orders/{id}/payments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Payments
+         * @description Cobro de la orden: total, pagado, pendiente, saldo y pagos.
+         */
+        get: operations["payments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Summary
+         * @description KPIs con los mismos filtros de /search: ventas, ticket promedio y colas de trabajo.
+         */
+        get: operations["summary_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/shop/sales/orders/search": {
         parameters: {
             query?: never;
@@ -2302,9 +3509,69 @@ export interface paths {
         };
         /**
          * Search
-         * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
+         * @description q busca en número, cliente, documento, correo, teléfono, referencia y guía; filtros state, channel, storeId, priority, deliveryMethod, paymentStatus (UNPAID | PARTIAL | PAID), period (TODAY | LAST_7 | LAST_30 | THIS_MONTH) y overdue; page, size, sort=campo,asc|desc
          */
-        get: operations["search_1"];
+        get: operations["search_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/customers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Customers
+         * @description Clientes de órdenes anteriores (nombre, documento, correo o teléfono; mínimo 2 letras).
+         */
+        get: operations["customers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/orders/customers/by-document": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Customer by document
+         * @description Persona del registro central (access_control) por número de documento, con el contacto y la dirección de su última orden. central_status: FOUND, NOT_FOUND, UNAVAILABLE o DISABLED.
+         */
+        get: operations["customerByDocument"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/sales/cash_sessions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get session
+         * @description Turno con totales por medio, movimientos y efectivo esperado.
+         */
+        get: operations["get_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2325,6 +3592,140 @@ export interface paths {
          * @description Retrieves reviews using pagination parameters
          */
         get: operations["findPage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/stock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stock
+         * @description Existencias por SKU valorizadas al costo; belowMin = solo bajo mínimo.
+         */
+        get: operations["stock"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/movements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Recent movements */
+        get: operations["movements"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/{id}/links": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Linked stores and registers */
+        get: operations["links"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stats
+         * @description Totales, unidades, valor al costo, SKU bajo mínimo y bodega principal.
+         */
+        get: operations["stats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/warehouses/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description q busca en nombre, código, ciudad, dirección y responsable; filtros warehouseType, active (true | false) y cityId.
+         */
+        get: operations["search_5"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stats
+         * @description Totales por estado, sin documento y con crédito.
+         */
+        get: operations["stats_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/inventory/suppliers/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search
+         * @description Paginado. q busca en razón social, nombre comercial, código, documento, correo y ciudad; filtros status (ACTIVE | BLOCKED | INACTIVE) y cityId.
+         */
+        get: operations["search_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2380,7 +3781,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_4"];
+        get: operations["list_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2440,7 +3841,27 @@ export interface paths {
          * Search
          * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
          */
-        get: operations["search_2"];
+        get: operations["search_7"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/devolution/orders/{orderId}/returnable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lo que se puede devolver de una orden
+         * @description Líneas con lo vendido, lo ya devuelto y lo disponible; además lo reembolsable de los pagos.
+         */
+        get: operations["returnable"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2460,7 +3881,7 @@ export interface paths {
          * Search
          * @description Búsqueda paginada: q, filtros, page, size, sort=campo,asc|desc
          */
-        get: operations["search_3"];
+        get: operations["search_8"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2520,7 +3941,7 @@ export interface paths {
          * Search subcategories
          * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
          */
-        get: operations["search_4"];
+        get: operations["search_9"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2620,7 +4041,7 @@ export interface paths {
          * Buscar productos
          * @description Por nombre o slug; statuses=ACTIVE,DRAFT filtra por estado
          */
-        get: operations["products"];
+        get: operations["products_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2640,7 +4061,7 @@ export interface paths {
          * Search categories
          * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
          */
-        get: operations["search_5"];
+        get: operations["search_10"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2677,7 +4098,7 @@ export interface paths {
          * Search brands
          * @description Búsqueda paginada. q busca en nombre, slug y descripción; sort = campo,asc|desc (separar varios con ;).
          */
-        get: operations["search_6"];
+        get: operations["search_11"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2715,6 +4136,66 @@ export interface paths {
          * @description Plantillas que lo incluyen, productos y variantes con valor, y uso de cada opción
          */
         get: operations["usage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/orders/{orderId}/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Order invoices
+         * @description Facturas y notas crédito de una orden.
+         */
+        get: operations["forOrder"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/invoices/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get by id
+         * @description Documento con líneas, impuestos por tarifa, CUFE y QR.
+         */
+        get: operations["get_11"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shop/billing/invoices/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Summary
+         * @description Facturado, notas crédito, neto e impuestos con los mismos filtros.
+         */
+        get: operations["summary_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2916,6 +4397,73 @@ export interface components {
             /** Format: int64 */
             product_order_id?: number;
         };
+        SaveStoreDto: {
+            code: string;
+            name: string;
+            address?: string;
+            city?: string;
+            phone?: string;
+            /** Format: email */
+            email?: string;
+            /**
+             * Format: int64
+             * @description Bodega de la que salen las ventas de mostrador
+             */
+            warehouse_id: number;
+            opening_hours?: string;
+            /** @description Encabezado del ticket (NIT, régimen, mensaje) */
+            ticket_header?: string;
+            /** @description Pie del ticket (políticas, agradecimiento) */
+            ticket_footer?: string;
+            active?: boolean;
+            /**
+             * Format: int64
+             * @description País (catálogo del servicio parametros)
+             */
+            country_id?: number;
+            /**
+             * Format: int64
+             * @description Departamento (catálogo del servicio parametros)
+             */
+            state_id?: number;
+            /**
+             * Format: int64
+             * @description Ciudad (catálogo del servicio parametros); city guarda su nombre para el ticket
+             */
+            city_id?: number;
+        };
+        StoreDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            address?: string;
+            city?: string;
+            phone?: string;
+            email?: string;
+            /**
+             * Format: int64
+             * @description Bodega de la que salen las ventas de mostrador
+             */
+            warehouse_id?: number;
+            opening_hours?: string;
+            ticket_header?: string;
+            ticket_footer?: string;
+            active?: boolean;
+            /** Format: int64 */
+            registers_count?: number;
+            /**
+             * Format: int64
+             * @description Cajas con turno abierto
+             */
+            open_registers?: number;
+            /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
+        };
         UpdateProductOrderDto: {
             /** Format: int32 */
             quantity: number;
@@ -2957,25 +4505,65 @@ export interface components {
             sku_code?: string;
             product_name?: string;
             unit_price?: number;
-        };
-        UpdatePaymentTypeDto: {
-            name: string;
             /** Format: int64 */
-            id: number;
+            tax_rate_id?: number;
+            tax_code?: string;
+            tax_rate?: number;
+            tax_base?: number;
+            tax_amount?: number;
+            order_discount?: number;
+            /** Format: int32 */
+            picked_quantity?: number;
         };
-        PaymentTypeDto: {
-            deleted?: boolean;
+        SavePaymentMethodDto: {
+            code?: string;
+            name: string;
+            description?: string;
+            instructions?: string;
+            /** @description PHYSICAL | VIRTUAL */
+            channel: string;
+            kind: string;
+            provider?: string;
+            active?: boolean;
             /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
+            position?: number;
+            fee_percent?: number;
+            fee_fixed?: number;
+            min_amount?: number;
+            max_amount?: number;
+            requires_reference?: boolean;
+            allows_change?: boolean;
+        };
+        PaymentMethodDto: {
             /** Format: int64 */
             id?: number;
+            code?: string;
             name?: string;
+            description?: string;
+            /** @description Instrucciones para quien cobra o para el cliente */
+            instructions?: string;
+            /** @description PHYSICAL | VIRTUAL */
+            channel?: string;
+            /** @description CASH, CARD_TERMINAL, BANK_TRANSFER, DIGITAL_WALLET, GATEWAY, CASH_ON_DELIVERY, OTHER */
+            kind?: string;
+            /** @description Pasarela: SANDBOX, WOMPI o MERCADO_PAGO (solo GATEWAY) */
+            provider?: string;
+            active?: boolean;
+            /** Format: int32 */
+            position?: number;
+            fee_percent?: number;
+            fee_fixed?: number;
+            min_amount?: number;
+            max_amount?: number;
+            requires_reference?: boolean;
+            allows_change?: boolean;
+            /** @description Pasarelas: si las credenciales están configuradas en el servidor */
+            provider_configured?: boolean;
+            /**
+             * Format: int64
+             * @description Pagos registrados con este medio
+             */
+            payments_count?: number;
         };
         UpdateOrderDto: {
             complementary_order?: string;
@@ -2998,10 +4586,272 @@ export interface components {
             id?: number;
             complementary_order?: string;
             total?: number;
+            tax_amount?: number;
+            net_amount?: number;
+            channel?: string;
+            /** Format: int64 */
+            cash_session_id?: number;
+            returned_amount?: number;
             state?: string;
             stock_managed?: boolean;
             cancel_reason?: string;
+            order_number?: string;
+            /** Format: int64 */
+            customer_id?: number;
+            customer_kind?: string;
+            customer_doc_type?: string;
+            customer_doc_number?: string;
+            customer_name?: string;
+            customer_email?: string;
+            customer_phone?: string;
+            billing_address?: string;
+            billing_city?: string;
+            delivery_method?: string;
+            /** Format: int64 */
+            pickup_store_id?: number;
+            pickup_store_name?: string;
+            recipient_name?: string;
+            recipient_phone?: string;
+            ship_address?: string;
+            ship_address_detail?: string;
+            /** Format: int64 */
+            ship_country_id?: number;
+            /** Format: int64 */
+            ship_state_id?: number;
+            /** Format: int64 */
+            ship_city_id?: number;
+            ship_country?: string;
+            ship_state?: string;
+            ship_city?: string;
+            ship_postal_code?: string;
+            delivery_notes?: string;
+            /** Format: int64 */
+            carrier_id?: number;
+            carrier_name?: string;
+            tracking_number?: string;
+            shipping_amount?: number;
+            shipping_discount?: number;
+            /** Format: date */
+            promised_date?: string;
+            /** Format: int64 */
+            store_id?: number;
+            store_name?: string;
+            /** Format: int64 */
+            warehouse_id?: number;
+            warehouse_name?: string;
+            assigned_to?: string;
+            priority?: string;
+            discount_type?: string;
+            discount_value?: number;
+            /** Format: int64 */
+            coupon_id?: number;
+            coupon_code?: string;
+            discount_amount?: number;
+            internal_notes?: string;
+            customer_notes?: string;
+            /** Format: date-time */
+            paid_at?: string;
+            /** Format: date-time */
+            shipped_at?: string;
+            /** Format: date-time */
+            delivered_at?: string;
+            /** Format: date-time */
+            cancelled_at?: string;
+            payment_status?: string;
+            paid_amount?: number;
+            balance_due?: number;
+            /** Format: int32 */
+            items_count?: number;
+            /** Format: int32 */
+            units_count?: number;
+            /** Format: int32 */
+            picked_units?: number;
+            items_subtotal?: number;
+            overdue?: boolean;
             next_states?: string[];
+        };
+        OrderCustomerInput: {
+            /**
+             * Format: int64
+             * @description Usuario de la tienda; vacío = invitado
+             */
+            customer_id?: number;
+            /** @description PERSON o COMPANY */
+            kind?: string;
+            /** @description CC, CE, NIT, PP, TI o PEP */
+            doc_type?: string;
+            doc_number?: string;
+            name?: string;
+            email?: string;
+            phone?: string;
+            billing_address?: string;
+            billing_city?: string;
+        };
+        OrderDeliveryInput: {
+            /** @description SHIPPING o PICKUP */
+            method?: string;
+            /**
+             * Format: int64
+             * @description Tienda de retiro (PICKUP)
+             */
+            pickup_store_id?: number;
+            recipient_name?: string;
+            recipient_phone?: string;
+            address?: string;
+            address_detail?: string;
+            /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
+            country?: string;
+            state?: string;
+            city?: string;
+            postal_code?: string;
+            notes?: string;
+            /** Format: int64 */
+            carrier_id?: number;
+            /** @description Costo de envío (se suma al total) */
+            shipping_amount?: number;
+            /** Format: date */
+            promised_date?: string;
+        };
+        OrderDiscountInput: {
+            /** @description NONE, PERCENT, AMOUNT o COUPON */
+            type?: string;
+            /** @description Porcentaje (PERCENT) o valor (AMOUNT) */
+            value?: number;
+            /** @description Código del cupón (COUPON) */
+            coupon_code?: string;
+        };
+        SaveOrderDetailsDto: {
+            customer?: components["schemas"]["OrderCustomerInput"];
+            delivery?: components["schemas"]["OrderDeliveryInput"];
+            discount?: components["schemas"]["OrderDiscountInput"];
+            /** @description BACKOFFICE, POS, ONLINE, PHONE, WHATSAPP o MARKETPLACE */
+            channel?: string;
+            /**
+             * Format: int64
+             * @description Tienda de origen
+             */
+            store_id?: number;
+            /**
+             * Format: int64
+             * @description Bodega de despacho; vacío = la de la tienda o el reparto normal
+             */
+            warehouse_id?: number;
+            /** @description Vendedor o responsable */
+            assigned_to?: string;
+            /** @description LOW, NORMAL, HIGH o URGENT */
+            priority?: string;
+            /** @description Referencia externa (pedido del cliente, marketplace…) */
+            complementary_order?: string;
+            internal_notes?: string;
+            customer_notes?: string;
+            /** @description Quién hace el cambio (para la línea de tiempo) */
+            actor?: string;
+        };
+        OrderNumberingDto: {
+            prefix: string;
+            /** Format: int32 */
+            padding: number;
+            /** Format: int64 */
+            next_number: number;
+            readonly preview?: string;
+        };
+        SaveCashRegisterDto: {
+            code: string;
+            name: string;
+            location?: string;
+            /**
+             * Format: int64
+             * @description Bodega propia (vacía = la del punto de venta)
+             */
+            warehouse_id?: number;
+            active?: boolean;
+            /**
+             * Format: int64
+             * @description Punto de venta al que pertenece
+             */
+            store_id: number;
+            /** @description Equipo o terminal (opcional) */
+            device_name?: string;
+            /** @description Medios de pago permitidos (vacío = todos los activos) */
+            allowed_method_ids?: number[];
+            /** @description FREE, SUGGESTED o FIXED */
+            opening_mode?: string;
+            default_opening_amount?: number;
+            /** @description Tope de efectivo: sobre este valor se pide un retiro */
+            cash_limit?: number;
+            /** @description El cajero cuenta sin ver el esperado */
+            blind_close?: boolean;
+            /** @description Diferencia máxima sin justificación al cerrar */
+            difference_tolerance?: number;
+            /** @description Descuento máximo por línea (%) */
+            max_discount_percent?: number;
+            /** @description Factura electrónica automática en cada venta */
+            auto_invoice?: boolean;
+            /** @description 58MM u 80MM */
+            receipt_width?: string;
+        };
+        CashRegisterDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            location?: string;
+            /**
+             * Format: int64
+             * @description Bodega propia de la caja (si no, la del punto de venta)
+             */
+            warehouse_id?: number;
+            active?: boolean;
+            /**
+             * Format: int64
+             * @description Turno abierto (si hay)
+             */
+            open_session_id?: number;
+            opened_by?: string;
+            /** Format: date-time */
+            opened_at?: string;
+            /** @description Efectivo esperado ahora en el turno abierto */
+            expected_cash?: number;
+            /**
+             * Format: int64
+             * @description Turnos registrados
+             */
+            sessions_count?: number;
+            /** Format: int64 */
+            store_id?: number;
+            store_name?: string;
+            /**
+             * Format: int64
+             * @description Bodega de la que salen las ventas: la de la caja o la del punto de venta
+             */
+            effective_warehouse_id?: number;
+            device_name?: string;
+            allowed_method_ids?: number[];
+            opening_mode?: string;
+            default_opening_amount?: number;
+            cash_limit?: number;
+            /** @description El efectivo esperado del turno abierto supera el tope */
+            over_cash_limit?: boolean;
+            blind_close?: boolean;
+            difference_tolerance?: number;
+            max_discount_percent?: number;
+            auto_invoice?: boolean;
+            receipt_width?: string;
+            ticket?: components["schemas"]["TicketInfo"];
+        };
+        /** @description Textos del ticket (del punto de venta) */
+        TicketInfo: {
+            store_name?: string;
+            address?: string;
+            city?: string;
+            phone?: string;
+            header?: string;
+            footer?: string;
         };
         UpdateProductReviewDto: {
             /** Format: int64 */
@@ -3379,60 +5229,366 @@ export interface components {
             /** Format: int64 */
             unit_id?: number;
         };
-        UpdateWarehouseDto: {
+        SaveWarehouseDto: {
+            /** @description Código; vacío = BOD_<n> */
+            code?: string;
             name: string;
-            code: string;
-            address?: string;
+            /** @description ALMACEN, TIENDA, TRANSITO, DEVOLUCIONES o CONSIGNACION (por defecto ALMACEN) */
+            warehouse_type?: string;
+            /** @description Por defecto activa al crear; se conserva al editar */
             active?: boolean;
-            /** Format: int64 */
+            address?: string;
+            /**
+             * Format: int64
+             * @description País (catálogo del servicio parametros)
+             */
             country_id?: number;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description Departamento (catálogo del servicio parametros)
+             */
             state_id?: number;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description Ciudad (catálogo del servicio parametros)
+             */
             city_id?: number;
-            /** Format: int64 */
-            id: number;
+            /** @description Nombre de la ciudad */
+            city?: string;
+            /** @description Vende (POS y tiendas) */
+            allow_sales?: boolean;
+            /** @description Despacha pedidos de la tienda en línea */
+            allow_online?: boolean;
+            /** @description Recibe compras a proveedores */
+            allow_receiving?: boolean;
+            /**
+             * Format: int32
+             * @description Orden para despachar: 1 = primero (por defecto 10)
+             */
+            fulfillment_priority?: number;
+            manager_name?: string;
+            manager_phone?: string;
+            /** Format: email */
+            manager_email?: string;
+            opening_hours?: string;
+            notes?: string;
+            /** @description Área en m² */
+            area_m2?: number;
+            /**
+             * Format: int32
+             * @description Capacidad en unidades (para la ocupación)
+             */
+            capacity_units?: number;
+            /**
+             * Format: int32
+             * @description Capacidad en posiciones de almacenamiento
+             */
+            capacity_positions?: number;
         };
         WarehouseDto: {
             /** Format: int64 */
             id?: number;
-            name: string;
-            code: string;
-            address?: string;
+            code?: string;
+            name?: string;
+            warehouse_type?: string;
+            /** @description Bodega principal (recibe los ajustes desde la ficha de producto) */
+            is_main?: boolean;
             active?: boolean;
+            allow_sales?: boolean;
+            allow_online?: boolean;
+            allow_receiving?: boolean;
+            /** Format: int32 */
+            fulfillment_priority?: number;
+            address?: string;
             /** Format: int64 */
             country_id?: number;
             /** Format: int64 */
             state_id?: number;
             /** Format: int64 */
             city_id?: number;
-        };
-        UpdateSupplierDto: {
-            name: string;
-            phone: string;
-            address: string;
-            /** Format: email */
-            email: string;
+            city?: string;
+            manager_name?: string;
+            manager_phone?: string;
+            manager_email?: string;
+            opening_hours?: string;
+            notes?: string;
+            area_m2?: number;
+            /** Format: int32 */
+            capacity_units?: number;
+            /** Format: int32 */
+            capacity_positions?: number;
+            /**
+             * Format: int64
+             * @description SKU con existencias o mínimo registrado
+             */
+            sku_count?: number;
             /** Format: int64 */
-            id: number;
+            units_on_hand?: number;
+            /** Format: int64 */
+            units_reserved?: number;
+            /** Format: int64 */
+            units_available?: number;
+            /** @description Valor de las existencias al costo del SKU */
+            stock_value?: number;
+            /**
+             * Format: int64
+             * @description SKU por debajo del mínimo
+             */
+            below_min_count?: number;
+            /** @description Ocupación (%) sobre la capacidad en unidades */
+            occupancy_percent?: number;
+            /** Format: int64 */
+            locations_count?: number;
+            /**
+             * Format: int64
+             * @description Tiendas que venden desde esta bodega
+             */
+            stores_count?: number;
         };
-        SupplierDto: {
-            deleted?: boolean;
+        UpdateMinThresholdDto: {
             /** Format: int32 */
-            usr_crea?: number;
+            min_threshold: number;
+        };
+        WarehouseStockDto: {
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            sku_name?: string;
             /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
+            on_hand?: number;
+            /** Format: int32 */
+            reserved?: number;
+            /** Format: int32 */
+            available?: number;
+            /** Format: int32 */
+            min_threshold?: number;
+            unit_cost?: number;
+            stock_value?: number;
+            below_min?: boolean;
+        };
+        SaveLocationDto: {
+            /** @description Vacío = zona-pasillo-estante-nivel */
+            code?: string;
+            zone?: string;
+            aisle?: string;
+            rack?: string;
+            level?: string;
+            /** @description STORAGE, PICKING, RECEIVING, DISPATCH o QUARANTINE */
+            location_type?: string;
+            /** Format: int32 */
+            capacity_units?: number;
+            active?: boolean;
+        };
+        WarehouseLocationDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            warehouse_id?: number;
+            code?: string;
+            zone?: string;
+            aisle?: string;
+            rack?: string;
+            level?: string;
+            location_type?: string;
+            /** Format: int32 */
+            capacity_units?: number;
+            active?: boolean;
+        };
+        SaveSupplierDto: {
+            /** @description Código interno; vacío = PROV_<n> */
+            code?: string;
+            /** @description NIT, CC, CE, PP, PEP o NIT_EXT */
+            doc_type: string;
+            /** @description Número sin dígito de verificación (se calcula para NIT) */
+            doc_number: string;
+            /** @description NATURAL o JURIDICA (por defecto según el documento) */
+            person_type?: string;
+            /** @description Razón social o nombre completo */
+            name: string;
+            trade_name?: string;
+            /** @description RESPONSABLE_IVA, NO_RESPONSABLE_IVA o SIMPLE */
+            tax_regime?: string;
+            great_contributor?: boolean;
+            self_retainer?: boolean;
+            /** Format: email */
+            email?: string;
+            phone?: string;
+            website?: string;
+            address?: string;
+            /**
+             * Format: int64
+             * @description País (catálogo del servicio parametros)
+             */
+            country_id?: number;
+            /**
+             * Format: int64
+             * @description Departamento (catálogo del servicio parametros)
+             */
+            state_id?: number;
+            /**
+             * Format: int64
+             * @description Ciudad (catálogo del servicio parametros)
+             */
+            city_id?: number;
+            /** @description Nombre de la ciudad */
+            city?: string;
+            /** @description ACTIVE, BLOCKED o INACTIVE (por defecto ACTIVE al crear; se conserva al editar) */
+            status?: string;
+            /** @description Obligatorio si el estado es BLOCKED */
+            block_reason?: string;
+            /**
+             * Format: int32
+             * @description Plazo de pago en días; 0 = contado
+             */
+            payment_term_days?: number;
+            credit_limit?: number;
+            /** @description ISO 4217, por defecto COP */
+            currency?: string;
+            /**
+             * Format: int32
+             * @description Días de entrega habituales
+             */
+            lead_time_days?: number;
+            min_order_amount?: number;
+            /** @description Descuento comercial acordado (%) */
+            discount_percent?: number;
+            bank_name?: string;
+            /** @description AHORROS o CORRIENTE */
+            bank_account_type?: string;
+            bank_account_number?: string;
+            bank_account_holder?: string;
+            bank_holder_document?: string;
+            notes?: string;
+            contacts?: components["schemas"]["SupplierContactDto"][];
+        };
+        SupplierContactDto: {
             /** Format: int64 */
             id?: number;
             name: string;
+            position?: string;
+            /** @description VENTAS, CARTERA, LOGISTICA, GERENCIA u OTRO */
+            area?: string;
             phone?: string;
-            address?: string;
             /** Format: email */
             email?: string;
+            /** @description Contacto principal (si ninguno lo es, el primero) */
+            primary?: boolean;
+        };
+        SupplierDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            doc_type?: string;
+            doc_number?: string;
+            /** @description Dígito de verificación (NIT) */
+            dv?: string;
+            /** @description Documento para mostrar: 900123456-8 */
+            document?: string;
+            person_type?: string;
+            name?: string;
+            trade_name?: string;
+            /** @description Nombre comercial o, si no hay, razón social */
+            display_name?: string;
+            tax_regime?: string;
+            great_contributor?: boolean;
+            self_retainer?: boolean;
+            email?: string;
+            phone?: string;
+            website?: string;
+            address?: string;
+            /** Format: int64 */
+            country_id?: number;
+            /** Format: int64 */
+            state_id?: number;
+            /** Format: int64 */
+            city_id?: number;
+            city?: string;
+            status?: string;
+            block_reason?: string;
+            /** Format: int32 */
+            payment_term_days?: number;
+            credit_limit?: number;
+            currency?: string;
+            /** Format: int32 */
+            lead_time_days?: number;
+            min_order_amount?: number;
+            discount_percent?: number;
+            bank_name?: string;
+            bank_account_type?: string;
+            bank_account_number?: string;
+            /** @description Cuenta enmascarada: ****1234 */
+            bank_account_masked?: string;
+            bank_account_holder?: string;
+            bank_holder_document?: string;
+            notes?: string;
+            contacts?: components["schemas"]["SupplierContactDto"][];
+            primary_contact_name?: string;
+            primary_contact_phone?: string;
+            primary_contact_email?: string;
+            /**
+             * Format: int64
+             * @description SKU activos que surte
+             */
+            products_count?: number;
+            /**
+             * Format: int64
+             * @description Productos del catálogo que lo tienen como proveedor principal (solo en el detalle)
+             */
+            catalog_products?: number;
+        };
+        SaveSupplierProductDto: {
+            /** Format: int64 */
+            sku_id: number;
+            /** @description Referencia del producto en el catálogo del proveedor */
+            supplier_code?: string;
+            /** @description Costo de compra unitario */
+            unit_cost: number;
+            /**
+             * Format: int32
+             * @description Días de entrega de este producto (si difiere del general)
+             */
+            lead_time_days?: number;
+            /**
+             * Format: int32
+             * @description Cantidad mínima de compra (por defecto 1)
+             */
+            min_order_qty?: number;
+            /** @description Proveedor preferido del SKU (desmarca a los demás) */
+            preferred?: boolean;
+            active?: boolean;
+        };
+        SupplierProductDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            supplier_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            sku_name?: string;
+            /** @description Precio de venta vigente del SKU */
+            sale_price?: number;
+            unit_cost?: number;
+            /** @description Margen bruto sobre el precio de venta (%) */
+            margin_percent?: number;
+            supplier_code?: string;
+            /** Format: int32 */
+            lead_time_days?: number;
+            /**
+             * Format: int32
+             * @description Días de entrega efectivos (del producto o, si no, del proveedor)
+             */
+            effective_lead_time_days?: number;
+            /** Format: int32 */
+            min_order_qty?: number;
+            preferred?: boolean;
+            active?: boolean;
         };
         UpdateDispatchProductDto: {
             guide_number: string;
@@ -3548,6 +5704,41 @@ export interface components {
             /** Format: int64 */
             id: number;
         };
+        OrderDevolutionDetailDto: {
+            deleted?: boolean;
+            /** Format: int32 */
+            usr_crea?: number;
+            /** Format: int32 */
+            usr_mod?: number;
+            /** Format: date-time */
+            created_at?: string;
+            /** Format: date-time */
+            updated_at?: string;
+            /** Format: int64 */
+            id?: number;
+            /** Format: int32 */
+            quantity?: number;
+            /** Format: int32 */
+            received_quantity?: number;
+            unit_price?: number;
+            refund_amount?: number;
+            condition?: string;
+            restocking_fee?: number;
+            /** Format: int64 */
+            order_devolution_id?: number;
+            /** Format: int64 */
+            product_order_id?: number;
+            observation?: string;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            restock?: boolean;
+            /** Format: int32 */
+            restocked_quantity?: number;
+        };
         OrderDevolutionDto: {
             deleted?: boolean;
             /** Format: int32 */
@@ -3579,6 +5770,22 @@ export interface components {
             received_at?: string;
             inspection_notes?: string;
             external_reference?: string;
+            /** Format: int64 */
+            warehouse_id?: number;
+            rejected_reason?: string;
+            rejected_by?: string;
+            /** Format: date-time */
+            rejected_at?: string;
+            inspected_by?: string;
+            /** Format: date-time */
+            inspected_at?: string;
+            refunded_amount?: number;
+            refunded_by?: string;
+            /** Format: date-time */
+            refunded_at?: string;
+            refund_detail?: string;
+            actions?: string[];
+            details?: components["schemas"]["OrderDevolutionDetailDto"][];
         };
         UpdateEvidenceDto: {
             /** Format: int64 */
@@ -3629,32 +5836,6 @@ export interface components {
             observation: string;
             /** Format: int64 */
             id: number;
-        };
-        OrderDevolutionDetailDto: {
-            deleted?: boolean;
-            /** Format: int32 */
-            usr_crea?: number;
-            /** Format: int32 */
-            usr_mod?: number;
-            /** Format: date-time */
-            created_at?: string;
-            /** Format: date-time */
-            updated_at?: string;
-            /** Format: int64 */
-            id?: number;
-            /** Format: int32 */
-            quantity?: number;
-            /** Format: int32 */
-            received_quantity?: number;
-            unit_price?: number;
-            refund_amount?: number;
-            condition?: string;
-            restocking_fee?: number;
-            /** Format: int64 */
-            order_devolution_id?: number;
-            /** Format: int64 */
-            product_order_id?: number;
-            observation?: string;
         };
         UpdateMotiveDevolutionDto: {
             name: string;
@@ -3829,6 +6010,143 @@ export interface components {
             /** Format: int64 */
             category_id?: number;
         };
+        SaveVariantMatrixAxis: {
+            /** Format: int64 */
+            attribute_id: number;
+            /** @description Este eje define la imagen de las variantes (p. ej. color) */
+            image_axis?: boolean;
+        };
+        SaveVariantMatrixDto: {
+            axes: components["schemas"]["SaveVariantMatrixAxis"][];
+            option_images?: components["schemas"]["SaveVariantMatrixOptionImage"][];
+            variants: components["schemas"]["SaveVariantMatrixRow"][];
+            /**
+             * Format: int64
+             * @description Bodega del stock inicial de las variantes nuevas (vacío = principal)
+             */
+            initial_warehouse_id?: number;
+        };
+        SaveVariantMatrixOptionImage: {
+            /** Format: int64 */
+            option_id: number;
+            image_url?: string;
+        };
+        SaveVariantMatrixRow: {
+            /**
+             * Format: int64
+             * @description Variante existente (vacío = se busca por combinación o se crea)
+             */
+            child_id?: number;
+            options: components["schemas"]["VariantMatrixOptionRef"][];
+            price: number;
+            cost_price?: number;
+            compare_at_price?: number;
+            /** @description Vacío = se genera desde la base y los valores */
+            sku_code?: string;
+            barcode?: string;
+            /** @description Vacío = imagen del valor del eje de imagen */
+            image_url?: string;
+            active?: boolean;
+            /**
+             * Format: int32
+             * @description Solo para variantes nuevas
+             */
+            initial_stock?: number;
+        };
+        VariantMatrixOptionRef: {
+            /** Format: int64 */
+            attribute_id?: number;
+            /** Format: int64 */
+            option_id?: number;
+        };
+        SaveVariantMatrixResultDto: {
+            /** Format: int32 */
+            created?: number;
+            /** Format: int32 */
+            updated?: number;
+            /** Format: int32 */
+            deactivated?: number;
+            /** Format: int32 */
+            deleted?: number;
+            matrix?: components["schemas"]["VariantMatrixDto"];
+        };
+        /** @description Atributos de tipo opción que se pueden agregar como eje */
+        VariantMatrixAttributeRef: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            /** Format: int32 */
+            options_count?: number;
+            from_template?: boolean;
+        };
+        /** @description Ejes en uso: los guardados del producto y, si no hay, los de la plantilla */
+        VariantMatrixAxis: {
+            /** Format: int64 */
+            attribute_id?: number;
+            code?: string;
+            name?: string;
+            from_template?: boolean;
+            image_axis?: boolean;
+            /** Format: int32 */
+            position?: number;
+            options?: components["schemas"]["VariantMatrixOption"][];
+        };
+        VariantMatrixDto: {
+            /** Format: int64 */
+            product_id?: number;
+            product_name?: string;
+            /** @description Precio y costo del producto (valores por defecto de las nuevas variantes) */
+            base_price?: number;
+            base_cost?: number;
+            /** @description Base sugerida para los códigos SKU de las variantes */
+            base_code?: string;
+            /** Format: int64 */
+            template_id?: number;
+            template_name?: string;
+            /** @description Ejes en uso: los guardados del producto y, si no hay, los de la plantilla */
+            axes?: components["schemas"]["VariantMatrixAxis"][];
+            /** @description Atributos de tipo opción que se pueden agregar como eje */
+            available_attributes?: components["schemas"]["VariantMatrixAttributeRef"][];
+            variants?: components["schemas"]["VariantMatrixVariant"][];
+        };
+        VariantMatrixOption: {
+            /** Format: int64 */
+            id?: number;
+            value?: string;
+            /** Format: int32 */
+            position?: number;
+            /** @description Usado por alguna variante del producto */
+            selected?: boolean;
+            /**
+             * Format: int64
+             * @description Variantes del producto con este valor
+             */
+            variant_count?: number;
+            /** @description Imagen del valor en este producto */
+            image_url?: string;
+        };
+        VariantMatrixVariant: {
+            /** Format: int64 */
+            child_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            name?: string;
+            options?: components["schemas"]["VariantMatrixOptionRef"][];
+            price?: number;
+            cost_price?: number;
+            compare_at_price?: number;
+            barcode?: string;
+            image_url?: string;
+            active?: boolean;
+            /** Format: int32 */
+            stock?: number;
+            /** @description Tuvo stock, reservas o ventas: al quitarla se desactiva en vez de borrarse */
+            has_history?: boolean;
+            /** @description Le faltan valores de algún eje */
+            incomplete?: boolean;
+        };
         AttributeValueDto: {
             /** Format: int64 */
             attribute_id: number;
@@ -3958,6 +6276,8 @@ export interface components {
             net_content?: number;
             /** Format: int64 */
             net_content_unit_id?: number;
+            /** Format: int64 */
+            tax_rate_id?: number;
             image_url?: string;
             available?: boolean;
             status?: string;
@@ -4008,6 +6328,8 @@ export interface components {
             net_content?: number;
             /** Format: int64 */
             net_content_unit_id?: number;
+            /** Format: int64 */
+            tax_rate_id?: number;
             image_url?: string;
             available?: boolean;
             /** Format: int64 */
@@ -4151,6 +6473,149 @@ export interface components {
             /** Format: int64 */
             unit_id?: number;
             options?: components["schemas"]["AttributeOptionDto"][];
+        };
+        SaveTaxRateDto: {
+            code: string;
+            name: string;
+            description?: string;
+            /** @description IVA, INC o EXCLUDED */
+            kind: string;
+            rate?: number;
+            is_default?: boolean;
+            active?: boolean;
+            /** Format: int32 */
+            position?: number;
+        };
+        TaxRateDto: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            description?: string;
+            /** @description IVA, INC o EXCLUDED */
+            kind?: string;
+            /** @description Porcentaje (19.000 = 19 %) */
+            rate?: number;
+            is_default?: boolean;
+            active?: boolean;
+            /** Format: int32 */
+            position?: number;
+            /**
+             * Format: int64
+             * @description Productos que la usan explícitamente
+             */
+            products_count?: number;
+            /**
+             * Format: int64
+             * @description Líneas de orden que la tienen congelada
+             */
+            lines_count?: number;
+        };
+        SaveBillingSettingsDto: {
+            nit?: string;
+            legal_name?: string;
+            trade_name?: string;
+            tax_regime?: string;
+            responsibilities?: string;
+            address?: string;
+            city?: string;
+            department?: string;
+            email?: string;
+            phone?: string;
+            environment?: string;
+            provider?: string;
+            software_id?: string;
+            software_pin?: string;
+            auto_invoice?: boolean;
+            invoice_footer?: string;
+        };
+        BillingSettingsDto: {
+            nit?: string;
+            /** @description Dígito de verificación (calculado) */
+            dv?: string;
+            legal_name?: string;
+            trade_name?: string;
+            /** @description RESPONSABLE_IVA o NO_RESPONSABLE_IVA */
+            tax_regime?: string;
+            /** @description Responsabilidades fiscales (p. ej. R-99-PN, O-13) */
+            responsibilities?: string;
+            address?: string;
+            city?: string;
+            department?: string;
+            email?: string;
+            phone?: string;
+            /** @description TEST o PRODUCTION */
+            environment?: string;
+            /** @description Proveedor tecnológico: SIMULATOR */
+            provider?: string;
+            software_id?: string;
+            /** @description PIN del software (solo se informa si está configurado) */
+            software_pin_set?: boolean;
+            auto_invoice?: boolean;
+            invoice_footer?: string;
+            /** @description Datos mínimos completos para facturar */
+            ready?: boolean;
+            /** @description Qué falta para poder facturar */
+            missing?: string[];
+            provider_configured?: boolean;
+        };
+        SaveResolutionDto: {
+            kind: string;
+            prefix?: string;
+            resolution_number?: string;
+            /** Format: date */
+            resolution_date?: string;
+            technical_key?: string;
+            /** Format: int64 */
+            from_number: number;
+            /** Format: int64 */
+            to_number: number;
+            /** Format: int64 */
+            next_number?: number;
+            /** Format: date */
+            valid_from?: string;
+            /** Format: date */
+            valid_to?: string;
+            environment?: string;
+            active?: boolean;
+        };
+        ResolutionDto: {
+            /** Format: int64 */
+            id?: number;
+            /** @description INVOICE o CREDIT_NOTE */
+            kind?: string;
+            prefix?: string;
+            resolution_number?: string;
+            /** Format: date */
+            resolution_date?: string;
+            technical_key?: string;
+            /** Format: int64 */
+            from_number?: number;
+            /** Format: int64 */
+            to_number?: number;
+            /** Format: int64 */
+            next_number?: number;
+            /** Format: date */
+            valid_from?: string;
+            /** Format: date */
+            valid_to?: string;
+            /** @description TEST o PRODUCTION */
+            environment?: string;
+            active?: boolean;
+            /**
+             * Format: int64
+             * @description Números disponibles
+             */
+            remaining?: number;
+            /**
+             * Format: int64
+             * @description Días para el vencimiento (negativo si venció)
+             */
+            days_to_expire?: number;
+            /** @description Ya se emitieron documentos con esta numeración */
+            used?: boolean;
+            /** @description Avisos: EXPIRED, EXPIRING, EXHAUSTED, LOW */
+            alerts?: string[];
         };
         UpdateSalesAnalyticsRecordDto: {
             report_name?: string;
@@ -4303,8 +6768,143 @@ export interface components {
             /** Format: int64 */
             order_id: number;
         };
-        CreatePaymentTypeDto: {
-            name: string;
+        Item: {
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int32 */
+            quantity: number;
+            discount?: number;
+        };
+        PaymentLine: {
+            /** Format: int64 */
+            payment_method_id: number;
+            amount: number;
+            /** @description Efectivo recibido */
+            tendered_amount?: number;
+            reference?: string;
+        };
+        /** @description Comprador para la factura automática (vacío = consumidor final) */
+        PosBuyer: {
+            doc_type?: string;
+            doc_number?: string;
+            name?: string;
+            email?: string;
+            phone?: string;
+        };
+        PosCheckoutDto: {
+            /** Format: int64 */
+            cash_session_id: number;
+            items: components["schemas"]["Item"][];
+            payments: components["schemas"]["PaymentLine"][];
+            /** @description Referencia libre (p. ej. nombre del cliente) */
+            reference?: string;
+            buyer?: components["schemas"]["PosBuyer"];
+        };
+        PaymentDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            order_id?: number;
+            /** Format: int64 */
+            payment_method_id?: number;
+            method_code?: string;
+            method_name?: string;
+            /** @description PHYSICAL | VIRTUAL */
+            channel?: string;
+            kind?: string;
+            provider?: string;
+            /** @description PENDING, APPROVED, DECLINED, EXPIRED, VOIDED, REFUNDED */
+            status?: string;
+            amount?: number;
+            fee_amount?: number;
+            /** @description Efectivo recibido */
+            tendered_amount?: number;
+            /** @description Cambio entregado */
+            change_amount?: number;
+            refunded_amount?: number;
+            /** @description Lo que aporta al saldo de la orden (aprobado menos reembolsado) */
+            settled_amount?: number;
+            currency?: string;
+            /** @description Referencia manual: voucher, comprobante, transacción */
+            reference?: string;
+            /** @description Referencia única del pago enviada a la pasarela */
+            payment_reference?: string;
+            /** @description Id de la transacción en la pasarela */
+            provider_reference?: string;
+            /** @description Link de pago (pasarelas) */
+            checkout_url?: string;
+            payer_email?: string;
+            notes?: string;
+            status_detail?: string;
+            /** Format: date-time */
+            approved_at?: string;
+            /** Format: date-time */
+            expires_at?: string;
+            /** Format: date-time */
+            created_at?: string;
+            /** @description Acciones posibles: confirm, decline, void, refund, sync */
+            actions?: string[];
+            /**
+             * Format: int64
+             * @description Turno de caja en el que se cobró
+             */
+            cash_session_id?: number;
+        };
+        PosCheckoutResultDto: {
+            /** Format: int64 */
+            order_id?: number;
+            order_state?: string;
+            total?: number;
+            tax_amount?: number;
+            net_amount?: number;
+            change_amount?: number;
+            payments?: components["schemas"]["PaymentDto"][];
+            /** @description La caja factura sola: la factura se emite tras la venta */
+            auto_invoice?: boolean;
+        };
+        RegisterPaymentDto: {
+            /** Format: int64 */
+            order_id: number;
+            /** Format: int64 */
+            payment_method_id: number;
+            amount: number;
+            /** @description Efectivo recibido (para calcular el cambio) */
+            tendered_amount?: number;
+            reference?: string;
+            notes?: string;
+            /** @description Dejarlo pendiente de confirmación (p. ej. transferencia aún no vista en el banco) */
+            pending?: boolean;
+            /**
+             * Format: int64
+             * @description Turno de caja en el que se cobra (opcional)
+             */
+            cash_session_id?: number;
+        };
+        PaymentActionDto: {
+            reason?: string;
+            /** @description Confirmar: referencia del comprobante si el medio la exige */
+            reference?: string;
+            /** @description Reembolso: monto (vacío = todo lo reembolsable) */
+            amount?: number;
+        };
+        StartCheckoutDto: {
+            /** Format: int64 */
+            order_id: number;
+            /** Format: int64 */
+            payment_method_id: number;
+            /** @description Vacío = saldo pendiente de la orden */
+            amount?: number;
+            /** Format: email */
+            payer_email?: string;
+            /** @description A dónde vuelve el cliente al terminar (vacío = la configurada) */
+            return_url?: string;
+        };
+        CheckoutDto: {
+            payment?: components["schemas"]["PaymentDto"];
+            /** @description Link de pago de la pasarela */
+            checkout_url?: string;
         };
         CreateOrderDto: {
             complementary_order?: string;
@@ -4313,12 +6913,60 @@ export interface components {
         };
         ChangeOrderStatusDto: {
             /** @enum {string} */
-            state: "PENDING" | "PAID" | "PROCESSING" | "SHIPPED" | "DELIVERED" | "CANCELLED";
+            state: "PENDING" | "PAID" | "PROCESSING" | "READY" | "SHIPPED" | "DELIVERED" | "CANCELLED";
             /** @description Motivo (se guarda al cancelar) */
             reason?: string;
         };
-        BulkIdsRequest: {
+        ShipOrderDto: {
+            /** Format: int64 */
+            carrier_id?: number;
+            tracking_number?: string;
+            note?: string;
+            actor?: string;
+        };
+        OrderActionDto: {
+            note?: string;
+            actor?: string;
+        };
+        PickOrderDto: {
+            lines: components["schemas"]["PickOrderLine"][];
+            actor?: string;
+        };
+        PickOrderLine: {
+            /** Format: int64 */
+            line_id: number;
+            /** Format: int32 */
+            picked_quantity: number;
+        };
+        OrderEventDto: {
+            /** Format: int64 */
+            id?: number;
+            type?: string;
+            from_state?: string;
+            to_state?: string;
+            message?: string;
+            actor?: string;
+            /** Format: date-time */
+            created_at?: string;
+        };
+        CreateFullOrderDto: {
+            details: components["schemas"]["SaveOrderDetailsDto"];
+            lines: components["schemas"]["CreateFullOrderLine"][];
+        };
+        CreateFullOrderLine: {
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            /** Format: int32 */
+            quantity: number;
+            discount?: number;
+        };
+        BulkOrderStatusDto: {
             ids: number[];
+            state: string;
+            reason?: string;
+            actor?: string;
         };
         BulkOperationResult: {
             /** Format: int32 */
@@ -4331,6 +6979,114 @@ export interface components {
             /** Format: int64 */
             id?: number;
             reason?: string;
+        };
+        BulkIdsRequest: {
+            ids: number[];
+        };
+        OpenCashSessionDto: {
+            /** Format: int64 */
+            cash_register_id: number;
+            /** @description Quién abre (cajero) */
+            opened_by: string;
+            /** @description Base en efectivo */
+            opening_amount?: number;
+            notes?: string;
+        };
+        CashMovementDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            cash_session_id?: number;
+            type?: string;
+            amount?: number;
+            reason?: string;
+            reference?: string;
+            created_by?: string;
+            /** Format: date-time */
+            created_at?: string;
+        };
+        CashSessionDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            cash_register_id?: number;
+            register_code?: string;
+            register_name?: string;
+            /** @description OPEN o CLOSED */
+            status?: string;
+            opened_by?: string;
+            /** Format: date-time */
+            opened_at?: string;
+            opening_amount?: number;
+            opening_notes?: string;
+            closed_by?: string;
+            /** Format: date-time */
+            closed_at?: string;
+            /** @description Efectivo esperado: base + efectivo cobrado + entradas − salidas */
+            expected_cash?: number;
+            counted_cash?: number;
+            /** @description Contado − esperado (positivo = sobrante) */
+            cash_difference?: number;
+            closing_notes?: string;
+            /**
+             * Format: int64
+             * @description Ventas (órdenes) del turno
+             */
+            sales_count?: number;
+            sales_total?: number;
+            /** @description Cobrado en el turno (pagos aprobados, menos reembolsos) */
+            collected_total?: number;
+            cash_in?: number;
+            cash_out?: number;
+            /**
+             * Format: int64
+             * @description Pagos pendientes de confirmar en el turno
+             */
+            pending_payments?: number;
+            methods?: components["schemas"]["CashSessionMethodDto"][];
+            movements?: components["schemas"]["CashMovementDto"][];
+            store_name?: string;
+            /** @description Arqueo ciego: el cajero no ve el esperado hasta cerrar */
+            blind_close?: boolean;
+            difference_tolerance?: number;
+            cash_limit?: number;
+            /** @description El efectivo esperado supera el tope de la caja */
+            over_cash_limit?: boolean;
+            /** @description Cerrado con una diferencia mayor que la tolerancia */
+            exceeds_tolerance?: boolean;
+        };
+        CashSessionMethodDto: {
+            /** Format: int64 */
+            payment_method_id?: number;
+            name?: string;
+            kind?: string;
+            /** Format: int64 */
+            payments_count?: number;
+            expected_amount?: number;
+            counted_amount?: number;
+            difference?: number;
+        };
+        CreateCashMovementDto: {
+            /** @description IN (entrada) u OUT (salida) */
+            type: string;
+            amount: number;
+            reason: string;
+            reference?: string;
+            created_by?: string;
+        };
+        CloseCashSessionDto: {
+            closed_by: string;
+            /** @description Efectivo contado en la caja */
+            counted_cash: number;
+            /** @description Conteo de otros medios (vouchers, transferencias); los omitidos se toman como esperados */
+            counts?: components["schemas"]["MethodCount"][];
+            notes?: string;
+        };
+        /** @description Conteo de otros medios (vouchers, transferencias); los omitidos se toman como esperados */
+        MethodCount: {
+            /** Format: int64 */
+            payment_method_id: number;
+            counted_amount: number;
         };
         CreateProductReviewDto: {
             /** Format: int64 */
@@ -4469,24 +7225,11 @@ export interface components {
             /** Format: int64 */
             unit_id: number;
         };
-        CreateWarehouseDto: {
-            name: string;
-            code: string;
-            address?: string;
-            active?: boolean;
-            /** Format: int64 */
-            country_id?: number;
-            /** Format: int64 */
-            state_id?: number;
-            /** Format: int64 */
-            city_id?: number;
-        };
-        CreateSupplierDto: {
-            name: string;
-            phone: string;
-            address: string;
-            /** Format: email */
-            email: string;
+        ChangeSupplierStatusDto: {
+            /** @description ACTIVE, BLOCKED o INACTIVE */
+            status: string;
+            /** @description Motivo (obligatorio al bloquear) */
+            reason?: string;
         };
         InventoryMovementDto: {
             /** Format: int64 */
@@ -4555,6 +7298,77 @@ export interface components {
             received_at?: string;
             inspection_notes?: string;
             external_reference?: string;
+        };
+        RejectReturnDto: {
+            by?: string;
+            reason: string;
+        };
+        RefundReturnDto: {
+            by?: string;
+            /** Format: int64 */
+            refund_method_id?: number;
+            /** @description Dinero a devolver (vacío = valor acreditado; 0 = saldo a favor) */
+            amount?: number;
+            notes?: string;
+        };
+        ReceiveReturnDto: {
+            by?: string;
+            notes?: string;
+            lines?: components["schemas"]["ReceiveReturnLine"][];
+        };
+        ReceiveReturnLine: {
+            /**
+             * Format: int64
+             * @description id de la línea de la devolución
+             */
+            detail_id: number;
+            /** Format: int32 */
+            received_quantity: number;
+        };
+        InspectReturnDto: {
+            by?: string;
+            notes?: string;
+            /**
+             * Format: int64
+             * @description Bodega de reingreso (vacía = principal)
+             */
+            warehouse_id?: number;
+            lines?: components["schemas"]["InspectReturnLine"][];
+        };
+        InspectReturnLine: {
+            /** Format: int64 */
+            detail_id: number;
+            /** @description NEW, OPENED, DAMAGED, DEFECTIVE */
+            condition: string;
+            /** @description Vuelve al stock (vacío = según el estado: nuevo/abierto sí) */
+            restock?: boolean;
+            restocking_fee?: number;
+        };
+        ApproveReturnDto: {
+            by?: string;
+            /** Format: int64 */
+            return_method_id?: number;
+        };
+        ReturnRequestDto: {
+            /** Format: int64 */
+            order_id: number;
+            /** Format: int64 */
+            motive_devolution_id: number;
+            observation: string;
+            /** Format: int64 */
+            return_method_id?: number;
+            /** Format: int64 */
+            refund_method_id?: number;
+            external_reference?: string;
+            lines: components["schemas"]["ReturnRequestLine"][];
+        };
+        ReturnRequestLine: {
+            /** Format: int64 */
+            product_order_id: number;
+            /** Format: int32 */
+            quantity: number;
+            /** @description Detalle del cliente sobre este producto */
+            observation?: string;
         };
         CreateEvidenceDto: {
             /** Format: int64 */
@@ -4646,6 +7460,8 @@ export interface components {
             net_content?: number;
             /** Format: int64 */
             net_content_unit_id?: number;
+            /** Format: int64 */
+            tax_rate_id?: number;
             image_url?: string;
             available?: boolean;
             status?: string;
@@ -4664,6 +7480,11 @@ export interface components {
             combo_with_bundle_items?: boolean;
             bundle_items_only_for_combos?: boolean;
             variants_only_for_non_combos?: boolean;
+        };
+        CreateAxisOptionDto: {
+            /** Format: int64 */
+            attribute_id: number;
+            value: string;
         };
         ProductFilter: {
             brand_ids?: number[];
@@ -4694,6 +7515,108 @@ export interface components {
             name: string;
             description?: string;
             slug?: string;
+        };
+        /** @description Vacío = consumidor final */
+        BuyerDto: {
+            /** @description CC, NIT, CE, PP, TI, PEP o NIT_EXT */
+            doc_type?: string;
+            doc_number?: string;
+            /** @description Dígito de verificación (solo NIT, calculado) */
+            dv?: string;
+            name?: string;
+            email?: string;
+            phone?: string;
+            address?: string;
+            city?: string;
+        };
+        IssueInvoiceDto: {
+            /** Format: int64 */
+            order_id: number;
+            buyer?: components["schemas"]["BuyerDto"];
+        };
+        InvoiceDto: {
+            /** Format: int64 */
+            id?: number;
+            /** @description INVOICE o CREDIT_NOTE */
+            kind?: string;
+            /** Format: int64 */
+            order_id?: number;
+            /**
+             * Format: int64
+             * @description Factura anulada por esta nota crédito / nota que anuló esta factura
+             */
+            related_invoice_id?: number;
+            related_number?: string;
+            prefix?: string;
+            /** Format: int64 */
+            number?: number;
+            full_number?: string;
+            /** Format: date-time */
+            issued_at?: string;
+            /** @description PENDING, ISSUED, REJECTED o VOIDED */
+            status?: string;
+            environment?: string;
+            buyer?: components["schemas"]["BuyerDto"];
+            net_amount?: number;
+            tax_amount?: number;
+            discount_amount?: number;
+            total?: number;
+            currency?: string;
+            /** @description CASH (contado) o CREDIT */
+            payment_form?: string;
+            payment_means?: string;
+            /** @description CUFE (factura) o CUDE (nota crédito) */
+            cufe?: string;
+            /** @description Contenido del código QR */
+            qr_data?: string;
+            /** @description URL de consulta en la DIAN */
+            verification_url?: string;
+            provider?: string;
+            provider_reference?: string;
+            status_detail?: string;
+            reason?: string;
+            resolution_number?: string;
+            resolution_range?: string;
+            /** Format: date */
+            resolution_valid_to?: string;
+            lines?: components["schemas"]["InvoiceLineDto"][];
+            taxes?: components["schemas"]["InvoiceTaxDto"][];
+            /** @description Acciones posibles: retry, credit_note */
+            actions?: string[];
+            credit_scope?: string;
+            /** Format: int64 */
+            devolution_id?: number;
+            credited_amount?: number;
+        };
+        InvoiceLineDto: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int32 */
+            position?: number;
+            /** Format: int64 */
+            order_line_id?: number;
+            sku_code?: string;
+            description?: string;
+            /** Format: int32 */
+            quantity?: number;
+            unit_price?: number;
+            discount?: number;
+            tax_code?: string;
+            tax_kind?: string;
+            tax_rate?: number;
+            tax_base?: number;
+            tax_amount?: number;
+            total?: number;
+        };
+        InvoiceTaxDto: {
+            tax_code?: string;
+            tax_kind?: string;
+            tax_rate?: number;
+            tax_base?: number;
+            tax_amount?: number;
+        };
+        CreditNoteDto: {
+            reason: string;
         };
         CreateSalesAnalyticsRecordDto: {
             report_name: string;
@@ -4753,6 +7676,67 @@ export interface components {
                 [key: string]: string;
             };
         };
+        PageResponsePaymentDto: {
+            content?: components["schemas"]["PaymentDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        PaymentEventDto: {
+            /** Format: int64 */
+            id?: number;
+            source?: string;
+            type?: string;
+            from_status?: string;
+            to_status?: string;
+            amount?: number;
+            detail?: string;
+            /** Format: date-time */
+            created_at?: string;
+        };
+        ByMethod: {
+            /** Format: int64 */
+            payment_method_id?: number;
+            name?: string;
+            channel?: string;
+            /** Format: int64 */
+            count?: number;
+            approved_amount?: number;
+            refunded_amount?: number;
+            fee_amount?: number;
+        };
+        ByStatus: {
+            status?: string;
+            /** Format: int64 */
+            count?: number;
+            amount?: number;
+        };
+        PaymentsSummaryDto: {
+            /** Format: int64 */
+            count?: number;
+            approved_amount?: number;
+            pending_amount?: number;
+            refunded_amount?: number;
+            fee_amount?: number;
+            net_amount?: number;
+            by_method?: components["schemas"]["ByMethod"][];
+            by_status?: components["schemas"]["ByStatus"][];
+        };
+        GatewayProviderDto: {
+            /** @description SANDBOX, WOMPI o MERCADO_PAGO */
+            code?: string;
+            configured?: boolean;
+            /** @description test | production | sandbox */
+            environment?: string;
+            /** @description URL que debe registrarse en la pasarela para los webhooks */
+            webhook_url?: string;
+        };
         OrderReservationDto: {
             /** Format: int64 */
             id?: number;
@@ -4769,8 +7753,131 @@ export interface components {
             /** Format: date-time */
             expires_at?: string;
         };
+        OrderPaymentsDto: {
+            /** Format: int64 */
+            order_id?: number;
+            order_state?: string;
+            order_total?: number;
+            /** @description Aprobado menos reembolsado */
+            paid_amount?: number;
+            /** @description Pagos pendientes de confirmar */
+            pending_amount?: number;
+            balance?: number;
+            /** @description Lo que se puede cobrar ahora (saldo menos lo pendiente) */
+            collectable?: number;
+            /** @description UNPAID, PARTIAL, PAID, OVERPAID */
+            payment_status?: string;
+            payments?: components["schemas"]["PaymentDto"][];
+            /** @description Valor acreditado por devoluciones (ya descontado de order_total) */
+            returned_amount?: number;
+        };
+        OrderSummaryDto: {
+            /** Format: int64 */
+            count?: number;
+            gross_sales?: number;
+            average_ticket?: number;
+            /** Format: int64 */
+            pending_payment?: number;
+            /** Format: int64 */
+            to_prepare?: number;
+            /** Format: int64 */
+            ready?: number;
+            /** Format: int64 */
+            shipped?: number;
+            /** Format: int64 */
+            delivered?: number;
+            /** Format: int64 */
+            cancelled?: number;
+            /** Format: int64 */
+            overdue?: number;
+            by_state?: {
+                [key: string]: number;
+            };
+        };
         PageResponseOrderDto: {
             content?: components["schemas"]["OrderDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        CustomerLookupDto: {
+            /** Format: int64 */
+            customer_id?: number;
+            kind?: string;
+            doc_type?: string;
+            doc_number?: string;
+            name?: string;
+            email?: string;
+            phone?: string;
+            billing_address?: string;
+            billing_city?: string;
+            recipient_name?: string;
+            recipient_phone?: string;
+            ship_address?: string;
+            ship_address_detail?: string;
+            /** Format: int64 */
+            ship_country_id?: number;
+            /** Format: int64 */
+            ship_state_id?: number;
+            /** Format: int64 */
+            ship_city_id?: number;
+            ship_country?: string;
+            ship_state?: string;
+            ship_city?: string;
+            ship_postal_code?: string;
+            /** Format: int64 */
+            orders_count?: number;
+            /** Format: date-time */
+            last_order_at?: string;
+        };
+        CustomerByDocumentDto: {
+            source?: string;
+            central_status?: string;
+            /** @description El tipo de documento elegido coincide con el registrado */
+            type_matches?: boolean;
+            /**
+             * Format: int64
+             * @description Persona en access_control (id_client)
+             */
+            customer_id?: number;
+            doc_type?: string;
+            doc_number?: string;
+            name?: string;
+            kind?: string;
+            person_status?: string;
+            /** Format: int64 */
+            user_id?: number;
+            username?: string;
+            user_status?: string;
+            email?: string;
+            phone?: string;
+            billing_address?: string;
+            billing_city?: string;
+            recipient_name?: string;
+            recipient_phone?: string;
+            ship_address?: string;
+            ship_address_detail?: string;
+            /** Format: int64 */
+            ship_country_id?: number;
+            /** Format: int64 */
+            ship_state_id?: number;
+            /** Format: int64 */
+            ship_city_id?: number;
+            ship_city?: string;
+            ship_postal_code?: string;
+            /** Format: int64 */
+            orders_count?: number;
+            /** Format: date-time */
+            last_order_at?: string;
+        };
+        PageResponseCashSessionDto: {
+            content?: components["schemas"]["CashSessionDto"][];
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
@@ -4788,39 +7895,118 @@ export interface components {
             size?: number;
             sort?: string[];
         };
-        PageWarehouseDto: {
+        PageResponseWarehouseDto: {
+            content?: components["schemas"]["WarehouseDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
             /** Format: int64 */
             total_elements?: number;
             /** Format: int32 */
             total_pages?: number;
-            pageable?: components["schemas"]["PageableObject"];
+            sort?: string;
+        };
+        PageResponseWarehouseStockDto: {
+            content?: components["schemas"]["WarehouseStockDto"][];
+            /** Format: int32 */
+            page?: number;
             /** Format: int32 */
             size?: number;
-            content?: components["schemas"]["WarehouseDto"][];
-            /** Format: int32 */
-            number?: number;
-            sort?: components["schemas"]["SortObject"];
-            /** Format: int32 */
-            number_of_elements?: number;
-            first?: boolean;
-            last?: boolean;
-            empty?: boolean;
-        };
-        PageableObject: {
-            paged?: boolean;
-            /** Format: int32 */
-            page_number?: number;
-            /** Format: int32 */
-            page_size?: number;
             /** Format: int64 */
-            offset?: number;
-            sort?: components["schemas"]["SortObject"];
-            unpaged?: boolean;
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
         };
-        SortObject: {
-            sorted?: boolean;
-            empty?: boolean;
-            unsorted?: boolean;
+        WarehouseMovementDto: {
+            /** Format: int64 */
+            id?: number;
+            type?: string;
+            /** @description IN (entra a la bodega) u OUT (sale) */
+            direction?: string;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            /** Format: int32 */
+            quantity?: number;
+            /** @description Bodega de origen o destino en transferencias */
+            other_warehouse?: string;
+            reason?: string;
+            reference_type?: string;
+            /** Format: int64 */
+            reference_id?: number;
+            /** Format: date-time */
+            created_at?: string;
+        };
+        WarehouseLinkedRegister: {
+            /** Format: int64 */
+            id?: number;
+            name?: string;
+            store_name?: string;
+            active?: boolean;
+            /** @description La caja tiene la bodega asignada directamente (no por su tienda) */
+            own?: boolean;
+        };
+        WarehouseLinkedStore: {
+            /** Format: int64 */
+            id?: number;
+            code?: string;
+            name?: string;
+            active?: boolean;
+        };
+        WarehouseLinksDto: {
+            stores?: components["schemas"]["WarehouseLinkedStore"][];
+            registers?: components["schemas"]["WarehouseLinkedRegister"][];
+        };
+        WarehouseStatsDto: {
+            /** Format: int64 */
+            total?: number;
+            /** Format: int64 */
+            active?: number;
+            /** Format: int64 */
+            inactive?: number;
+            /** Format: int64 */
+            units_on_hand?: number;
+            stock_value?: number;
+            /** Format: int64 */
+            below_min_count?: number;
+            /** Format: int64 */
+            main_id?: number;
+            main_name?: string;
+        };
+        SupplierStatsDto: {
+            /** Format: int64 */
+            total?: number;
+            /** Format: int64 */
+            active?: number;
+            /** Format: int64 */
+            blocked?: number;
+            /** Format: int64 */
+            inactive?: number;
+            /**
+             * Format: int64
+             * @description Proveedores sin documento (registrados antes de V13)
+             */
+            without_document?: number;
+            /**
+             * Format: int64
+             * @description Proveedores con plazo de pago (crédito)
+             */
+            credit?: number;
+        };
+        PageResponseSupplierDto: {
+            content?: components["schemas"]["SupplierDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
         };
         LookupOption: {
             /** Format: int64 */
@@ -4866,6 +8052,22 @@ export interface components {
             last?: boolean;
             empty?: boolean;
         };
+        PageableObject: {
+            paged?: boolean;
+            /** Format: int32 */
+            page_number?: number;
+            /** Format: int32 */
+            page_size?: number;
+            /** Format: int64 */
+            offset?: number;
+            sort?: components["schemas"]["SortObject"];
+            unpaged?: boolean;
+        };
+        SortObject: {
+            sorted?: boolean;
+            empty?: boolean;
+            unsorted?: boolean;
+        };
         StockItemDto: {
             /** Format: int64 */
             id?: number;
@@ -4896,6 +8098,36 @@ export interface components {
             /** Format: int32 */
             total_pages?: number;
             sort?: string;
+        };
+        ReturnableLine: {
+            /** Format: int64 */
+            product_order_id?: number;
+            /** Format: int64 */
+            product_id?: number;
+            /** Format: int64 */
+            sku_id?: number;
+            sku_code?: string;
+            product_name?: string;
+            /** Format: int32 */
+            sold?: number;
+            /** Format: int32 */
+            returned?: number;
+            /** Format: int32 */
+            returnable?: number;
+            unit_price?: number;
+            total?: number;
+        };
+        ReturnableOrderDto: {
+            /** Format: int64 */
+            order_id?: number;
+            order_state?: string;
+            /** @description La orden admite devoluciones (pagada, en proceso, enviada o entregada) */
+            returnable?: boolean;
+            order_total?: number;
+            returned_amount?: number;
+            /** @description Lo que todavía se puede reembolsar de los pagos */
+            refundable?: number;
+            lines?: components["schemas"]["ReturnableLine"][];
         };
         PageResponseOrderDevolutionDto: {
             content?: components["schemas"]["OrderDevolutionDto"][];
@@ -4948,6 +8180,12 @@ export interface components {
             /** Format: int32 */
             available?: number;
             image_url?: string;
+            /** @description Tarifa de impuesto del producto (o la por defecto) */
+            tax_code?: string;
+            /** @description IVA, INC o EXCLUDED */
+            tax_kind?: string;
+            /** @description Porcentaje incluido en el precio */
+            tax_rate?: number;
         };
         LowStockItem: {
             /** Format: int64 */
@@ -5032,6 +8270,31 @@ export interface components {
             name?: string;
             required?: boolean;
             variant_axis?: boolean;
+        };
+        PageResponseInvoiceDto: {
+            content?: components["schemas"]["InvoiceDto"][];
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            size?: number;
+            /** Format: int64 */
+            total_elements?: number;
+            /** Format: int32 */
+            total_pages?: number;
+            sort?: string;
+        };
+        InvoicesSummaryDto: {
+            /** Format: int64 */
+            invoices?: number;
+            /** Format: int64 */
+            credit_notes?: number;
+            /** Format: int64 */
+            pending?: number;
+            invoiced_total?: number;
+            credited_total?: number;
+            net_total?: number;
+            tax_total?: number;
+            credited_tax?: number;
         };
         SalesAnalyticsDto: {
             /** Format: date */
@@ -5371,6 +8634,52 @@ export interface operations {
             };
         };
     };
+    update_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveStoreDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StoreDto"];
+                };
+            };
+        };
+    };
+    delete_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getById_3: {
         parameters: {
             query?: never;
@@ -5401,7 +8710,7 @@ export interface operations {
             };
         };
     };
-    update_3: {
+    update_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -5443,7 +8752,7 @@ export interface operations {
             };
         };
     };
-    delete_3: {
+    delete_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -5471,99 +8780,67 @@ export interface operations {
             };
         };
     };
-    getById_4: {
+    get: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Payment type ID */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Payment type found */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PaymentTypeDto"];
+                    "*/*": components["schemas"]["PaymentMethodDto"];
                 };
-            };
-            /** @description Payment type not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    update_4: {
+    update_5: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Payment type ID */
                 id: number;
             };
             cookie?: never;
         };
-        /** @description Payment type data to update */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdatePaymentTypeDto"];
+                "application/json": components["schemas"]["SavePaymentMethodDto"];
             };
         };
         responses: {
-            /** @description Payment type updated */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PaymentTypeDto"];
+                    "*/*": components["schemas"]["PaymentMethodDto"];
                 };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Payment type not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    delete_4: {
+    delete_5: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Payment type ID */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Payment type deleted */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Payment type not found */
-            404: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -5571,7 +8848,7 @@ export interface operations {
             };
         };
     };
-    getById_5: {
+    getById_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -5601,7 +8878,7 @@ export interface operations {
             };
         };
     };
-    update_5: {
+    update_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -5643,7 +8920,7 @@ export interface operations {
             };
         };
     };
-    delete_5: {
+    delete_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -5664,6 +8941,122 @@ export interface operations {
             };
             /** @description Order not found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    saveDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveOrderDetailsDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    numbering: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderNumberingDto"];
+                };
+            };
+        };
+    };
+    saveNumbering: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderNumberingDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderNumberingDto"];
+                };
+            };
+        };
+    };
+    update_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveCashRegisterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashRegisterDto"];
+                };
+            };
+        };
+    };
+    delete_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -5701,7 +9094,7 @@ export interface operations {
             };
         };
     };
-    update_6: {
+    update_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -5742,7 +9135,7 @@ export interface operations {
             };
         };
     };
-    delete_6: {
+    delete_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -5770,7 +9163,7 @@ export interface operations {
             };
         };
     };
-    getById_6: {
+    getById_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -5792,7 +9185,7 @@ export interface operations {
             };
         };
     };
-    update_7: {
+    update_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -5818,7 +9211,7 @@ export interface operations {
             };
         };
     };
-    delete_7: {
+    delete_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -5868,7 +9261,7 @@ export interface operations {
             };
         };
     };
-    update_8: {
+    update_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -5909,7 +9302,7 @@ export interface operations {
             };
         };
     };
-    delete_8: {
+    delete_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -5937,7 +9330,7 @@ export interface operations {
             };
         };
     };
-    getById_7: {
+    getById_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -5967,7 +9360,7 @@ export interface operations {
             };
         };
     };
-    update_9: {
+    update_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -6009,7 +9402,7 @@ export interface operations {
             };
         };
     };
-    delete_9: {
+    delete_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -6037,7 +9430,7 @@ export interface operations {
             };
         };
     };
-    getById_8: {
+    getById_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -6067,7 +9460,7 @@ export interface operations {
             };
         };
     };
-    update_10: {
+    update_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6109,7 +9502,7 @@ export interface operations {
             };
         };
     };
-    delete_10: {
+    delete_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6137,7 +9530,7 @@ export interface operations {
             };
         };
     };
-    getById_9: {
+    getById_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -6167,7 +9560,7 @@ export interface operations {
             };
         };
     };
-    update_11: {
+    update_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6209,7 +9602,7 @@ export interface operations {
             };
         };
     };
-    delete_11: {
+    delete_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6237,7 +9630,7 @@ export interface operations {
             };
         };
     };
-    getById_10: {
+    getById_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -6267,7 +9660,7 @@ export interface operations {
             };
         };
     };
-    update_12: {
+    update_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -6309,7 +9702,7 @@ export interface operations {
             };
         };
     };
-    delete_12: {
+    delete_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -6359,7 +9752,7 @@ export interface operations {
             };
         };
     };
-    update_13: {
+    update_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -6385,7 +9778,7 @@ export interface operations {
             };
         };
     };
-    delete_13: {
+    delete_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -6405,7 +9798,7 @@ export interface operations {
             };
         };
     };
-    getById_11: {
+    getById_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -6437,7 +9830,7 @@ export interface operations {
             };
         };
     };
-    update_14: {
+    update_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -6481,7 +9874,7 @@ export interface operations {
             };
         };
     };
-    delete_14: {
+    delete_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -6511,7 +9904,7 @@ export interface operations {
             };
         };
     };
-    getById_12: {
+    getById_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -6541,7 +9934,7 @@ export interface operations {
             };
         };
     };
-    update_15: {
+    update_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -6583,7 +9976,7 @@ export interface operations {
             };
         };
     };
-    delete_15: {
+    delete_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -6611,7 +10004,7 @@ export interface operations {
             };
         };
     };
-    getById_13: {
+    get_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -6633,7 +10026,7 @@ export interface operations {
             };
         };
     };
-    update_16: {
+    update_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -6644,7 +10037,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateWarehouseDto"];
+                "application/json": components["schemas"]["SaveWarehouseDto"];
             };
         };
         responses: {
@@ -6659,7 +10052,7 @@ export interface operations {
             };
         };
     };
-    delete_16: {
+    delete_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -6670,80 +10063,83 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description No Content */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getById_14: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /** @description Supplier ID */
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Supplier found */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["SupplierDto"];
-                };
-            };
-            /** @description Supplier not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
                 content?: never;
             };
         };
     };
-    update_17: {
+    updateMin: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Supplier ID */
                 id: number;
+                skuId: number;
             };
             cookie?: never;
         };
-        /** @description Supplier data to update */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateSupplierDto"];
+                "application/json": components["schemas"]["UpdateMinThresholdDto"];
             };
         };
         responses: {
-            /** @description Supplier updated */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SupplierDto"];
+                    "*/*": components["schemas"]["WarehouseStockDto"];
                 };
             };
-            /** @description Invalid input */
-            400: {
+        };
+    };
+    updateLocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                locationId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveLocationDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["WarehouseLocationDto"];
+                };
             };
-            /** @description Supplier not found */
-            404: {
+        };
+    };
+    deleteLocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                locationId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6751,27 +10147,67 @@ export interface operations {
             };
         };
     };
-    delete_17: {
+    get_2: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /** @description Supplier ID */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Supplier deleted */
-            204: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["SupplierDto"];
+                };
             };
-            /** @description Supplier not found */
-            404: {
+        };
+    };
+    update_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveSupplierDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierDto"];
+                };
+            };
+        };
+    };
+    delete_19: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -6779,7 +10215,55 @@ export interface operations {
             };
         };
     };
-    getById_15: {
+    updateProduct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveSupplierProductDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierProductDto"];
+                };
+            };
+        };
+    };
+    deleteProduct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getById_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -6809,7 +10293,7 @@ export interface operations {
             };
         };
     };
-    update_18: {
+    update_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -6851,7 +10335,7 @@ export interface operations {
             };
         };
     };
-    delete_18: {
+    delete_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -6879,7 +10363,7 @@ export interface operations {
             };
         };
     };
-    getById_16: {
+    getById_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -6909,7 +10393,7 @@ export interface operations {
             };
         };
     };
-    update_19: {
+    update_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -6951,7 +10435,7 @@ export interface operations {
             };
         };
     };
-    delete_19: {
+    delete_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -6979,7 +10463,7 @@ export interface operations {
             };
         };
     };
-    getById_17: {
+    getById_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -7009,7 +10493,7 @@ export interface operations {
             };
         };
     };
-    update_20: {
+    update_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7051,7 +10535,7 @@ export interface operations {
             };
         };
     };
-    delete_20: {
+    delete_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7079,7 +10563,7 @@ export interface operations {
             };
         };
     };
-    getById_18: {
+    getById_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -7109,7 +10593,7 @@ export interface operations {
             };
         };
     };
-    update_21: {
+    update_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -7151,7 +10635,7 @@ export interface operations {
             };
         };
     };
-    delete_21: {
+    delete_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -7179,7 +10663,7 @@ export interface operations {
             };
         };
     };
-    getById_19: {
+    getById_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -7209,7 +10693,7 @@ export interface operations {
             };
         };
     };
-    update_22: {
+    update_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7251,7 +10735,7 @@ export interface operations {
             };
         };
     };
-    delete_22: {
+    delete_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -7279,7 +10763,7 @@ export interface operations {
             };
         };
     };
-    getById_20: {
+    getById_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -7309,7 +10793,7 @@ export interface operations {
             };
         };
     };
-    update_23: {
+    update_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -7351,7 +10835,7 @@ export interface operations {
             };
         };
     };
-    delete_23: {
+    delete_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -7379,7 +10863,7 @@ export interface operations {
             };
         };
     };
-    getById_21: {
+    getById_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -7409,7 +10893,7 @@ export interface operations {
             };
         };
     };
-    update_24: {
+    update_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -7451,7 +10935,7 @@ export interface operations {
             };
         };
     };
-    delete_24: {
+    delete_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -7479,7 +10963,7 @@ export interface operations {
             };
         };
     };
-    getById_22: {
+    getById_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -7501,7 +10985,7 @@ export interface operations {
             };
         };
     };
-    update_25: {
+    update_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -7527,7 +11011,7 @@ export interface operations {
             };
         };
     };
-    delete_25: {
+    delete_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -7547,7 +11031,7 @@ export interface operations {
             };
         };
     };
-    getById_23: {
+    getById_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -7577,7 +11061,7 @@ export interface operations {
             };
         };
     };
-    update_26: {
+    update_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -7619,7 +11103,7 @@ export interface operations {
             };
         };
     };
-    delete_26: {
+    delete_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -7647,7 +11131,7 @@ export interface operations {
             };
         };
     };
-    get: {
+    get_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -7669,7 +11153,7 @@ export interface operations {
             };
         };
     };
-    update_27: {
+    update_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -7695,7 +11179,7 @@ export interface operations {
             };
         };
     };
-    delete_27: {
+    delete_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -7715,7 +11199,7 @@ export interface operations {
             };
         };
     };
-    getById_24: {
+    getById_21: {
         parameters: {
             query?: never;
             header?: never;
@@ -7738,7 +11222,7 @@ export interface operations {
             };
         };
     };
-    update_28: {
+    update_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -7786,7 +11270,7 @@ export interface operations {
             };
         };
     };
-    delete_28: {
+    delete_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -7821,7 +11305,55 @@ export interface operations {
             };
         };
     };
-    get_1: {
+    get_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VariantMatrixDto"];
+                };
+            };
+        };
+    };
+    save: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveVariantMatrixDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SaveVariantMatrixResultDto"];
+                };
+            };
+        };
+    };
+    get_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -7843,7 +11375,7 @@ export interface operations {
             };
         };
     };
-    save: {
+    save_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -7869,7 +11401,7 @@ export interface operations {
             };
         };
     };
-    getById_25: {
+    getById_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -7899,7 +11431,7 @@ export interface operations {
             };
         };
     };
-    update_29: {
+    update_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -7941,7 +11473,7 @@ export interface operations {
             };
         };
     };
-    delete_29: {
+    delete_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -8039,7 +11571,7 @@ export interface operations {
             };
         };
     };
-    update_30: {
+    update_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -8065,7 +11597,7 @@ export interface operations {
             };
         };
     };
-    delete_30: {
+    delete_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -8085,7 +11617,7 @@ export interface operations {
             };
         };
     };
-    getById_26: {
+    getById_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -8115,7 +11647,7 @@ export interface operations {
             };
         };
     };
-    update_31: {
+    update_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -8157,7 +11689,7 @@ export interface operations {
             };
         };
     };
-    delete_31: {
+    delete_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -8185,7 +11717,7 @@ export interface operations {
             };
         };
     };
-    getById_27: {
+    getById_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -8208,7 +11740,7 @@ export interface operations {
             };
         };
     };
-    update_32: {
+    update_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -8256,7 +11788,7 @@ export interface operations {
             };
         };
     };
-    delete_32: {
+    delete_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -8291,7 +11823,7 @@ export interface operations {
             };
         };
     };
-    getById_28: {
+    getById_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -8314,7 +11846,7 @@ export interface operations {
             };
         };
     };
-    update_33: {
+    update_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -8362,7 +11894,7 @@ export interface operations {
             };
         };
     };
-    delete_33: {
+    delete_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -8419,7 +11951,7 @@ export interface operations {
             };
         };
     };
-    update_34: {
+    update_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -8445,7 +11977,187 @@ export interface operations {
             };
         };
     };
-    delete_34: {
+    delete_36: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_6: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxRateDto"];
+                };
+            };
+        };
+    };
+    update_37: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveTaxRateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxRateDto"];
+                };
+            };
+        };
+    };
+    delete_37: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingSettingsDto"];
+                };
+            };
+        };
+    };
+    update_38: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveBillingSettingsDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BillingSettingsDto"];
+                };
+            };
+        };
+    };
+    get_8: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResolutionDto"];
+                };
+            };
+        };
+    };
+    update_39: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveResolutionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResolutionDto"];
+                };
+            };
+        };
+    };
+    delete_38: {
         parameters: {
             query?: never;
             header?: never;
@@ -8487,7 +12199,7 @@ export interface operations {
             };
         };
     };
-    update_35: {
+    update_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -8513,7 +12225,7 @@ export interface operations {
             };
         };
     };
-    delete_35: {
+    delete_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -8563,7 +12275,7 @@ export interface operations {
             };
         };
     };
-    update_36: {
+    update_41: {
         parameters: {
             query?: never;
             header?: never;
@@ -8604,7 +12316,7 @@ export interface operations {
             };
         };
     };
-    delete_36: {
+    delete_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -8794,6 +12506,52 @@ export interface operations {
             };
         };
     };
+    list_1: {
+        parameters: {
+            query?: {
+                includeInactive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StoreDto"][];
+                };
+            };
+        };
+    };
+    create_3: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveStoreDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["StoreDto"];
+                };
+            };
+        };
+    };
     getAll_2: {
         parameters: {
             query?: never;
@@ -8814,7 +12572,7 @@ export interface operations {
             };
         };
     };
-    create_3: {
+    create_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -8853,66 +12611,312 @@ export interface operations {
             };
         };
     };
-    getAll_3: {
+    checkout: {
         parameters: {
             query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PosCheckoutDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PosCheckoutResultDto"];
+                };
+            };
+        };
+    };
+    search: {
+        parameters: {
+            query?: {
+                q?: string;
+                status?: string;
+                methodId?: number;
+                channel?: string;
+                provider?: string;
+                orderId?: number;
+                from?: string;
+                to?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description List of payment types */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["PageResponsePaymentDto"];
                 };
             };
         };
     };
-    create_4: {
+    register: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Payment type to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreatePaymentTypeDto"];
+                "application/json": components["schemas"]["RegisterPaymentDto"];
             };
         };
         responses: {
-            /** @description Payment type created */
-            201: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["PaymentTypeDto"];
+                    "*/*": components["schemas"]["PaymentDto"];
                 };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    getAll_4: {
+    voidPayment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaymentActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    sync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    refund: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PaymentActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    decline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PaymentActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    confirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PaymentActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    receive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    checkout_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StartCheckoutDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CheckoutDto"];
+                };
+            };
+        };
+    };
+    list_2: {
+        parameters: {
+            query?: {
+                includeInactive?: boolean;
+                channel?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentMethodDto"][];
+                };
+            };
+        };
+    };
+    create_5: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SavePaymentMethodDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentMethodDto"];
+                };
+            };
+        };
+    };
+    getAll_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -8932,7 +12936,7 @@ export interface operations {
             };
         };
     };
-    create_5: {
+    create_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -8997,6 +13001,210 @@ export interface operations {
             };
         };
     };
+    ship: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShipOrderDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    ready: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["OrderActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    pick: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PickOrderDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    pickAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["OrderActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    addNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OrderActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderEventDto"];
+                };
+            };
+        };
+    };
+    deliver: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["OrderActionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    createFull: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateFullOrderDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDto"];
+                };
+            };
+        };
+    };
+    bulkStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkOrderStatusDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
     bulkDelete: {
         parameters: {
             query?: never;
@@ -9017,6 +13225,156 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    search_1: {
+        parameters: {
+            query?: {
+                cashRegisterId?: number;
+                status?: string;
+                from?: string;
+                to?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseCashSessionDto"];
+                };
+            };
+        };
+    };
+    open: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["OpenCashSessionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashSessionDto"];
+                };
+            };
+        };
+    };
+    movement: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCashMovementDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashMovementDto"];
+                };
+            };
+        };
+    };
+    close: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CloseCashSessionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashSessionDto"];
+                };
+            };
+        };
+    };
+    list_3: {
+        parameters: {
+            query?: {
+                includeInactive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashRegisterDto"][];
+                };
+            };
+        };
+    };
+    create_7: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveCashRegisterDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashRegisterDto"];
                 };
             };
         };
@@ -9056,7 +13414,7 @@ export interface operations {
             };
         };
     };
-    create_6: {
+    create_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -9153,7 +13511,7 @@ export interface operations {
             };
         };
     };
-    list_1: {
+    list_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -9173,7 +13531,7 @@ export interface operations {
             };
         };
     };
-    create_7: {
+    create_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -9217,7 +13575,7 @@ export interface operations {
             };
         };
     };
-    create_8: {
+    create_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -9334,7 +13692,7 @@ export interface operations {
             };
         };
     };
-    getAll_5: {
+    getAll_4: {
         parameters: {
             query?: never;
             header?: never;
@@ -9354,7 +13712,7 @@ export interface operations {
             };
         };
     };
-    create_9: {
+    create_11: {
         parameters: {
             query?: never;
             header?: never;
@@ -9438,7 +13796,7 @@ export interface operations {
             };
         };
     };
-    getAll_6: {
+    getAll_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -9458,7 +13816,7 @@ export interface operations {
             };
         };
     };
-    create_10: {
+    create_12: {
         parameters: {
             query?: never;
             header?: never;
@@ -9542,7 +13900,7 @@ export interface operations {
             };
         };
     };
-    getAll_7: {
+    getAll_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -9562,7 +13920,7 @@ export interface operations {
             };
         };
     };
-    create_11: {
+    create_13: {
         parameters: {
             query?: never;
             header?: never;
@@ -9601,7 +13959,7 @@ export interface operations {
             };
         };
     };
-    getAll_8: {
+    getAll_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -9621,7 +13979,7 @@ export interface operations {
             };
         };
     };
-    create_12: {
+    create_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -9680,7 +14038,7 @@ export interface operations {
             };
         };
     };
-    create_13: {
+    create_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -9704,7 +14062,7 @@ export interface operations {
             };
         };
     };
-    getAll_9: {
+    getAll_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -9724,7 +14082,7 @@ export interface operations {
             };
         };
     };
-    create_14: {
+    create_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -9763,7 +14121,7 @@ export interface operations {
             };
         };
     };
-    getAll_10: {
+    getAll_9: {
         parameters: {
             query?: never;
             header?: never;
@@ -9783,7 +14141,7 @@ export interface operations {
             };
         };
     };
-    create_15: {
+    create_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -9822,10 +14180,12 @@ export interface operations {
             };
         };
     };
-    list_2: {
+    list_5: {
         parameters: {
-            query: {
-                pageable: components["schemas"]["Pageable"];
+            query?: {
+                page?: number;
+                size?: number;
+                sort?: string;
             };
             header?: never;
             path?: never;
@@ -9839,12 +14199,12 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PageWarehouseDto"];
+                    "*/*": components["schemas"]["PageResponseWarehouseDto"];
                 };
             };
         };
     };
-    create_16: {
+    create_18: {
         parameters: {
             query?: never;
             header?: never;
@@ -9853,17 +14213,111 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateWarehouseDto"];
+                "application/json": components["schemas"]["SaveWarehouseDto"];
             };
         };
         responses: {
-            /** @description Created */
-            201: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "*/*": components["schemas"]["WarehouseDto"];
+                };
+            };
+        };
+    };
+    status: {
+        parameters: {
+            query: {
+                active: boolean;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseDto"];
+                };
+            };
+        };
+    };
+    main: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseDto"];
+                };
+            };
+        };
+    };
+    locations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseLocationDto"][];
+                };
+            };
+        };
+    };
+    addLocation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveLocationDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseLocationDto"];
                 };
             };
         };
@@ -9892,7 +14346,7 @@ export interface operations {
             };
         };
     };
-    getAll_11: {
+    list_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -9901,53 +14355,136 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description List of suppliers */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "*/*": components["schemas"]["SupplierDto"][];
                 };
             };
         };
     };
-    create_17: {
+    create_19: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Supplier to create */
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateSupplierDto"];
+                "application/json": components["schemas"]["SaveSupplierDto"];
             };
         };
         responses: {
-            /** @description Supplier created */
-            201: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SupplierDto"];
+                    "*/*": components["schemas"]["SupplierDto"];
                 };
             };
-            /** @description Invalid input */
-            400: {
+        };
+    };
+    changeStatus_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeSupplierStatusDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["SupplierDto"];
+                };
             };
-            /** @description Server error */
-            500: {
+        };
+    };
+    products: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["SupplierProductDto"][];
+                };
+            };
+        };
+    };
+    addProduct: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveSupplierProductDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierProductDto"];
+                };
+            };
+        };
+    };
+    bulkDelete_2: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
             };
         };
     };
@@ -10023,7 +14560,7 @@ export interface operations {
             };
         };
     };
-    getAll_12: {
+    getAll_10: {
         parameters: {
             query?: never;
             header?: never;
@@ -10043,7 +14580,7 @@ export interface operations {
             };
         };
     };
-    create_18: {
+    create_20: {
         parameters: {
             query?: never;
             header?: never;
@@ -10064,207 +14601,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["DispatchProductDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    bulkDelete_2: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["BulkIdsRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["BulkOperationResult"];
-                };
-            };
-        };
-    };
-    getAll_13: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of return methods */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_19: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Return method to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateReturnMethodDto"];
-            };
-        };
-        responses: {
-            /** @description Return method created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ReturnMethodDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_14: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of refund methods */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_20: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Refund method to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateRefundMethodDto"];
-            };
-        };
-        responses: {
-            /** @description Refund method created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RefundMethodDto"];
-                };
-            };
-            /** @description Invalid input */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    getAll_15: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description List of order devolutions */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": unknown;
-                };
-            };
-        };
-    };
-    create_21: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Order devolution to create */
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateOrderDevolutionDto"];
-            };
-        };
-        responses: {
-            /** @description Order devolution created */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["OrderDevolutionDto"];
                 };
             };
             /** @description Invalid input */
@@ -10307,7 +14643,398 @@ export interface operations {
             };
         };
     };
-    getAll_16: {
+    getAll_11: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of return methods */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_21: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Return method to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReturnMethodDto"];
+            };
+        };
+        responses: {
+            /** @description Return method created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReturnMethodDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAll_12: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of refund methods */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_22: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Refund method to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRefundMethodDto"];
+            };
+        };
+        responses: {
+            /** @description Refund method created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RefundMethodDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAll_13: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of order devolutions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    create_23: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Order devolution to create */
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOrderDevolutionDto"];
+            };
+        };
+        responses: {
+            /** @description Order devolution created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    reject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RejectReturnDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    refund_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["RefundReturnDto"];
+            };
+        };
+        responses: {
+            /** @description Reembolsada */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+            /** @description Los pagos no alcanzan para el monto pedido */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+            /** @description La pasarela rechazó el reembolso (no se guarda nada) */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    receive_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ReceiveReturnDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    inspect: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InspectReturnDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    approve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["ApproveReturnDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReturnRequestDto"];
+            };
+        };
+        responses: {
+            /** @description Devolución creada */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+            /** @description Cantidades o datos inválidos */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+            /** @description La orden no admite devoluciones */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderDevolutionDto"];
+                };
+            };
+        };
+    };
+    bulkDelete_4: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkIdsRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BulkOperationResult"];
+                };
+            };
+        };
+    };
+    getAll_14: {
         parameters: {
             query?: never;
             header?: never;
@@ -10327,7 +15054,7 @@ export interface operations {
             };
         };
     };
-    create_22: {
+    create_24: {
         parameters: {
             query?: never;
             header?: never;
@@ -10366,7 +15093,7 @@ export interface operations {
             };
         };
     };
-    getAll_17: {
+    getAll_15: {
         parameters: {
             query?: never;
             header?: never;
@@ -10386,7 +15113,7 @@ export interface operations {
             };
         };
     };
-    create_23: {
+    create_25: {
         parameters: {
             query?: never;
             header?: never;
@@ -10425,7 +15152,7 @@ export interface operations {
             };
         };
     };
-    getAll_18: {
+    getAll_16: {
         parameters: {
             query?: never;
             header?: never;
@@ -10445,7 +15172,7 @@ export interface operations {
             };
         };
     };
-    create_24: {
+    create_26: {
         parameters: {
             query?: never;
             header?: never;
@@ -10484,7 +15211,7 @@ export interface operations {
             };
         };
     };
-    getAll_19: {
+    getAll_17: {
         parameters: {
             query?: never;
             header?: never;
@@ -10504,7 +15231,7 @@ export interface operations {
             };
         };
     };
-    create_25: {
+    create_27: {
         parameters: {
             query?: never;
             header?: never;
@@ -10528,7 +15255,7 @@ export interface operations {
             };
         };
     };
-    getAll_20: {
+    getAll_18: {
         parameters: {
             query?: {
                 product_id?: number;
@@ -10550,7 +15277,7 @@ export interface operations {
             };
         };
     };
-    create_26: {
+    create_28: {
         parameters: {
             query?: never;
             header?: never;
@@ -10589,7 +15316,7 @@ export interface operations {
             };
         };
     };
-    bulkDelete_4: {
+    bulkDelete_5: {
         parameters: {
             query?: never;
             header?: never;
@@ -10613,7 +15340,7 @@ export interface operations {
             };
         };
     };
-    list_3: {
+    list_7: {
         parameters: {
             query?: {
                 dimension?: string;
@@ -10636,7 +15363,7 @@ export interface operations {
             };
         };
     };
-    create_27: {
+    create_29: {
         parameters: {
             query?: never;
             header?: never;
@@ -10660,7 +15387,7 @@ export interface operations {
             };
         };
     };
-    getAll_21: {
+    getAll_19: {
         parameters: {
             query?: never;
             header?: never;
@@ -10680,7 +15407,7 @@ export interface operations {
             };
         };
     };
-    create_28: {
+    create_30: {
         parameters: {
             query?: never;
             header?: never;
@@ -10718,7 +15445,7 @@ export interface operations {
             };
         };
     };
-    bulkDelete_5: {
+    bulkDelete_6: {
         parameters: {
             query?: never;
             header?: never;
@@ -10742,7 +15469,7 @@ export interface operations {
             };
         };
     };
-    getAll_22: {
+    getAll_20: {
         parameters: {
             query?: {
                 page?: number;
@@ -10766,7 +15493,7 @@ export interface operations {
             };
         };
     };
-    create_29: {
+    create_31: {
         parameters: {
             query?: never;
             header?: never;
@@ -10805,7 +15532,33 @@ export interface operations {
             };
         };
     };
-    search: {
+    createOption: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                productId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAxisOptionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VariantMatrixOption"];
+                };
+            };
+        };
+    };
+    search_2: {
         parameters: {
             query?: {
                 page?: number;
@@ -10854,7 +15607,7 @@ export interface operations {
             };
         };
     };
-    create_30: {
+    create_32: {
         parameters: {
             query?: never;
             header?: never;
@@ -10878,7 +15631,7 @@ export interface operations {
             };
         };
     };
-    getAll_23: {
+    getAll_21: {
         parameters: {
             query?: {
                 combo_id?: number;
@@ -10900,7 +15653,7 @@ export interface operations {
             };
         };
     };
-    create_31: {
+    create_33: {
         parameters: {
             query?: never;
             header?: never;
@@ -10939,7 +15692,7 @@ export interface operations {
             };
         };
     };
-    getAll_24: {
+    getAll_22: {
         parameters: {
             query?: never;
             header?: never;
@@ -10959,7 +15712,7 @@ export interface operations {
             };
         };
     };
-    create_32: {
+    create_34: {
         parameters: {
             query?: never;
             header?: never;
@@ -10997,7 +15750,7 @@ export interface operations {
             };
         };
     };
-    bulkDelete_6: {
+    bulkDelete_7: {
         parameters: {
             query?: never;
             header?: never;
@@ -11021,7 +15774,7 @@ export interface operations {
             };
         };
     };
-    getAll_25: {
+    getAll_23: {
         parameters: {
             query?: never;
             header?: never;
@@ -11041,7 +15794,7 @@ export interface operations {
             };
         };
     };
-    create_33: {
+    create_35: {
         parameters: {
             query?: never;
             header?: never;
@@ -11079,7 +15832,7 @@ export interface operations {
             };
         };
     };
-    bulkDelete_7: {
+    bulkDelete_8: {
         parameters: {
             query?: never;
             header?: never;
@@ -11123,7 +15876,7 @@ export interface operations {
             };
         };
     };
-    create_34: {
+    create_36: {
         parameters: {
             query?: never;
             header?: never;
@@ -11143,6 +15896,200 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AttributeDto"];
+                };
+            };
+        };
+    };
+    list_8: {
+        parameters: {
+            query?: {
+                includeInactive?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxRateDto"][];
+                };
+            };
+        };
+    };
+    create_37: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveTaxRateDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TaxRateDto"];
+                };
+            };
+        };
+    };
+    list_9: {
+        parameters: {
+            query?: {
+                kind?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResolutionDto"][];
+                };
+            };
+        };
+    };
+    create_38: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SaveResolutionDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ResolutionDto"];
+                };
+            };
+        };
+    };
+    search_3: {
+        parameters: {
+            query?: {
+                q?: string;
+                kind?: string;
+                status?: string;
+                orderId?: number;
+                from?: string;
+                to?: string;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseInvoiceDto"];
+                };
+            };
+        };
+    };
+    issue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IssueInvoiceDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoiceDto"];
+                };
+            };
+        };
+    };
+    retry: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoiceDto"];
+                };
+            };
+        };
+    };
+    creditNote: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreditNoteDto"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoiceDto"];
                 };
             };
         };
@@ -11167,7 +16114,7 @@ export interface operations {
             };
         };
     };
-    create_35: {
+    create_39: {
         parameters: {
             query?: never;
             header?: never;
@@ -11211,7 +16158,7 @@ export interface operations {
             };
         };
     };
-    create_36: {
+    create_40: {
         parameters: {
             query?: never;
             header?: never;
@@ -11268,6 +16215,121 @@ export interface operations {
             };
         };
     };
+    get_9: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentDto"];
+                };
+            };
+        };
+    };
+    events: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentEventDto"][];
+                };
+            };
+        };
+    };
+    summary: {
+        parameters: {
+            query?: {
+                q?: string;
+                status?: string;
+                methodId?: number;
+                channel?: string;
+                provider?: string;
+                orderId?: number;
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PaymentsSummaryDto"];
+                };
+            };
+        };
+    };
+    providers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GatewayProviderDto"][];
+                };
+            };
+        };
+    };
+    timeline: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderEventDto"][];
+                };
+            };
+        };
+    };
     reservations: {
         parameters: {
             query?: never;
@@ -11290,11 +16352,70 @@ export interface operations {
             };
         };
     };
-    search_1: {
+    payments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderPaymentsDto"];
+                };
+            };
+        };
+    };
+    summary_1: {
         parameters: {
             query?: {
                 q?: string;
                 state?: string;
+                channel?: string;
+                storeId?: number;
+                priority?: string;
+                deliveryMethod?: string;
+                paymentStatus?: string;
+                period?: string;
+                overdue?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["OrderSummaryDto"];
+                };
+            };
+        };
+    };
+    search_4: {
+        parameters: {
+            query?: {
+                q?: string;
+                state?: string;
+                channel?: string;
+                storeId?: number;
+                priority?: string;
+                deliveryMethod?: string;
+                paymentStatus?: string;
+                period?: string;
+                overdue?: boolean;
                 page?: number;
                 size?: number;
                 sort?: string;
@@ -11312,6 +16433,73 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PageResponseOrderDto"];
+                };
+            };
+        };
+    };
+    customers: {
+        parameters: {
+            query?: {
+                q?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerLookupDto"][];
+                };
+            };
+        };
+    };
+    customerByDocument: {
+        parameters: {
+            query: {
+                docType?: string;
+                docNumber: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CustomerByDocumentDto"];
+                };
+            };
+        };
+    };
+    get_10: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CashSessionDto"];
                 };
             };
         };
@@ -11334,6 +16522,175 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProductReviewDto"];
+                };
+            };
+        };
+    };
+    stock: {
+        parameters: {
+            query?: {
+                q?: string;
+                belowMin?: boolean;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWarehouseStockDto"];
+                };
+            };
+        };
+    };
+    movements: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseMovementDto"][];
+                };
+            };
+        };
+    };
+    links: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseLinksDto"];
+                };
+            };
+        };
+    };
+    stats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["WarehouseStatsDto"];
+                };
+            };
+        };
+    };
+    search_5: {
+        parameters: {
+            query?: {
+                q?: string;
+                warehouseType?: string;
+                active?: boolean;
+                cityId?: number;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseWarehouseDto"];
+                };
+            };
+        };
+    };
+    stats_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SupplierStatsDto"];
+                };
+            };
+        };
+    };
+    search_6: {
+        parameters: {
+            query?: {
+                q?: string;
+                status?: string;
+                cityId?: number;
+                page?: number;
+                size?: number;
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PageResponseSupplierDto"];
                 };
             };
         };
@@ -11388,7 +16745,7 @@ export interface operations {
             };
         };
     };
-    list_4: {
+    list_10: {
         parameters: {
             query: {
                 pageable: components["schemas"]["Pageable"];
@@ -11472,7 +16829,7 @@ export interface operations {
             };
         };
     };
-    search_2: {
+    search_7: {
         parameters: {
             query?: {
                 q?: string;
@@ -11499,7 +16856,31 @@ export interface operations {
             };
         };
     };
-    search_3: {
+    returnable: {
+        parameters: {
+            query?: {
+                excludeDevolutionId?: number;
+            };
+            header?: never;
+            path: {
+                orderId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ReturnableOrderDto"];
+                };
+            };
+        };
+    };
+    search_8: {
         parameters: {
             query?: {
                 q?: string;
@@ -11576,7 +16957,7 @@ export interface operations {
             };
         };
     };
-    search_4: {
+    search_9: {
         parameters: {
             query?: {
                 /** @description Texto libre */
@@ -11638,6 +17019,8 @@ export interface operations {
                 product_id?: number;
                 /** @description Solo SKUs activos de productos publicados */
                 sellable_only?: boolean;
+                /** @description Existencias de una sola bodega (punto de venta) */
+                warehouse_id?: number;
             };
             header?: never;
             path?: never;
@@ -11708,7 +17091,7 @@ export interface operations {
             };
         };
     };
-    products: {
+    products_1: {
         parameters: {
             query?: {
                 q?: string;
@@ -11733,7 +17116,7 @@ export interface operations {
             };
         };
     };
-    search_5: {
+    search_10: {
         parameters: {
             query?: {
                 /** @description Texto libre */
@@ -11783,7 +17166,7 @@ export interface operations {
             };
         };
     };
-    search_6: {
+    search_11: {
         parameters: {
             query?: {
                 /** @description Texto libre */
@@ -11851,6 +17234,77 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AttributeUsageDto"];
+                };
+            };
+        };
+    };
+    forOrder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                orderId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoiceDto"][];
+                };
+            };
+        };
+    };
+    get_11: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoiceDto"];
+                };
+            };
+        };
+    };
+    summary_2: {
+        parameters: {
+            query?: {
+                q?: string;
+                kind?: string;
+                status?: string;
+                orderId?: number;
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["InvoicesSummaryDto"];
                 };
             };
         };

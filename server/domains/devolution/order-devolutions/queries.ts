@@ -8,6 +8,12 @@ export const list_order_devolutions = cache(async () => {
   return order_devolutions_repository.list_order_devolutions();
 });
 
+export const get_returnable_order = cache(
+  async ({ order_id, exclude_devolution_id }: { order_id: number; exclude_devolution_id?: number }) => {
+    return order_devolutions_repository.get_returnable(order_id, exclude_devolution_id);
+  },
+);
+
 export const get_order_devolution_by_id = cache(async ({ id }: { id: number }) => {
   return order_devolutions_repository.get_order_devolution_by_id(id);
 });

@@ -16,7 +16,7 @@ import { confirm, notify } from "@/components/notifications";
 import { formatNumber } from "@/lib/format";
 import { Link } from "@/shared/i18n/routing";
 import type { IComboItem } from "../../models/product-editor.interface";
-import { EmptyBlock, KpiStrip, SectionCard } from "../form-parts";
+import { EmptyBlock, KpiStrip, SectionCard } from "@/components/form-sections";
 import { validationComboItem, type ComboItemFormValues } from "../../schemas/product-editor.schema";
 import {
   createComboItemServerAction,

@@ -7,7 +7,9 @@
  * defecto `"P"`), así que el flujo y sus códigos viven aquí:
  *
  *   P (pendiente) ──► A (aprobada) ──► R (recibida) ──► I (inspeccionada) ──► F (reembolsada)
- *        └─────────► X (rechazada)
+ *        └──────────────┴───────────────┴──► X (rechazada)
+ *
+ * Las transiciones las valida el backend: el panel ofrece las acciones de `actions`.
  */
 export const DEVOLUTION_STATES = ["P", "A", "R", "I", "F", "X"] as const;
 
@@ -25,20 +27,19 @@ export const DEVOLUTION_STATE_VARIANT: Record<
   X: "destructive",
 };
 
-/** Transiciones permitidas desde cada estado. */
-export const DEVOLUTION_NEXT: Record<DevolutionState, DevolutionState[]> = {
-  P: ["A", "X"],
-  A: ["R", "X"],
-  R: ["I"],
-  I: ["F"],
-  F: [],
-  X: [],
-};
-
 export const isDevolutionState = (value?: string): value is DevolutionState =>
   !!value && (DEVOLUTION_STATES as readonly string[]).includes(value);
 
 export const DETAIL_CONDITIONS = ["NEW", "OPENED", "DAMAGED", "DEFECTIVE"] as const;
+export type DetailCondition = (typeof DETAIL_CONDITIONS)[number];
+
+/** Nuevo/abierto vuelve al stock por defecto; dañado/defectuoso no (se puede cambiar). */
+export const RESTOCK_BY_DEFAULT: Record<DetailCondition, boolean> = {
+  NEW: true,
+  OPENED: true,
+  DAMAGED: false,
+  DEFECTIVE: false,
+};
 export const EVIDENCE_TYPES = ["PHOTO", "VIDEO", "DOCUMENT", "OTHER"] as const;
 
 const moneyFormatter = new Intl.NumberFormat("es-CO", {
@@ -71,6 +72,12 @@ export const nowLocalDateTime = () => {
   );
 };
 
-/** Monto a reembolsar de una línea: cantidad × precio − cargo de reposición. */
-export const computeRefund = (quantity: number, unit_price: number, restocking_fee: number) =>
-  Math.max((Number(quantity) || 0) * (Number(unit_price) || 0) - (Number(restocking_fee) || 0), 0);
+/**
+ * Valor de las unidades devueltas de una línea: parte proporcional del total de la línea
+ * (igual que el backend: si se devuelve todo, el total exacto).
+ */
+export const lineValue = (lineTotal: number | undefined, sold: number | undefined, units: number) => {
+  if (!lineTotal || !sold || units <= 0) return 0;
+  if (units >= sold) return lineTotal;
+  return Math.round(((lineTotal * units) / sold) * 100) / 100;
+};

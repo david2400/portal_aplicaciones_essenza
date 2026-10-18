@@ -21,13 +21,12 @@ import type {
   IDevolution,
   IDevolutionCatalogs,
   IDevolutionDetail,
-  IDevolutionOrderLine,
+  IReturnableLine,
 } from "../models/devolution.interface";
-import { computeRefund, nowLocalDateTime } from "../constants";
+import { nowLocalDateTime } from "../constants";
 import {
   createDevolutionDetailServerAction,
   createDevolutionEvidenceServerAction,
-  createDevolutionServerAction,
   updateDevolutionDetailServerAction,
   updateDevolutionServerAction,
 } from "@/app/[locale]/postventa/devolutions/actions";
@@ -55,35 +54,6 @@ const idToString = (value?: number) => (value != null ? String(value) : "");
 
 // ─── Devolución ───────────────────────────────────────────────────────────────
 
-export const RegisterDevolution = ({
-  handleClose,
-  catalogs,
-}: IFormAddProps & { catalogs: IDevolutionCatalogs }) => {
-  const t = useTranslations("Administre.common");
-  const feedback = useFeedback(handleClose);
-
-  const handleSubmit = async (values: DevolutionFormValues) => {
-    const result = await createDevolutionServerAction({ ...values, state: "P" });
-    await feedback.done(result, t("createdSuccess"));
-  };
-
-  return (
-    <FormDevolution
-      initialValues={{
-        order_id: "",
-        motive_devolution_id: "",
-        return_method_id: "",
-        refund_method_id: "",
-        observation: "",
-        external_reference: "",
-      }}
-      onSubmit={handleSubmit}
-      validationSchema={validationDevolution()}
-      catalogs={catalogs}
-    />
-  );
-};
-
 export const UpdateDevolution = ({
   devolution,
   handleClose,
@@ -97,16 +67,10 @@ export const UpdateDevolution = ({
   const id = devolution.id;
 
   const handleSubmit = async (values: DevolutionFormValues) => {
-    // El PUT valida el payload completo: se conservan los datos del flujo.
+    // Solo datos generales: el estado cambia con las acciones del flujo.
     const result = await updateDevolutionServerAction({
       id,
-      state: devolution.state,
-      total_refund_amount: devolution.total_refund_amount,
-      approved_by: devolution.approved_by,
-      approved_at: devolution.approved_at,
-      received_by: devolution.received_by,
-      received_at: devolution.received_at,
-      inspection_notes: devolution.inspection_notes,
+      order_id: devolution.order_id ?? 0,
       ...values,
     });
     await feedback.done(result, t("updatedSuccess"));
@@ -115,7 +79,6 @@ export const UpdateDevolution = ({
   return (
     <FormDevolution
       initialValues={{
-        order_id: idToString(devolution.order_id),
         motive_devolution_id: idToString(devolution.motive_devolution_id),
         return_method_id: idToString(devolution.return_method_id),
         refund_method_id: idToString(devolution.refund_method_id),
@@ -139,18 +102,15 @@ export const DevolutionDetailForm = ({
 }: IFormAddProps & {
   devolutionId: number;
   detail?: IDevolutionDetail | null;
-  lines: IDevolutionOrderLine[];
+  /** Líneas de la orden con lo que aún se puede devolver (sin contar esta devolución). */
+  lines: IReturnableLine[];
 }) => {
   const t = useTranslations("Administre.common");
   const feedback = useFeedback(handleClose);
   const validationSchema = validationDevolutionDetail();
 
   const handleSubmit = async (values: DevolutionDetailFormValues) => {
-    const payload = {
-      ...values,
-      order_devolution_id: devolutionId,
-      refund_amount: computeRefund(values.quantity, values.unit_price, values.restocking_fee),
-    };
+    const payload = { ...values, order_devolution_id: devolutionId };
     const result =
       detail?.id != null
         ? await updateDevolutionDetailServerAction({ ...payload, id: detail.id })
@@ -158,22 +118,19 @@ export const DevolutionDetailForm = ({
     await feedback.done(result, detail?.id != null ? t("updatedSuccess") : t("createdSuccess"));
   };
 
-  const firstLine = lines[0];
+  const firstLine = lines.find((line) => (line.returnable ?? 0) > 0);
 
   return (
     <FormDevolutionDetail
       initialValues={{
-        product_order_id: idToString(detail?.product_order_id ?? firstLine?.id),
+        product_order_id: idToString(detail?.product_order_id ?? firstLine?.product_order_id),
         quantity: detail?.quantity ?? 1,
-        received_quantity: detail?.received_quantity ?? 0,
-        unit_price: detail?.unit_price ?? firstLine?.unit_price ?? 0,
-        restocking_fee: detail?.restocking_fee ?? 0,
-        condition: detail?.condition ?? "OPENED",
         observation: detail?.observation ?? "",
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
       lines={lines}
+      editing={detail?.id != null}
     />
   );
 };

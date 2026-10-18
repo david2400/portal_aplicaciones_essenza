@@ -18,7 +18,7 @@ import {
   HiOutlineSwatch,
 } from "react-icons/hi2";
 import { formatMoney, formatNumber } from "@/lib/format";
-import { KpiStrip } from "../components/form-parts";
+import { KpiStrip } from "@/components/form-sections";
 import { statusOf, type IProduct, type ProductStatus } from "../models/product.interface";
 import type { IAttributeDefinition, IProductTemplateDefinition } from "../models/product-attributes.interface";
 import {
@@ -30,8 +30,10 @@ import {
   type IProductVariant,
   type IStockLevel,
   type IStockReservation,
+  type IVariantMatrix,
 } from "../models/product-editor.interface";
 import type { IUnit } from "@/shared/units/units";
+import type { ITaxRateOption } from "../models/product.interface";
 import { UpdateProduct } from "../components/form";
 import { ProductAttributesEditor } from "../components/product-attributes-editor";
 import { VariantsTab } from "../components/editor/variants-tab";
@@ -59,6 +61,10 @@ export interface IProductEditorProps {
   comboItems: IComboItem[];
   /** Unidades activas (medidas y contenido neto). */
   units?: IUnit[];
+  /** Tarifas de impuesto activas (pestaña General). */
+  taxRates?: ITaxRateOption[];
+  /** Matriz del asistente de variantes (null en combos o si no se pudo cargar). */
+  variantMatrix?: IVariantMatrix | null;
 }
 
 /**
@@ -77,6 +83,8 @@ export const ProductEditor = ({
   attributes,
   comboItems,
   units = [],
+  taxRates = [],
+  variantMatrix = null,
 }: IProductEditorProps) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -171,10 +179,15 @@ export const ProductEditor = ({
       }
       onTabChange={changeTab}>
       <TabsContent value='general'>
-        <UpdateProduct product={product} units={units} />
+        <UpdateProduct product={product} units={units} taxRates={taxRates} />
       </TabsContent>
       <TabsContent value='variants'>
-        <VariantsTab product={product} variants={variants} units={units} />
+        <VariantsTab
+          product={product}
+          variants={variants}
+          units={units}
+          generator={variantMatrix && !isCombo ? { matrix: variantMatrix, attributes, warehouses } : undefined}
+        />
       </TabsContent>
       <TabsContent value='specs'>
         {product.id != null && tab === "specs" ? (

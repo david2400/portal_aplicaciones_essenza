@@ -14,7 +14,7 @@ import type {
   IProductCreateRequest,
   IProductUpdateRequest,
 } from "../models/product.interface";
-import { statusOf } from "../models/product.interface";
+import { statusOf, type ITaxRateOption } from "../models/product.interface";
 import type { IUnit } from "@/shared/units/units";
 import {
   createProductServerAction,
@@ -25,7 +25,9 @@ import {
  * El estado editorial manda; `available` se envía derivado para clientes y
  * pantallas que aún lo leen. Slug vacío => lo genera el backend.
  */
-const toPayload = <T extends { status?: string; slug?: string; net_content?: unknown; net_content_unit_id?: unknown }>(
+const toPayload = <
+  T extends { status?: string; slug?: string; net_content?: unknown; net_content_unit_id?: unknown; tax_rate_id?: unknown },
+>(
   values: T,
 ) => {
   const unit = values.net_content_unit_id;
@@ -38,6 +40,9 @@ const toPayload = <T extends { status?: string; slug?: string; net_content?: unk
     // Contenido neto: valor y unidad juntos; vacío = sin contenido (lo quita al editar).
     net_content: hasUnit && hasValue ? Number(values.net_content) : undefined,
     net_content_unit_id: hasUnit && hasValue ? Number(unit) : undefined,
+    // Vacío = tarifa por defecto al crear (al editar se conserva la actual).
+    tax_rate_id:
+      values.tax_rate_id != null && values.tax_rate_id !== "" && values.tax_rate_id !== "default" ? Number(values.tax_rate_id) : undefined,
   };
 };
 
@@ -62,6 +67,7 @@ const EMPTY_VALUES = {
   description: "",
   net_content: "",
   net_content_unit_id: "none",
+  tax_rate_id: "default",
 };
 
 /** Convierte el DTO de la API en los valores que espera el formulario. */
@@ -85,13 +91,15 @@ const toFormValues = (values: IProduct) => ({
   description: values.description ?? "",
   net_content: values.net_content ?? "",
   net_content_unit_id: values.net_content_unit_id != null ? String(values.net_content_unit_id) : "none",
+  tax_rate_id: values.tax_rate_id != null ? String(values.tax_rate_id) : "default",
 });
 
 export const RegisterProduct = ({
   handleClose,
   onCreated,
   units,
-}: IFormAddProps & { onCreated?: (id: number, kind: ProductKind) => void; units?: IUnit[] }) => {
+  taxRates,
+}: IFormAddProps & { onCreated?: (id: number, kind: ProductKind) => void; units?: IUnit[]; taxRates?: ITaxRateOption[] }) => {
   const t = useTranslations("Administre.common");
   const tEditor = useTranslations("Administre.productEditor");
   const router = useRouter();
@@ -117,6 +125,7 @@ export const RegisterProduct = ({
       validationSchema={validationProduct()}
       submitLabel={tEditor("createAndContinue")}
       units={units}
+      taxRates={taxRates}
       cancelHref='/catalogo/products'
       mode='create'
       onKindChange={(next) => {
@@ -127,7 +136,15 @@ export const RegisterProduct = ({
 };
 
 /** Pestaña "General" del editor: guarda y refresca la página (sin modal). */
-export const UpdateProduct = ({ product, units }: { product: IProduct; units?: IUnit[] }) => {
+export const UpdateProduct = ({
+  product,
+  units,
+  taxRates,
+}: {
+  product: IProduct;
+  units?: IUnit[];
+  taxRates?: ITaxRateOption[];
+}) => {
   const t = useTranslations("Administre.common");
   const router = useRouter();
   const validationSchema = validationProduct();
@@ -155,6 +172,7 @@ export const UpdateProduct = ({ product, units }: { product: IProduct; units?: I
       cancelHref='/catalogo/products'
       stockLocked={product.product_type === "VARIANT"}
       units={units}
+      taxRates={taxRates}
       mode='edit'
       productType={product.product_type}
     />

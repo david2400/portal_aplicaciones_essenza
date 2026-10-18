@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   BiBox,
   BiCart,
+  BiReceipt,
   BiPurchaseTag,
   BiListCheck,
   BiCategory,
@@ -59,8 +60,22 @@ const NAV_ITEMS: NavItem[] = [
     label: "Ventas",
     icon: <BiCart className='h-4 w-4' />,
     options: [
+      { label: "Punto de venta", href: "/ventas/pos" },
       { label: "Órdenes", href: "/ventas/orders" },
-      { label: "Medios de pago", href: "/ventas/payment-types" },
+      { label: "Cajas y turnos", href: "/ventas/cash-registers" },
+      { label: "Tiendas / sedes", href: "/ventas/stores" },
+      { label: "Pagos", href: "/ventas/payments" },
+      { label: "Medios de pago", href: "/ventas/payment-methods" },
+    ],
+  },
+  {
+    label: "Facturación",
+    icon: <BiReceipt className='h-4 w-4' />,
+    options: [
+      { label: "Facturas", href: "/facturacion/invoices" },
+      { label: "Numeración DIAN", href: "/facturacion/resolutions" },
+      { label: "Impuestos", href: "/facturacion/tax-rates" },
+      { label: "Configuración", href: "/facturacion/settings" },
     ],
   },
   {

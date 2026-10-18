@@ -18,7 +18,7 @@ import { formatApiDate, formatNumber } from "@/lib/format";
 import { Link } from "@/shared/i18n/routing";
 import type { IProduct } from "../../models/product.interface";
 import type { INamedItem, IStockLevel, IStockReservation } from "../../models/product-editor.interface";
-import { EmptyBlock, KpiStrip, SectionCard } from "../form-parts";
+import { EmptyBlock, KpiStrip, SectionCard } from "@/components/form-sections";
 
 type LevelRow = IStockLevel & { skuLabel: string; skuCode?: string; warehouse: string };
 

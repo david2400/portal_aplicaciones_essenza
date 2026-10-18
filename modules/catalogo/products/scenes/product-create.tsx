@@ -8,6 +8,7 @@ import { HiOutlineArrowLeft, HiOutlinePlusCircle } from "react-icons/hi2";
 import { PageHeader } from "@/components/page-header";
 import { Link } from "@/shared/i18n/routing";
 import { cn } from "@/lib/utils";
+import type { ITaxRateOption } from "../models/product.interface";
 import type { IUnit } from "@/shared/units/units";
 import { RegisterProduct } from "../components/form";
 import type { ProductKind } from "./formProduct";
@@ -24,7 +25,7 @@ const NEXT_TAB: Record<ProductKind, string> = {
  * proceso (datos generales → ficha técnica → variantes e imágenes) y el formulario por
  * secciones. Al crear se continúa en el editor, en la pestaña que corresponde al tipo.
  */
-export const ProductCreate = ({ units = [] }: { units?: IUnit[] }) => {
+export const ProductCreate = ({ units = [], taxRates = [] }: { units?: IUnit[]; taxRates?: ITaxRateOption[] }) => {
   const router = useRouter();
   const t = useTranslations("Administre.product");
   const tEditor = useTranslations("Administre.productEditor");
@@ -72,6 +73,7 @@ export const ProductCreate = ({ units = [] }: { units?: IUnit[] }) => {
 
       <RegisterProduct
         units={units}
+        taxRates={taxRates}
         onCreated={(id, kind) => router.replace(`/catalogo/products/${id}?tab=${NEXT_TAB[kind]}`)}
       />
     </section>

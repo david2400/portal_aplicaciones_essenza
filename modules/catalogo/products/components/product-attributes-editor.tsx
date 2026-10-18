@@ -22,7 +22,7 @@ import {
 } from "react-icons/hi2";
 import { AsyncCombobox, type ComboOption } from "@/components/async-combobox";
 import { Link } from "@/shared/i18n/routing";
-import { ActionBar, KpiStrip, SectionCard } from "./form-parts";
+import { ActionBar, KpiStrip, SectionCard } from "@/components/form-sections";
 import { notify } from "@/components/notifications";
 import {
   EMPTY_DRAFT,

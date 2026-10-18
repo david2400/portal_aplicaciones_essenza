@@ -37,6 +37,7 @@ export const validationProduct = () => {
       z.coerce.number().positive({ message: t("netContentPositive") }).optional(),
     ),
     net_content_unit_id: z.union([z.string(), z.number()]).optional(),
+    tax_rate_id: z.union([z.string(), z.number()]).optional(),
   })
     .superRefine((values, ctx) => {
       const hasUnit = values.net_content_unit_id != null && values.net_content_unit_id !== "" && values.net_content_unit_id !== "none";

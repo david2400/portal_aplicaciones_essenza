@@ -3,61 +3,32 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { FormField } from "@repo/ui/form/scenes/form-field";
-import { Buttons } from "@repo/ui/buttons/scenes/index";
-import type { IFormProps } from "@repo/ui/form/models/form.interface";
+import { HiOutlineArrowLeft, HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { PageHeader } from "@/components/page-header";
+import { Link } from "@/shared/i18n/routing";
+import { SupplierForm } from "../components/form";
+import { SUPPLIERS_HREF, type ISupplier } from "../models/supplier.interface";
 
-export const FormSupplier = ({
-  initialValues,
-  validationSchema,
-  onSubmit,
-}: IFormProps<any>) => {
+/** Alta o edición del proveedor en su propia ruta (`/new` y `/[id]/edit`). */
+export const SupplierEditor = ({ supplier }: { supplier?: ISupplier | null }) => {
   const t = useTranslations("Administre.supplier");
-  const tCommon = useTranslations("Administre.common");
-  type SupplierInputs = z.infer<typeof validationSchema>;
-
-  const {
-    control,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SupplierInputs>({
-    resolver: zodResolver(validationSchema),
-    defaultValues: initialValues,
-  });
-
+  const tf = useTranslations("Administre.supplier.form");
+  const tCrud = useTranslations("Crud");
+  const isNew = supplier?.id == null;
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
-      <div className='grid grid-cols-12 gap-4'>
-        <FormField
-          controller={{ control, name: "name" }}
-          label={t("fields.name")}
-          className='col-span-12 md:col-span-6'
-        />
-
-        <FormField
-          controller={{ control, name: "email" }}
-          label={t("fields.email")}
-          className='col-span-12 md:col-span-6'
-        />
-
-        <FormField
-          controller={{ control, name: "phone" }}
-          label={t("fields.phone")}
-          className='col-span-12 md:col-span-6'
-        />
-
-        <FormField
-          controller={{ control, name: "address" }}
-          label={t("fields.address")}
-          className='col-span-12 md:col-span-6'
-        />
-      </div>
-      <Buttons type='submit' loading={isSubmitting} className='w-full rounded-full'>
-        {tCommon("save")}
-      </Buttons>
-    </form>
+    <section className='flex w-full flex-col gap-6'>
+      <Link href={isNew ? SUPPLIERS_HREF : `${SUPPLIERS_HREF}/${supplier!.id}`}
+        className='inline-flex w-fit items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground'>
+        <HiOutlineArrowLeft className='h-4 w-4' aria-hidden='true' />
+        {isNew ? tf("back") : tf("backToDetail")}
+      </Link>
+      <PageHeader
+        icon={HiOutlineBuildingOffice2}
+        eyebrow={tCrud("domains.inventory")}
+        title={isNew ? t("createTitle") : (supplier!.display_name ?? supplier!.name ?? `#${supplier!.id}`)}
+        description={isNew ? tf("createDescription") : [supplier!.code, supplier!.document].filter(Boolean).join(" · ")}
+      />
+      <SupplierForm supplier={supplier} />
+    </section>
   );
 };
